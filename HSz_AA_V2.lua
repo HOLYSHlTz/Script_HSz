@@ -234,7 +234,6 @@ function webhook()
     for i,v in pairs(Table_All_Items_New_data) do
 		if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
             if v['Count Shiny'] and v['Count'] then
-
 			elseif string.find(i,"portal") or string.find(i,"disc") then
 				Count_Portal_list = Count_Portal_list + 1
 				if string.gsub(i, "%D", "") == "" then
@@ -255,50 +254,50 @@ function webhook()
     
     local data = {
         ["content"] = "",
-		["username"] = "Anime Adventures",
-		["avatar_url"] = "https://tr.rbxcdn.com/1667d11665efd9fdb0b6d1cb1536ac80/150/150/Image/Png",
-		["embeds"] = {
-			{
-				["author"] = {
-					["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
-					["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-				},
-				["thumbnail"] = {
-					['url'] = thumbnails_avatar.data[1].imageUrl,
-				},
-				["image"] = {
-					['url'] = "https://tr.rbxcdn.com/bc2ea8300bfaea9fb3193d7f801f0e8b/768/432/Image/Png"
-				},
-				["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
-				["color"] = 110335,
-				["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-				['footer'] = {
-					['text'] = "// Made by Negative & HOLYSHz", 
-					['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
-				},
-                ["fields"] = {
-                    {
-                        ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals",
-                        ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nGold รวม : "  ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value))..  " 💰\nPortal รวม : ".. tostring(comma_value(Count_Portal_list)) .." 🌀```",
-                    },
-                    {
-                        ["name"] ="Results :",
-                        ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
-                        ["inline"] = true
-                    },
-                    {
-                        ["name"] ="Rewards :",
-                        ["value"] = "```ini\n" ..comma_value(gold).." Gold 💰\n"..comma_value(gems).." Gems 💎\n"..comma_value(xp[1]).." XP 🧪\n"..trophy.." Trophy 🏆```",
-                    },
-                    {
-                        ["name"] ="Items Drop :",
-                        ["value"] = "```ini\n" .. TextDropLabel .. "```",
-                        ["inline"] = false 
+			["username"] = "Anime Adventures",
+			["avatar_url"] = "https://tr.rbxcdn.com/1667d11665efd9fdb0b6d1cb1536ac80/150/150/Image/Png",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["thumbnail"] = {
+						['url'] = thumbnails_avatar.data[1].imageUrl,
+					},
+					["image"] = {
+						['url'] = "https://tr.rbxcdn.com/bc2ea8300bfaea9fb3193d7f801f0e8b/768/432/Image/Png"
+					},
+					["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
+					["color"] = 110335,
+					["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+					['footer'] = {
+						['text'] = "// Made by Negative & HOLYSHz", 
+						['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
+					},
+                    ["fields"] = {
+                        {
+                            ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals",
+                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nGold รวม : "  ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value))..  " 💰\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
+                        },
+                        {
+                            ["name"] ="Results :",
+                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
+                            ["inline"] = true
+                        },
+                        {
+                            ["name"] ="Rewards :",
+                            ["value"] = "```ini\n" ..comma_value(gold).." Gold 💰\n"..comma_value(gems).." Gems 💎\n"..comma_value(xp[1]).." XP 🧪\n"..trophy.." Trophy 🏆```",
+                        },
+                        {
+                            ["name"] ="Items Drop :",
+                            ["value"] = "```ini\n" .. TextDropLabel .. "```",
+                            ["inline"] = false 
+                        }
                     }
-                }
+                    }
             }
         }
-    }
     
     
     local porn = game:GetService("HttpService"):JSONEncode(data)

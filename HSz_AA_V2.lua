@@ -79,22 +79,19 @@ for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDesce
 		end
 	end
 end
-for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Units:GetDescendants()) do
-	if v3:IsA("ModuleScript") then
-		for v4, v5 in pairs(require(v3)) do
-			if v5.rarity then
-				Table_All_Items_Old_data[v4] = {}
-				Table_All_Items_Old_data[v4]['Name'] = v5['name']
-				Table_All_Items_Old_data[v4]['Count'] = 0
-				Table_All_Items_Old_data[v4]['Count Shiny'] = 0
+local Data_Units_All_Games = require(game:GetService("ReplicatedStorage").src.Data.Units)
+for i,v in pairs(Data_Units_All_Games) do
+    if v.rarity then
+        Table_All_Items_Old_data[i] = {}
+        Table_All_Items_Old_data[i]['Name'] = v['name']
+        Table_All_Items_Old_data[i]['Count'] = 0
+        Table_All_Items_Old_data[i]['Count Shiny'] = 0
 
-				Table_All_Items_New_data[v4] = {}
-				Table_All_Items_New_data[v4]['Name'] = v5['name']
-				Table_All_Items_New_data[v4]['Count'] = 0
-				Table_All_Items_New_data[v4]['Count Shiny'] = 0
-			end
-		end
-	end
+        Table_All_Items_New_data[i] = {}
+        Table_All_Items_New_data[i]['Name'] = v['name']
+        Table_All_Items_New_data[i]['Count'] = 0
+        Table_All_Items_New_data[i]['Count Shiny'] = 0
+    end
 end
 for i,v in pairs(get_inventory_items()) do
 	Table_All_Items_Old_data[i]['Count'] = v
@@ -789,7 +786,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label","\n [+]Add WebHook All Unit Drop  \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm\n   ")   
+    UIUPDT:Cheat("Label","\n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n Fix some bug can't Loaded \n   ")   
 end
 
 getgenv().posX = 1.5

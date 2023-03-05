@@ -59,6 +59,10 @@ end
 function get_inventory_items()
 	return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
 end
+function get_Units_Owner()
+	return ItemInventoryServiceClient["session"]["collection"]["collection_profile_data"]['owned_units']
+end
+
 local Count_Portal_list = 0
 local Table_All_Items_Old_data = {}
 local Table_All_Items_New_data = {}
@@ -75,6 +79,23 @@ for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDesce
 		end
 	end
 end
+for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Units:GetDescendants()) do
+	if v3:IsA("ModuleScript") then
+		for v4, v5 in pairs(require(v3)) do
+			if v5.rarity then
+				Table_All_Items_Old_data[v4] = {}
+				Table_All_Items_Old_data[v4]['Name'] = v5['name']
+				Table_All_Items_Old_data[v4]['Count'] = 0
+				Table_All_Items_Old_data[v4]['Count Shiny'] = 0
+
+				Table_All_Items_New_data[v4] = {}
+				Table_All_Items_New_data[v4]['Name'] = v5['name']
+				Table_All_Items_New_data[v4]['Count'] = 0
+				Table_All_Items_New_data[v4]['Count Shiny'] = 0
+			end
+		end
+	end
+end
 for i,v in pairs(get_inventory_items()) do
 	Table_All_Items_Old_data[i]['Count'] = v
 end
@@ -82,6 +103,13 @@ for i,v in pairs(get_inventory_items_unique_items()) do
     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
         Count_Portal_list = Count_Portal_list + 1
         Table_All_Items_Old_data[v['item_id']]['Count'] = Table_All_Items_Old_data[v['item_id']]['Count'] + 1
+    end
+end
+for i,v in pairs(get_Units_Owner()) do
+    Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] + 1
+    if v.shiny then
+        Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] - 1
+        Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
     end
 end
 ----------------Map & ID Map
@@ -97,13 +125,24 @@ local function GetCurrentLevelName()
         return game:GetService("Workspace")._MAP_CONFIG.GetLevelData:InvokeServer()["name"]
     end
 end
+
+function comma_value(p1)
+	local value = p1;
+	while true do
+		local value2, value3 = string.gsub(value, "^(-?%d+)(%d%d%d)", "%1,%2");
+		value = value2;
+		if value3 ~= 0 then else
+			break;
+		end;
+	end;
+	return value;
+end;
 ----------------endMap & ID Map
 getgenv().item = "-"
 
 plr.PlayerGui:FindFirstChild("HatchInfo"):FindFirstChild("holder"):FindFirstChild("info1"):FindFirstChild("UnitName").Text = getgenv().item
 
 function webhook()
-
     local url = Settings.WebhookUrl
     print("webhook?")
     if url == "" then
@@ -111,13 +150,11 @@ function webhook()
         return
     end 
     
-
     local Time = os.date('!*t', OSTime);
 
 	local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
 
     local exec = tostring(identifyexecutor())
-
 
     userlevel = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Main"):FindFirstChild("Desc"):FindFirstChild("Level").Text
     totalgems = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Frame"):FindFirstChild("Resource"):FindFirstChild("Gem"):FindFirstChild("Level").Text
@@ -137,9 +174,9 @@ function webhook()
     cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
 	ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
     waves = cwaves:split(": ")
-    if waves[2] == "999" then waves[2] = "N/A [Test Webhook]" end	
+    if waves ~= nil and waves[2] == "999" then waves[2] = "N/A [Test Webhook]" end	
 	ttime = ctime:split(": ")
-    if ttime[2] == "22:55" then ttime[2] = "N/A [Test Webhook]" end	
+    if waves ~= nil and ttime[2] == "22:55" then ttime[2] = "N/A [Test Webhook]" end	
 
     gold = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GoldReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
     if gold == "+99999" then gold = "+0" end	 
@@ -156,27 +193,60 @@ function webhook()
 
     local TextDropLabel = ""
 	local CountAmount = 1
-	for i,v in pairs(get_inventory_items()) do
-		Table_All_Items_New_data[i]['Count'] = v
-	end
-	for i,v in pairs(get_inventory_items_unique_items()) do
-		if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-			Table_All_Items_New_data[v['item_id']]['Count'] = Table_All_Items_New_data[v['item_id']]['Count'] + 1
-		end
-	end
+    for i,v in pairs(get_inventory_items()) do
+        Table_All_Items_New_data[i]['Count'] = v
+    end
+    for i,v in pairs(get_inventory_items_unique_items()) do
+        if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+            Table_All_Items_New_data[v['item_id']]['Count'] = Table_All_Items_New_data[v['item_id']]['Count'] + 1
+        end
+    end
+    for i,v in pairs(get_Units_Owner()) do
+        Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] + 1
+        if v.shiny then
+            Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] - 1
+            Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] + 1
+        end
+    end
+
 	for i,v in pairs(Table_All_Items_New_data) do
 		if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-			if string.find(i,"portal") or string.find(i,"disc") then
-                Count_Portal_list = Count_Portal_list + 1
+			if v['Count Shiny'] and v['Count'] then
+				if v['Count'] > 0 or v['Count Shiny'] > 0 then
+					if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+						TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count'])
+						if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
+							TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+                            CountAmount = CountAmount + 1
+                        else
+                            TextDropLabel = TextDropLabel .. "\n"
+                            CountAmount = CountAmount + 1
+						end
+					end
+				end
+			end
+		elseif v['Count Shiny'] and v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
+			TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+			CountAmount = CountAmount + 1
+		end
+	end
+
+    for i,v in pairs(Table_All_Items_New_data) do
+		if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+            if v['Count Shiny'] and v['Count'] then
+
+			elseif string.find(i,"portal") or string.find(i,"disc") then
+				Count_Portal_list = Count_Portal_list + 1
 				if string.gsub(i, "%D", "") == "" then
 					TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
 				else
 					TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-				end
+                end
+				CountAmount = CountAmount + 1
 			else
 				TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                CountAmount = CountAmount + 1
 			end
-			CountAmount = CountAmount + 1
 		end
 	end
 	if TextDropLabel == "" then
@@ -185,50 +255,50 @@ function webhook()
     
     local data = {
         ["content"] = "",
-			["username"] = "Anime Adventures",
-			["avatar_url"] = "https://tr.rbxcdn.com/1667d11665efd9fdb0b6d1cb1536ac80/150/150/Image/Png",
-			["embeds"] = {
-				{
-					["author"] = {
-						["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
-						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-					},
-					["thumbnail"] = {
-						['url'] = thumbnails_avatar.data[1].imageUrl,
-					},
-					["image"] = {
-						['url'] = "https://tr.rbxcdn.com/bc2ea8300bfaea9fb3193d7f801f0e8b/768/432/Image/Png"
-					},
-					["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
-					["color"] = 110335,
-					["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-					['footer'] = {
-						['text'] = "// Made by Negative & HOLYSHz", 
-						['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
-					},
-                    ["fields"] = {
-                        {
-                            ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals",
-                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGems รวม : "..tostring(game.Players.LocalPlayer._stats.gem_amount.Value).. " 💎\nGold รวม : "  ..tostring(game.Players.LocalPlayer._stats.gold_amount.Value)..  " 💰\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
-                        },
-                        {
-                            ["name"] ="Results :",
-                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\n ```",
-                            ["inline"] = true
-                        },
-                        {
-                            ["name"] ="Rewards :",
-                            ["value"] = "```ini\n" ..gold.." Gold 💰\n"..gems.." Gems 💎\n"..xp[1].." XP 🧪\n"..trophy.." Trophy 🏆```",
-                        },
-                        {
-                            ["name"] ="Items Drop :",
-                            ["value"] = "```ini\n" .. TextDropLabel .. "```",
-                            ["inline"] = falseye 
-                        }
+		["username"] = "Anime Adventures",
+		["avatar_url"] = "https://tr.rbxcdn.com/1667d11665efd9fdb0b6d1cb1536ac80/150/150/Image/Png",
+		["embeds"] = {
+			{
+				["author"] = {
+					["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
+					["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+				},
+				["thumbnail"] = {
+					['url'] = thumbnails_avatar.data[1].imageUrl,
+				},
+				["image"] = {
+					['url'] = "https://tr.rbxcdn.com/bc2ea8300bfaea9fb3193d7f801f0e8b/768/432/Image/Png"
+				},
+				["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
+				["color"] = 110335,
+				["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+				['footer'] = {
+					['text'] = "// Made by Negative & HOLYSHz", 
+					['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
+				},
+                ["fields"] = {
+                    {
+                        ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals",
+                        ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nGold รวม : "  ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value))..  " 💰\nPortal รวม : ".. tostring(comma_value(Count_Portal_list)) .." 🌀```",
+                    },
+                    {
+                        ["name"] ="Results :",
+                        ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
+                        ["inline"] = true
+                    },
+                    {
+                        ["name"] ="Rewards :",
+                        ["value"] = "```ini\n" ..comma_value(gold).." Gold 💰\n"..comma_value(gems).." Gems 💎\n"..comma_value(xp[1]).." XP 🧪\n"..trophy.." Trophy 🏆```",
+                    },
+                    {
+                        ["name"] ="Items Drop :",
+                        ["value"] = "```ini\n" .. TextDropLabel .. "```",
+                        ["inline"] = false 
                     }
-                    }
+                }
             }
         }
+    }
     
     
     local porn = game:GetService("HttpService"):JSONEncode(data)
@@ -720,7 +790,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label","\n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n \n   ")   
+    UIUPDT:Cheat("Label","\n [+]Add WebHook All Unit Drop  \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm\n   ")   
 end
 
 getgenv().posX = 1.5

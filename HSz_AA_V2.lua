@@ -786,7 +786,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label","\n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n [+]Fix some bug can't Loaded \n   ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Fix Auto Buy StarFruit improve   \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n [+]Fix some bug can't Loaded \n   ")   
 end
 
 getgenv().posX = 1.5
@@ -1439,7 +1439,7 @@ function AutoSummon()
 end
 
 ----------------------------------------------
------------- Auto Snipe Merchant -------------
+------------ Auto Snipe Merchant -------------fixstar 
 ----------------------------------------------
 
 function buymerchant(item)
@@ -1451,7 +1451,7 @@ function snipefunc(item)
     if item =="Any StarFruits" then
         if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
             for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruit") then
+                if v.Name:match("StarFruit") or v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
                     buymerchant(v.Name)
                     print(v.Name)
                 end   

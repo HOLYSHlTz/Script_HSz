@@ -786,7 +786,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Fix Auto Buy StarFruit improve   \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n [+]Fix some bug can't Loaded \n   ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Fix Auto Buy StarFruit improve   \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n [+]Fix some bug can't Loaded \n [+]Fix MOBILE DRIVE Support Set position  ")   
 end
 
 getgenv().posX = 1.5
@@ -922,7 +922,6 @@ function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
     end)
     Settings[map][UnitPos]["x"] = a.Position.X
     Settings[map][UnitPos]["z"] = a.Position.Z
-
     Settings[map][UnitPos]["y"] = a.Position.Y
     Settings[map][UnitPos]["y2"] = a2.Position.Y
     Settings[map][UnitPos]["y3"] = a3.Position.Y
@@ -978,7 +977,7 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
     warn("savepos")
 end
 
-function mobilegui(a,a2,a3,a4,a5,a6)
+function mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
 	local BillboardGui = Instance.new("BillboardGui")
 	local Frame = Instance.new("Frame")
 	local UIListLayout = Instance.new("UIListLayout")
@@ -1259,10 +1258,11 @@ function MouseClick2(UnitPos)
 			a6:Destroy()
 		end)
 	elseif _G.gg  and mobile then
-		mobilegui(a,a2,a3,a4,a5,a6)
+		mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
 	end
 
 end
+
 
 
 local function UnitPosSec()

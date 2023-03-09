@@ -1721,7 +1721,7 @@ local function startfarming()
                 task.wait(3)
             end
         elseif cata == "Raid Worlds" then
-            getgenv().door =  "_lobbytemplate211"
+            getgenv().door =  "_lobbytemplate212"
             if tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
                 for i, v in pairs(game:GetService("Workspace")["_RAID"].Raid:GetDescendants()) do
                     if v.Name == "Owner" and v.Value == nil then

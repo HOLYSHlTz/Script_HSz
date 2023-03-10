@@ -1451,12 +1451,30 @@ function snipefunc(item)
     if item =="Any StarFruits" then
         if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
             for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruit") or v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
+                if v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
                     buymerchant(v.Name)
                     print(v.Name)
                 end   
             end
-        end        
+        end
+    elseif item =="StarFruitsyellow" then
+        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
+            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+                if v.Name:match("StarFruit") then
+                    buymerchant(v.Name)
+                    print(v.Name)
+                end   
+            end
+        end
+    elseif item =="StarFruitsRainbow" then
+        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
+            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
+                if v.Name:match("StarFruitEpic") then
+                    buymerchant(v.Name)
+                    print(v.Name)
+                end   
+            end
+        end               
     elseif item == "Any Items"then
         if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
             for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
@@ -1485,7 +1503,7 @@ function SnipeMerchant()
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Star Fruit ที่จะชื้อ",function(value)
         Settings.ASM_SelectedFruit = value
         saveSettings()
-    end, { options = {"None","Any StarFruits","StarFruit","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitEpic"}, default =Settings.ASM_SelectedFruit})
+    end, { options = {"None","Any StarFruits","StarFruitsyellow","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitsRainbow"}, default =Settings.ASM_SelectedFruit})
    
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedOtherItems = value
@@ -1648,29 +1666,41 @@ function getCSMPortals()
     return portals
 end
 
+function getZeldrisPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_zeldris" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 
 function GetPortals(id)
-local reg = getreg()  
-local portals = {}
-for i,v in next, reg do
-    if type(v) == 'function' then 
-        if getfenv(v).script then 
-            for _, v in pairs(debug.getupvalues(v)) do  
-                if type(v) == 'table' then
-                    if v["session"] then
-                        for _, item in pairs(v["session"]["inventory"]['inventory_profile_data']['unique_items']) do
-                          if item["item_id"] == id then
-                            table.insert(portals, item)
-                          end
+    local reg = getreg() 
+    local portals = {}
+    for i,v in next, reg do
+        if type(v) == 'function' then 
+            if getfenv(v).script then 
+                for _, v in pairs(debug.getupvalues(v)) do 
+                    if type(v) == 'table' then
+                        if v["session"] then
+                            for _, item in pairs(v["session"]["inventory"]['inventory_profile_data']['unique_items']) do
+                            if item["item_id"]:match(id) then
+                                    table.insert(portals, item)
+                              end
+                            end
+                            return portals
                         end
-                        return portals
                     end
                 end
             end
         end
     end
 end
-end
+
+
 
 Settings.teleporting = true
 getgenv().door = "_lobbytemplategreen1"

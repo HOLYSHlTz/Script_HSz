@@ -789,7 +789,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Fix Auto Buy StarFruit improve   \n [+]Add Zeldris Portal [Demon Leader's Portal] Auto Farm \n [+]Fix some bug can't Loaded \n [+]Fix MOBILE DRIVE Support Set position  ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n  \n  \n   ")   
 end
 
 getgenv().posX = 1.5

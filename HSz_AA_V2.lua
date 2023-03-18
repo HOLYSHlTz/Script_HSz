@@ -1,5 +1,5 @@
 --updatefix
-local version = "11.5.0"
+local version = "11.7.5"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -252,7 +252,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures",
-			["avatar_url"] = "https://tr.rbxcdn.com/1667d11665efd9fdb0b6d1cb1536ac80/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -355,6 +355,7 @@ local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้�
 local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
 local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+
 -------------
 ---sponsorfix---
 -------------
@@ -468,7 +469,7 @@ local function UnitSec()
 end
 
 ----------------------------------------------
------------------- World Section -------------
+------------------ World Section -------------updatefix
 ----------------------------------------------
 local function WorldSec()
     SelectWorld:Cheat("Dropdown", "🔱 เลือกโหมด",function(value)
@@ -505,7 +506,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Legend Stages" then
             storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)"}
         elseif Settings.WorldCategory == "Raid Worlds" then
-            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid"}
+            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion"}
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Devil Portals (All)","Zeldris Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
@@ -575,6 +576,8 @@ local function WorldSec()
             levellist = {"aot_raid_1"}
         elseif level == "Hiddel Sand Village - Raid" then
             levellist = {"naruto_raid_1"}
+        elseif level == "Freezo's Invasion" then
+            levellist = {"west_city_frieza_level_1","west_city_frieza_level_2","west_city_frieza_level_3","west_city_frieza_level_4","west_city_frieza_level_5"}
         --///Portals\\\---
         elseif level == "Alien Portals" then
             levellist = {"portal_boros_g"}
@@ -582,7 +585,7 @@ local function WorldSec()
             levellist = {"portal_csm"}
         elseif level == "Zeldris Portals" then
             levellist = {"portal_zeldris"}    
-        ---///Dungeon\\\---    
+        ---///Dungeon\\\---    updatefix
         elseif level == "JJK Finger" then
             levellist = {"jjk_finger"}       
         end
@@ -931,7 +934,7 @@ function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
     print("updatepos")
     saveSettings()
 end
-
+--updatefix fixmap
 function savepos(UnitPos, a,a2,a3,a4,a5,a6)
     if game.Workspace._map:FindFirstChild("namek mushroom model") then
         updatepos("Namak", UnitPos, a,a2,a3,a4,a5,a6)
@@ -2482,7 +2485,7 @@ function PlaceUnits(map)
         end
     end)
 end
-
+--updatefix fixmap
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not getgenv().disableatuofarm then

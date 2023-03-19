@@ -339,7 +339,7 @@ local devilcity = Portals:Sector("😈‍ Devil Portal 😈")
 local alinecity = Portals:Sector("👽 Aline Portal 👽")]]
 
 local UC = Window:Category(" 🧙 ตั้งค่า Unit")
-local NDY = UC:Sector("ยังไม่เสร็จ")
+local NDY = UC:Sector("Beta Unit Config ")
 local emptyxx = UC:Sector(" ")
 local Unit1 = UC:Sector("Unit 1")
 local Unit2 = UC:Sector("Unit 2")
@@ -510,7 +510,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Devil Portals (All)","Zeldris Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"JJK Finger"}     
+            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade"}     
         end
     
         for i = 1, #storylist do
@@ -586,8 +586,10 @@ local function WorldSec()
         elseif level == "Zeldris Portals" then
             levellist = {"portal_zeldris"}    
         ---///Dungeon\\\---    updatefix
-        elseif level == "JJK Finger" then
-            levellist = {"jjk_finger"}       
+        elseif level == "ดันนิ้ว Cursed Womb" then
+            levellist = {"jjk_finger"}    
+        elseif level == "ดันเกะโท Crused Parade" then
+            levellist = {"jjk_raid"}     
         end
 
         for i = 1, #levellist do
@@ -789,7 +791,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n  \n  \n   ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config [ใช้ได้บางฟังชั่น]   \n [+]Add ดันเกะโท Crused Parade  \n   ")   
 end
 
 getgenv().posX = 1.5
@@ -1292,7 +1294,8 @@ end
 
 local function unitconfig()
     emptyxx:Cheat("Label","    ")
-    NDY:Cheat("Label","ยังทำไม่เสร็จ ยังใช้ไม่ได้ ")
+    NDY:Cheat("Label"," ยังเป็น Beta Version บางฟังชั่นใช้ไม่ได้นะ ฟังชั่นที่ใช้ได้ 1.วางตัวเมื่อถึง wave 2.จำนวน Unit ที่วาง 3.อัปตัวเมื่อถึง wave  ")
+
     --//UNIT 1
     Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1353,66 +1356,114 @@ local function unitconfig()
     --//UNIT 3
     Unit3:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U3_Wave = Value
+        saveSettings()
+    end, {placeholder = Settings.U3_Wave})
+    
+    Unit3:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
+        Value = tonumber(Value)
+        Settings.U3_TotalAmmount = Value
+        saveSettings()
+    end, {placeholder = Settings.U3_TotalAmmount})
+    
     Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U3_UpgWave = Value
+    end, {placeholder = Settings.U3_UpgWave})
+    
     Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
+        Settings.U3_UpgCap = Value
+    end, {placeholder = Settings.U3_UpgCap})
+    
     Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 999}) 
+        Settings.U3_SellWave = Value
+    end, {placeholder = Settings.U3_SellWave}) 
 
     --//UNIT 4
     Unit4:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U4_Wave = Value
+        saveSettings()
+    end, {placeholder = Settings.U4_Wave})
+    
+    Unit4:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
+        Value = tonumber(Value)
+        Settings.U4_TotalAmmount = Value
+        saveSettings()
+    end, {placeholder = Settings.U4_TotalAmmount})
+    
     Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U4_UpgWave = Value
+    end, {placeholder = Settings.U4_UpgWave})
+    
     Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
+        Settings.U4_UpgCap = Value
+    end, {placeholder = Settings.U4_UpgCap})
+    
     Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 999}) 
+        Settings.U4_SellWave = Value
+    end, {placeholder = Settings.U4_SellWave})  
     
         --//UNIT 5
-        Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
+    Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U5_Wave = Value
+        saveSettings()
+    end, {placeholder = Settings.U5_Wave})
+        
+    Unit5:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
+        Value = tonumber(Value)
+        Settings.U5_TotalAmmount = Value
+        saveSettings()
+    end, {placeholder = Settings.U5_TotalAmmount})
+        
     Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U5_UpgWave = Value
+    end, {placeholder = Settings.U5_UpgWave})
+        
     Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
+        Settings.U5_UpgCap = Value
+    end, {placeholder = Settings.U5_UpgCap})
+        
     Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 999}) 
+        Settings.U5_SellWave = Value
+    end, {placeholder = Settings.U5_SellWave}) 
 
     --//UNIT 6
     Unit6:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U6_Wave = Value
+        saveSettings()
+    end, {placeholder = Settings.U6_Wave})
+    
+    Unit6:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
+        Value = tonumber(Value)
+        Settings.U6_TotalAmmount = Value
+        saveSettings()
+    end, {placeholder = Settings.U6_TotalAmmount})
+    
     Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
-
+        Settings.U6_UpgWave = Value
+    end, {placeholder = Settings.U6_UpgWave})
+    
     Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 0})
+        Settings.U6_UpgCap = Value
+    end, {placeholder = Settings.U6_UpgCap})
+    
     Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
-    end, {placeholder = 999}) 
+        Settings.U6_SellWave = Value
+    end, {placeholder = Settings.U6_SellWave})  
 end
 
 ----------------------------------------------
@@ -1848,12 +1899,13 @@ local function startfarming()
                 warn("7ds farming")
                 task.wait(7)
             end
-        elseif cata == "Dungeon" then
             --ดันนิ้ว
+        elseif cata == "Dungeon" then
+            if level == "jjk_finger" then --_lobbytemplate_event222
             getgenv().door = "_lobbytemplate_event222"
             local string_1 = "_lobbytemplate_event222";
             local table_1 = {
-                ["selected_key"] = "key_jjk_finger"
+                ["selected_key"] = "key_jjk_finger" --key_jjk_finger
             };
             local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
             Target:InvokeServer(string_1, table_1);
@@ -1896,8 +1948,62 @@ local function startfarming()
                     end
                 end
     
-                warn("DUNGEONS farming")
+                warn("DUNGEONS jjk_finger farming")
                 task.wait(3)
+            end
+                --ดันเกะโท
+        elseif cata == "Dungeon" then
+            if level == "jjk_raid" then
+                getgenv().door = "_lobbytemplate_event23"
+                local string_1 = "_lobbytemplate_event23";
+                local table_1 = {
+                    ["selected_key"] = "key_jjk_map"
+                };
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
+                Target:InvokeServer(string_1, table_1);
+            
+                if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
+                    for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
+                        if v.Name == "Owner" and v.Value == nil then
+                            local args = { [1] = tostring(v.Parent.Name) }
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+        
+                            task.wait()
+                        
+                            local args = {
+                                [1] = tostring(v.Parent.Name), -- Lobby 
+                                [2] = Settings.SelectedLevel, -- World/Level
+                                [3] = Settings.isFriendOnly or true, -- Friends Only or not
+                                [4] = Settings.Difficulty 
+                            }
+        
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+        
+                            local args = { [1] =tostring(v.Parent.Name) }
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                            
+                            getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+                            plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+                            break
+                        end
+                    end
+        
+                    task.wait()
+        
+                    plr.Character.HumanoidRootPart.CFrame = cpos
+        
+                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
+                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
+                            getgenv().teleporting = false
+                        else
+                            getgenv().teleporting = true
+                        end
+                    end
+        
+                    warn("DUNGEONS jjk_raid farming")
+                    task.wait(3)
+                end
+                end
             end
         end
     end
@@ -2213,7 +2319,6 @@ function PlacePos(map,name,_uuid,unit)
         warn(" ด่าน "..map.." กำลังวางหรืออัพตัว "..name)
 
         if name ~= "metal_knight_evolved" then
-            warn("x")
             local i = math.random(1,6)
             if i == 1 then
                     local args = {
@@ -2259,17 +2364,18 @@ function PlacePos(map,name,_uuid,unit)
                 return
             end
         elseif name == "metal_knight_evolved" then
-            warn("y")
             local i = math.random(1,6)
             if i == 1 then
                 task.spawn(function()
                     --place units 0
+                    print("p1")
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
                     }
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 end)
+                return
             elseif i == 2 then
                 task.spawn(function()
                     --place units 1
@@ -2280,6 +2386,7 @@ function PlacePos(map,name,_uuid,unit)
                     }
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 end)
+                return
             elseif i == 3 then
                 task.spawn(function()
                     --place units 2
@@ -2290,13 +2397,14 @@ function PlacePos(map,name,_uuid,unit)
                     }
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 end)
+                return
             end
         end
     end
 end
 
 
-function updateunit(name, min)
+function upgradeunit(name, min)
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
        if v:FindFirstChild("_stats") then
             if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
@@ -2359,22 +2467,25 @@ end
 function PlaceUnitsTEST(map)
     current_wave = game:GetService("Workspace")["_wave_num"].Value
 
-    U1_wv, U2_wv = Settings.U1_Wave or 0, Settings.U2_Wave or 0
-    U1_TAmm, U2_TAmm = Settings.U1_TotalAmmount or 6, Settings.U2_TotalAmmount or 6
-    U1_upgW, U2_upgW = Settings.U1_UpgWave or 0, Settings.U2_UpgWave or 0
-    U1_upgCap, U2_upgCap = Settings.U1_UpgCap or 99, Settings.U2_UpgCap or 99
-    U1_sellW, U2_sellW = Settings.U1_SellWave or 999, Settings.U2_SellWave or 999
+    U1_wv, U2_wv, U3_wv, U4_wv, U5_wv, U6_wv = Settings.U1_Wave or 1, Settings.U2_Wave or 1, Settings.U3_Wave or 1, Settings.U4_Wave or 1, Settings.U5_Wave or 1, Settings.U6_Wave or 1
+    U1_TAmm, U2_TAmm, U3_TAmm, U4_TAmm, U5_TAmm, U6_TAmm = Settings.U1_TotalAmmount or 6, Settings.U2_TotalAmmount or 6, Settings.U3_TotalAmmount or 6, Settings.U4_TotalAmmount or 6, Settings.U5_TotalAmmount or 6, Settings.U6_TotalAmmount or 6
+    U1_upgW, U2_upgW, U3_upgW, U4_upgW, U5_upgW, U6_upgW = Settings.U1_UpgWave or 1, Settings.U2_UpgWave or 1, Settings.U3_UpgWave or 1, Settings.U4_UpgWave or 1, Settings.U5_UpgWave or 1, Settings.U6_UpgWave or 1
+    U1_upgCap, U2_upgCap, U3_upgCap, U4_upgCap, U5_upgCap, U6_upgCap = Settings.U1_UpgCap or 99, Settings.U2_UpgCap or 99, Settings.U3_UpgCap or 99, Settings.U4_UpgCap or 99, Settings.U5_UpgCap or 99, Settings.U6_UpgCap or 99
+    U1_sellW, U2_sellW, U3_sellW, U4_sellW, U5_sellW, U6_sellW = Settings.U1_SellWave or 999, Settings.U2_SellWave or 999, Settings.U3_SellWave or 999, Settings.U4_SellWave or 999, Settings.U5_SellWave or 999, Settings.U6_SellWave or 999
 
     --//Unit 1
     local U1_amm, U1_name, U1_uuid, U1_u = GetUnitInfo("U1")
     if U1_wv <= current_wave and U1_amm <= U1_TAmm then
         if U1_sellW >= current_wave and U1_amm < U1_TAmm then
+            print("กำลังวาง u1..")
             PlacePos(map, U1_name, U1_uuid,"UP1")
         elseif U1_sellW <= current_wave then
+            print("ขาย u1..")
             sellunit(U1_name)
         end
         if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave then
-            updateunit(tostring(U1_name), U1_upgCap)
+            print("อัปเกรด u1..")
+            upgradeunit(tostring(U1_name), U1_upgCap)
         end
     end
 
@@ -2382,15 +2493,81 @@ function PlaceUnitsTEST(map)
     U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
     if U2_wv <= current_wave and U2_amm <= U2_TAmm then
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
-            PlacePos(map, U2_name, U2_uuid,"UP1")
+            print("กำลังวาง u2..")
+            PlacePos(map, U2_name, U2_uuid,"UP2")
         elseif U2_sellW <= current_wave then
+            print("ขาย u2..")
             sellunit(U2_name)
         end
         if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave then
-            updateunit(tostring(U2_name), U2_upgCap)
+            print("อัปเกรด u2..")
+            upgradeunit(tostring(U2_name), U2_upgCap)
         end
     end
 
+    --//Unit 3
+    U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
+    if U3_wv <= current_wave and U3_amm <= U3_TAmm then
+	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
+		    print("กำลังวาง u3..")
+		    PlacePos(map, U3_name, U3_uuid,"UP3")
+	    elseif U3_sellW <= current_wave then
+		    print("ขาย u3..")
+		    sellunit(U3_name)
+	    end
+	    if U3_u < U3_upgCap and U3_upgW <= current_wave and U3_sellW >= current_wave then
+		    print("อัปเกรด u3..")
+		    upgradeunit(tostring(U3_name), U3_upgCap)
+	    end
+    end
+
+    --//Unit 4
+    U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
+    if U4_wv <= current_wave and U4_amm <= U4_TAmm then
+	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
+		    print("กำลังวาง u4..")
+		    PlacePos(map, U4_name, U4_uuid,"UP4")
+	    elseif U4_sellW <= current_wave then
+		    print("ขาย u4..")
+		    sellunit(U4_name)
+	    end
+	    if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave then
+		    print("อัปเกรด u4..")
+		    upgradeunit(tostring(U4_name), U4_upgCap)
+	    end
+    end
+
+    --//Unit 5
+    U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
+    if U5_wv <= current_wave and U5_amm <= U5_TAmm then
+	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
+		    print("กำลังวาง u5..")
+		    PlacePos(map, U5_name, U5_uuid,"UP5")
+	    elseif U5_sellW <= current_wave then
+		    print("ขาย u5..")
+		    sellunit(U5_name)
+	    end
+	    if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave then
+		    print("อัปเกรด u5..")
+		    upgradeunit(tostring(U5_name), U5_upgCap)
+	    end
+    end
+
+    --//Unit 6
+    U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
+    if U6_wv <= current_wave and U6_amm <= U6_TAmm then
+	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
+		    print("กำลังวาง u6..")
+		    PlacePos(map, U6_name, U6_uuid,"UP6")
+	    elseif U6_sellW <= current_wave then
+		    print("ขาย u6..")
+		    sellunit(U6_name)
+	    end
+	    if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave then
+		    print("อัปเกรด u6..")
+		    upgradeunit(tostring(U6_name), U6_upgCap)
+	    end
+    end
 
 end
 --fix sell and place spam
@@ -2485,14 +2662,15 @@ function PlaceUnits(map)
         end
     end)
 end
---updatefix fixmap
+
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not getgenv().disableatuofarm then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
-                PlaceUnits("Namak")
+                PlaceUnitsTEST("Namak")
+                --PlaceUnits("Namak")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
                 PlaceUnits("Aot")
             elseif game.Workspace._map:FindFirstChild("Snow Particles") then
@@ -2530,7 +2708,7 @@ coroutine.resume(coroutine.create(function()
             elseif game.Workspace._map:FindFirstChild("snow grass") then
                 PlaceUnits("infinity_trian")
             elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
-                PlaceUnits("7ds")
+                PlaceUnits("fabled_kingdom")
             end
         end
     end

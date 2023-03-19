@@ -2670,45 +2670,44 @@ coroutine.resume(coroutine.create(function()
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
                 PlaceUnitsTEST("Namak")
-                --PlaceUnits("Namak")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
-                PlaceUnits("Aot")
+                PlaceUnitsTEST("Aot")
             elseif game.Workspace._map:FindFirstChild("Snow Particles") then
-                PlaceUnits("Snowy")
+                PlaceUnitsTEST("Snowy")
             elseif game.Workspace._map:FindFirstChild("sand_gate") then 
-                PlaceUnits("Sand")
+                PlaceUnitsTEST("Sand")
             elseif game.Workspace._map:FindFirstChild("icebergs") then
-                PlaceUnits("Marine")
+                PlaceUnitsTEST("Marine")
             elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
-                PlaceUnits("Ghoul")
+                PlaceUnitsTEST("Ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
-                PlaceUnits("Hollow")
+                PlaceUnitsTEST("Hollow")
             elseif game.Workspace._map:FindFirstChild("Ant Nest") then
-                PlaceUnits("Ant")
+                PlaceUnitsTEST("Ant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
-                PlaceUnits("Magic")
+                PlaceUnitsTEST("Magic")
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
-                PlaceUnits("Cursed")
+                PlaceUnitsTEST("Cursed")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
-                PlaceUnits("thriller_park")  
+                PlaceUnitsTEST("thriller_park")  
             elseif game.Workspace._map:FindFirstChild("skeleton") then
-                PlaceUnits("black_clover")
+                PlaceUnitsTEST("black_clover")
             elseif game.Workspace._map:FindFirstChild("graves") then
-                PlaceUnits("hollow_leg")
+                PlaceUnitsTEST("hollow_leg")
             elseif game.Workspace._map:FindFirstChild("vending machines") then
-                PlaceUnits("chainsaw")
+                PlaceUnitsTEST("chainsaw")
             elseif game.Workspace._map:FindFirstChild("SpaceCenter") then
-                PlaceUnits("jojo")
+                PlaceUnitsTEST("jojo")
             elseif game.Workspace._map:FindFirstChild("secret") then
-                PlaceUnits("opm")
+                PlaceUnitsTEST("opm")
             elseif game.Workspace._map:FindFirstChild("s") then
-                PlaceUnits("west_city")
+                PlaceUnitsTEST("west_city")
             elseif game.Workspace._map:FindFirstChild("Capybara") then
-                PlaceUnits("Storm_Hideout")
+                PlaceUnitsTEST("Storm_Hideout")
             elseif game.Workspace._map:FindFirstChild("snow grass") then
-                PlaceUnits("infinity_trian")
+                PlaceUnitsTEST("infinity_trian")
             elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
-                PlaceUnits("fabled_kingdom")
+                PlaceUnitsTEST("fabled_kingdom")
             end
         end
     end

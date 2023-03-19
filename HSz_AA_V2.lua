@@ -2707,7 +2707,7 @@ coroutine.resume(coroutine.create(function()
             elseif game.Workspace._map:FindFirstChild("snow grass") then
                 PlaceUnitsTEST("infinity_trian")
             elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
-                PlaceUnitsTEST("fabled_kingdom")
+                PlaceUnitsTEST("7ds")
             end
         end
     end

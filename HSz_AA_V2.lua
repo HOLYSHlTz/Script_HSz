@@ -264,9 +264,6 @@ function webhook()
 					["thumbnail"] = {
 						['url'] = thumbnails_avatar.data[1].imageUrl,
 					},
-					["image"] = {
-						['url'] = "https://tr.rbxcdn.com/bc2ea8300bfaea9fb3193d7f801f0e8b/768/432/Image/Png"
-					},
 					["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
 					["color"] = 110335,
 					["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),

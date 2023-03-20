@@ -1296,7 +1296,7 @@ end
 
 local function unitconfig()
     emptyxx:Cheat("Label","    ")
-    NDY:Cheat("Label"," ยังเป็น Beta Version บางฟังชั่นใช้ไม่ได้นะ ฟังชั่นที่ใช้ได้ 1.วางตัวเมื่อถึง wave 2.จำนวน Unit ที่วาง 3.อัปตัวเมื่อถึง wave  ")
+    NDY:Cheat("Label"," ยังเป็น Beta Version บางฟังชั่นอาจจะยังบัคนะครับ ")
 
     --//UNIT 1
     Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)

@@ -1314,16 +1314,19 @@ local function unitconfig()
     Unit1:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U1_UpgWave})
 
     Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U1_UpgCap})
 
     Unit1:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U1_SellWave}) 
 
 
@@ -1343,16 +1346,19 @@ local function unitconfig()
     Unit2:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U2_UpgWave})
 
     Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U2_UpgCap})
 
     Unit2:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U2_SellWave}) 
     
     --//UNIT 3
@@ -1371,16 +1377,19 @@ local function unitconfig()
     Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U3_UpgWave})
     
     Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U3_UpgCap})
     
     Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U3_SellWave}) 
 
     --//UNIT 4
@@ -1399,16 +1408,19 @@ local function unitconfig()
     Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U4_UpgWave})
     
     Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U4_UpgCap})
     
     Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U4_SellWave})  
     
         --//UNIT 5
@@ -1427,16 +1439,19 @@ local function unitconfig()
     Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U5_UpgWave})
         
     Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U5_UpgCap})
         
     Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U5_SellWave}) 
 
     --//UNIT 6
@@ -1455,16 +1470,19 @@ local function unitconfig()
     Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgWave = Value
+        saveSettings()
     end, {placeholder = Settings.U6_UpgWave})
     
     Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgCap = Value
+        saveSettings()
     end, {placeholder = Settings.U6_UpgCap})
     
     Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_SellWave = Value
+        saveSettings()
     end, {placeholder = Settings.U6_SellWave})  
 end
 
@@ -2370,7 +2388,7 @@ function PlacePos(map,name,_uuid,unit)
             if i == 1 then
                 task.spawn(function()
                     --place units 0
-                    print("p1")
+                    print("p1 metal knight evolved")
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )

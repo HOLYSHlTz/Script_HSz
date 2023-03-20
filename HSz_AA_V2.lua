@@ -273,8 +273,8 @@ function webhook()
 					},
                     ["fields"] = {
                         {
-                            ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals",
-                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nBTP Lv. : ".. btp .." 🛸\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nGold รวม : "  ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value))..  " 💰\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
+                            ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
+                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
                         },
                         {
                             ["name"] ="Results :",
@@ -792,7 +792,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n Fix some issue with bug  ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n [+]Fix some issue with bug  ")   
 end
 
 getgenv().posX = 1.5

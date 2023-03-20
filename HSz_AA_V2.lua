@@ -339,7 +339,9 @@ local alinecity = Portals:Sector("👽 Aline Portal 👽")]]
 
 local UC = Window:Category(" 🧙 ตั้งค่า Unit")
 local NDY = UC:Sector("Beta Unit Config ")
+local NDY2 = UC:Sector(" ")
 local emptyxx = UC:Sector(" ")
+local emptyxx2 = UC:Sector(" ")
 local Unit1 = UC:Sector("Unit 1")
 local Unit2 = UC:Sector("Unit 2")
 local Unit3 = UC:Sector("Unit 3")
@@ -790,7 +792,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config [ใช้ได้บางฟังชั่น]   \n [+]Add ดันเกะโท Crused Parade  \n   ")   
+    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n Fix some issue with bug  ")   
 end
 
 getgenv().posX = 1.5
@@ -1292,8 +1294,16 @@ local function UnitPosSec()
 end
 
 local function unitconfig()
-    emptyxx:Cheat("Label","    ")
-    NDY:Cheat("Label"," ยังเป็น Beta Version บางฟังชั่นอาจจะยังบัคนะครับ ")
+    --emptyxx:Cheat("Label","    ")
+    --NDY:Cheat("Label"," ยังเป็น Beta Version บางฟังชั่นอาจจะยังบัคนะครับ ")
+    NDY2:Cheat("Label","    ")
+
+    NDY:Cheat("Checkbox"," เปิด Unit Config  ", function(bool)
+        print(bool)
+        Settings.unitconfig = bool
+        saveSettings()
+    end,{enabled = Settings.unitconfig })
+
 
     --//UNIT 1
     Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
@@ -2682,7 +2692,7 @@ end
 
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
-        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not getgenv().disableatuofarm then
+        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
@@ -2729,6 +2739,57 @@ coroutine.resume(coroutine.create(function()
         end
     end
 end))
+
+coroutine.resume(coroutine.create(function()
+    while task.wait(1.5) do
+        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
+            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+            repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
+            if game.Workspace._map:FindFirstChild("namek mushroom model") then
+                PlaceUnits("Namak")
+            elseif game.Workspace._map:FindFirstChild("houses_new") then
+                PlaceUnits("Aot")
+            elseif game.Workspace._map:FindFirstChild("Snow Particles") then
+                PlaceUnits("Snowy")
+            elseif game.Workspace._map:FindFirstChild("sand_gate") then 
+                PlaceUnits("Sand")
+            elseif game.Workspace._map:FindFirstChild("icebergs") then
+                PlaceUnits("Marine")
+            elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+                PlaceUnits("Ghoul")
+            elseif game.Workspace._map:FindFirstChild("Bones/dust") then
+                PlaceUnits("Hollow")
+            elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+                PlaceUnits("Ant")
+            elseif game.Workspace._map:FindFirstChild("light poles") then
+                PlaceUnits("Magic")
+            elseif game.Workspace._map:FindFirstChild("LanternsGround") then
+                PlaceUnits("Cursed")
+            elseif game.Workspace._map:FindFirstChild("pumpkins") then    
+                PlaceUnits("thriller_park")  
+            elseif game.Workspace._map:FindFirstChild("skeleton") then
+                PlaceUnits("black_clover")
+            elseif game.Workspace._map:FindFirstChild("graves") then
+                PlaceUnits("hollow_leg")
+            elseif game.Workspace._map:FindFirstChild("vending machines") then
+                PlaceUnits("chainsaw")
+            elseif game.Workspace._map:FindFirstChild("SpaceCenter") then
+                PlaceUnits("jojo")
+            elseif game.Workspace._map:FindFirstChild("secret") then
+                PlaceUnits("opm")
+            elseif game.Workspace._map:FindFirstChild("s") then
+                PlaceUnits("west_city")
+            elseif game.Workspace._map:FindFirstChild("Capybara") then
+                PlaceUnits("Storm_Hideout")
+            elseif game.Workspace._map:FindFirstChild("snow grass") then
+                PlaceUnits("infinity_trian")
+            elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
+                PlaceUnits("7ds")
+            end
+        end
+    end
+end))
+
 
 pcall(function()
     local vu = game:GetService("VirtualUser")

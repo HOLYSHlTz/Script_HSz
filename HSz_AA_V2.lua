@@ -2592,8 +2592,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             sellunit(U1_name)
         end
         if U1_u < U1_upgCap and U1_upgP <= U2_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U1_upgW <= current_wave and U1_sellW >= current_wave then
-            print("อัปเกรด u1..")
-            upgradeunit(tostring(U1_name), U1_upgCap)
+            print("อัปเกรด Pro u1..")
+            upgradeunit(tostring(U1_name), (U1_upgCap))
         end
     end
 end
@@ -2610,8 +2610,8 @@ end
             sellunit(U2_name)
         end
         if U2_u < U2_upgCap and U2_upgP <= U1_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U2_upgW <= current_wave and U2_sellW >= current_wave then
-            print("อัปเกรด u2..")
-            upgradeunit(tostring(U2_name), U2_upgCap)
+            print("อัปเกรด Pro u2..")
+            upgradeunit(tostring(U2_name), (U2_upgCap))
         end
     end
 end
@@ -2628,8 +2628,8 @@ end
 		    sellunit(U3_name)
 	    end
         if U3_u < U3_upgCap and U3_upgP <= U1_upgP or U2_upgP or U4_upgP or U5_upgP or U6_upgP and U3_upgW <= current_wave and U3_sellW >= current_wave then
-            print("อัปเกรด u3..")
-            upgradeunit(tostring(U3_name), U3_upgCap)
+            print("อัปเกรด Pro u3..")
+            upgradeunit(tostring(U3_name), (U3_upgCap))
         end
     end
 end
@@ -2646,8 +2646,8 @@ end
 		    sellunit(U4_name)
 	    end
         if U4_u < U4_upgCap and U4_upgP <= U1_upgP or U2_upgP or U3_upgP or U5_upgP or U6_upgP and U4_upgW <= current_wave and U4_sellW >= current_wave then
-            print("อัปเกรด u4..")
-            upgradeunit(tostring(U4_name), U4_upgCap)
+            print("อัปเกรด Pro u4..")
+            upgradeunit(tostring(U4_name), (U4_upgCap))
         end
     end
 end
@@ -2664,8 +2664,8 @@ end
 		    sellunit(U5_name)
 	    end
         if U5_u < U5_upgCap and U5_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U6_upgP and U5_upgW <= current_wave and U5_sellW >= current_wave then
-            print("อัปเกรด u5..")
-            upgradeunit(tostring(U5_name), U5_upgCap)
+            print("อัปเกรด Pro u5..")
+            upgradeunit(tostring(U5_name), (U5_upgCap))
         end
     end
 end
@@ -2682,8 +2682,8 @@ end
 		    sellunit(U6_name)
 	    end
         if U6_u < U6_upgCap and U6_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U5_upgP and U6_upgW <= current_wave and U6_sellW >= current_wave then
-            print("อัปเกรด u6..")
-            upgradeunit(tostring(U6_name), U6_upgCap)
+            print("อัปเกรด Pro u6..")
+            upgradeunit(tostring(U6_name), (U6_upgCap))
         end
     end
 end

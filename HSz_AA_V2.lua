@@ -2509,29 +2509,6 @@ function PlacePos(map,name,_uuid,unit)
 end
 
 
-function upgradeunit(name, min)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") then
-            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                if v.Name == name and v._stats.upgrade.Value <= min then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
-
-function sellunit(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-        end
-    end
-end
-
-
 function GetUnitInfo(Unit)
     local unitinfo = Settings.SelectedUnits[Unit]
     local unitinfo_ = unitinfo:split(" #")
@@ -2568,6 +2545,28 @@ function GetUnitInfo(Unit)
     return #_units or 0, unitinfo_[1], unitinfo_[2], min or 0
 end
 
+function upgradeunit(name, min)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") then
+            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+                if v.Name == name and v._stats.upgrade.Value <= min then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+
+function sellunit(name) 
+    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+        repeat task.wait() until v:WaitForChild("_stats")
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
+        end
+    end
+end
+
 
 function PlaceUnitsTEST(map,name,_uuid,unit)
     current_wave = game:GetService("Workspace")["_wave_num"].Value
@@ -2592,19 +2591,15 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("ขาย u1..")
             sellunit(U1_name)
         end
-        --[[if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave then
+        if U1_u < U1_upgCap and U1_upgP <= U2_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U1_upgW <= current_wave and U1_sellW >= current_wave then
             print("อัปเกรด u1..")
             upgradeunit(tostring(U1_name), U1_upgCap)
-        end]]
-        if U1_upgP <= U2_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U1_upgW <= current_wave and U1_sellW >= current_wave then
-            print("อัปเกรด Pro u1..")
-            upgradeunit(tostring(U1_name), U1_upgP)
         end
     end
 end
 
     --//Unit 2
-    U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
+    local U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
     if U2_wv <= current_wave and U2_amm <= U2_TAmm then
         if U2_UnP <= U1_UnP or U3_UnP or U4_UnP or U5_UnP or U6_UnP then
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
@@ -2614,19 +2609,15 @@ end
             print("ขาย u2..")
             sellunit(U2_name)
         end
-        --[[if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave then
+        if U2_u < U2_upgCap and U2_upgP <= U1_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U2_upgW <= current_wave and U2_sellW >= current_wave then
             print("อัปเกรด u2..")
             upgradeunit(tostring(U2_name), U2_upgCap)
-        end]]
-        if U2_upgP <= U1_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U2_upgW <= current_wave and U2_sellW >= current_wave then
-            print("อัปเกรด Pro u2..")
-            upgradeunit(tostring(U2_name), U2_upgP)
         end
     end
 end
 
     --//Unit 3
-    U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
+    local U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
     if U3_wv <= current_wave and U3_amm <= U3_TAmm then
         if U3_UnP <= U1_UnP or U2_UnP or U4_UnP or U5_UnP or U6_UnP then
 	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
@@ -2636,19 +2627,15 @@ end
 		    print("ขาย u3..")
 		    sellunit(U3_name)
 	    end
-	    --[[if U3_u < U3_upgCap and U3_upgW <= current_wave and U3_sellW >= current_wave then
-		    print("อัปเกรด u3..")
-		    upgradeunit(tostring(U3_name), U3_upgCap)
-	    end]]
-        if U3_upgP <= U1_upgP or U2_upgP or U4_upgP or U5_upgP or U6_upgP and U3_upgW <= current_wave and U3_sellW >= current_wave then
-            print("อัปเกรด Pro u3..")
-            upgradeunit(tostring(U3_name), U3_upgP)
+        if U3_u < U3_upgCap and U3_upgP <= U1_upgP or U2_upgP or U4_upgP or U5_upgP or U6_upgP and U3_upgW <= current_wave and U3_sellW >= current_wave then
+            print("อัปเกรด u3..")
+            upgradeunit(tostring(U3_name), U3_upgCap)
         end
     end
 end
 
     --//Unit 4
-    U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
+    local U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
     if U4_wv <= current_wave and U4_amm <= U4_TAmm then
         if U4_UnP <= U1_UnP or U2_UnP or U3_UnP or U5_UnP or U6_UnP then
 	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
@@ -2658,19 +2645,15 @@ end
 		    print("ขาย u4..")
 		    sellunit(U4_name)
 	    end
-	    --[[if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave then
-		    print("อัปเกรด u4..")
-		    upgradeunit(tostring(U4_name), U4_upgCap)
-	    end]]
-        if U4_upgP <= U1_upgP or U2_upgP or U3_upgP or U5_upgP or U6_upgP and U4_upgW <= current_wave and U4_sellW >= current_wave then
-            print("อัปเกรด Pro u4..")
-            upgradeunit(tostring(U4_name), U4_upgP)
+        if U4_u < U4_upgCap and U4_upgP <= U1_upgP or U2_upgP or U3_upgP or U5_upgP or U6_upgP and U4_upgW <= current_wave and U4_sellW >= current_wave then
+            print("อัปเกรด u4..")
+            upgradeunit(tostring(U4_name), U4_upgCap)
         end
     end
 end
 
     --//Unit 5
-    U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
+    local U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
     if U5_wv <= current_wave and U5_amm <= U5_TAmm then
         if U5_UnP <= U1_UnP or U2_UnP or U3_UnP or U4_UnP or U6_UnP then
 	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
@@ -2680,19 +2663,15 @@ end
 		    print("ขาย u5..")
 		    sellunit(U5_name)
 	    end
-	    --[[if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave then
-		    print("อัปเกรด u5..")
-		    upgradeunit(tostring(U5_name), U5_upgCap)
-	    end]]
-        if U5_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U6_upgP and U5_upgW <= current_wave and U5_sellW >= current_wave then
-            print("อัปเกรด Pro u5..")
-            upgradeunit(tostring(U5_name), U5_upgP)
+        if U5_u < U5_upgCap and U5_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U6_upgP and U5_upgW <= current_wave and U5_sellW >= current_wave then
+            print("อัปเกรด u5..")
+            upgradeunit(tostring(U5_name), U5_upgCap)
         end
     end
 end
 
     --//Unit 6
-    U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
+    local U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
     if U6_wv <= current_wave and U6_amm <= U6_TAmm then
         if U6_UnP <= U1_UnP or U2_UnP or U3_UnP or U4_UnP or U5_UnP then
 	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
@@ -2702,17 +2681,12 @@ end
 		    print("ขาย u6..")
 		    sellunit(U6_name)
 	    end
-	    --[[if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave then
-		    print("อัปเกรด u6..")
-		    upgradeunit(tostring(U6_name), U6_upgCap)
-	    end]]
-        if U6_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U5_upgP and U6_upgW <= current_wave and U6_sellW >= current_wave then
-            print("อัปเกรด Pro u6..")
-            upgradeunit(tostring(U6_name), U6_upgP)
+        if U6_u < U6_upgCap and U6_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U5_upgP and U6_upgW <= current_wave and U6_sellW >= current_wave then
+            print("อัปเกรด u6..")
+            upgradeunit(tostring(U6_name), U6_upgCap)
         end
     end
 end
-
 end
 --fix sell and place spam
 

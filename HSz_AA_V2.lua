@@ -161,8 +161,8 @@ function webhook()
     levelname = game:GetService("Workspace"):FindFirstChild("_MAP_CONFIG"):FindFirstChild("GetLevelData"):InvokeServer()["name"]
 
     result = ResultHolder.Title.Text else levelname, result = "nil","nil" end
-    if result == "VICTORY" then result = "VICTORY" end
-    if result == "DEFEAT" then result = "DEFEAT" end
+    if result == "VICTORY" then result = "ชนะ" end
+    if result == "DEFEAT" then result = "แพ้" end
     
     _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
     GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()

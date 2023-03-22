@@ -726,13 +726,19 @@ local function AutoFarmSec()
         saveSettings()
     end,{enabled = Settings.AutoUpgrade})
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto Sell Units ขายตัว ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," ขายตัว เมื่อถึง Wave ", function(bool)
         print(bool)
         Settings.AutoSell = bool
         saveSettings()
     end,{enabled = Settings.AutoSell})
 
-    AutoFarmConfig:Cheat("Textbox", " ขายเมื่อถึง Wave", function(Value)
+    AutoFarmConfig:Cheat("Checkbox"," ออก เมื่อถึง Wave  ", function(bool)
+        print(bool)
+        Settings.autoQuit = bool
+        saveSettings()
+    end,{enabled = Settings.autoQuit})
+
+    AutoFarmConfig:Cheat("Textbox", " ใส่จำนวน Wave", function(Value)
         Value = tonumber(Value)
         Settings.AutoSellWave = Value
         saveSettings()
@@ -1619,7 +1625,7 @@ function snipefunc(item)
     elseif item =="StarFruitsyellow" then
         if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
             for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruit") then
+                if v.Name:match("StarFruitstar") then
                     buymerchant(v.Name)
                     print(v.Name)
                 end   
@@ -1662,7 +1668,7 @@ function SnipeMerchant()
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Star Fruit ที่จะชื้อ",function(value)
         Settings.ASM_SelectedFruit = value
         saveSettings()
-    end, { options = {"None","Any StarFruits","StarFruitsyellow","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitsRainbow"}, default =Settings.ASM_SelectedFruit})
+    end, { options = {"None","StarFruit","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitsRainbow"}, default =Settings.ASM_SelectedFruit})
    
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedOtherItems = value
@@ -2212,7 +2218,12 @@ coroutine.resume(coroutine.create(function()
 
         if game.PlaceId ~= 8304191830 then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-            if Settings.AutoSell and tonumber(Settings.AutoSellWave) <= _wave.Value then
+
+            if Settings.autoQuit and not Settings.AutoSell and tonumber(Settings.AutoSellWave) <= _wave.Value then
+                Teleport()
+            end
+
+            if Settings.AutoSell and not Settings.autoQuit and tonumber(Settings.AutoSellWave) <= _wave.Value then
                 getgenv().disableatuofarm = true
                 repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
                 for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do

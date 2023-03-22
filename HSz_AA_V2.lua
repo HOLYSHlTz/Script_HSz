@@ -173,9 +173,9 @@ function webhook()
     btp = plr.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V").Text
     btp2 = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.Title.Text
     waves = cwaves:split(": ")
-    if waves ~= nil and waves[2] == "999" then waves[2] = "N/A [Test Webhook]" end	
+    if waves ~= nil and waves[2] == "999" then waves[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
 	ttime = ctime:split(": ")
-    if waves ~= nil and ttime[2] == "22:55" then ttime[2] = "N/A [Test Webhook]" end	
+    if waves ~= nil and ttime[2] == "22:55" then ttime[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
 
     gold = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GoldReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
     if gold == "+99999" then gold = "+0" end	 
@@ -2220,6 +2220,11 @@ coroutine.resume(coroutine.create(function()
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
 
             if Settings.autoQuit and not Settings.AutoSell and tonumber(Settings.AutoSellWave) <= _wave.Value then
+                pcall(function() webhook() end)
+                print("send Webhook")
+                task.wait(2.1)
+                print("Returning to lobby...")
+                task.wait(2.1)
                 Teleport()
             end
 
@@ -2593,112 +2598,106 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 
     --//Unit 1
     local U1_amm, U1_name, U1_uuid, U1_u = GetUnitInfo("U1")
-    if U1_wv <= current_wave and U1_amm <= U1_TAmm then
-        if U1_UnP <= U2_UnP or U3_UnP or U4_UnP or U5_UnP or U6_UnP then
+    if U1_wv <= current_wave and U1_amm <= U1_TAmm and U1_UnP <= U2_UnP and U1_UnP <= U3_UnP and U1_UnP <= U4_UnP and U1_UnP <= U5_UnP and U1_UnP <= U6_UnP then
         if U1_sellW >= current_wave and U1_amm < U1_TAmm then
-            print("กำลังวาง u1..")
+            print("placing u1..")
             PlacePos(map, U1_name, U1_uuid,"UP1")
         elseif U1_sellW <= current_wave then
-            print("ขาย u1..")
+            print("selling u1..")
             sellunit(U1_name)
         end
         if U1_u < U1_upgCap and U1_upgP <= U2_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U1_upgW <= current_wave and U1_sellW >= current_wave then
-            print("อัปเกรด Pro u1..")
+            print("upgrading u1..")
             upgradeunit(tostring(U1_name), (U1_upgCap))
         end
     end
-end
+
 
     --//Unit 2
     local U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
-    if U2_wv <= current_wave and U2_amm <= U2_TAmm then
-        if U2_UnP <= U1_UnP or U3_UnP or U4_UnP or U5_UnP or U6_UnP then
+    if U2_wv <= current_wave and U2_amm <= U2_TAmm and U2_UnP <= U1_UnP and U2_UnP <= U3_UnP and U2_UnP <= U4_UnP and U2_UnP <= U5_UnP and U2_UnP <= U6_UnP then
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
-            print("กำลังวาง u2..")
+            print("placing u2..")
             PlacePos(map, U2_name, U2_uuid,"UP2")
         elseif U2_sellW <= current_wave then
-            print("ขาย u2..")
+            print("selling u2..")
             sellunit(U2_name)
         end
         if U2_u < U2_upgCap and U2_upgP <= U1_upgP or U3_upgP or U4_upgP or U5_upgP or U6_upgP and U2_upgW <= current_wave and U2_sellW >= current_wave then
-            print("อัปเกรด Pro u2..")
+            print("upgrading u2..")
             upgradeunit(tostring(U2_name), (U2_upgCap))
         end
     end
-end
+
 
     --//Unit 3
     local U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
-    if U3_wv <= current_wave and U3_amm <= U3_TAmm then
-        if U3_UnP <= U1_UnP or U2_UnP or U4_UnP or U5_UnP or U6_UnP then
+    if U3_wv <= current_wave and U3_amm <= U3_TAmm and U3_UnP <= U1_UnP and U3_UnP <= U2_UnP and U3_UnP <= U4_UnP and U3_UnP <= U5_UnP and U3_UnP <= U6_UnP then
 	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
-		    print("กำลังวาง u3..")
+		    print("placing u3..")
 		    PlacePos(map, U3_name, U3_uuid,"UP3")
 	    elseif U3_sellW <= current_wave then
-		    print("ขาย u3..")
+		    print("selling u3..")
 		    sellunit(U3_name)
 	    end
         if U3_u < U3_upgCap and U3_upgP <= U1_upgP or U2_upgP or U4_upgP or U5_upgP or U6_upgP and U3_upgW <= current_wave and U3_sellW >= current_wave then
-            print("อัปเกรด Pro u3..")
+            print("upgrading u3..")
             upgradeunit(tostring(U3_name), (U3_upgCap))
         end
     end
-end
+
 
     --//Unit 4
     local U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
-    if U4_wv <= current_wave and U4_amm <= U4_TAmm then
-        if U4_UnP <= U1_UnP or U2_UnP or U3_UnP or U5_UnP or U6_UnP then
+    if U4_wv <= current_wave and U4_amm <= U4_TAmm and U4_UnP <= U1_UnP and U4_UnP <= U2_UnP and U4_UnP <= U3_UnP and U4_UnP <= U5_UnP and U4_UnP <= U6_UnP then
 	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
-		    print("กำลังวาง u4..")
+		    print("placing u4..")
 		    PlacePos(map, U4_name, U4_uuid,"UP4")
 	    elseif U4_sellW <= current_wave then
-		    print("ขาย u4..")
+		    print("selling u4..")
 		    sellunit(U4_name)
 	    end
         if U4_u < U4_upgCap and U4_upgP <= U1_upgP or U2_upgP or U3_upgP or U5_upgP or U6_upgP and U4_upgW <= current_wave and U4_sellW >= current_wave then
-            print("อัปเกรด Pro u4..")
+            print("upgrading u4..")
             upgradeunit(tostring(U4_name), (U4_upgCap))
         end
     end
-end
+
 
     --//Unit 5
     local U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
-    if U5_wv <= current_wave and U5_amm <= U5_TAmm then
-        if U5_UnP <= U1_UnP or U2_UnP or U3_UnP or U4_UnP or U6_UnP then
+    if U5_wv <= current_wave and U5_amm <= U5_TAmm and U5_UnP <= U1_UnP and U5_UnP <= U2_UnP and U5_UnP <= U3_UnP and U5_UnP <= U4_UnP and U5_UnP <= U6_UnP then
 	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
-		    print("กำลังวาง u5..")
+		    print("placing u5..")
 		    PlacePos(map, U5_name, U5_uuid,"UP5")
 	    elseif U5_sellW <= current_wave then
-		    print("ขาย u5..")
+		    print("selling u5..")
 		    sellunit(U5_name)
 	    end
         if U5_u < U5_upgCap and U5_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U6_upgP and U5_upgW <= current_wave and U5_sellW >= current_wave then
-            print("อัปเกรด Pro u5..")
+            print("upgrading u5..")
             upgradeunit(tostring(U5_name), (U5_upgCap))
         end
     end
-end
+
 
     --//Unit 6
     local U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
-    if U6_wv <= current_wave and U6_amm <= U6_TAmm then
-        if U6_UnP <= U1_UnP or U2_UnP or U3_UnP or U4_UnP or U5_UnP then
+    if U6_wv <= current_wave and U6_amm <= U6_TAmm and U6_UnP <= U1_UnP and U6_UnP <= U2_UnP and U6_UnP <= U3_UnP and U6_UnP <= U4_UnP and U6_UnP <= U5_UnP then
 	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
-		    print("กำลังวาง u6..")
+		    print("placing u6..")
 		    PlacePos(map, U6_name, U6_uuid,"UP6")
 	    elseif U6_sellW <= current_wave then
-		    print("ขาย u6..")
+		    print("selling u6..")
 		    sellunit(U6_name)
 	    end
         if U6_u < U6_upgCap and U6_upgP <= U1_upgP or U2_upgP or U3_upgP or U4_upgP or U5_upgP and U6_upgW <= current_wave and U6_sellW >= current_wave then
-            print("อัปเกรด Pro u6..")
+            print("upgrading u6..")
             upgradeunit(tostring(U6_name), (U6_upgCap))
         end
     end
 end
-end
+
 --fix sell and place spam
 
 function PlaceUnits(map,name,_uuid,unit)

@@ -2412,7 +2412,7 @@ coroutine.resume(coroutine.create(function()
             end
         end
         
-        if Settings.AutoUpgrade then
+        if Settings.AutoUpgrade and not Settings.unitconfig then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
                     autoupgradefunc()
@@ -2424,9 +2424,34 @@ coroutine.resume(coroutine.create(function()
                 getgenv().autoupgradeerr = false
             end
         end
+
+        if Settings.AutoUpgrade and Settings.unitconfig then
+            if game.PlaceId ~= 8304191830 then
+                pcall(function()
+                    upgradeunitTest(name)
+                end)
+            end
+            if  getgenv().autoupgradeerr2 == true then
+                task.wait()
+                upgradeunitTest(name)
+                getgenv().autoupgradeerr2 = false
+            end
+        end
+
+        if Settings.unitconfig and not Settings.AutoUpgrade then
+            if game.PlaceId ~= 8304191830 then
+                pcall(function()
+                    upgradeunitTest(name)
+                end)
+            end
+            if  getgenv().autoupgradeerr2 == true then
+                task.wait()
+                upgradeunitTest(name)
+                getgenv().autoupgradeerr2 = false
+            end
+        end
     end
 end))
-
 
 ------// Auto Leave \\------
 --#region Auto Leave 
@@ -2585,7 +2610,7 @@ function PlacePos(map,name,_uuid,unit)
         x = getgenv().posX; z = getgenv().posZ
         local pos = Settings[map][unit]
 
-        warn(" ด่าน "..map.." กำลังวางหรืออัพตัว "..name)
+        warn(" ด่าน "..map.." กำลังวางตัว "..name)
 
         if name ~= "metal_knight_evolved" then
             local i = math.random(1,6)
@@ -2709,17 +2734,37 @@ function GetUnitInfo(Unit)
     return #_units or 0, unitinfo_[1], unitinfo_[2], min or 0
 end
 
+function upgradeunitTest(name)
+    local success, err = pcall(function() --///
+
+        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+           if v:FindFirstChild("_stats") then
+            if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end)
+
+    if err then
+        warn("//////////////////////////////////////////////////")
+        warn("//////////////////////////////////////////////////")
+        getgenv().autoupgradeerr2 = true
+        error(err)
+    end
+end
+
 function upgradeunit(name, min)
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
        if v:FindFirstChild("_stats") then
-            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                if v.Name == name and v._stats.upgrade.Value <= min then
+            if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 and v._stats.upgrade.Value <= min then
                    game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
                 end
             end
         end
     end
-end
+
 
 function sellunit(name) 
     repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
@@ -2757,7 +2802,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         end
         if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave --[[and U1_upgP <= U2_upgP and U1_upgP <= U3_upgP and U1_upgP <= U4_upgP and U1_upgP <= U5_upgP and U1_upgP <= U6_upgP]] then
             print("upgrading u1..")
-            upgradeunit(tostring(U1_name), (U1_upgCap))
+            upgradeunitTest(U1_name)
         end
     end
 --end
@@ -2775,7 +2820,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         end
         if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave --[[and U2_upgP <= U1_upgP and U2_upgP <= U3_upgP and U2_upgP <= U4_upgP and U2_upgP <= U5_upgP and U2_upgP <= U6_upgP]]  then
             print("upgrading u2..")
-            upgradeunit(tostring(U2_name), (U2_upgCap))
+            upgradeunitTest(U2_name)
         end
     end
 --end
@@ -2791,9 +2836,9 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 		    print("selling u3..")
 		    sellunit(U3_name)
 	    end
-        if U3_u < U3_upgCap and U3_upgW <= current_wave --[[and U3_sellW >= current_wave and U3_upgP <= U1_upgP and U3_upgP <= U2_upgP and U3_upgP <= U4_upgP and U3_upgP <= U5_upgP and U3_upgP <= U6_upgP]] then
+        if U3_u < U3_upgCap and U3_upgW <= current_wave and U3_sellW >= current_wave --[[and U3_upgP <= U1_upgP and U3_upgP <= U2_upgP and U3_upgP <= U4_upgP and U3_upgP <= U5_upgP and U3_upgP <= U6_upgP]] then
             print("upgrading u3..")
-            upgradeunit(tostring(U3_name), (U3_upgCap))
+            upgradeunitTest(U3_name)
         end
     end
 --end
@@ -2811,7 +2856,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    end
         if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave --[[and U4_upgP <= U1_upgP and U4_upgP <= U2_upgP and U4_upgP <= U3_upgP and U4_upgP <= U5_upgP and U4_upgP <= U6_upgP]] then
             print("upgrading u4..")
-            upgradeunit(tostring(U4_name), (U4_upgCap))
+            upgradeunitTest(U4_name)
         end
     end
 --end
@@ -2829,7 +2874,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    end
         if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave --[[and U5_upgP <= U1_upgP and U5_upgP <= U2_upgP and U5_upgP <= U3_upgP and U5_upgP <= U4_upgP and U5_upgP <= U6_upgP]] then
             print("upgrading u5..")
-            upgradeunit(tostring(U5_name), (U5_upgCap))
+            upgradeunitTest(U5_name)
         end
     end
 --end
@@ -2847,7 +2892,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    end
         if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave --[[and U6_upgP <= U1_upgP and U6_upgP <= U2_upgP and U6_upgP <= U3_upgP and U6_upgP <= U4_upgP and U6_upgP <= U5_upgP]]  then
             print("upgrading u6..")
-            upgradeunit(tostring(U6_name), (U6_upgCap))
+            upgradeunitTest(U6_name)
         end
     end
 end

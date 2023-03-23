@@ -254,7 +254,7 @@ function webhook()
     
     local data = {
         ["content"] = "",
-			["username"] = "Anime Adventures | HSz V2",
+			["username"] = "Anime Adventures V2",
 			["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
 			["embeds"] = {
 				{
@@ -887,7 +887,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n [+]Fix some issue with bug  ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n [+]Fix some issue with bug  \n [+]Add Baby Webhook   ")   
 end
 
 getgenv().posX = 1.5

@@ -328,13 +328,13 @@ function BabyWebhook()
         nextlvbtp = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
        --room
         rankroom = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.FurthestRoom.V.V.Text
-        if rankroom == "10" then rankroom = "10 หรือยังอยู่ Room 1" end
+        if rankroom == "10" then rankroom = "10 or Not Room Yet" end
         --Rank title 
         ranktitle = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.RankTitle.V.V.Text
-        if ranktitle == "Grandmaster" then ranktitle = "Grandmaster หรือยังอยู่ Room 1" end
+        if ranktitle == "Grandmaster" then ranktitle = "Grandmaster or Not Ranked Yet" end
         --rank %
         rankper = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.Ranking.V.V.Text
-        if rankper == "10%" then rankper = "10% หรือยังอยู่ Room 1" end
+        if rankper == "10%" then rankper = "10% or Not Ranked Yet" end
         --Current Rank
         crt = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentRank.Ranking.V.Text
         --Current Prize%
@@ -350,7 +350,7 @@ function BabyWebhook()
 
 		local data = {
             ["content"] = "",
-                ["username"] = "Anime Adventures | HSz V2",
+                ["username"] = "Anime Adventures V2",
                 ["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
                 ["embeds"] = {
                     {

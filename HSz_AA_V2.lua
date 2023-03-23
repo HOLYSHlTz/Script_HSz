@@ -2328,10 +2328,10 @@ coroutine.resume(coroutine.create(function()
                     startChallenge() --S_Challenge
                 else
                     startfarming()--S_Farming
-                    BabyWebhook()
                 end
             elseif checkChallenge() == true then
                 startfarming()--S_Farming
+                BabyWebhook()
             end
         elseif not Settings.AutoInfinityCastle == true then--Infiniy Castle
             if not checkChallenge() then --Challenge_Not_Complete
@@ -2356,6 +2356,7 @@ coroutine.resume(coroutine.create(function()
                 BabyWebhook()
             end
         end
+
 
         if game.PlaceId ~= 8304191830 then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")

@@ -2770,7 +2770,7 @@ function PlacePos(map,name,_uuid,unit)
                     if i == 1 then
                         task.spawn(function()
                             --place units 0
-                            warn("p1 metal vegeta super")
+                            warn("p vegeta super")
                             local args = {
                                 [1] = _uuid,
                                 [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
@@ -2804,7 +2804,7 @@ function PlacePos(map,name,_uuid,unit)
                         if i == 1 then
                             task.spawn(function()
                                 --place units 0
-                                warn("p1 metal super evolved")
+                                warn("p super evolved")
                                 local args = {
                                     [1] = _uuid,
                                     [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )

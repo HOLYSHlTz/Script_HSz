@@ -2702,7 +2702,7 @@ function PlacePos(map,name,_uuid,unit)
             if i == 1 then
                 task.spawn(function()
                     --place units 0
-                    print("p1 metal knight evolved")
+                    warn("p1 metal knight evolved")
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
@@ -2736,7 +2736,7 @@ function PlacePos(map,name,_uuid,unit)
                 if i == 1 then
                     task.spawn(function()
                         --place units 0
-                        print("p1 metal knight evolved")
+                        warn("p1 metal knight evolved")
                         local args = {
                             [1] = _uuid,
                             [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
@@ -2770,7 +2770,7 @@ function PlacePos(map,name,_uuid,unit)
                     if i == 1 then
                         task.spawn(function()
                             --place units 0
-                            print("p1 metal knight evolved")
+                            warn("p1 metal vegeta super")
                             local args = {
                                 [1] = _uuid,
                                 [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
@@ -2804,7 +2804,7 @@ function PlacePos(map,name,_uuid,unit)
                         if i == 1 then
                             task.spawn(function()
                                 --place units 0
-                                print("p1 metal knight evolved")
+                                warn("p1 metal super evolved")
                                 local args = {
                                     [1] = _uuid,
                                     [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )

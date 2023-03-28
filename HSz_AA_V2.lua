@@ -288,10 +288,10 @@ end
 
 function BabyWebhook()
     if Settings.BabyWebhookEnabled then
-	local url = Settings.WebhookUrl
+	local url = Settings.BabyWebhookUrl
     print("webhook baby?")
     if url == "" then
-        warn("Webhook Url is empty!")
+        warn("BabyWebhook Url is empty!")
         return
     end 
 		
@@ -387,10 +387,10 @@ end
 --special
 function SpecialSummonSniperWebhook()
     if Settings.snipeWebhookEnabled then
-	local url = Settings.WebhookUrl
+	local url = Settings.SnipeWebhookUrl
     print("webhook Special banner?")
     if url == "" then
-        warn("Webhook Url is empty!")
+        warn("SnipeWebhook Url is empty!")
         return
     end 
 		
@@ -464,7 +464,7 @@ end
 --Standar
 function StandardSummonSniperWebhook()
     if Settings.snipeWebhookEnabled then
-	local url = Settings.WebhookUrl
+	local url = Settings.SnipeWebhookUrl
     print("webhook Standard Banner?")
     if url == "" then
         warn("Webhook Url is empty!")
@@ -542,7 +542,7 @@ function StandardSummonSniperWebhook()
 
 function ShopSniperWebhook()
     if Settings.snipeWebhookEnabled then
-        local url = Settings.WebhookUrl
+        local url = Settings.SnipeWebhookUrl
         print("webhook Bulma's webhook?")
         if url == "" then
             warn("Webhook Url is empty!")
@@ -1877,6 +1877,16 @@ function Webhooksec()
         saveSettings()
     end, {placeholder = Settings.WebhookUrl})
     
+    WebhookSec:Cheat("Textbox", "Baby Webhook Url", function(Value)
+        Settings.BabyWebhookUrl = Value
+        saveSettings()
+    end, {placeholder = Settings.BabyWebhookUrl})
+
+    WebhookSec:Cheat("Textbox", "Snipe Webhook Url", function(Value)
+        Settings.SnipeWebhookUrl = Value
+        saveSettings()
+    end, {placeholder = Settings.SnipeWebhookUrl})
+
     WebhookSec:Cheat("Checkbox","เปิดใช้ Webhook", function(bool)
         Settings.WebhookEnabled = bool
         saveSettings()

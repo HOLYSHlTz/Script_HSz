@@ -645,8 +645,6 @@ local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
 local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
-local DelMapConfig = Farm:Sector("")
-local DelMapConfig2 = Farm:Sector("🗺️ Delete Map 🗺️")
 --[[local Portals = Window:Category(" 🚪 Portals Farm")
 local devilcity = Portals:Sector("😈‍ Devil Portal 😈")
 local alinecity = Portals:Sector("👽 Aline Portal 👽")]]
@@ -668,9 +666,12 @@ local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
 local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
 local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
 local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
-local OtherSec2 = ETC:Sector(" ")
-local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
+--local OtherSec2 = ETC:Sector(" ")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
+local DelMapConfig = ETC:Sector("")
+local DelMapConfig2 = ETC:Sector("🗺️ Delete Map 🗺️")
+--local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 
 -------------
 ---sponsorfix---

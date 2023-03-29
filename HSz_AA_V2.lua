@@ -664,13 +664,13 @@ local Unit6 = UC:Sector("Unit 6")
 local ETC = Window:Category(" 🌐 Discord & Shop")
 local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
 local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
-local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
+local DelMapConfig2 = ETC:Sector("🗺️ Delete Map 🗺️")
 local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
 --local OtherSec2 = ETC:Sector(" ")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
 local DelMapConfig = ETC:Sector("")
-local DelMapConfig2 = ETC:Sector("🗺️ Delete Map 🗺️")
+local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
 --local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 
 -------------
@@ -1062,6 +1062,8 @@ local function DeleteMapSec()
         DelMap()
         DelTer()
     end,{enabled = Settings.deletemap})
+
+    DelMapConfig2:Cheat("Label","")  
 
 end
 ----------------------------------------------

@@ -645,6 +645,8 @@ local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
 local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
+local DelMapConfig = Farm:Sector("")
+local DelMapConfig2 = Farm:Sector("🗺️ Delete Map 🗺️")
 --[[local Portals = Window:Category(" 🚪 Portals Farm")
 local devilcity = Portals:Sector("😈‍ Devil Portal 😈")
 local alinecity = Portals:Sector("👽 Aline Portal 👽")]]
@@ -669,6 +671,7 @@ local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
 local OtherSec2 = ETC:Sector(" ")
 local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+
 -------------
 ---sponsorfix---
 -------------
@@ -1047,6 +1050,20 @@ local function ChallengeSec()
     end,{enabled =Settings.AutoChallengeAll})
 end
 ----------------------------------------------
+-------------- Delete Map Config ------------- 
+----------------------------------------------
+local function DeleteMapSec()
+
+	DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
+		print(Settings.deletemap)
+        Settings.deletemap = bool
+        saveSettings()
+        DelMap()
+        DelTer()
+    end,{enabled = Settings.deletemap})
+
+end
+----------------------------------------------
 ------------------ credits -------------------
 ----------------------------------------------
 local function credits()
@@ -1117,14 +1134,16 @@ local function sponsor()
 ----------------------------------------------
 ---------------- Unit Config -----------------
 ----------------------------------------------
-function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
-    warn(map)		
-    if Settings[map] == nil then
-        Settings[map] = {}
+function updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
+    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
+    world = GetLevelData.world or GetLevelData.name
+    warn(world)		
+    if Settings[world] == nil then
+        Settings[world] = {}
         saveSettings()
     end
-    if Settings[map][UnitPos] == nil then
-        Settings[map] = {
+    if Settings[world][UnitPos] == nil then
+        Settings[world] = {
             UP1 = {
                 x = 0,
                 z = 0,
@@ -1191,18 +1210,27 @@ function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
     pcall(function()
         
     end)
-    Settings[map][UnitPos]["x"] = a.Position.X
-    Settings[map][UnitPos]["z"] = a.Position.Z
-    Settings[map][UnitPos]["y"] = a.Position.Y
-    Settings[map][UnitPos]["y2"] = a2.Position.Y
-    Settings[map][UnitPos]["y3"] = a3.Position.Y
-    Settings[map][UnitPos]["y4"] = a4.Position.Y
-    Settings[map][UnitPos]["y5"] = a5.Position.Y
-    Settings[map][UnitPos]["y6"] = a6.Position.Y
+    Settings[world][UnitPos]["x"] = a.Position.X
+    Settings[world][UnitPos]["z"] = a.Position.Z
+    Settings[world][UnitPos]["y"] = a.Position.Y
+    Settings[world][UnitPos]["y2"] = a2.Position.Y
+    Settings[world][UnitPos]["y3"] = a3.Position.Y
+    Settings[world][UnitPos]["y4"] = a4.Position.Y
+    Settings[world][UnitPos]["y5"] = a5.Position.Y
+    Settings[world][UnitPos]["y6"] = a6.Position.Y
     print("updatepos")
     saveSettings()
 end
 --updatefix fixmap
+function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
+    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
+    world = GetLevelData.world or GetLevelData.name
+    if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
+        updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
+    end
+    warn("savepos test")
+end
+
 function savepos(UnitPos, a,a2,a3,a4,a5,a6)
     if game.Workspace._map:FindFirstChild("namek mushroom model") then
         updatepos("Namak", UnitPos, a,a2,a3,a4,a5,a6)
@@ -1283,7 +1311,7 @@ function mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
 	Done.TextWrapped = true
 	Done.Activated:Connect(function()
 		_G.gg = false 
-		savepos(UnitPos, a,a2,a3,a4,a5,a6)
+		saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
 		for i = 0, 1, 0.1 do
 			a.Transparency = i
 			a2.Transparency = i
@@ -1480,7 +1508,7 @@ function MouseClick2(UnitPos)
 		kjqhwe = mouse.Button1Down:Connect(function()
 			kjqhwe:Disconnect()
 			print("b")
-			savepos(UnitPos, a,a2,a3,a4,a5,a6)
+			saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
 			_G.gg = false 
 			for i = 0, 1, 0.1 do
 				a.Transparency = i
@@ -1952,6 +1980,7 @@ if game.PlaceId == 8304191830 then
     Farmportal()
     MoreFarmSec()
     ChallengeSec()
+    DeleteMapSec()
     unitconfig()
     credits()
     sponsor()
@@ -1968,6 +1997,7 @@ else
     Farmportal()
     MoreFarmSec()
     ChallengeSec()
+    DeleteMapSec()
     UnitPosSec()
     unitconfig()
     sponsor()
@@ -2665,10 +2695,13 @@ coroutine.resume(coroutine.create(function()
     end  
 end))
 
-function PlacePos(map,name,_uuid,unit)
+function PlacePos(world,name,_uuid,unit)
     if Settings.AutoFarm and not getgenv().disableatuofarm then
+        local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
         x = getgenv().posX; z = getgenv().posZ
-        local pos = Settings[map][unit]
+        world = GetLevelData.world or GetLevelData.name
+			print(tostring(world))
+        local pos = Settings[world][unit]
         --warn(" ด่าน "..map.." กำลังวางหรืออัพตัว "..name)
         if name ~= "metal_knight_evolved" then
             local i = math.random(1,6)
@@ -2869,7 +2902,7 @@ function sellunit4(name)
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
         repeat task.wait() until v:WaitForChild("_stats")
         if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U4_SellWave) <= U4_wave.Value then
+            if tonumber(Settings.U4_SellWave) <= U4_wave.Value then 
             game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
             end
         end
@@ -2907,8 +2940,9 @@ end
 ---------------------------------
 ---------------------------------
 ---------------------------------
-
 function PlaceUnitsTEST(map,name,_uuid,unit)
+    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
+    world = GetLevelData.world or GetLevelData.name
     current_wave = game:GetService("Workspace")["_wave_num"].Value
     U1_wv, U2_wv, U3_wv, U4_wv, U5_wv, U6_wv = Settings.U1_Wave or 1, Settings.U2_Wave or 1, Settings.U3_Wave or 1, Settings.U4_Wave or 1, Settings.U5_Wave or 1, Settings.U6_Wave or 1
     U1_TAmm, U2_TAmm, U3_TAmm, U4_TAmm, U5_TAmm, U6_TAmm = Settings.U1_TotalAmmount or 6, Settings.U2_TotalAmmount or 6, Settings.U3_TotalAmmount or 6, Settings.U4_TotalAmmount or 6, Settings.U5_TotalAmmount or 6, Settings.U6_TotalAmmount or 6
@@ -2923,7 +2957,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U1_UnP <= U1_wv and U1_UnP <= U2_UnP and U1_UnP <= U3_UnP and U1_UnP <= U4_UnP and U1_UnP <= U5_UnP and U1_UnP <= U6_UnP then]]
         if U1_sellW >= current_wave and U1_amm < U1_TAmm then
             print("placing u1.."..U1_name)
-            PlacePos(map, U1_name, U1_uuid,"UP1")
+            PlacePos(world, U1_name, U1_uuid,"UP1")
         end
         if U1_sellW <= current_wave then
             print("selling u1.."..U1_name)
@@ -2941,7 +2975,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U2_UnP <= U2_wv and  U2_UnP <= U1_UnP and U2_UnP <= U3_UnP and U2_UnP <= U4_UnP and U2_UnP <= U5_UnP and U2_UnP <= U6_UnP then]]
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
             print("placing u2.."..U2_name)
-            PlacePos(map, U2_name, U2_uuid,"UP2")
+            PlacePos(world, U2_name, U2_uuid,"UP2")
         end
         if U2_sellW <= current_wave then
             print("selling u2.."..U2_name)
@@ -2959,7 +2993,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U3_UnP <= U3_wv and U3_UnP <= U1_UnP and U3_UnP <= U2_UnP and U3_UnP <= U4_UnP and U3_UnP <= U5_UnP and U3_UnP <= U6_UnP then]]
 	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
 		    print("placing u3.."..U3_name)
-		    PlacePos(map, U3_name, U3_uuid,"UP3")
+		    PlacePos(world, U3_name, U3_uuid,"UP3")
         end
 	    if U3_sellW <= current_wave then
 		    print("selling u3.."..U3_name)
@@ -2977,7 +3011,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U4_UnP <= U4_wv and U4_UnP <= U1_UnP and U4_UnP <= U2_UnP and U4_UnP <= U3_UnP and U4_UnP <= U5_UnP and U4_UnP <= U6_UnP then]]
 	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
 		    print("placing u4.."..U4_name)
-		    PlacePos(map, U4_name, U4_uuid,"UP4")
+		    PlacePos(world, U4_name, U4_uuid,"UP4")
         end
 	    if U4_sellW <= current_wave then
 		    print("selling u4.."..U4_name)
@@ -2995,7 +3029,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U5_UnP <= U5_wv and U5_UnP <= U1_UnP and U5_UnP <= U2_UnP and U5_UnP <= U3_UnP and U5_UnP <= U4_UnP and U5_UnP <= U6_UnP then]]
 	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
 		    print("placing u5.."..U5_name)
-		    PlacePos(map, U5_name, U5_uuid,"UP5")
+		    PlacePos(world, U5_name, U5_uuid,"UP5")
         end
 	    if U5_sellW <= current_wave then
 		    print("selling u5.."..U5_name)
@@ -3013,7 +3047,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         --[[if U6_UnP <= U6_wv and U6_UnP <= U1_UnP and U6_UnP <= U2_UnP and U6_UnP <= U3_UnP and U6_UnP <= U4_UnP and U6_UnP <= U5_UnP then]]
 	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
 		    print("placing u6.."..U6_name)
-		    PlacePos(map, U6_name, U6_uuid,"UP6")
+		    PlacePos(world, U6_name, U6_uuid,"UP6")
         end
 	    if U6_sellW <= current_wave then
 		    print("selling u6.."..U6_name)
@@ -3120,16 +3154,19 @@ if Settings.reunitc then
 end
 --fix sell and place spam
 
-function PlaceUnits(map)
+function PlaceUnits(world)
     pcall(function()
         if Settings.AutoFarm and not getgenv().disableatuofarm then
+            local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
             x = getgenv().posX; z = getgenv().posZ
+            world = GetLevelData.world or GetLevelData.name
+			print(tostring(world))
             for i = 1, 6 do
                 local unitinfo = Settings.SelectedUnits["U" .. i]
                 if unitinfo ~= nil then
                     local unitinfo_ = unitinfo:split(" #")
-                    local pos = Settings[map]["UP" .. i]
-                    print(" ด่าน "..map.." กำลังวางหรืออัพตัว "..unitinfo_[1])
+                    local pos = Settings[world]["UP" .. i]
+                    print(" ด่าน "..world.." กำลังวางหรืออัพตัว "..unitinfo_[1])
     
                     if unitinfo_[1] ~= "metal_knight_evolved" then
     
@@ -3211,6 +3248,43 @@ function PlaceUnits(map)
         end
     end)
 end
+
+------------------------------------------------------------------------------------------------
+--test deletemap place unit
+
+--open unitconfig
+
+coroutine.resume(coroutine.create(function()
+    while task.wait(1.5) do
+        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
+            warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
+        local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_terrain")
+
+        PlaceUnitsTEST()
+
+        print("function called")
+        end
+    end
+end))
+
+--Close Unitconfig
+
+coroutine.resume(coroutine.create(function()
+    while task.wait(1.5) do
+        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
+            warn("ปิด ฟังชั่น ตั้งค่า Unit")
+        local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_terrain")
+
+        PlaceUnits()
+
+        print("function called")
+        end
+    end
+end))
+
+------------------------------------------------------------------------------------------
 --updatefix fixmap
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
@@ -3347,5 +3421,34 @@ end
 if Settings.hidenamep then
     hidename()
 end
+--delete map 
+function DelMap()
+	task.spawn(function()  -- Hides name for yters (not sure if its Fe)
+		while task.wait() do
+			pcall(function()
+				if game.Workspace:FindFirstChild("_map") then
+					game.Workspace:FindFirstChild("_map"):Destroy()
+					warn("Delete Map")
+				end
+			end)
+		end
+	end)
+end
+--deletet terrain
+function DelTer()
+	if game.Workspace._terrain:FindFirstChild("terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+        	if v.ClassName == "Model" then v:Destroy() end
+			if v.ClassName == "Folder" then v:Destroy() end
+			warn("Delete Terrain")
+        end
+    end  
+end   
+--settingpcall
+if Settings.deletemap then
+    DelMap()
+    DelTer()
+end
+
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")

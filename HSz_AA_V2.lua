@@ -1051,11 +1051,21 @@ local function ChallengeSec()
     end,{enabled =Settings.AutoChallengeAll})
 end
 ----------------------------------------------
--------------- Delete Map Config ------------- 
+---------------- Other Config ---------------- 
 ----------------------------------------------
 local function DeleteMapSec()
 
-	DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
+    DelMapConfig2:Cheat("Button", "Redeem All Code", function()
+        print(Settings.redeemc)
+        Reedemcode()
+    end)
+
+    DelMapConfig2:Cheat("Button", "Leave To Lobby", function()
+        warn("Return to Lobby")
+        Teleport()
+    end)
+
+    DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
 		print(Settings.deletemap)
         Settings.deletemap = bool
         saveSettings()
@@ -1063,15 +1073,12 @@ local function DeleteMapSec()
         DelTer()
     end,{enabled = Settings.deletemap})
 
-    DelMapConfig2:Cheat("Button", "Leave To Lobby", function()
-        warn("Return to Lobby")
-        Teleport()
-    end)
-
-    DelMapConfig2:Cheat("Button", "Redeem All Code", function()
-        print(Settings.redeemc)
-        Reedemcode()
-    end)
+    DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
+        print(Settings.autoDailyquest)
+        Settings.autoDailyquest = bool
+        saveSettings()
+        autoDailyquest()
+    end,{enabled = Settings.autoDailyquest})
 
     DelMapConfig2:Cheat("Label","")  
 
@@ -1826,9 +1833,11 @@ function AutoSummon()
     local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "🧙 เลือก Banner 🧙",function(value)
         getgenv().SelectedBanner = value
     end, { options = {"Special", "Standard"}})
+
     local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "💸 เลือกของที่ใช้ 💸",function(value)
         getgenv().SelectedMethod = value
     end, { options = {"ticket", "gems", "gems10"}})
+
     AutoSummonSec:Cheat("Checkbox","Auto Summon", function(bool)
         getgenv().AutoSummon = bool
     end)
@@ -3461,6 +3470,18 @@ end
 if Settings.deletemap then
     DelMap()
     DelTer()
+end
+
+--Auto Grab Daily Quest
+function autoDailyquest()
+    if Settings.autoDailyquest then
+         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("7ds_daily")
+         wait(15)
+    end
+end
+
+if Settings.autoDailyquest then
+    autoDailyquest()
 end
 
 --ReedemCode

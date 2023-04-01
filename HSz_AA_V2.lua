@@ -1,5 +1,5 @@
 --updatefix
-local version = "11.7.5"
+local version = "12.0.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -237,7 +237,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/2a167faf9e626e51c939309a70fca28e/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -666,7 +666,8 @@ local Unit6 = UC:Sector("Unit 6")
 local ETC = Window:Category(" 🌐 Discord & Shop")
 local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
 local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
-local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
+--local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
+local devilcity1 = ETC:Sector("")
 --local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
 local OtherSec2 = ETC:Sector("")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
@@ -819,9 +820,10 @@ local function WorldSec()
         selectworld:ClearDrop() local storylist;
         if Settings.WorldCategory == "Story Worlds" then
             storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
-            "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom"}
+            "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
+            "Hero City"}
         elseif Settings.WorldCategory == "Legend Stages" then
-            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)"}
+            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
         elseif Settings.WorldCategory == "Raid Worlds" then
             storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion"}
         elseif Settings.WorldCategory == "Portals" then
@@ -871,6 +873,8 @@ local function WorldSec()
             levellist = {"opm_infinite","opm_level_1","opm_level_2","opm_level_3","opm_level_4","opm_level_5","opm_level_6",}
         elseif level == "Fabled Kingdom" then
             levellist = {"7ds_infinite","7ds_level_1","7ds_level_2","7ds_level_3","7ds_level_4","7ds_level_5","7ds_level_6",}
+        elseif level == "Hero City" then
+            levellist = {"mha_infinite","mha_level_1","mha_level_2","mha_level_3","mha_level_4","mha_level_5","mha_level_6",}
         --///Legend Stages\\\---
         elseif level == "Clover Kingdom (Elf Invasion)" then
             levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
@@ -880,6 +884,8 @@ local function WorldSec()
             levellist = {"jojo_legend_1","jojo_legend_2","jojo_legend_3"}
         elseif level == "Fabled Kingdom (Legend)" then
             levellist = {"7ds_legend_1","7ds_legend_2","7ds_legend_3"}
+        elseif level == "Hero City (Midnight)" then
+            levellist = {"mha_legend_1","mha_legend_2","mha_legend_3","mha_legend_4","mha_legend_5","mha_legend_6"}
         --///Raids\\\---
         elseif level == "Storm Hideout" then
             levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"}
@@ -910,6 +916,7 @@ local function WorldSec()
             selectlevel:AddOption(levellist[i])
         end
     end
+    --fixmap
     local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 ระดับความยาก",function(value)
         print(value, " Selected")
         Settings.Difficulty = value
@@ -922,7 +929,7 @@ local function WorldSec()
         if level == "namek_infinite" or level == "aot_infinite" or level == "demonslayer_infinite" 
         or level == "naruto_infinite" or level == "marineford_infinite" or level == "tokyoghoul_infinite" or level == "hueco_infinite" 
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
-        or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+        or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             diff = {"Hard"}
         elseif cata == "Portals" or cata == "Dungeon"  then
             diff = {"Default"}
@@ -943,7 +950,7 @@ end
 ----------------------------------------------
 ---------------- Portal Config ------------- fixportal
 ----------------------------------------------
-local function Farmportal()
+--[[local function Farmportal()
     --Devil
     devilcity:Cheat("Dropdown", "เลือก ประตู Portal",function(pornname)
         getgenv().portalnameC = pornname
@@ -955,7 +962,7 @@ local function Farmportal()
         Target:InvokeServer(string_1);
         warn("Buy Devil Portal !!!")
     end)
-end
+end]]
 ----------------------------------------------
 ---------------- AutoFarm Config -------------
 ----------------------------------------------
@@ -1078,11 +1085,11 @@ local function DeleteMapSec()
     end)
 
     DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
-		print(Settings.deletemap)
+		print(bool)
         Settings.deletemap = bool
         saveSettings()
-        DelMap()
         DelTer()
+        DelMap()
     end,{enabled = Settings.deletemap})
 
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
@@ -1106,7 +1113,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add Freezo Raid   \n [+]Add Unit Config  \n [+]Add ดันเกะโท Crused Parade  \n [+]Fix some issue with bug  \n [+]Add Baby Webhook   ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add Hero City   \n [+]Add Hero City (Midnight)  \n   \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
@@ -1304,6 +1311,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
        updatepos("infinity_trian", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
         updatepos("7ds", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("bridge nocollide") then
+        updatepos("mha", UnitPos, a,a2,a3,a4,a5,a6)
     end
     warn("savepos")
 end
@@ -2046,7 +2055,7 @@ if game.PlaceId == 8304191830 then
     UnitSec()
     WorldSec()
     AutoFarmSec()
-    Farmportal()
+    --Farmportal()
     MoreFarmSec()
     ChallengeSec()
     DeleteMapSec()
@@ -2064,7 +2073,7 @@ else
     AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
     WorldSec()
     AutoFarmSec()
-    Farmportal()
+    --Farmportal()
     MoreFarmSec()
     ChallengeSec()
     DeleteMapSec()
@@ -3403,11 +3412,13 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("infinity_trian")
             elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
                 PlaceUnitsTEST("7ds")
+            elseif game.Workspace._map:FindFirstChild("bridge nocollide") then
+                PlaceUnitsTEST("mha")
             end
         end
     end
 end))
---updatefix fixmap
+
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
@@ -3454,6 +3465,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("infinity_trian")
             elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
                 PlaceUnits("7ds")
+            elseif game.Workspace._map:FindFirstChild("bridge nocollide") then
+                PlaceUnits("mha")
             end
         end
     end
@@ -3491,6 +3504,35 @@ end)
 end
 if Settings.hidenamep then
     hidename()
+end
+
+--delete map 
+function DelMap()
+	task.spawn(function()  -- Hides name for yters (not sure if its Fe)
+		while task.wait() do
+			pcall(function()
+				if game.Workspace:FindFirstChild("_map") then
+					game.Workspace:FindFirstChild("_map"):Destroy()
+					warn("Delete Map")
+				end
+			end)
+		end
+	end)
+end
+--deletet terrain 
+function DelTer()
+	if game.Workspace._terrain:FindFirstChild("terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+        	if v.ClassName == "Model" then v:Destroy() end
+			if v.ClassName == "Folder" then v:Destroy() end
+			warn("Delete Terrain")
+        end
+    end  
+end   
+--settingpcall
+if Settings.deletemap then
+    DelTer()
+    DelMap()
 end
 
 ----------------------------------
@@ -3573,39 +3615,11 @@ end
 -------------END LAGGY------------
 ----------------------------------
 
---delete map 
-function DelMap()
-	task.spawn(function()  -- Hides name for yters (not sure if its Fe)
-		while task.wait() do
-			pcall(function()
-				if game.Workspace:FindFirstChild("_map") then
-					game.Workspace:FindFirstChild("_map"):Destroy()
-					warn("Delete Map")
-				end
-			end)
-		end
-	end)
-end
---deletet terrain
-function DelTer()
-	if game.Workspace._terrain:FindFirstChild("terrain") then
-    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
-        	if v.ClassName == "Model" then v:Destroy() end
-			if v.ClassName == "Folder" then v:Destroy() end
-			warn("Delete Terrain")
-        end
-    end  
-end   
---settingpcall
-if Settings.deletemap then
-    DelMap()
-    DelTer()
-end
-
 --Auto Grab Daily Quest
+--game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("7ds_daily")
+         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("mha_daily")
          wait(15)
     end
 end
@@ -3617,7 +3631,7 @@ end
 --ReedemCode
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma"}
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
     end

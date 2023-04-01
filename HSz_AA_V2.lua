@@ -2724,7 +2724,11 @@ coroutine.resume(coroutine.create(function()
                 pcall(function() webhook() end)
                 print("รอเลือก ออก หรือ ไปต่อ")
                 task.wait(2.1)
-                if Settings.AutoReplay then
+                if Settings.AutoNext then
+                    local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                    local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                    print("Next Story...") 
+                elseif Settings.AutoReplay then
                     local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                     local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                     print("Replay...")        

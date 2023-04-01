@@ -3535,6 +3535,31 @@ if Settings.deletemap then
     DelMap()
 end
 
+--Auto Grab Daily Quest
+--game:GetService("ReplicatedStorage").src.Data.QuestsEvent
+function autoDailyquest()
+    if Settings.autoDailyquest then
+         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("mha_daily")
+         wait(15)
+    end
+end
+
+if Settings.autoDailyquest then
+    autoDailyquest()
+end
+
+--ReedemCode
+function Reedemcode()
+    codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE"}
+        for _, v in pairs(codes) do
+        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
+    end
+end
+
+if Settings.redeemc then
+    Reedemcode()
+end
 ----------------------------------
 ----------LAGGY CONFIG------------
 ----------------------------------
@@ -3615,31 +3640,6 @@ end
 -------------END LAGGY------------
 ----------------------------------
 
---Auto Grab Daily Quest
---game:GetService("ReplicatedStorage").src.Data.QuestsEvent
-function autoDailyquest()
-    if Settings.autoDailyquest then
-         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("mha_daily")
-         wait(15)
-    end
-end
-
-if Settings.autoDailyquest then
-    autoDailyquest()
-end
-
---ReedemCode
-function Reedemcode()
-    codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE"}
-        for _, v in pairs(codes) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
-    end
-end
-
-if Settings.redeemc then
-    Reedemcode()
-end
 
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")

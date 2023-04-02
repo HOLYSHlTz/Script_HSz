@@ -1085,13 +1085,13 @@ local function DeleteMapSec()
         Teleport()
     end)
 
-    DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
+    --[[DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
 		print(bool)
         Settings.deletemap = bool
         saveSettings()
         DelTer()
         --DelMap()
-    end,{enabled = Settings.deletemap})
+    end,{enabled = Settings.deletemap})]]
 
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
         print(Settings.autoDailyquest)
@@ -3611,7 +3611,7 @@ function DelMap()
 	end)
 end]]
 --deletet terrain 
-function DelTer()
+--[[function DelTer()
 	if game.Workspace._terrain:FindFirstChild("terrain") then
     	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
         	if v.ClassName == "Model" then v:Destroy() end
@@ -3624,7 +3624,7 @@ end
 if Settings.deletemap then
     DelTer()
     --DelMap()
-end
+end]]
 
 --Auto Grab Daily Quest
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
@@ -3730,8 +3730,6 @@ end
 ----------------------------------
 -------------END LAGGY------------
 ----------------------------------
-
-
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")

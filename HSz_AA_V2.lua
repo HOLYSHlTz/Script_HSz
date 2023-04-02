@@ -683,6 +683,8 @@ local OtherSec1 = LG:Sector("")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
 local DelMapConfig = LG:Sector("")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
+local DelMapConfig3 = LG:Sector("")
+local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
 
 
 
@@ -1047,6 +1049,220 @@ local function MoreFarmSec()
         saveSettings()
     end,{enabled = Settings.AutoInfinityCastle})
 end
+
+-----------------------------------------------
+--resetautofarm config
+--resetall
+function refarmcon()
+    print("reset AutoFarm & find Picoro config ?")
+
+    --findPicoro
+    if Settings.picoHOP then
+        Settings.picoHOP = false end
+   --Start
+    if Settings.autostart then
+        Settings.autostart = false end
+    --Place unit
+    if Settings.AutoFarm then
+        Settings.AutoFarm = false end
+    --Replay
+    if Settings.AutoReplay then
+        Settings.AutoReplay = false end
+    --Next Story
+    if Settings.AutoNext then
+        Settings.AutoNext = false end
+    --Leave
+    if Settings.AutoLeave then
+        Settings.AutoLeave = false end
+    --Abilities
+    if Settings.AutoAbilities then
+        Settings.AutoAbilities = false end
+    --Upgrade
+    if Settings.AutoUpgrade then
+        Settings.AutoUpgrade = false end
+    --AutoSell
+    if Settings.AutoSell then
+        Settings.AutoSell = false end
+    --autoQuitWave
+    if Settings.autoQuit then
+        Settings.autoQuit = false end
+    --AutoSellWave
+    if Settings.AutoSellWave then
+        Settings.AutoSellWave = 0 end
+    --Inf Castle--
+    --Next Level inf cas
+    if Settings.AutoContinue then
+        Settings.AutoContinue = false end
+    --Auto Infinity Castle 
+    if Settings.AutoInfinityCastle then
+        Settings.AutoInfinityCastle = false end
+        saveSettings()
+        autoload2()
+  
+end
+
+if Settings.refarmc then
+    refarmcon()
+    autoload2()
+end
+
+--setAutoFarmStory
+function setfarm1()
+    print("Set AutoFarm Story ?")
+
+   --Start
+    if Settings.autostart then
+        Settings.autostart = true end
+    --Place unit
+    if Settings.AutoFarm then
+        Settings.AutoFarm = true end
+    --Replay
+    if Settings.AutoReplay then
+        Settings.AutoReplay = false end
+    --Next Story
+    if Settings.AutoNext then
+        Settings.AutoNext = false end
+    --Leave
+    if Settings.AutoLeave then
+        Settings.AutoLeave = true end
+    --Abilities
+    if Settings.AutoAbilities then
+        Settings.AutoAbilities = true end
+    --Upgrade
+    if Settings.AutoUpgrade then
+        Settings.AutoUpgrade = true end
+    --AutoSell
+    if Settings.AutoSell then
+        Settings.AutoSell = true end
+    --autoQuitWave
+    if Settings.autoQuit then
+        Settings.autoQuit = false end
+    --AutoSellWave
+    if Settings.AutoSellWave then
+        Settings.AutoSellWave = 50 end
+    --Inf Castle--
+    --Next Level inf cas
+    if Settings.AutoContinue then
+        Settings.AutoContinue = false end
+    --Auto Infinity Castle 
+    if Settings.AutoInfinityCastle then
+        Settings.AutoInfinityCastle = false end
+        saveSettings()
+        autoload2()
+  
+end
+
+if Settings.setfarm1 then
+    setfarm1()
+    autoload2()
+end
+
+--setAutoFarmStorynReplay
+function setfarm2()
+    print("Set AutoFarm Story & Replay ?")
+
+   --Start
+    if Settings.autostart then
+        Settings.autostart = true end
+    --Place unit
+    if Settings.AutoFarm then
+        Settings.AutoFarm = true end
+    --Replay
+    if Settings.AutoReplay then
+        Settings.AutoReplay = true end
+    --Next Story
+    if Settings.AutoNext then
+        Settings.AutoNext = false end
+    --Leave
+    if Settings.AutoLeave then
+        Settings.AutoLeave = true end
+    --Abilities
+    if Settings.AutoAbilities then
+        Settings.AutoAbilities = true end
+    --Upgrade
+    if Settings.AutoUpgrade then
+        Settings.AutoUpgrade = true end
+    --AutoSell
+    if Settings.AutoSell then
+        Settings.AutoSell = true end
+    --autoQuitWave
+    if Settings.autoQuit then
+        Settings.autoQuit = false end
+    --AutoSellWave
+    if Settings.AutoSellWave then
+        Settings.AutoSellWave = 50 end
+    --Inf Castle--
+    --Next Level inf cas
+    if Settings.AutoContinue then
+        Settings.AutoContinue = false end
+    --Auto Infinity Castle 
+    if Settings.AutoInfinityCastle then
+        Settings.AutoInfinityCastle = false end
+        saveSettings()
+        autoload2()
+  
+end
+
+if Settings.setfarm2 then
+    setfarm2()
+    autoload2()
+end
+
+--setAutoInfCastle
+function setfarmIC()
+    print("Set AutoFarm Inf Castle ?")
+
+   --Start
+    if Settings.autostart then
+        Settings.autostart = false end
+    --Place unit
+    if Settings.AutoFarm then
+        Settings.AutoFarm = true end
+    --Replay
+    if Settings.AutoReplay then
+        Settings.AutoReplay = false end
+    --Next Story
+    if Settings.AutoNext then
+        Settings.AutoNext = false end
+    --Leave
+    if Settings.AutoLeave then
+        Settings.AutoLeave = false end
+    --Abilities
+    if Settings.AutoAbilities then
+        Settings.AutoAbilities = true end
+    --Upgrade
+    if Settings.AutoUpgrade then
+        Settings.AutoUpgrade = true end
+    --AutoSell
+    if Settings.AutoSell then
+        Settings.AutoSell = true end
+    --autoQuitWave
+    if Settings.autoQuit then
+        Settings.autoQuit = false end
+    --AutoSellWave
+    if Settings.AutoSellWave then
+        Settings.AutoSellWave = 50 end
+    --Inf Castle--
+    --Next Level inf cas
+    if Settings.AutoContinue then
+        Settings.AutoContinue = true end
+    --Auto Infinity Castle 
+    if Settings.AutoInfinityCastle then
+        Settings.AutoInfinityCastle = true end
+        saveSettings()
+        autoload2()
+  
+end
+
+if Settings.setfarmIC then
+    setfarmIC()
+    autoload2()
+end
+
+
+-----------------------------------------------
+
+
 ----------------------------------------------
 ----------------- Challenge ------------------
 ----------------------------------------------
@@ -1608,10 +1824,12 @@ local function unitconfig()
         Settings.unitconfig = bool
         saveSettings()
     end,{enabled = Settings.unitconfig })
-    NDY2:Cheat("Button", "Test Reset unit config", function()
+
+    NDY2:Cheat("Button", "Reset unit config", function()
         print(Settings.reunitc)
         reunitcon()
     end)
+
     --//UNIT 1
     Unit1:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
@@ -1855,7 +2073,31 @@ local function unitconfig()
     end, {placeholder = Settings.U6_SellWave})  
 end
 
+---------------------------------------------
+--resetautofarmUI
+local function reFarmconfig()
 
+    reFarmConfig:Cheat("Button", "Reset Farm config", function()
+        print(Settings.refarmc)
+        refarmcon()
+    end)
+
+    reFarmConfig:Cheat("Button", "Set Farm Story", function()
+        print(Settings.setfarm1)
+        setfarm1()
+    end)
+
+    reFarmConfig:Cheat("Button", "Farm Story & Replay", function()
+        print(Settings.setfarm2)
+        setfarm2()
+    end)
+
+    reFarmConfig:Cheat("Button", "Farm Inf Castle & Next Level", function()
+        print(Settings.setfarmIC)
+        setfarmIC()
+    end)
+
+end
 ---------------------------------------------
 local function LAGGYconfig()
     LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
@@ -2074,6 +2316,19 @@ if Settings.AutoLoadScript then
     autoload()
 end
 
+function autoload2()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()
+end
+
+if Settings.refarmc then
+    autoload2() end
+if Settings.setfarm1 then
+    autoload2() end
+if Settings.setfarm2 then
+    autoload2() end
+if Settings.setfarmIC then
+    autoload2() end
+
 function others()
     OtherSec:Cheat("Checkbox","Auto Load Script", function(bool)
         Settings.AutoLoadScript = bool
@@ -2102,6 +2357,7 @@ if game.PlaceId == 8304191830 then
     DeleteMapSec()
     unitconfig()
     LAGGYconfig()
+    reFarmconfig()
     credits()
     sponsor()
     AutoSummon()
@@ -2121,6 +2377,7 @@ else
     UnitPosSec()
     unitconfig()
     LAGGYconfig()
+    reFarmconfig()
     sponsor()
     credits()
     SnipeMerchant()
@@ -3641,6 +3898,8 @@ coroutine.resume(coroutine.create(function()
         end
     end
 end))
+
+
 
 --hide name
 function hidename()

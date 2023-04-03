@@ -2102,30 +2102,11 @@ end
 local function LAGGYconfig()
     LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
 
-    --[[LG1:Cheat("Textbox", "Lag KeyBind", function(Value)
-        getgenv().zzz = value
-        saveSettings()
-    end, {placeholder = getgenv().zzz})]]
-
-
-    --[[LG1:Cheat("Checkbox"," Enable LAGGY ", function(bool)
-        print(Settings.LaggyL1)
-        Settings.LaggyL1 = bool
-        saveSettings()
-        Laggy()
-    end,{enabled = Settings.LaggyL1})]]
-
-    --[[LG1:Cheat("Slider", "LAG Value", function(Value)
-        print("LAG Value:", Value)
-        Settings.max = tonumber(Value)
-        saveSettings()
-    end, {min = 150, max = 300, suffix = "", default = 150})]]
-
     LG1:Cheat("Textbox", "LAG Threads", function(Value)
         print("LAG threads.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
-    end, {placeholder = Settings.max or 160})
+    end, {placeholder = Settings.max or 22})
 
     LG1:Cheat("Textbox", "LAG Tries ", function(Value)
         print("LAG tries.:", Value)
@@ -2133,21 +2114,34 @@ local function LAGGYconfig()
         saveSettings()
     end, {placeholder = Settings.mix or 0})
 
+    LG1:Cheat("Textbox", "Delay ", function(Value)
+        print("Delay.:", Value)
+        Settings.delag = tonumber(Value)
+        saveSettings()
+    end, {placeholder = Settings.delag or 1.5})
+
     LG1:Cheat("Slider", "LAG Lv. [slide]", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
-    end, {min = 0.8, max = 7, suffix = "", default = 0 })
+    end, {min = 0, max = 7, suffix = "", default = 0 })
+
+    LG1:Cheat("Slider", "Delay [slide]", function(Value)
+        print("Delay.:", Value)
+        Settings.delag = tonumber(Value)
+        saveSettings()
+    end, {min = 0, max = 10, suffix = "", default = 1.5 })
 
     LG1:Cheat("Label","  ")
     LG1:Cheat("Label"," HOPE Y'all Enjoy ")
-    LG1:Cheat("Label"," 1.1 ถ้าใช้ LAG Lv. ไม่ต้องตั้งค่า ")
-    LG1:Cheat("Label"," 1.2 LAG Threads & LAG Tries ")
+    LG1:Cheat("Label"," 1 ถ้าใช้ LAG Lv. ไม่ต้องตั้งค่า ")
+    LG1:Cheat("Label"," LAG Threads & LAG Tries ")
     LG1:Cheat("Label"," 2. เช็ท Tries หรือ LAG Lv. เป็น 0 เพื่อปิดฟังชั่น LAG ")
     LG1:Cheat("Label"," 3. Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
     LG1:Cheat("Label"," 4. Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
-    LG1:Cheat("Label"," 5. การตั้งค่าพิ้นฐาน : threads = 250 ,tries = 1 ")
-    LG1:Cheat("Label"," 6 .การตั้งค่าแบบเร็ว : threads = 10 ,tries = 1.5 ")
+    LG1:Cheat("Label"," 4. Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
+    LG1:Cheat("Label"," 5. การตั้งค่าพิ้นฐาน : threads = 250, tries = 1, Delay = 1.5 ")
+    LG1:Cheat("Label"," 6 .การตั้งค่าแบบเร็ว : threads = 10, tries = 1.5, Delay = 1.5 ")
 
 end
 ----------------------------------------------
@@ -4080,18 +4074,10 @@ end)
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 
-
 --testlag
 function Laggy()
-    --[[shared.TeleportToSky = false -- for games that show ur ping (like custom duels)
-    
-    if shared.TeleportToSky then
-    local char = game:GetService('Players').LocalPlayer.Character
-    char.HumanoidRootPart.CFrame = CFrame.new(0,9e9,0)
-    task.wait(0.5)
-    char.HumanoidRootPart.Anchored = true
-    end]]
-    while wait(1.5) do --// don't change it's the best
+    delaylag = tonumber(Settings.delag or 1.5)
+    while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
     local function getmaxvalue(val)
        local mainvalueifonetable = 499999
@@ -4108,7 +4094,8 @@ function Laggy()
     
     table.insert(spammedtable, {})
     z = spammedtable[1]
-     
+
+    tableincrease = tonumber(Settings.max or 22)
     for i = 1, tableincrease do
         local tableins = {}
         table.insert(z, tableins)
@@ -4134,15 +4121,13 @@ function Laggy()
     end
 end
     
-    tableincrease = tonumber(Settings.max)
+    tableincrease = tonumber(Settings.max or 22)
     tries = tonumber(Settings.mix or 0)
      
-    bomb(160, tries)
+    bomb(tableincrease, tries)
 
     end
 end
-
-
 
 if  Laggy() == false then
         Laggy() 
@@ -4150,6 +4135,5 @@ if  Laggy() == false then
 if Laggy() == true then
         notLaggy()
 end
-
 
 warn("All Loaded !!!")

@@ -2939,6 +2939,7 @@ coroutine.resume(coroutine.create(function()
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
                     upgradeunit(name, min)
+                    --upgradeunitTEST()
                 end)
             end
             if  getgenv().autoupgradeerr == true then
@@ -2951,6 +2952,7 @@ coroutine.resume(coroutine.create(function()
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
                     upgradeunit(name, min)
+                    --upgradeunitTEST()
                 end)
             end
             if  getgenv().autoupgradeerr == true then
@@ -3311,11 +3313,14 @@ function GetUnitInfo(Unit)
     return #_units or 0, unitinfo_[1], unitinfo_[2], min or 0
 end
 
+--test Upgrade
+
 function upgradeunit(name, min)
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
        if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
             if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                if v.Name == name and v._stats.upgrade.Value <= min then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= min then
                    game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
                 end
             end
@@ -3323,12 +3328,89 @@ function upgradeunit(name, min)
     end
 end
 
+-----------------test-----------------------------
+function upgradeunitTEST()
+    pcall(function() 
+    upgradeunit1(name)
+    upgradeunit2(name)
+    upgradeunit3(name)
+    upgradeunit4(name)
+    upgradeunit5(name)
+    upgradeunit6(name)
+    end)
+end
+--U1
 function upgradeunit1(name)
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
        if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
                 --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U1_UpgCap or 99) then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+--U2
+function upgradeunit2(name)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U2_UpgCap or 99) then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+--U3
+function upgradeunit3(name)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U3_UpgCap or 99) then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+--U4
+function upgradeunit4(name)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U4_UpgCap or 99) then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+--U5
+function upgradeunit5(name)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U5_UpgCap or 99) then
+                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
+                end
+            end
+        end
+    end
+end
+--U6
+function upgradeunit6(name)
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
+                --if v.Name == name and v._stats.upgrade.Value <= min then
+                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U6_UpgCap or 99) then
                    game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
                 end
             end
@@ -3465,6 +3547,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave --[[and U1_upgP <= U2_upgP and U1_upgP <= U3_upgP and U1_upgP <= U4_upgP and U1_upgP <= U5_upgP and U1_upgP <= U6_upgP]] then
             print("upgrading u1.."..U1_name)
             --upgradeunit(tostring(U1_name), (U1_upgCap))
+            --upgradeunit1(U1_name)
             upgradeunit(U1_name, U1_upgCap)
         end
     end
@@ -3484,6 +3567,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave --[[and U2_upgP <= U1_upgP and U2_upgP <= U3_upgP and U2_upgP <= U4_upgP and U2_upgP <= U5_upgP and U2_upgP <= U6_upgP]]  then
             print("upgrading u2.."..U2_name)
             --upgradeunit(tostring(U2_name), (U2_upgCap))
+            --upgradeunit2(U2_name)
             upgradeunit(U2_name, U2_upgCap)
         end
     end
@@ -3503,6 +3587,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U3_u < U3_upgCap and U3_upgW <= current_wave --[[and U3_sellW >= current_wave and U3_upgP <= U1_upgP and U3_upgP <= U2_upgP and U3_upgP <= U4_upgP and U3_upgP <= U5_upgP and U3_upgP <= U6_upgP]] then
             print("upgrading u3.."..U3_name)
             --upgradeunit(tostring(U3_name), (U3_upgCap))
+            --upgradeunit3(U3_name)
             upgradeunit(U3_name, U3_upgCap)
         end
     end
@@ -3522,6 +3607,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave --[[and U4_upgP <= U1_upgP and U4_upgP <= U2_upgP and U4_upgP <= U3_upgP and U4_upgP <= U5_upgP and U4_upgP <= U6_upgP]] then
             print("upgrading u4.."..U4_name)
             --upgradeunit(tostring(U4_name), (U4_upgCap))
+            --upgradeunit4(U4_name)
             upgradeunit(U4_name, U4_upgCap)
         end
     end
@@ -3541,6 +3627,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave --[[and U5_upgP <= U1_upgP and U5_upgP <= U2_upgP and U5_upgP <= U3_upgP and U5_upgP <= U4_upgP and U5_upgP <= U6_upgP]] then
             print("upgrading u5.."..U5_name)
             --upgradeunit(tostring(U5_name), (U5_upgCap))
+            --upgradeunit5(U5_name)
             upgradeunit(U5_name, U5_upgCap)
         end
     end
@@ -3560,6 +3647,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave --[[and U6_upgP <= U1_upgP and U6_upgP <= U2_upgP and U6_upgP <= U3_upgP and U6_upgP <= U4_upgP and U6_upgP <= U5_upgP]]  then
             print("upgrading u6.."..U6_name)
             --upgradeunit(tostring(U6_name), (U6_upgCap))
+            --upgradeunit6(U6_name)
             upgradeunit(U6_name, U6_upgCap)
             end
         end

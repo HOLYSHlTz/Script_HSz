@@ -1333,7 +1333,6 @@ end
 ----------------------------------------------
 local function credits()
 
-    Developers:Cheat("Label","ยินดีต้อนรับ "..game:GetService("Players").LocalPlayer.Name.." ")  
     Developers:Cheat("Label","📜 Scripted by: Negative & HOLYSHz ")       
     Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()

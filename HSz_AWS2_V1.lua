@@ -46,7 +46,7 @@ end
 local HumanoidRootPart = game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart")
 
 local dir = "Anime_Warriors_2/"..game.Players.LocalPlayer.Name
-local Uilib, Rayfield, Click, comma, Notify, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
+local Uilib, Player, Rayfield, Click, comma, Notify, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AWS2_v1] Anime Warriors Simulator 2 UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.RightControl)

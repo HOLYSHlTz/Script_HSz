@@ -92,7 +92,7 @@ end
 local EnemyDropdown = AutoFarm:Cheat("Dropdown", "👾 เลือก Enemy",function(Enemies)
 	Settings.SelectedEnemy = Enemies
 	saveSettings()
-end, {options = { }, default = Settings.SelectedEnemy})
+end, {options = { }, default = "Closest Enemy"})
 
 task.spawn(function()
 	while task.wait() do

@@ -220,7 +220,7 @@ end)
 
 -----------------------------------------------------------------
 --Toggle_Auto_Quest
-AutoEgg:Cheat("Checkbox"," 🐣 TP to Open Egg ", function(bool)
+AutoEgg:Cheat("Checkbox"," 🐣 Auto Open Egg [Skip Animetion Open] ", function(bool)
 	print(bool)
 	Settings.AutoOpenEgg = bool
 	saveSettings()

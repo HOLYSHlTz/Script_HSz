@@ -92,7 +92,7 @@ end
 local EnemyDropdown = AutoFarm:Cheat("Dropdown", "👾 เลือก Enemy",function(Enemies)
 	Settings.SelectedEnemy = Enemies
 	saveSettings()
-end, {options = { }, default = "Closest Enemy"})
+end, {options = { }, default = Settings.SelectedEnemy})
 
 task.spawn(function()
 	while task.wait() do
@@ -256,3 +256,14 @@ task.spawn(function()
 		end
 	end
 end)
+
+
+local VirtualUser = game:GetService("VirtualUser")
+
+game:GetService("Players").LocalPlayer.Idled:Connect(function()
+    VirtualUser:CaptureController()
+    VirtualUser:ClickButton2(Vector2.new())
+end)
+
+warn("HSz Hider Name Loaded สำเร็จ!!!")
+warn("HSz AWS2 v1 Loaded สำเร็จ!!!")

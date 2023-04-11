@@ -1320,12 +1320,26 @@ local function DeleteMapSec()
         autoDailyquest()
     end,{enabled = Settings.autoDailyquest})
 
-    DelMapConfig2:Cheat("Checkbox","Find Picoro [HOP]", function(bool)
+    --[[DelMapConfig2:Cheat("Checkbox","Find Picoro [HOP]", function(bool)
         print(bool)
         Settings.picoHOP = bool
         saveSettings()
         TeleportHOP()
-    end,{enabled = Settings.picoHOP})
+    end,{enabled = Settings.picoHOP})]]
+
+    DelMapConfig2:Cheat("Checkbox","Auto Feed EGG ", function(bool)
+        print(bool)
+        Settings.AutoFeedEgg = bool
+        saveSettings()
+        --FeedEggA()
+    end,{enabled = Settings.AutoFeedEgg})
+    
+    DelMapConfig2:Cheat("Checkbox","Auto Claim EGG ", function(bool)
+        print(bool)
+        Settings.AutoClaimEgg = bool
+        saveSettings()
+        --ClaimEggA()
+    end,{enabled = Settings.AutoClaimEgg})
 
     DelMapConfig2:Cheat("Label","")  
 
@@ -4045,6 +4059,55 @@ if Settings.autoDailyquest then
     autoDailyquest()
 end
 
+--AutoFeedEgg
+function FeedEgg()
+    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
+    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
+        for _, v in pairs(eggs) do
+        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["feed_easter_meter"]:InvokeServer(v)()    end)
+        end
+    end
+end
+
+function FeedEggA()
+    print("Feed Eggs")
+        pcall(function()
+            FeedEgg()
+            wait(1)
+            FeedEgg()
+        return FeedEggA()
+        end)
+    end
+
+if Settings.AutoFeedEgg then
+    FeedEggA()
+end
+
+--AutoClaimEgg
+function ClaimEgg()
+    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
+    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
+        for _, v in pairs(eggs) do
+        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["claim_easter_meter"]:InvokeServer(v)()    end)
+        end
+    end
+end
+
+function ClaimEggA()
+     print("Claim Eggs")
+        pcall(function()
+            ClaimEgg()
+                wait(1)
+            ClaimEgg()
+        return ClaimEggA()
+        end)
+    end
+
+if Settings.AutoClaimEgg then
+    ClaimEgg()
+end
+
+
 --ReedemCode
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
@@ -4060,6 +4123,12 @@ end
 
 --disms
 if game.PlaceId ~= 8304191830 then
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
+end
+--disms
+if game.PlaceId == 8304191830 then
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 

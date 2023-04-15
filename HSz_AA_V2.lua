@@ -1321,12 +1321,12 @@ local function DeleteMapSec()
         autoDailyquest()
     end,{enabled = Settings.autoDailyquest})
 
-    --[[DelMapConfig2:Cheat("Checkbox","Find Picoro [HOP]", function(bool)
+    DelMapConfig2:Cheat("Checkbox","Find Picoro [HOP]", function(bool)
         print(bool)
         Settings.picoHOP = bool
         saveSettings()
         TeleportHOP()
-    end,{enabled = Settings.picoHOP})]]
+    end,{enabled = Settings.picoHOP})
 
     DelMapConfig2:Cheat("Checkbox","Auto Feed EGG ", function(bool)
         print(bool)
@@ -4134,6 +4134,7 @@ if game.PlaceId == 8304191830 then
     --game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
 end
+warn("Display Error Hider!!!")
 
 pcall(function()
     local vu = game:GetService("VirtualUser")

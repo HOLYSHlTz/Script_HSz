@@ -2938,7 +2938,7 @@ function PlacePos(map, name, _uuid, unit)
     end
     if Settings.unitconfig then
         local pos = Settings["UnitConfig_" .. tostring(map)].Position[unit]
-        print(map.." attemp to place "..name)
+        --print(map.." attemp to place "..name)
         if name ~= "metal_knight_evolved" then
             local i = math.random(1,6)
             if i == 1 then
@@ -3213,7 +3213,7 @@ function UnitConfigPlaceUnits()
                     if name.U6 == "bulma" or name.U6 == "speedwagon" or name.U6 == "nami_evolved" then
                         if GetWaveNumber() >= priority.U6.UpgradeAtWave then
                            upgradeunit(name.U6, priority.U6.UpgradeCap)
-                           print("upgrading.."..name)
+                           print("upgrading.."..name["U" .. i])
                         end
                     end
                     
@@ -3223,7 +3223,7 @@ function UnitConfigPlaceUnits()
                             if GetWaveNumber() < priority["U" .. i].SellAtWave and GetWaveNumber() >= priority["U" .. i].UpgradeAtWave then
                                 if upgrade["U" .. i] < priority["U" .. i].UpgradeCap then
                                     upgradeunit(name["U" .. i], priority["U" .. i].UpgradeCap)
-                                    print("upgrading.."..name)
+                                    print("upgrading.."..name["U" .. i])
                                 end
                             end
                         end
@@ -3233,7 +3233,7 @@ function UnitConfigPlaceUnits()
                                 if GetWaveNumber() < priority["U" .. i].SellAtWave and GetWaveNumber() >= priority["U" .. i].UpgradeAtWave then
                                     if upgrade["U" .. i] < priority["U" .. i].UpgradeCap then
                                         upgradeunit(name["U" .. i], priority["U" .. i].UpgradeCap)
-                                        print("upgrading.."..name)
+                                        print("upgrading.."..name["U" .. i])
                                     end
                                 end
                             end
@@ -3251,10 +3251,10 @@ function UnitConfigPlaceUnits()
                             if GetWaveNumber() < priority["P" .. i].SellAtWave and GetWaveNumber() >= priority["P" .. i].PlaceAtWave then
                                 if amount["P" .. i] < priority["P" .. i].TotalUnits then
                                     PlacePos(map, name["P" .. i], uuid["P" .. i], toPlace[i])
-                                    print("placing .."..name)
+                                    print("placing .."..name["P" .. i])
                                 elseif amount["P" .. i] > priority["P" .. i].TotalUnits then
                                     sellunitConfig(name["P" .. i], GetWaveNumber())
-                                    --print("selling .."..name)
+                                    --print("selling .."name["U" .. i])
                                 end
                             end
                         end
@@ -3264,10 +3264,10 @@ function UnitConfigPlaceUnits()
                                 if GetWaveNumber() < priority["P" .. i].SellAtWave and GetWaveNumber() >= priority["P" .. i].PlaceAtWave then
                                     if amount["P" .. i] < priority["P" .. i].TotalUnits then
                                         PlacePos(map, name["P" .. i], uuid["P" .. i], toPlace[i])
-                                        print("placing .."..name)
+                                        print("placing .."..name["P" .. i])
                                     elseif amount["P" .. i] > priority["P" .. i].TotalUnits then
                                         sellunitConfig(name["P" .. i], GetWaveNumber())
-                                        --print("selling .."..name)
+                                        print("selling .."..name["P" .. i])
                                     end
                                 end
                             end

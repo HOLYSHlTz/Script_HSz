@@ -1816,14 +1816,14 @@ local function unitconfig()
         Unit["Unit" .. i]:Cheat("Textbox", "Placement Priority", function(Value)
             value["PlacementPriority" .. i] = tonumber(Value)
         end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].PlacementPriority or nil})
-    
-        Unit["Unit" .. i]:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-            value["PlaceFromWave" .. i] = tonumber(Value)
-        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].PlaceAtWave or nil})
         
         Unit["Unit" .. i]:Cheat("Textbox", "Upgrade Priority", function(Value)
             value["UpgradePriority" .. i] = tonumber(Value)
         end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].UpgradePriority or nil})
+        
+        Unit["Unit" .. i]:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
+            value["PlaceFromWave" .. i] = tonumber(Value)
+        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].PlaceAtWave or nil})
         
         Unit["Unit" .. i]:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
             value["UpgradeFromWave" .. i] = tonumber(Value)

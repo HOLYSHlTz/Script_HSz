@@ -685,7 +685,9 @@ local NDY = UC:Sector("ตั้งค่า Map Unit ")
 local NDY2 = UC:Sector("Reset Map Unit Config ")
 local SaveConfig = UC:Sector("Save Map Unit Config")
 local NDY3 = UC:Sector("Check Unit ที่ใส่ตอนนี้")
-local emptyxx = UC:Sector(" ")
+local emptyxx = UC:Sector(" เลือก Target ที่ตี สามารถเปลี่ยนเป็น")
+local emptyxx0 = UC:Sector(" ")
+local emptyxx1 = UC:Sector(" ")
 local emptyxx2 = UC:Sector(" ")
     -- Changed by craymel02 --newfix
 local Unit = {}
@@ -1800,7 +1802,8 @@ local function unitconfig()
         end
     end)
     -- End of Check Deployed Unit
-    
+    emptyxx:Cheat("Label","first, closest, last, farthest, strongest, weakest, flying") 
+    emptyxx0:Cheat("Label"," ") 
     -- Start Variable for Unit Config
     local map = GLD().map
     local target = "first"
@@ -1809,10 +1812,11 @@ local function unitconfig()
 
     -- Start of Generate Unit 1 to 6 Unit Config UI
     for i = 1, 6, 1 do
-        Unit["Unit" .. i]:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-            value["TotalUnits" .. i] = tonumber(Value)
-        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].TotalUnits or nil})
-        
+
+        Unit["Unit" .. i]:Cheat("Textbox", "เลือก Target ที่ตี ", function(Value)
+            value["TargetPriority" .. i] = tostring(Value)
+        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].TargetPriority or target})
+    
         Unit["Unit" .. i]:Cheat("Textbox", "Placement Priority", function(Value)
             value["PlacementPriority" .. i] = tonumber(Value)
         end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].PlacementPriority or nil})
@@ -1820,6 +1824,10 @@ local function unitconfig()
         Unit["Unit" .. i]:Cheat("Textbox", "Upgrade Priority", function(Value)
             value["UpgradePriority" .. i] = tonumber(Value)
         end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].UpgradePriority or nil})
+        
+        Unit["Unit" .. i]:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
+            value["TotalUnits" .. i] = tonumber(Value)
+        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].TotalUnits or nil})
         
         Unit["Unit" .. i]:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
             value["PlaceFromWave" .. i] = tonumber(Value)
@@ -1836,10 +1844,6 @@ local function unitconfig()
         Unit["Unit" .. i]:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
             value["SellAtWave" .. i] = tonumber(Value)
         end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].SellAtWave or nil})
-        
-        Unit["Unit" .. i]:Cheat("Textbox", "Target Priority", function(Value)
-            value["TargetPriority" .. i] = tostring(Value)
-        end, {placeholder = Settings["UnitConfig_" .. tostring(map)] and Settings["UnitConfig_" .. tostring(map)].Parameters and Settings["UnitConfig_" .. tostring(map)].Parameters["UP" .. i].TargetPriority or target})
     end
     -- End of Generate Unit 1 to 6 Unit Config UI
 

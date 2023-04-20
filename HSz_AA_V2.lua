@@ -4063,49 +4063,6 @@ if Settings.deletemap then
     --DelMap()
 end]]
 
-    -- Start of Low Cpu Mode Function
-function lowCPU()
-    if Settings.lowCPU then
-        if not setfpscap then
-            return
-        end
-        warn("Low CPU Activated")
-        UserInputService.WindowFocusReleased:Connect(function()
-        	RunService:Set3dRenderingEnabled(false)
-        	setfpscap(5)
-        end)
-        UserInputService.WindowFocused:Connect(function()
-        	RunService:Set3dRenderingEnabled(true)
-        	setfpscap(120)
-        end)
-    end
-end
-    -- End of Low Cpu Mode Function
-
-    -- Start of Check Connection [Added by Craymel02]
-function checkInterNet()
-    warn("Auto Reconnect Loaded")
-    while task.wait(5) do
-        game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
-            if a.Name == 'ErrorPrompt' then
-                task.wait(10)
-				warn("Trying to Reconnect")
-				TPReturner()
-            end
-        end)
-    end
-end
-    -- End of Check Connection
-
-if game.PlaceId == 8304191830 then
-    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-    lowCPU()
-    checkInterNet()
-elseif game.PlaceId ~= 8304191830 then
-    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
-    lowCPU()
-    checkInterNet()
-end
 
 --Auto Grab Daily Quest
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
@@ -4195,6 +4152,50 @@ if game.PlaceId == 8304191830 then
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
 end
 warn("Display Error Hider!!!")
+
+    -- Start of Low Cpu Mode Function
+    function lowCPU()
+        if Settings.lowCPU then
+            if not setfpscap then
+                return
+            end
+            warn("Low CPU Activated")
+            UserInputService.WindowFocusReleased:Connect(function()
+                RunService:Set3dRenderingEnabled(false)
+                setfpscap(5)
+            end)
+            UserInputService.WindowFocused:Connect(function()
+                RunService:Set3dRenderingEnabled(true)
+                setfpscap(120)
+            end)
+        end
+    end
+        -- End of Low Cpu Mode Function
+    
+        -- Start of Check Connection [Added by Craymel02]
+    function checkInterNet()
+        warn("Auto Reconnect Loaded")
+        while task.wait(5) do
+            game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
+                if a.Name == 'ErrorPrompt' then
+                    task.wait(10)
+                    warn("Trying to Reconnect")
+                    TPReturner()
+                end
+            end)
+        end
+    end
+        -- End of Check Connection
+    
+    if game.PlaceId == 8304191830 then
+        repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+        lowCPU()
+        checkInterNet()
+    elseif game.PlaceId ~= 8304191830 then
+        repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+        lowCPU()
+        checkInterNet()
+    end
 
 pcall(function()
     local vu = game:GetService("VirtualUser")

@@ -681,7 +681,9 @@ local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 --local DelMapConfig2 = ETC:Sector("🗺️ Other Config 🗺️")
 --local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 
+
 local LG = Window:Category("🛠️ Misc [BETA]")
+local LowCPU = LG:Sector("Multi-Roblox")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
 local OtherSec1 = LG:Sector("")
@@ -690,7 +692,7 @@ local DelMapConfig = LG:Sector("")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
 local DelMapConfig3 = LG:Sector("")
 local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
-local LowCPU = LG:Sector("Multi-Roblox")
+
 
 
 -------------

@@ -690,7 +690,7 @@ local DelMapConfig = LG:Sector("")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
 local DelMapConfig3 = LG:Sector("")
 local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
-local LowCPU = Misc:Sector("Multi-Roblox")
+local LowCPU = LG:Sector("Multi-Roblox")
 
 
 -------------

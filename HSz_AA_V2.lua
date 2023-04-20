@@ -690,7 +690,7 @@ local DelMapConfig = LG:Sector("")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
 local DelMapConfig3 = LG:Sector("")
 local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
-
+local LowCPU = Misc:Sector("Multi-Roblox")
 
 
 -------------
@@ -2354,6 +2354,20 @@ function others()
     end,{enabled = Settings.hidenamep})
 end
 
+    -- Start of Low CPU Section
+function lowCPUsec()
+    LowCPU:Cheat("Checkbox","Low CPU mode ", function(bool)
+        warn("Low CPU Mode is set to " .. tostring(bool))
+        Settings.lowCPU = bool
+        saveSettings()
+    end,{enabled = Settings.lowCPU})
+    
+    LowCPU:Cheat("Button","Activate Low CPU ", function()
+        lowCPU()
+    end)
+end
+    -- End of Low CPU Section
+
 
 ----------------------------------------------
 ------------ /\/\/\/\/\/\/\/\/\ --------------
@@ -2376,6 +2390,7 @@ if game.PlaceId == 8304191830 then
     SnipeMerchant()
     Webhooksec()
     Webhooksec2()
+    lowCPUsec()
     others()
 else
     SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
@@ -2394,6 +2409,7 @@ else
     credits()
     SnipeMerchant()
     Webhooksec()
+    lowCPUsec()
     others()
     WebhookSec:Cheat("Label","")
     WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
@@ -4046,6 +4062,50 @@ if Settings.deletemap then
     DelTer()
     --DelMap()
 end]]
+
+    -- Start of Low Cpu Mode Function
+function lowCPU()
+    if Settings.lowCPU then
+        if not setfpscap then
+            return
+        end
+        warn("Low CPU Activated")
+        UserInputService.WindowFocusReleased:Connect(function()
+        	RunService:Set3dRenderingEnabled(false)
+        	setfpscap(5)
+        end)
+        UserInputService.WindowFocused:Connect(function()
+        	RunService:Set3dRenderingEnabled(true)
+        	setfpscap(120)
+        end)
+    end
+end
+    -- End of Low Cpu Mode Function
+
+    -- Start of Check Connection [Added by Craymel02]
+function checkInterNet()
+    warn("Auto Reconnect Loaded")
+    while task.wait(5) do
+        game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
+            if a.Name == 'ErrorPrompt' then
+                task.wait(10)
+				warn("Trying to Reconnect")
+				TPReturner()
+            end
+        end)
+    end
+end
+    -- End of Check Connection
+
+if game.PlaceId == 8304191830 then
+    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    lowCPU()
+    checkInterNet()
+elseif game.PlaceId ~= 8304191830 then
+    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    lowCPU()
+    checkInterNet()
+end
 
 --Auto Grab Daily Quest
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent

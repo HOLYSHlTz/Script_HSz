@@ -671,20 +671,17 @@ local Unit6 = UC:Sector("Unit 6")
 local ETC = Window:Category(" 🌐 Discord & Shop")
 local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
 local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
---local devilcity = ETC:Sector("😈‍ ชื้อ Devil Portal 😈")
 local devilcity1 = ETC:Sector("")
---local OtherSec = ETC:Sector("⌛ Auto Load Script ⌛")
 local OtherSec2 = ETC:Sector("")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
---local OtherSec3 = ETC:Sector("🐱 Hide Name Player 🐱")
---local DelMapConfig = ETC:Sector("")
---local DelMapConfig2 = ETC:Sector("🗺️ Other Config 🗺️")
---local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+
 
 
 local LG = Window:Category("🛠️ Misc [BETA]")
 local LowCPU = LG:Sector("Multi-Roblox")
 local LG1 = LG:Sector("Beta LAGGY Config ")
+local DELMAP = LG:Sector("🗺️ Delete Map 🗺️")
+local DELMAP1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
 local OtherSec1 = LG:Sector("")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
@@ -1296,6 +1293,25 @@ local function ChallengeSec()
     end,{enabled =Settings.AutoChallengeAll})
 end
 ----------------------------------------------
+----------- Delete Map Config ---------------- 
+----------------------------------------------
+local function DELMAPNEW()
+
+    DELMAP:Cheat("Checkbox","🌏 Delete Map 🌏", function(bool)
+        print(bool)
+        Settings.deletemap = bool
+        saveSettings()
+        DelTer()
+        --DelMap()
+    end,{enabled = Settings.deletemap})
+
+    DELMAP:Cheat("Button","Activate Delete Map ", function()
+        DelTer()
+    end)
+
+end
+
+----------------------------------------------
 ---------------- Other Config ---------------- 
 ----------------------------------------------
 local function DeleteMapSec()
@@ -1309,14 +1325,6 @@ local function DeleteMapSec()
         warn("Return to Lobby")
         Teleport()
     end)
-
-    --[[DelMapConfig2:Cheat("Checkbox","🌏 Delete Map ", function(bool)
-		print(bool)
-        Settings.deletemap = bool
-        saveSettings()
-        DelTer()
-        --DelMap()
-    end,{enabled = Settings.deletemap})]]
 
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
         print(Settings.autoDailyquest)
@@ -1359,7 +1367,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add Hero City   \n [+]Add Hero City (Midnight)  \n [+]Add Demon Portal   \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add New Raid Entertainment   \n   \n    \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
@@ -2398,6 +2406,7 @@ if game.PlaceId == 8304191830 then
     Webhooksec2()
     lowCPUsec()
     others()
+    DELMAPNEW()
 else
     SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
     AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
@@ -2417,6 +2426,7 @@ else
     Webhooksec()
     lowCPUsec()
     others()
+    DELMAPNEW()
     WebhookSec:Cheat("Label","")
     WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
 end
@@ -4058,7 +4068,7 @@ function DelMap()
 	end)
 end]]
 --deletet terrain 
---[[function DelTer()
+function DelTer()
 	if game.Workspace._terrain:FindFirstChild("terrain") then
     	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
         	if v.ClassName == "Model" then v:Destroy() end
@@ -4071,7 +4081,7 @@ end
 if Settings.deletemap then
     DelTer()
     --DelMap()
-end]]
+end
 
 
 --Auto Grab Daily Quest

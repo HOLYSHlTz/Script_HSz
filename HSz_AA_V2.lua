@@ -4191,31 +4191,6 @@ warn("Display Error Hider!!!")
         end
     end
         -- End of Low Cpu Mode Function
-    
-        -- Start of Check Connection [Added by Craymel02]
-    function checkInterNet()
-        warn("Auto Reconnect Loaded")
-        while task.wait(5) do
-            game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
-                if a.Name == 'ErrorPrompt' then
-                    task.wait(10)
-                    warn("Trying to Reconnect")
-                    TPReturner()
-                end
-            end)
-        end
-    end
-        -- End of Check Connection
-    
-    if game.PlaceId == 8304191830 then
-        repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-        lowCPU()
-        checkInterNet()
-    elseif game.PlaceId ~= 8304191830 then
-        repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
-        lowCPU()
-        checkInterNet()
-    end
 
 pcall(function()
     local vu = game:GetService("VirtualUser")

@@ -242,7 +242,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/2a167faf9e626e51c939309a70fca28e/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -340,7 +340,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -423,7 +423,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -505,7 +505,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -571,7 +571,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/46f3a2a4f78c2a8f69e5e423f5b29ddc/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {

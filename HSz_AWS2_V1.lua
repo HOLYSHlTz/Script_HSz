@@ -184,6 +184,23 @@ task.spawn(function()
 	end
 end)
 
+--Toggle_Auto_Click
+AutoFarm:Cheat("Checkbox"," 🖱 Auto Click คลิ๊กออโต้ ", function(bool)
+	print(bool)
+	Settings.AutoClick = bool
+	saveSettings()
+end,{enabled = Settings.AutoClick})
+
+task.spawn(function()
+	while task.wait() do
+		if Settings.AutoClick then
+			RemoteEvent:FireServer({{"&"}})
+		end
+	end
+end)
+
+
+
 --Toggle_Auto_Collect
 AutoFarm:Cheat("Checkbox"," 💴 Auto Collect เก็บเหรียญออโต้ ", function(bool)
 	print(bool)
@@ -212,7 +229,7 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.AutoQuest then
 			for i,v in pairs(workspace.Maps:GetChildren()) do
-				RemoteEvent:FireServer({{"7", v.Components:FindFirstChild("NPC", true).Parent.Name}})
+				RemoteEvent:FireServer({{"9", v.Components:FindFirstChild("NPC", true).Parent.Name}})
 			end
 		end
 	end
@@ -228,10 +245,10 @@ end,{enabled = Settings.AutoOpenEgg})
 
 task.spawn(function()
 	while task.wait() do
-		if Settings.AutoOpenEgg then
+		if Rayfield.Flags.Open.CurrentValue then
 			local Number = huge
 			local Egg
-			
+
 			for i,v in pairs(workspace.Maps:GetChildren()) do
 				for i,v in pairs(v.Eggs:GetChildren()) do
 					if v.PrimaryPart and v.Egg:FindFirstChild("PriceBillboard") and v.Egg.PriceBillboard.Yen.Icon.Image ~= "rbxassetid://9126788621" then
@@ -243,14 +260,14 @@ task.spawn(function()
 					end
 				end
 			end
-			
+
 			if Egg then
 				local EggCFrame = Egg.PrimaryPart.CFrame
-				
+
 				if (HumanoidRootPart.Position - EggCFrame.Position).Magnitude > 4 then
 					HumanoidRootPart.CFrame = EggCFrame + EggCFrame.LookVector * 3
 				end
-				
+
 				Services.EggService.RF.Open:InvokeServer(Egg.Name, (Egg:FindFirstChild("Bottom") and 2 or false))
 			end
 		end

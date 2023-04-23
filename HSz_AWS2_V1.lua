@@ -245,7 +245,7 @@ end,{enabled = Settings.AutoOpenEgg})
 
 task.spawn(function()
 	while task.wait() do
-		if Rayfield.Flags.Open.CurrentValue then
+		if Settings.AutoOpenEgg then
 			local Number = huge
 			local Egg
 

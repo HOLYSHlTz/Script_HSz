@@ -4173,6 +4173,17 @@ if game.PlaceId == 8304191830 then
 end
 warn("Display Error Hider!!!")
 
+pcall(function()
+    local vu = game:GetService("VirtualUser")
+    game:GetService("Players").LocalPlayer.Idled:connect(function()
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    end)
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+    warn("HSz Anti-AFK Loaded สำเร็จ!!!")
+end)
+
     -- Start of Low Cpu Mode Function
     function lowCPU()
         if Settings.lowCPU then
@@ -4192,16 +4203,6 @@ warn("Display Error Hider!!!")
     end
         -- End of Low Cpu Mode Function
 
-pcall(function()
-    local vu = game:GetService("VirtualUser")
-    game:GetService("Players").LocalPlayer.Idled:connect(function()
-        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(1)
-        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    end)
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-    warn("HSz Anti-AFK Loaded สำเร็จ!!!")
-end)
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 

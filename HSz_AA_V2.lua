@@ -678,7 +678,8 @@ local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 
 
 local LG = Window:Category("🛠️ Misc [BETA]")
-local LowCPU = LG:Sector("Multi-Roblox")
+--local LowCPU = LG:Sector("Multi-Roblox")
+local LowCPU0 = LG:Sector("")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ Delete Map 🗺️")
 local DELMAP1 = LG:Sector(" ")
@@ -1863,11 +1864,11 @@ local function unitconfig()
     end)
 
     --//UNIT 1
-    Unit1:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit1:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U1_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U1_UnPlace})
+    end, {placeholder = Settings.U1_UnPlace})]]
 
     Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1881,11 +1882,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U1_TotalAmmount})
 
-    Unit1:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit1:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U1_UpgPro})
+    end, {placeholder = Settings.U1_UpgPro})]]
 
     Unit1:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1893,11 +1894,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U1_UpgWave})
 
-    Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U1_UpgCap})
+    end, {placeholder = Settings.U1_UpgCap})]]
 
     Unit1:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1906,11 +1907,11 @@ local function unitconfig()
     end, {placeholder = Settings.U1_SellWave}) 
     
     --//UNIT 2
-    Unit2:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit2:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U2_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U2_UnPlace})
+    end, {placeholder = Settings.U2_UnPlace})]]
     Unit2:Cheat("Textbox", "วางตัวเมื่อถึง wav", function(Value)
         Value = tonumber(Value)
         Settings.U2_Wave = Value
@@ -1921,21 +1922,21 @@ local function unitconfig()
         Settings.U2_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U2_TotalAmmount})
-    Unit2:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit2:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U2_UpgPro})
+    end, {placeholder = Settings.U2_UpgPro})]]
     Unit2:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U2_UpgWave})
-    Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U2_UpgCap})
+    end, {placeholder = Settings.U2_UpgCap})]]
     Unit2:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_SellWave = Value
@@ -1943,11 +1944,11 @@ local function unitconfig()
     end, {placeholder = Settings.U2_SellWave}) 
     
     --//UNIT 3
-    Unit3:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit3:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U3_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U3_UnPlace})
+    end, {placeholder = Settings.U3_UnPlace})]]
     Unit3:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_Wave = Value
@@ -1959,11 +1960,11 @@ local function unitconfig()
         Settings.U3_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U3_TotalAmmount})
-    Unit3:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit3:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U3_UpgPro})
+    end, {placeholder = Settings.U3_UpgPro})]]
     
     Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1971,11 +1972,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U3_UpgWave})
     
-    Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U3_UpgCap})
+    end, {placeholder = Settings.U3_UpgCap})]]
     
     Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -1983,11 +1984,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U3_SellWave}) 
     --//UNIT 4
-    Unit4:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit4:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U4_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U4_UnPlace})
+    end, {placeholder = Settings.U4_UnPlace})]]
     Unit4:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_Wave = Value
@@ -1999,11 +2000,11 @@ local function unitconfig()
         Settings.U4_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U4_TotalAmmount})
-    Unit4:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit4:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U4_UpgPro})
+    end, {placeholder = Settings.U4_UpgPro})]]
     
     Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2011,11 +2012,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U4_UpgWave})
     
-    Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U4_UpgCap})
+    end, {placeholder = Settings.U4_UpgCap})]]
     
     Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2024,11 +2025,11 @@ local function unitconfig()
     end, {placeholder = Settings.U4_SellWave})  
     
     --//UNIT 5
-    Unit5:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit5:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U5_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U5_UnPlace})
+    end, {placeholder = Settings.U5_UnPlace})]]
     Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_Wave = Value
@@ -2040,11 +2041,11 @@ local function unitconfig()
         Settings.U5_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U5_TotalAmmount})
-    Unit5:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit5:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U5_UpgPro})
+    end, {placeholder = Settings.U5_UpgPro})]]
         
     Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2052,11 +2053,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U5_UpgWave})
         
-    Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U5_UpgCap})
+    end, {placeholder = Settings.U5_UpgCap})]]
         
     Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2064,11 +2065,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U5_SellWave}) 
     --//UNIT 6
-    Unit6:Cheat("Textbox", "Placement Priority", function(Value)
+    --[[Unit6:Cheat("Textbox", "Placement Priority", function(Value)
         Value = tonumber(Value)
         Settings.U6_UnPlace = Value
         saveSettings()
-    end, {placeholder = Settings.U6_UnPlace})
+    end, {placeholder = Settings.U6_UnPlace})]]
     Unit6:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_Wave = Value
@@ -2080,11 +2081,11 @@ local function unitconfig()
         Settings.U6_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U6_TotalAmmount})
-    Unit6:Cheat("Textbox", "Upgrade Priority", function(Value)
+    --[[Unit6:Cheat("Textbox", "Upgrade Priority", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgPro = Value
         saveSettings()
-    end, {placeholder = Settings.U6_UpgPro})
+    end, {placeholder = Settings.U6_UpgPro})]]
     
     Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2092,11 +2093,11 @@ local function unitconfig()
         saveSettings()
     end, {placeholder = Settings.U6_UpgWave})
     
-    Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
+    --[[Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgCap = Value
         saveSettings()
-    end, {placeholder = Settings.U6_UpgCap})
+    end, {placeholder = Settings.U6_UpgCap})]]
     
     Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
@@ -2368,7 +2369,7 @@ function others()
     end,{enabled = Settings.hidenamep})
 end
 
-    -- Start of Low CPU Section
+    --[[ Start of Low CPU Section
 function lowCPUsec()
     LowCPU:Cheat("Checkbox","Low CPU mode ", function(bool)
         warn("Low CPU Mode is set to " .. tostring(bool))
@@ -2380,7 +2381,7 @@ function lowCPUsec()
         lowCPU()
     end)
 end
-    -- End of Low CPU Section
+    -- End of Low CPU Section]]
 
 
 ----------------------------------------------
@@ -2404,7 +2405,7 @@ if game.PlaceId == 8304191830 then
     SnipeMerchant()
     Webhooksec()
     Webhooksec2()
-    lowCPUsec()
+    --lowCPUsec()
     others()
     DELMAPNEW()
 else
@@ -2424,7 +2425,7 @@ else
     credits()
     SnipeMerchant()
     Webhooksec()
-    lowCPUsec()
+    --lowCPUsec()
     others()
     DELMAPNEW()
     WebhookSec:Cheat("Label","")

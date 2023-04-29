@@ -1334,13 +1334,6 @@ local function DeleteMapSec()
         autoDailyquest()
     end,{enabled = Settings.autoDailyquest})
 
-    DelMapConfig2:Cheat("Checkbox","Find Picoro [HOP]", function(bool)
-        print(bool)
-        Settings.picoHOP = bool
-        saveSettings()
-        TeleportHOP()
-    end,{enabled = Settings.picoHOP})
-
     DelMapConfig2:Cheat("Checkbox","Auto Feed EGG ", function(bool)
         print(bool)
         Settings.AutoFeedEgg = bool
@@ -2134,6 +2127,7 @@ end
 ---------------------------------------------
 local function LAGGYconfig()
     LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
+
 
     LG1:Cheat("Textbox", "LAG Threads", function(Value)
         print("LAG threads.:", Value)
@@ -3087,82 +3081,6 @@ function Teleport()
 end
 
 -------------------------------------------
---testHOP
-Time = 3 -- seconds
-repeat wait() until game:IsLoaded()
-wait(Time)
-local PlaceID = game.PlaceId
-local AllIDs = {}
-local foundAnything = ""
-local actualHour = os.date("!*t").hour
-local Deleted = false
-function HopServer()
-   local Site;
-   if foundAnything == "" then
-       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
-   else
-       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
-   end
-   local ID = ""
-   if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
-       foundAnything = Site.nextPageCursor
-   end
-   local num = 0;
-   for i,v in pairs(Site.data) do
-       local Possible = true
-       ID = tostring(v.id)
-       if tonumber(v.maxPlayers) > tonumber(v.playing) then
-           for _,Existing in pairs(AllIDs) do
-               if num ~= 0 then
-                   if ID == tostring(Existing) then
-                       Possible = false
-                   end
-               else
-                   if tonumber(actualHour) ~= tonumber(Existing) then
-                       local delFile = pcall(function()
-                           delfile("NotSameServers.json")
-                           AllIDs = {}
-                           table.insert(AllIDs, actualHour)
-                       end)
-                   end
-               end
-               num = num + 1
-           end
-           if Possible == true then
-               table.insert(AllIDs, ID)
-               wait()
-               pcall(function()
-                   writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                   wait()
-                   game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-               end)
-               wait(4)
-           end
-       end
-   end
-end
-
-function TeleportHOP()
-    while wait() do
-     warn("Teleport HOP")
-        pcall(function()
-            HopServer()
-            if game.ReplicatedStorage.LOBBY_ASSETS._EVENT_NPCS:FindFirstChild("piccolo_npc") then
-                wait(3)
-                HopServer()
-            elseif game.Workspace._npcs:FindFirstChild("piccolo_npc") then
-                local a={[1]="veku_jacket"} game:GetService("ReplicatedStorage").endpoints.client_to_server.try_purchase_april_item:InvokeServer(unpack(a))
-                local a={[1]="veku_jacket"} game:GetService("ReplicatedStorage").endpoints.client_to_server.try_purchase_april_item:InvokeServer(unpack(a))
-            end
-        end)
-    end
- end 
-
-if Settings.picoHOP and game.ReplicatedStorage.LOBBY_ASSETS._EVENT_NPCS:FindFirstChild("piccolo_npc") then
-    TeleportHOP()
---[[else
-    Settings.picoHOP and game.Workspace:FindFirstChild("_npcs"):FindFirstChild("piccolo_npc")]]
-end
 -------------------------------------------
 coroutine.resume(coroutine.create(function()
 	
@@ -4146,7 +4064,6 @@ if Settings.AutoClaimEgg then
     ClaimEgg()
 end
 
-
 --ReedemCode
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
@@ -4185,7 +4102,7 @@ pcall(function()
     warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 end)
 
-    -- Start of Low Cpu Mode Function
+    --[[ Start of Low Cpu Mode Function
     function lowCPU()
         if Settings.lowCPU then
             if not setfpscap then
@@ -4202,13 +4119,14 @@ end)
             end)
         end
     end
-        -- End of Low Cpu Mode Function
+        -- End of Low Cpu Mode Function]]
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 
 --testlag
 function Laggy()
+
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
@@ -4262,11 +4180,12 @@ end
     end
 end
 
-if  Laggy() == false then
+if Laggy() == false then
         Laggy() 
     end
-if Laggy() == true then
+--[[if Laggy() == true then
         notLaggy()
-end
+end]]
+
 
 warn("All Loaded !!!")

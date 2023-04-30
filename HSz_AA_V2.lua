@@ -1546,7 +1546,7 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("tokyo_ghoul", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("Bones/dust") then
         updatepos("hueco", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("stumps") then
+    elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
         updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("light poles") then
         updatepos("magnolia", UnitPos, a,a2,a3,a4,a5,a6)
@@ -3739,7 +3739,7 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnitsTEST("hueco")
-            elseif game.Workspace._map:FindFirstChild("stumps") then
+            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
                 PlaceUnitsTEST("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnitsTEST("magnolia")
@@ -3794,7 +3794,7 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnits("hueco")
-            elseif game.Workspace._map:FindFirstChild("stumps") then
+            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
                 PlaceUnits("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnits("magnolia")

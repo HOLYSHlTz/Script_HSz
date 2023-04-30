@@ -1315,10 +1315,12 @@ local function DELMAPNEW()
         Settings.placeany = bool
         saveSettings()
         placeAny()
+        placeunittwin()
     end,{enabled = Settings.placeany})
 
     DELMAP:Cheat("Button","Activate Place Spawn ", function()
         placeAny()
+        placeunittwin()
     end)
 
 end
@@ -4087,9 +4089,21 @@ function placeAny()
             end
         end)
     end
+
+
+function placeunittwin() 
+    if game.Workspace:WaitForChild("_UNITS") then
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+        repeat task.wait() until v:WaitForChild("_stats")
+        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v.Name:FindFirstChild("_hitbox") then
+            v:Destroy() end
+            end
+        end
+    end
     
     if Settings.placeany then
         placeAny()
+        placeunittwin() 
     end
 
 --ReedemCode

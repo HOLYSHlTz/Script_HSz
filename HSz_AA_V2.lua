@@ -681,7 +681,7 @@ local LG = Window:Category("🛠️ Misc [BETA]")
 --local LowCPU = LG:Sector("Multi-Roblox")
 local LowCPU0 = LG:Sector("")
 local LG1 = LG:Sector("Beta LAGGY Config ")
-local DELMAP = LG:Sector("🗺️ Delete Map 🗺️")
+local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
 local OtherSec1 = LG:Sector("")
@@ -1298,7 +1298,7 @@ end
 ----------------------------------------------
 local function DELMAPNEW()
 
-    DELMAP:Cheat("Checkbox","🌏 Delete Map 🌏", function(bool)
+    DELMAP:Cheat("Checkbox"," Delete Map ", function(bool)
         print(bool)
         Settings.deletemap = bool
         saveSettings()
@@ -1310,7 +1310,7 @@ local function DELMAPNEW()
         DelTer()
     end)
 
-    DELMAP:Cheat("Checkbox"," Place Spawn ", function(bool)
+    DELMAP:Cheat("Checkbox"," Place Spawn วางได้ทุกจุด", function(bool)
         print(bool)
         Settings.placeany = bool
         saveSettings()
@@ -1542,11 +1542,11 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("naruto", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("icebergs") then
         updatepos("marineford", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+    elseif game.Workspace._map:FindFirstChild("new buildings") then
         updatepos("tokyo_ghoul", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("Bones/dust") then
         updatepos("hueco", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+    elseif game.Workspace._map:FindFirstChild("stumps") then
         updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("light poles") then
         updatepos("magnolia", UnitPos, a,a2,a3,a4,a5,a6)
@@ -3305,95 +3305,6 @@ function upgradeunit(name, min)
     end
 end
 
------------------test-----------------------------
-function upgradeunitTEST()
-    pcall(function() 
-    upgradeunit1(name)
-    upgradeunit2(name)
-    upgradeunit3(name)
-    upgradeunit4(name)
-    upgradeunit5(name)
-    upgradeunit6(name)
-    end)
-end
---U1
-function upgradeunit1(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U1_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
---U2
-function upgradeunit2(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U2_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
---U3
-function upgradeunit3(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U3_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
---U4
-function upgradeunit4(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U4_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
---U5
-function upgradeunit5(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U5_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
---U6
-function upgradeunit6(name)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= tonumber(Settings.U6_UpgCap or 99) then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
 
 ---------------------------------
 ---------test sell unit----------
@@ -3512,7 +3423,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 1
     local U1_amm, U1_name, U1_uuid, U1_u = GetUnitInfo("U1")
     if U1_wv <= current_wave and U1_amm <= U1_TAmm then
-        --[[if U1_UnP <= U1_wv and U1_UnP <= U2_UnP and U1_UnP <= U3_UnP and U1_UnP <= U4_UnP and U1_UnP <= U5_UnP and U1_UnP <= U6_UnP then]]
         if U1_sellW >= current_wave and U1_amm < U1_TAmm then
             print("placing u1.."..U1_name)
             PlacePos(map, U1_name, U1_uuid,"UP1")
@@ -3521,10 +3431,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("selling u1.."..U1_name)
             sellunit1(U1_name)
         end
-        if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave --[[and U1_upgP <= U2_upgP and U1_upgP <= U3_upgP and U1_upgP <= U4_upgP and U1_upgP <= U5_upgP and U1_upgP <= U6_upgP]] then
+        if U1_u < U1_upgCap and U1_upgW <= current_wave and U1_sellW >= current_wave then
             print("upgrading u1.."..U1_name)
-            --upgradeunit(tostring(U1_name), (U1_upgCap))
-            --upgradeunit1(U1_name)
             upgradeunit(U1_name, U1_upgCap)
         end
     end
@@ -3532,7 +3440,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 2
     local U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
     if U2_wv <= current_wave and U2_amm <= U2_TAmm then
-        --[[if U2_UnP <= U2_wv and  U2_UnP <= U1_UnP and U2_UnP <= U3_UnP and U2_UnP <= U4_UnP and U2_UnP <= U5_UnP and U2_UnP <= U6_UnP then]]
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
             print("placing u2.."..U2_name)
             PlacePos(map, U2_name, U2_uuid,"UP2")
@@ -3541,10 +3448,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("selling u2.."..U2_name)
             sellunit2(U2_name)
         end
-        if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave --[[and U2_upgP <= U1_upgP and U2_upgP <= U3_upgP and U2_upgP <= U4_upgP and U2_upgP <= U5_upgP and U2_upgP <= U6_upgP]]  then
+        if U2_u < U2_upgCap and U2_upgW <= current_wave and U2_sellW >= current_wave then
             print("upgrading u2.."..U2_name)
-            --upgradeunit(tostring(U2_name), (U2_upgCap))
-            --upgradeunit2(U2_name)
             upgradeunit(U2_name, U2_upgCap)
         end
     end
@@ -3552,7 +3457,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 3
     local U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
     if U3_wv <= current_wave and U3_amm <= U3_TAmm then
-        --[[if U3_UnP <= U3_wv and U3_UnP <= U1_UnP and U3_UnP <= U2_UnP and U3_UnP <= U4_UnP and U3_UnP <= U5_UnP and U3_UnP <= U6_UnP then]]
 	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
 		    print("placing u3.."..U3_name)
 		    PlacePos(map, U3_name, U3_uuid,"UP3")
@@ -3561,10 +3465,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 		    print("selling u3.."..U3_name)
 		    sellunit3(U3_name)
 	    end
-        if U3_u < U3_upgCap and U3_upgW <= current_wave --[[and U3_sellW >= current_wave and U3_upgP <= U1_upgP and U3_upgP <= U2_upgP and U3_upgP <= U4_upgP and U3_upgP <= U5_upgP and U3_upgP <= U6_upgP]] then
+        if U3_u < U3_upgCap and U3_upgW <= current_wave then
             print("upgrading u3.."..U3_name)
-            --upgradeunit(tostring(U3_name), (U3_upgCap))
-            --upgradeunit3(U3_name)
             upgradeunit(U3_name, U3_upgCap)
         end
     end
@@ -3572,7 +3474,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 4
     local U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
     if U4_wv <= current_wave and U4_amm <= U4_TAmm then
-        --[[if U4_UnP <= U4_wv and U4_UnP <= U1_UnP and U4_UnP <= U2_UnP and U4_UnP <= U3_UnP and U4_UnP <= U5_UnP and U4_UnP <= U6_UnP then]]
 	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
 		    print("placing u4.."..U4_name)
 		    PlacePos(map, U4_name, U4_uuid,"UP4")
@@ -3581,10 +3482,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 		    print("selling u4.."..U4_name)
 		    sellunit4(U4_name)
 	    end
-        if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave --[[and U4_upgP <= U1_upgP and U4_upgP <= U2_upgP and U4_upgP <= U3_upgP and U4_upgP <= U5_upgP and U4_upgP <= U6_upgP]] then
+        if U4_u < U4_upgCap and U4_upgW <= current_wave and U4_sellW >= current_wave then
             print("upgrading u4.."..U4_name)
-            --upgradeunit(tostring(U4_name), (U4_upgCap))
-            --upgradeunit4(U4_name)
             upgradeunit(U4_name, U4_upgCap)
         end
     end
@@ -3592,7 +3491,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 5
     local U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
     if U5_wv <= current_wave and U5_amm <= U5_TAmm then
-        --[[if U5_UnP <= U5_wv and U5_UnP <= U1_UnP and U5_UnP <= U2_UnP and U5_UnP <= U3_UnP and U5_UnP <= U4_UnP and U5_UnP <= U6_UnP then]]
 	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
 		    print("placing u5.."..U5_name)
 		    PlacePos(map, U5_name, U5_uuid,"UP5")
@@ -3601,10 +3499,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 		    print("selling u5.."..U5_name)
 		    sellunit5(U5_name)
 	    end
-        if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave --[[and U5_upgP <= U1_upgP and U5_upgP <= U2_upgP and U5_upgP <= U3_upgP and U5_upgP <= U4_upgP and U5_upgP <= U6_upgP]] then
+        if U5_u < U5_upgCap and U5_upgW <= current_wave and U5_sellW >= current_wave then
             print("upgrading u5.."..U5_name)
-            --upgradeunit(tostring(U5_name), (U5_upgCap))
-            --upgradeunit5(U5_name)
             upgradeunit(U5_name, U5_upgCap)
         end
     end
@@ -3612,7 +3508,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 6
     local U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
     if U6_wv <= current_wave and U6_amm <= U6_TAmm then
-        --[[if U6_UnP <= U6_wv and U6_UnP <= U1_UnP and U6_UnP <= U2_UnP and U6_UnP <= U3_UnP and U6_UnP <= U4_UnP and U6_UnP <= U5_UnP then]]
 	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
 		    print("placing u6.."..U6_name)
 		    PlacePos(map, U6_name, U6_uuid,"UP6")
@@ -3621,10 +3516,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 		    print("selling u6.."..U6_name)
 		    sellunit6(U6_name)
 	    end
-        if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave --[[and U6_upgP <= U1_upgP and U6_upgP <= U2_upgP and U6_upgP <= U3_upgP and U6_upgP <= U4_upgP and U6_upgP <= U5_upgP]]  then
+        if U6_u < U6_upgCap and U6_upgW <= current_wave and U6_sellW >= current_wave then
             print("upgrading u6.."..U6_name)
-            --upgradeunit(tostring(U6_name), (U6_upgCap))
-            --upgradeunit6(U6_name)
             upgradeunit(U6_name, U6_upgCap)
             end
         end
@@ -3824,40 +3717,6 @@ end
 
 
 ------------------------------------------------------------------------------------------------
---test deletemap place unit
-
---open unitconfig
-
---[[coroutine.resume(coroutine.create(function()
-    while task.wait(1.5) do
-        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
-        local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_terrain")
-
-        PlaceUnitsTEST()
-
-        print("function called")
-        end
-    end
-end))
-
---Close Unitconfig
-
-coroutine.resume(coroutine.create(function()
-    while task.wait(1.5) do
-        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("ปิด ฟังชั่น ตั้งค่า Unit")
-        local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_terrain")
-
-        PlaceUnits()
-
-        print("function called")
-        end
-    end
-end))]]
-
 ------------------------------------------------------------------------------------------
 --updatefix fixmap
 coroutine.resume(coroutine.create(function()
@@ -3876,11 +3735,11 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("naruto")
             elseif game.Workspace._map:FindFirstChild("icebergs") then
                 PlaceUnitsTEST("marineford")
-            elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+            elseif game.Workspace._map:FindFirstChild("new buildings") then
                 PlaceUnitsTEST("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnitsTEST("hueco")
-            elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+            elseif game.Workspace._map:FindFirstChild("stumps") then
                 PlaceUnitsTEST("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnitsTEST("magnolia")
@@ -3931,11 +3790,11 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("naruto")
             elseif game.Workspace._map:FindFirstChild("icebergs") then
                 PlaceUnits("marineford")
-            elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+            elseif game.Workspace._map:FindFirstChild("new buildings") then
                 PlaceUnits("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnits("hueco")
-            elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+            elseif game.Workspace._map:FindFirstChild("stumps") then
                 PlaceUnits("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnits("magnolia")
@@ -3986,23 +3845,11 @@ if Settings.hidenamep then
     hidename()
 end
 
---[[delete map 
-function DelMap()
-	task.spawn(function()  -- Hides name for yters (not sure if its Fe)
-		while task.wait() do
-			pcall(function()
-				if game.Workspace:FindFirstChild("_map") then
-					game.Workspace:FindFirstChild("_map"):Destroy()
-					warn("Delete Map")
-				end
-			end)
-		end
-	end)
-end]]
---deletet terrain 
+--delete map 
 function DelTer()
 	if game.Workspace._terrain:FindFirstChild("terrain") then
     	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+            if v.ClassName == "MeshPart" then v:Destroy() end
         	if v.ClassName == "Model" then v:Destroy() end
 			if v.ClassName == "Folder" then v:Destroy() end
 			warn("Delete Terrain")

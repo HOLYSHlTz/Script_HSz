@@ -5243,7 +5243,7 @@ coroutine.resume(coroutine.create(function()
 				DelMapentertain1()
 		DelMapentertain2()
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
-                PDelTer() 
+                DelTer() 
 				DelMapMain()
 				DelMapClover1()
 		DelMapClover2()

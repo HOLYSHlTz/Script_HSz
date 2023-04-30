@@ -1302,13 +1302,7 @@ local function DELMAPNEW()
         print(bool)
         Settings.deletemap = bool
         saveSettings()
-        DelTer()
-        --DelMap()
     end,{enabled = Settings.deletemap})
-
-    DELMAP:Cheat("Button","Activate Delete Map ", function()
-        DelTer()
-    end)
 
     DELMAP:Cheat("Checkbox"," Place Spawn วางได้ทุกจุด", function(bool)
         print(bool)
@@ -1532,8 +1526,6 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
 end
 
 function savepos(UnitPos, a,a2,a3,a4,a5,a6)
-    if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
-        updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6) end
     if game.Workspace._map:FindFirstChild("namek mushroom model") then
         updatepos("namek", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -1554,8 +1546,6 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("jjk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("pumpkins") then    
         updatepos("thriller_park", UnitPos, a,a2,a3,a4,a5,a6)
-    --elseif game.Workspace._map:FindFirstChild("notice boards") then
-        --updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("sand_bags") then
         updatepos("bleach_legend", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("vending machines") then
@@ -1576,6 +1566,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("mha", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("benches and barrels") then
         updatepos("entertain", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+        updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
         updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -3727,8 +3719,6 @@ coroutine.resume(coroutine.create(function()
             warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
-            if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
-                PlaceUnitsTEST("clover") end
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
                 PlaceUnitsTEST("namek")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -3749,8 +3739,6 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnitsTEST("thriller_park")  
-            --elseif game.Workspace._map:FindFirstChild("notice boards") then
-                --PlaceUnitsTEST("clover")
             elseif game.Workspace._map:FindFirstChild("sand_bags") then
                 PlaceUnitsTEST("bleach_legend")
             elseif game.Workspace._map:FindFirstChild("vending machines") then
@@ -3771,6 +3759,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnitsTEST("entertain")
+            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+                PlaceUnitsTEST("clover")
             elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
                 PlaceUnitsTEST("hxhant")
             end
@@ -3784,8 +3774,6 @@ coroutine.resume(coroutine.create(function()
             warn("ปิด ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
-        if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
-            PlaceUnits("clover") end
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
                 PlaceUnits("namek")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -3806,8 +3794,6 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnits("thriller_park")  
-            --elseif game.Workspace._map:FindFirstChild("notice boards") then
-                --PlaceUnits("clover")
             elseif game.Workspace._map:FindFirstChild("sand_bags") then
                 PlaceUnits("bleach_legend")
             elseif game.Workspace._map:FindFirstChild("vending machines") then
@@ -3828,8 +3814,1461 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnits("entertain")
+            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+                PlaceUnits("clover") 
             elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
                 PlaceUnits("hxhant")
+            end
+        end
+    end
+end))
+
+-----------------------------------------------------
+--------------------DELETE MAP-----------------------
+-----------------------------------------------------
+--delete map Map id
+--deletet terrain
+function DelTer()
+	if game.Workspace._terrain:FindFirstChild("terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+			if v.ClassName == "MeshPart" then v:Destroy() end
+        	if v.ClassName == "Model" then v:Destroy() end
+			if v.ClassName == "Folder" then v:Destroy() end
+        end
+    end  
+end   
+
+
+function DelMapMain()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+--Namek
+
+function DelMapnamekmap2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["namek mushroom model"]:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["namek trees model"]:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["namek_details"]:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["vines_model"]:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["namek grass model"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles["new houses"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapnamekmap9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.rocks:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+--Titan
+function DelMapTitan1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].grass:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapTitan2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["houses_new"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapTitan3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapTitan4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapTitan5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.trees:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapTitan6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["river towers"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapTitan7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["towers_new"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapTitan8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["hq_new"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Snowy
+function DelMapSnowy1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["snow grass"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapSnowy1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.trees:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapSnowy2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.rocks:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "UnionOperation" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapSnowy3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.trunks:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+--Aline
+function DelMapAlinewires()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].wires:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapAlinepaper()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].paper:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapAlinetrees()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].trees:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapAlinefences()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fences:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapAlinepole()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].pole:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapAlinevents()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].vents:GetChildren()) do
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+--Sand
+function DelMapSand1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["market deco"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapSand2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].ropes:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapSand3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["desert_houses"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapSand4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].innerterrain:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Marine
+function DelMapMarine1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].deco:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].grass:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["ice spikes"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].icebergs:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["marine ships"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["marineford_houses"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMarine7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["small ice spikes"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Ghoul
+function DelMapGhoul1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].Folder.CantPlace:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapGhoul2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["new buildings"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapGhoul3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.Name == "obstacles" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapGhoul4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["rain_floors"]:GetChildren()) do
+				if v.Name == "obstacles" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapGhoul5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].rain:GetChildren()) do
+				if v.Name == "obstacles" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Hollow
+function DelMapHollow1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["Bones/dust"]:GetChildren()) do
+				if v.Name == "obstacles" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Ant
+function DelMapAnt1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].flowers:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].stumps:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].cloth:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].grass:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].graves:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.Farms:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.Nature:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco["Other Small Stuff"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt10()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.Walls:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt11()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.trees:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAnt12()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco["trees-thin"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+--Magic
+function DelMapMagic1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["barrels, benches"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].boats:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].extras:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].grass:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["grass place"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["light poles"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].pillars:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].streamers:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].tents:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic10()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].trees:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic11()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].wheelbarrows:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic12()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].docks:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic13()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["wooden stacks"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapMagic13()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].dirt:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Cursed
+function DelMapCursed1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].LanternsGround:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].Nature:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].Trees:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].bushes:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].LanternsSky:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].deco:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].dirt:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fences:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].gate:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed10()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].lightning:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed11()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].logs:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed12()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["notice boards and paper"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed13()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].sheds:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed14()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].stairs:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed15()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].wheelbarrows:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapCursed16()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].cables:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Clover
+function DelMapClover1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["misc deco"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].dust:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["notice boards"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].streetlights:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].grass:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].stumps:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].rocks:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fences:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapClover9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].trees:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+--Cape JoJo
+function DelMapJoJo1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].SpaceCenter:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapJoJo2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "benches" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "fences" then v:Destroy() end
+				if v.Name == "misc" then v:Destroy() end
+				if v.Name == "rockets" then v:Destroy() end
+				if v.Name == "background buildings" then v:Destroy() end
+				if v.Name == "paper" then v:Destroy() end
+				if v.Name == "parking spots" then v:Destroy() end
+				if v.Name == "barrels" then v:Destroy() end
+				if v.Name == "sand bags" then v:Destroy() end
+				if v.Name == "vending_machines" then v:Destroy() end
+				if v.Name == "_helicopters" then v:Destroy() end
+				if v.Name == "faketerrain" then v:Destroy() end
+        end
+    end   
+end
+
+--Fabled 7ds
+function DelMap7ds1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["misc nonocollide obstacles"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMap7ds2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "Flowers" then v:Destroy() end
+				if v.Name == "wood" then v:Destroy() end
+				if v.Name == "flag streamers" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "misc noncollide no obstacle" then v:Destroy() end
+				if v.Name == "fence" then v:Destroy() end
+				if v.Name == "_secretthing" then v:Destroy() end
+        end
+    end   
+end
+
+--Hero mha
+
+function DelMapmha1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["bridge nocollide"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmha2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "Graffiti" then v:Destroy() end
+				if v.Name == "street_lights" then v:Destroy() end
+				if v.Name == "Assets" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "bricks" then v:Destroy() end
+				if v.Name == "sky bridges" then v:Destroy() end
+				if v.Name == "clothing" then v:Destroy() end
+				if v.Name == "more" then v:Destroy() end
+				if v.Name == "parking_spots" then v:Destroy() end
+				if v.Name == "trash" then v:Destroy() end
+				if v.Name == "vending" then v:Destroy() end
+				if v.Name == "store" then v:Destroy() end
+        end
+    end   
+end
+--bleach_legend
+function DelMapbleachleg1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["sand_bags"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapbleachleg2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "barrels" then v:Destroy() end
+				if v.Name == "misc" then v:Destroy() end
+				if v.Name == "benches" then v:Destroy() end
+				if v.Name == "fences" then v:Destroy() end
+				if v.Name == "graves" then v:Destroy() end
+				if v.Name == "parking spots" then v:Destroy() end
+				if v.Name == "street_lights" then v:Destroy() end
+				if v.Name == "trees separatetd" then v:Destroy() end
+				if v.Name == "trucks" then v:Destroy() end
+        end
+    end   
+end
+
+--westcity
+function DelMapwestcity1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].s:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapwestcity2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "deco" then v:Destroy() end
+        end
+    end   
+end
+
+--uchiha
+function DelMapuchiha1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["bushes and flowers"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapuchiha2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "logs" then v:Destroy() end
+        end
+    end   
+end
+
+--demonslayer_raid_1
+function DelMapdemonraid1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["snow grass"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapdemonraid2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "obstacles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+        end
+    end   
+end
+
+--entertain
+function DelMapentertain1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["benches and barrels"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapentertain2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+---------------------------------------------------------------------------------------
+---------------------------------------------------------------
+coroutine.resume(coroutine.create(function()
+    while task.wait(1.5) do
+        if game.PlaceId ~= 8304191830 and Settings.deletemap then
+            warn("Enable Delete map")
+            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+            repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
+            if game.Workspace._map:FindFirstChild("namek mushroom model") then
+				DelTer() 
+				DelMapMain()
+                DelMapnamekmap2()
+				DelMapnamekmap3()
+				DelMapnamekmap4()
+				DelMapnamekmap5()
+				DelMapnamekmap6()
+				DelMapnamekmap7()
+				DelMapnamekmap8()
+				DelMapnamekmap9()
+            elseif game.Workspace._map:FindFirstChild("houses_new") then
+                DelTer() 
+				DelMapMain()
+				DelMapTitan1()
+		DelMapTitan2()
+		DelMapTitan3()
+		DelMapTitan4()
+		DelMapTitan5()
+		DelMapTitan6()
+		DelMapTitan7()
+		DelMapTitan8()
+            elseif game.Workspace._map:FindFirstChild("Snow Particles") then
+                DelTer() 
+				DelMapMain()
+				DelMapSnowy1()
+		DelMapSnowy2()
+		DelMapSnowy3()
+            elseif game.Workspace._map:FindFirstChild("sand_gate") then 
+                DelTer() 
+				DelMapMain()
+				DelMapSand1()
+		DelMapSand2()
+		DelMapSand3()
+		DelMapSand4()
+            elseif game.Workspace._map:FindFirstChild("icebergs") then
+                DelTer() 
+				DelMapMain()
+				DelMapMarine1()
+		DelMapMarine2()
+		DelMapMarine3()
+		DelMapMarine4()
+		DelMapMarine5()
+		DelMapMarine6()
+		DelMapMarine7()
+            elseif game.Workspace._map:FindFirstChild("new buildings") then
+                DelTer() 
+				DelMapMain()
+				DelMapGhoul1()
+		DelMapGhoul2()
+		DelMapGhoul3()
+		DelMapGhoul4()
+		DelMapGhoul5()
+            elseif game.Workspace._map:FindFirstChild("Bones/dust") then
+                DelTer() 
+				DelMapMain()
+				DelMapHollow1()
+            elseif game.Workspace._map:FindFirstChild("light poles") then
+                DelTer() 
+				DelMapMain()
+				DelMapMagic1()
+		DelMapMagic2()
+		DelMapMagic3()
+		DelMapMagic4()
+		DelMapMagic5()
+		DelMapMagic6()
+		DelMapMagic7()
+		DelMapMagic8()
+		DelMapMagic9()
+		DelMapMagic10()
+		DelMapMagic11()
+		DelMapMagic12()
+		DelMapMagic13()
+            elseif game.Workspace._map:FindFirstChild("LanternsGround") then
+                DelTer() 
+				DelMapMain()
+				DelMapCursed1()
+		DelMapCursed2()
+		DelMapCursed3()
+		DelMapCursed4()
+		DelMapCursed5()
+		DelMapCursed6()
+		DelMapCursed7()
+		DelMapCursed8()
+		DelMapCursed9()
+		DelMapCursed10()
+		DelMapCursed11()
+		DelMapCursed12()
+		DelMapCursed13()
+		DelMapCursed14()
+		DelMapCursed15()
+		DelMapCursed16()
+            elseif game.Workspace._map:FindFirstChild("pumpkins") then    
+                DelTer() 
+				DelMapMain() 
+            elseif game.Workspace._map:FindFirstChild("sand_bags") then
+                DelTer() 
+				DelMapMain()
+				DelMapbleachleg1()
+		DelMapbleachleg2()
+            elseif game.Workspace._map:FindFirstChild("vending machines") then
+                DelTer() 
+				DelMapMain()
+            elseif game.Workspace._map:FindFirstChild("SpaceCenter") then
+                DelTer() 
+				DelMapMain()
+				DelMapJoJo1()
+		DelMapJoJo2()
+            elseif game.Workspace._map:FindFirstChild("secret") then
+                DelTer() 
+				DelMapMain()
+				DelMapAlinewires()
+		DelMapAlinepaper()
+		DelMapAlinetrees()
+		DelMapAlinefences()
+		DelMapAlinepole()
+		DelMapAlinevents()
+            elseif game.Workspace._map:FindFirstChild("s") then
+                DelTer() 
+				DelMapMain()
+				DelMapwestcity1()
+		DelMapwestcity2()
+            elseif game.Workspace._map:FindFirstChild("bushes and flowers") then
+                DelTer() 
+				DelMapMain()
+				DelMapuchiha1()
+		DelMapuchiha2()
+            elseif game.Workspace._map:FindFirstChild("snow grass") then
+                DelTer() 
+				DelMapMain()
+				DelMapdemonraid1()
+		DelMapdemonraid2()
+            elseif game.Workspace._map:FindFirstChild("misc nonocollide obstacles") then
+                DelTer() 
+				DelMapMain()
+				DelMap7ds1()
+		DelMap7ds2()
+            elseif game.Workspace._map:FindFirstChild("bridge nocollide") then
+                DelTer() 
+				DelMapMain()
+				DelMapmha1()
+		DelMapmha2()
+            elseif game.Workspace._map:FindFirstChild("benches and barrels") then
+                DelTer() 
+				DelMapMain()
+				DelMapentertain1()
+		DelMapentertain2()
+            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+                PDelTer() 
+				DelMapMain()
+				DelMapClover1()
+		DelMapClover2()
+		DelMapClover3()
+		DelMapClover4()
+		DelMapClover5()
+		DelMapClover6()
+		DelMapClover7()
+		DelMapClover8()
+		DelMapClover9()
+            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
+                DelTer() 
+				DelMapMain()
+				DelMapAnt1()
+		DelMapAnt2()
+		DelMapAnt3()
+		DelMapAnt4()
+		DelMapAnt5()
+		DelMapAnt6()
+		DelMapAnt7()
+		DelMapAnt8()
+		DelMapAnt9()
+		DelMapAnt10()
+		DelMapAnt11()
+		DelMapAnt12()
             end
         end
     end
@@ -3851,22 +5290,6 @@ if Settings.hidenamep then
     hidename()
 end
 
---delete map 
-function DelTer()
-	if game.Workspace._terrain:FindFirstChild("terrain") then
-    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
-            if v.ClassName == "MeshPart" then v:Destroy() end
-        	if v.ClassName == "Model" then v:Destroy() end
-			if v.ClassName == "Folder" then v:Destroy() end
-			warn("Delete Terrain")
-        end
-    end  
-end   
---settingpcall
-if Settings.deletemap then
-    DelTer()
-    --DelMap()
-end
 
 
 --Auto Grab Daily Quest

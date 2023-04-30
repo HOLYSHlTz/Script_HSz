@@ -1546,15 +1546,13 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("tokyo_ghoul", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("Bones/dust") then
         updatepos("hueco", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-        updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("light poles") then
         updatepos("magnolia", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("LanternsGround") then
         updatepos("jjk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("pumpkins") then    
         updatepos("thriller_park", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("misc deco") then
+    elseif game.Workspace._map:FindFirstChild("notice boards") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("parking spots") then
         updatepos("bleach_legend", UnitPos, a,a2,a3,a4,a5,a6)
@@ -1576,6 +1574,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("mha", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("benches and barrels") then
         updatepos("entertain", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
+        updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     end
     warn("savepos")
 end
@@ -3739,15 +3739,13 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnitsTEST("hueco")
-            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-                PlaceUnitsTEST("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnitsTEST("magnolia")
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
                 PlaceUnitsTEST("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnitsTEST("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("misc deco") then
+            elseif game.Workspace._map:FindFirstChild("notice boards") then
                 PlaceUnitsTEST("clover")
             elseif game.Workspace._map:FindFirstChild("parking spots") then
                 PlaceUnitsTEST("bleach_legend")
@@ -3769,6 +3767,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnitsTEST("entertain")
+            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
+                PlaceUnitsTEST("hxhant")
             end
         end
     end
@@ -3794,15 +3794,13 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("tokyo_ghoul")
             elseif game.Workspace._map:FindFirstChild("Bones/dust") then
                 PlaceUnits("hueco")
-            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-                PlaceUnits("hxhant")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnits("magnolia")
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
                 PlaceUnits("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnits("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("misc deco") then
+            elseif game.Workspace._map:FindFirstChild("notice boards") then
                 PlaceUnits("clover")
             elseif game.Workspace._map:FindFirstChild("parking spots") then
                 PlaceUnits("bleach_legend")
@@ -3824,6 +3822,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnits("entertain")
+            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
+                PlaceUnits("hxhant")
             end
         end
     end

@@ -43,6 +43,20 @@ function ReadSetting()
     end
 end
 Settings = ReadSetting()
+
+    -- Start of Get Level Data of Map [Added by Craymel02]
+    function GLD()
+        local list = {}
+        for i,v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
+            list[i] = v
+        end
+        return list
+    end
+    
+    if game.PlaceId ~= 8304191830 then
+        GLD()
+    end
+        -- End of Get Level Data of Map
 ------------------------------
 local HttpService = game:GetService("HttpService")
 local Workspace = game:GetService("Workspace") 
@@ -1009,7 +1023,7 @@ local function AutoFarmSec()
         saveSettings()
     end,{enabled = Settings.AutoLeave})
     
-    AutoFarmConfig:Cheat("Checkbox"," Auto Abilities ใช้สกิล ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Abilities ใช้สกิล [บัพวน] ", function(bool)
         print(bool)
         Settings.AutoAbilities = bool
         saveSettings()
@@ -2817,27 +2831,101 @@ local function startfarming()
     end
 end
 --end fixportal]]
+    -- Start of Auto Ability Function
 getgenv().autoabilityerr = false
 function autoabilityfunc()
-    local success, err = pcall(function() --///
-        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-            if v:FindFirstChild("_stats") then
-                if v._stats:FindFirstChild("player") and v._stats:FindFirstChild("xp") then
-                    if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value > 0 then
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+    local player = game.Players.LocalPlayer.Name
+    if Settings.AutoAbilities then
+        repeat task.wait() until Workspace:WaitForChild("_UNITS")
+        local success, err = pcall(function()
+            for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+                if v:FindFirstChild("_stats") then
+                    
+                    -- Look for Threat then execute Puchi Skill
+                    if v._stats:FindFirstChild("threat") then
+                        if v._stats.threat.Value > 0 then
+                            UsePuchiSkill()
+                        end
+                        
+                    -- Search Player Units
+    				elseif v._stats:FindFirstChild("player") then
+    					if tostring(v._stats.player.Value) == player then
+    
+                            
+                            -- Execute Skill if Wendy and recast every 21 seconds
+                            if v._stats.id.Value == "wendy" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                task.wait(21)
+                            
+                            -- Execute Skill if Erwin and recast every 21 seconds
+                            elseif v._stats.id.Value == "erwin" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                task.wait(21)
+                                
+                            -- Execute Skill if Gojo and recast every 60 seconds    
+                            elseif v._stats.id.Value == "gojo_evolved" then
+                                if v._stats.state.Value == "attack" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
+                            
+                            -- Execute Skill if Not Wendy, Erwin, Gojo and Puchi    
+                            elseif v._stats.id.Value ~= "pucci_heaven" then
+                                if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    end
+                                end
+                            end
+                        end
                     end
                 end
             end
+        end)
+      
+        if err then
+            warn("Can't use Ability")
+            getgenv().autoabilityerr = true
+            error(err)
         end
-    end)
-     
-    if err then
-        warn("//////////////////////////////////////////////////")
-        getgenv().autoabilityerr = true
-        error(err)
     end
 end
+    -- End of Auto Abilities Function
+    
+    -- Start of Puchi Skill Function
+function UsePuchiSkill()
+    local player = game.Players.LocalPlayer.Name
+	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
+		if v:FindFirstChild("_stats") then
+			if v._stats:FindFirstChild("player") then
+				if tostring(v._stats.player.Value) == player then
+					if v._stats.id.Value == "pucci_heaven" then
+					    if v._stats.state.Value == "attack" then
+					    
+					        -- Check if Game Mode is Infinite
+						    if GLD()._gamemode == "infinite" then
+						        if GetWaveNumber() % 10 == 0 then
+						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+						        end
+						    -- Check if Game Mode is Raid
+					        elseif GLD()._gamemode == "raid" then
+					            if GetWaveNumber() == 15 or 20 then
+						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+						        end
+						    -- Check if Game mode is Story or Infinite Tower
+					        elseif GLD()._gamemode == "story" or "infinite_tower" then
+					            if GetWaveNumber() == 15 then
+					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+					            end
+					        end
+						end
+					end
+				end
+			end
+		end
+	end
+end
+    -- End of Puchi Skill Function
+
 function autoupgradefunc()
     local success, err = pcall(function() --///
         repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
@@ -2856,6 +2944,8 @@ function autoupgradefunc()
         error(err)
     end
 end
+
+
 local function FarmInfinityCastle()
     if Settings.AutoInfinityCastle and Settings.AutoFarm or Settings.AutoInfinityCastle then
         if game.PlaceId == 8304191830 then
@@ -3246,7 +3336,11 @@ function PlacePos(map,name,_uuid,unit)
     end
 end
 
-
+    -- Start of Get Current Wave Number [Added by Craymel02]
+function GetWaveNumber()
+    return game:GetService("Workspace")["_wave_num"].Value
+end
+    -- End of Get Current Wave Number
 
 function GetUnitInfo(Unit)
     local unitinfo = Settings.SelectedUnits[Unit]
@@ -3626,6 +3720,7 @@ function PlaceUnits(map)
                     local unitinfo_ = unitinfo:split(" #")
                     local pos = Settings[map]["UP" .. i]
                     print(" ด่าน "..map.." กำลังวางหรืออัพตัว "..unitinfo_[1])
+                    print(map.." attemp to place "..unitinfo_[1])
     
                     if unitinfo_[1] ~= "metal_knight_evolved" then
     
@@ -5412,8 +5507,8 @@ if game.PlaceId ~= 8304191830 then
 end
 --disms
 if game.PlaceId == 8304191830 then
-    --game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    --game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
 end
 warn("Display Error Hider!!!")

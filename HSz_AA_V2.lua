@@ -1532,6 +1532,8 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
 end
 
 function savepos(UnitPos, a,a2,a3,a4,a5,a6)
+    if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+        updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6) end
     if game.Workspace._map:FindFirstChild("namek mushroom model") then
         updatepos("namek", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -1552,8 +1554,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("jjk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("pumpkins") then    
         updatepos("thriller_park", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("notice boards") then
-        updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
+    --elseif game.Workspace._map:FindFirstChild("notice boards") then
+        --updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("sand_bags") then
         updatepos("bleach_legend", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("vending machines") then
@@ -3725,6 +3727,8 @@ coroutine.resume(coroutine.create(function()
             warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
+            if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+                PlaceUnitsTEST("clover") end
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
                 PlaceUnitsTEST("namek")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -3745,8 +3749,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnitsTEST("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("notice boards") then
-                PlaceUnitsTEST("clover")
+            --elseif game.Workspace._map:FindFirstChild("notice boards") then
+                --PlaceUnitsTEST("clover")
             elseif game.Workspace._map:FindFirstChild("sand_bags") then
                 PlaceUnitsTEST("bleach_legend")
             elseif game.Workspace._map:FindFirstChild("vending machines") then
@@ -3780,6 +3784,8 @@ coroutine.resume(coroutine.create(function()
             warn("ปิด ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
+        if game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+            PlaceUnits("clover") end
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
                 PlaceUnits("namek")
             elseif game.Workspace._map:FindFirstChild("houses_new") then
@@ -3800,8 +3806,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnits("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("notice boards") then
-                PlaceUnits("clover")
+            --elseif game.Workspace._map:FindFirstChild("notice boards") then
+                --PlaceUnits("clover")
             elseif game.Workspace._map:FindFirstChild("sand_bags") then
                 PlaceUnits("bleach_legend")
             elseif game.Workspace._map:FindFirstChild("vending machines") then

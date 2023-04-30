@@ -44,7 +44,7 @@ function ReadSetting()
 end
 Settings = ReadSetting()
 
-    -- Start of Get Level Data of Map [Added by Craymel02]
+    -- Start of Get Level Data of Map [Added by HOLYSHz]
     function GLD()
         local list = {}
         for i,v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
@@ -3336,7 +3336,7 @@ function PlacePos(map,name,_uuid,unit)
     end
 end
 
-    -- Start of Get Current Wave Number [Added by Craymel02]
+    -- Start of Get Current Wave Number [Added by HOLYSHz]
 function GetWaveNumber()
     return game:GetService("Workspace")["_wave_num"].Value
 end

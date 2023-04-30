@@ -1566,10 +1566,10 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("mha", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("benches and barrels") then
         updatepos("entertain", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+        updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-        updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     end
     warn("savepos")
 end
@@ -3759,10 +3759,10 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnitsTEST("entertain")
+            elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+                PlaceUnitsTEST("hxhant")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
-            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-                PlaceUnitsTEST("hxhant")
             end
         end
     end
@@ -3814,10 +3814,10 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("mha")
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
                 PlaceUnits("entertain")
+            elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+                PlaceUnits("hxhant")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
-            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-                PlaceUnits("hxhant")
             end
         end
     end
@@ -4280,6 +4280,15 @@ function DelMapHollow1()
 end
 
 --Ant
+function DelMapAnt()
+	if game.Workspace._terrain:FindFirstChild("terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+        	if v.ClassName == "Model" then v:Destroy() end
+			if v.ClassName == "Folder" then v:Destroy() end
+        end
+    end  
+end 
+
 function DelMapAnt1()
 	if game.Workspace:FindFirstChild("_map") then
     	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco:GetChildren()) do
@@ -5242,21 +5251,9 @@ coroutine.resume(coroutine.create(function()
 				DelMapMain()
 				DelMapentertain1()
 		DelMapentertain2()
-            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+        elseif game.Workspace._map:FindFirstChild("Ant Nest") then
                 DelTer() 
-				DelMapMain()
-				DelMapClover1()
-		DelMapClover2()
-		DelMapClover3()
-		DelMapClover4()
-		DelMapClover5()
-		DelMapClover6()
-		DelMapClover7()
-		DelMapClover8()
-		DelMapClover9()
-            elseif game.Workspace._map.obstacles.deco:FindFirstChild("Other Small Stuff") then
-                DelTer() 
-				DelMapMain()
+                DelMapAnt()
 				DelMapAnt1()
 		DelMapAnt2()
 		DelMapAnt3()
@@ -5269,6 +5266,18 @@ coroutine.resume(coroutine.create(function()
 		DelMapAnt10()
 		DelMapAnt11()
 		DelMapAnt12()
+            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+                DelTer() 
+				DelMapMain()
+				DelMapClover1()
+		DelMapClover2()
+		DelMapClover3()
+		DelMapClover4()
+		DelMapClover5()
+		DelMapClover6()
+		DelMapClover7()
+		DelMapClover8()
+		DelMapClover9()
             end
         end
     end

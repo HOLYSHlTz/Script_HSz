@@ -1310,6 +1310,17 @@ local function DELMAPNEW()
         DelTer()
     end)
 
+    DELMAP:Cheat("Checkbox"," Place Spawn ", function(bool)
+        print(bool)
+        Settings.placeany = bool
+        saveSettings()
+        placeAny()
+    end,{enabled = Settings.placeany})
+
+    DELMAP:Cheat("Button","Activate Place Spawn ", function()
+        placeAny()
+    end)
+
 end
 
 ----------------------------------------------
@@ -4064,6 +4075,23 @@ if Settings.AutoClaimEgg then
     ClaimEgg()
 end
 
+--placeany
+function placeAny()
+
+    local services = require(game.ReplicatedStorage.src.Loader)
+    local placement_service = services.load_client_service(script, "PlacementServiceClient")
+    
+        task.spawn(function()
+            while task.wait() do
+                placement_service.can_place = true
+            end
+        end)
+    end
+    
+    if Settings.placeany then
+        placeAny()
+    end
+
 --ReedemCode
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
@@ -4101,25 +4129,6 @@ pcall(function()
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
     warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 end)
-
-    --[[ Start of Low Cpu Mode Function
-    function lowCPU()
-        if Settings.lowCPU then
-            if not setfpscap then
-                return
-            end
-            warn("Low CPU Activated")
-            UserInputService.WindowFocusReleased:Connect(function()
-                RunService:Set3dRenderingEnabled(false)
-                setfpscap(5)
-            end)
-            UserInputService.WindowFocused:Connect(function()
-                RunService:Set3dRenderingEnabled(true)
-                setfpscap(120)
-            end)
-        end
-    end
-        -- End of Low Cpu Mode Function]]
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")

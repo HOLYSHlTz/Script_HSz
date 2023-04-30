@@ -1554,7 +1554,7 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("jjk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("pumpkins") then    
         updatepos("thriller_park", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("skeleton") then
+    elseif game.Workspace._map:FindFirstChild("misc deco") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("parking spots") then
         updatepos("bleach_legend", UnitPos, a,a2,a3,a4,a5,a6)
@@ -3747,7 +3747,7 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnitsTEST("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("skeleton") then
+            elseif game.Workspace._map:FindFirstChild("misc deco") then
                 PlaceUnitsTEST("clover")
             elseif game.Workspace._map:FindFirstChild("parking spots") then
                 PlaceUnitsTEST("bleach_legend")
@@ -3802,7 +3802,7 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
                 PlaceUnits("thriller_park")  
-            elseif game.Workspace._map:FindFirstChild("skeleton") then
+            elseif game.Workspace._map:FindFirstChild("misc deco") then
                 PlaceUnits("clover")
             elseif game.Workspace._map:FindFirstChild("parking spots") then
                 PlaceUnits("bleach_legend")

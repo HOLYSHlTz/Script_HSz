@@ -5695,6 +5695,20 @@ if Settings.autoDailyquest then
     autoDailyquest()
 end
 
+    -- Start of Check Connection
+    function checkInterNet()
+        warn("Auto Reconnect Loaded")
+        while task.wait(5) do
+            game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
+                if a.Name == 'ErrorPrompt' then
+                    task.wait(10)
+                    warn("Trying to Reconnect")
+                    TPReturner()
+                end
+            end)
+        end
+    end
+        -- End of Check Connection
 --AutoFeedEgg
 function FeedEgg()
     if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
@@ -5807,9 +5821,17 @@ pcall(function()
         vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     end)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-    warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 end)
 
+warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 warn("All Loaded !!!")
+
+if game.PlaceId == 8304191830 then
+    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    checkInterNet()
+elseif game.PlaceId ~= 8304191830 then
+    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    checkInterNet()
+end

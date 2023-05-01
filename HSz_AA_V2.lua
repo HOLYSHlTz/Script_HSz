@@ -697,6 +697,8 @@ local LowCPU0 = LG:Sector("")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
+local UnitAOE = LG:Sector(" Unit AOE ")
+local UnitAOE1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
 local OtherSec1 = LG:Sector("")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
@@ -1342,6 +1344,93 @@ local function DELMAPNEW()
         DelHill()
     end)
 
+end
+
+----------------------------------------------
+------------- Unit AOE Config ---------------- 
+----------------------------------------------
+local function UNITAOEAA()
+
+UnitAOE:Cheat("Dropdown", "เลือก Unit AOE",function(value)
+    Settings.unitAOE = value
+    saveSettings()
+end, { options = {"None","escanor_evolved"}, default = Settings.unitAOE})
+
+UnitAOE:Cheat("Checkbox"," Enable Unit AOE ", function(bool)
+	print(bool)
+	Settings.blackhole = bool
+	saveSettings()
+end,{enabled = Settings.blackhole})
+
+task.spawn(function()
+	while task.wait() do
+		if Settings.blackhole then
+
+    units = game.Workspace._UNITS
+    
+    charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame
+    basePosition = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+    basePosition2 = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+    enemyPosition = game.Workspace._BASES.pve.base_.fake_unit.HumanoidRootPart.CFrame
+
+    
+    if currentBend ~= findFarthest() then  -- if currentBend info is not the same as findFarthest result then
+        currentBend = findFarthest()  -- parse data to variable
+    end
+    
+    for i, v in pairs(units:getChildren()) do
+        if v:WaitForChild("_stats"):FindFirstChild("base") then 
+            if tostring(v._stats.base.Value) == "pve" then
+                if tostring(v._stats.last_reached_bend.Value) == tostring(currentBend) then  -- search for enemy with current bend Value 
+                    --game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame -- make unit follow the enemy 
+                        repeat
+                            game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = Enemies.HumanoidRootPart.CFrame
+                            --game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame -- make unit follow the enemy 
+                            task.wait()
+                        --until not v.HumanoidRootPart.CFrame or not Settings.blackhole
+                        until not Settings.blackhole
+                    
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+end
+
+function findFarthest()
+    local infoLastBend = {}
+    
+    if game.Workspace._wave_time.Value < 100 then  -- If current wave time is less than 55 then check current Bend Value
+        for i, v in pairs(game.Workspace._UNITS:getChildren()) do
+            if v:WaitForChild("_stats"):FindFirstChild("base") then  -- Look for Object Name Base
+                if tostring(v._stats.base.Value) == "pve" then  -- If Base Value is PVE
+                    if tostring(v._stats.last_reached_bend.Value) ~= "spawn" then  -- if Bend Value is not spawn
+                        lastBend = tostring(v._stats.last_reached_bend.Value)  -- parse Instance to String
+                        table.insert(infoLastBend, tonumber(lastBend))  -- parse to Table and convert to Number
+                    end
+                end
+            end
+        end
+        table.sort(infoLastBend)  -- sort Table Data in ascending Order
+        if infoLastBend ~= nil then  -- if Table Data is not nil
+            if getLastBend ~= infoLastBend[#infoLastBend] then  -- compare if Data are different, then replace Value if Different
+                getLastBend = infoLastBend[#infoLastBend]
+                return getLastBend  -- if different, return new Value
+                else
+                    return getLastBend  -- if not different, return old Value
+            end
+            else
+                return 1  -- if nil return Bend Value 1
+        end
+        else
+            if getLastBend ~= nil then  -- if data is not nil while time is not less than 55
+                return getLastBend  -- return same data
+                else
+                    return 1  -- else if data is nil while not less current wave is not less than 55 return bend value 1
+            end
+    end
 end
 
 ----------------------------------------------
@@ -2157,11 +2246,84 @@ local function reFarmconfig()
 
 end
 ---------------------------------------------
+-------------- LAGGY Config -----------------
+---------------------------------------------
+
 local function LAGGYconfig()
     LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
 
+    --test New Lag
+LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
+	print(bool)
+	Settings.EnableLag = bool
+	saveSettings()
+end,{enabled = Settings.EnableLag})
 
-    LG1:Cheat("Textbox", "LAG Threads", function(Value)
+task.spawn(function()
+	while task.wait() do
+		if Settings.EnableLag then
+    delaylag = tonumber(Settings.delag or 1.5)
+    while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
+    game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
+    local function getmaxvalue(val)
+       local mainvalueifonetable = 499999
+       if type(val) ~= "number" then
+           return nil
+       end
+       local calculateperfectval = (mainvalueifonetable/(val+2))
+       return calculateperfectval
+    end
+     
+    --local function bomb(tableincrease, tries)
+function bomb(tableincrease, tries)
+    local maintable = {}
+    local spammedtable = {}
+    
+    table.insert(spammedtable, {})
+    z = spammedtable[1]
+
+    tableincrease = tonumber(Settings.max or 22)
+    for i = 1, tableincrease do
+        local tableins = {}
+        table.insert(z, tableins)
+        z = tableins
+    end
+     
+    local calculatemax = getmaxvalue(tableincrease)
+    local maximum
+     
+    if calculatemax then
+         maximum = calculatemax
+         else
+         maximum = 999999
+    end
+     
+    for i = 1, maximum do
+         table.insert(maintable, spammedtable)
+    end
+     
+    --tries = tonumber(Settings.mix or 1.5)
+    for i = 1, tries do
+         game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
+    end
+end
+    
+    tableincrease = tonumber(Settings.max or 22)
+    --tries = tonumber(Settings.mix or 1.5)
+
+    if Settings.EnableLag then
+        bomb(tableincrease, tonumber(Settings.mix))
+    elseif not Settings.EnableLag then
+        bomb(tableincrease, 0)
+    end
+    --bomb(tableincrease, tries)
+    --repeat task.wait() until not Settings.EnableLag
+            end
+        end
+    end
+end)
+
+    --[[LG1:Cheat("Textbox", "LAG Threads", function(Value)
         print("LAG threads.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
@@ -2177,30 +2339,34 @@ local function LAGGYconfig()
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
-    end, {placeholder = Settings.delag or 1.5})
+    end, {placeholder = Settings.delag or 1.5})]]
 
+    LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max))  
+    LG1:Cheat("Slider", "LAG Threads [slide]", function(Value)
+        print("LAG Lv.:", Value)
+        Settings.max = tonumber(Value)
+        saveSettings()
+    end, {min = 0, max = 250, suffix = "", default = 22 })
+
+    LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
     LG1:Cheat("Slider", "LAG Lv. [slide]", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
-    end, {min = 0, max = 7, suffix = "", default = 0 })
+    end, {min = 1, max = 7, suffix = "", default = 1.2 })
 
+    LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
     LG1:Cheat("Slider", "Delay [slide]", function(Value)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
-    end, {min = 0, max = 10, suffix = "", default = 1.5 })
+    end, {min = 0.1, max = 10, suffix = "", default = 1.5 })
 
-    LG1:Cheat("Label","  ")
-    LG1:Cheat("Label"," HOPE Y'all Enjoy ")
-    LG1:Cheat("Label"," 1 ถ้าใช้ LAG Lv. ไม่ต้องตั้งค่า ")
-    LG1:Cheat("Label"," LAG Threads & LAG Tries ")
-    LG1:Cheat("Label"," 2. เช็ท Tries หรือ LAG Lv. เป็น 0 เพื่อปิดฟังชั่น LAG ")
-    LG1:Cheat("Label"," 3. Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
-    LG1:Cheat("Label"," 4. Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
-    LG1:Cheat("Label"," 4. Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
-    LG1:Cheat("Label"," 5. การตั้งค่าพิ้นฐาน : threads = 250, tries = 1, Delay = 1.5 ")
-    LG1:Cheat("Label"," 6 .การตั้งค่าแบบเร็ว : threads = 10, tries = 1.5, Delay = 1.5 ")
+    LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
+    LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
+    LG1:Cheat("Label","  Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
+    LG1:Cheat("Label","  การตั้งค่าพิ้นฐาน : threads = 250, tries = 1, Delay = 1.5 ")
+    LG1:Cheat("Label","  การตั้งค่าแบบเร็ว : threads = 10, tries = 1.5, Delay = 1.5 ")
 
 end
 ----------------------------------------------
@@ -2434,6 +2600,7 @@ if game.PlaceId == 8304191830 then
     --lowCPUsec()
     others()
     DELMAPNEW()
+    UNITAOEAA()
 else
     SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
     AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
@@ -2454,6 +2621,7 @@ else
     --lowCPUsec()
     others()
     DELMAPNEW()
+    UNITAOEAA()
     WebhookSec:Cheat("Label","")
     WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
 end
@@ -5547,69 +5715,4 @@ end)
 
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
-
---testlag
-function Laggy()
-
-    delaylag = tonumber(Settings.delag or 1.5)
-    while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
-    game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
-    local function getmaxvalue(val)
-       local mainvalueifonetable = 499999
-       if type(val) ~= "number" then
-           return nil
-       end
-       local calculateperfectval = (mainvalueifonetable/(val+2))
-       return calculateperfectval
-    end
-     
-    local function bomb(tableincrease, tries)
-    local maintable = {}
-    local spammedtable = {}
-    
-    table.insert(spammedtable, {})
-    z = spammedtable[1]
-
-    tableincrease = tonumber(Settings.max or 22)
-    for i = 1, tableincrease do
-        local tableins = {}
-        table.insert(z, tableins)
-        z = tableins
-    end
-     
-    local calculatemax = getmaxvalue(tableincrease)
-    local maximum
-     
-    if calculatemax then
-         maximum = calculatemax
-         else
-         maximum = 999999
-    end
-     
-    for i = 1, maximum do
-         table.insert(maintable, spammedtable)
-    end
-     
-    tries = tonumber(Settings.mix or 0)
-    for i = 1, tries do
-         game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
-    end
-end
-    
-    tableincrease = tonumber(Settings.max or 22)
-    tries = tonumber(Settings.mix or 0)
-     
-    bomb(tableincrease, tries)
-
-    end
-end
-
-if Laggy() == false then
-        Laggy() 
-    end
---[[if Laggy() == true then
-        notLaggy()
-end]]
-
-
 warn("All Loaded !!!")

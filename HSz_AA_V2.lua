@@ -1331,6 +1331,17 @@ local function DELMAPNEW()
         placeunittwin()
     end)
 
+    DELMAP:Cheat("Checkbox"," Delete Hill [ลบที่วางตัวแอร์//วางตัวแอร์ไม่ได้]", function(bool)
+		print(Settings.deletehill)
+        Settings.deletehill = bool
+        saveSettings()
+        DelHill()
+    end,{enabled = Settings.deletehill})
+
+    DELMAP:Cheat("Button","Activate Delete Hill ", function()
+        DelHill()
+    end)
+
 end
 
 ----------------------------------------------
@@ -2831,7 +2842,7 @@ local function startfarming()
     end
 end
 --end fixportal]]
-    -- Start of Auto Ability Function
+    -- Start Auto Ability Function
 getgenv().autoabilityerr = false
 function autoabilityfunc()
     local player = game.Players.LocalPlayer.Name
@@ -2841,34 +2852,34 @@ function autoabilityfunc()
             for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
                 if v:FindFirstChild("_stats") then
                     
-                    -- Look for Threat then execute Puchi Skill
+                    
                     if v._stats:FindFirstChild("threat") then
                         if v._stats.threat.Value > 0 then
                             UsePuchiSkill()
                         end
                         
-                    -- Search Player Units
+                   
     				elseif v._stats:FindFirstChild("player") then
     					if tostring(v._stats.player.Value) == player then
     
                             
-                            -- Execute Skill if Wendy and recast every 21 seconds
+                            
                             if v._stats.id.Value == "wendy" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 task.wait(21)
                             
-                            -- Execute Skill if Erwin and recast every 21 seconds
+                            
                             elseif v._stats.id.Value == "erwin" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 task.wait(21)
                                 
-                            -- Execute Skill if Gojo and recast every 60 seconds    
+                                
                             elseif v._stats.id.Value == "gojo_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
                             
-                            -- Execute Skill if Not Wendy, Erwin, Gojo and Puchi    
+                               
                             elseif v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.state.Value == "attack" then
                                     if v._stats.active_attack.Value ~= "nil" then
@@ -2889,9 +2900,9 @@ function autoabilityfunc()
         end
     end
 end
-    -- End of Auto Abilities Function
+    -- End  Auto Abilities Function
     
-    -- Start of Puchi Skill Function
+    -- Start  Puchi Skill Function
 function UsePuchiSkill()
     local player = game.Players.LocalPlayer.Name
 	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
@@ -2901,17 +2912,17 @@ function UsePuchiSkill()
 					if v._stats.id.Value == "pucci_heaven" then
 					    if v._stats.state.Value == "attack" then
 					    
-					        -- Check if Game Mode is Infinite
+					        -- Check Infinite
 						    if GLD()._gamemode == "infinite" then
 						        if GetWaveNumber() % 10 == 0 then
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
 						        end
-						    -- Check if Game Mode is Raid
+						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
 					            if GetWaveNumber() == 15 or 20 then
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
 						        end
-						    -- Check if Game mode is Story or Infinite Tower
+						    -- Check Story or Infinite Tower
 					        elseif GLD()._gamemode == "story" or "infinite_tower" then
 					            if GetWaveNumber() == 15 then
 					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -2924,7 +2935,7 @@ function UsePuchiSkill()
 		end
 	end
 end
-    -- End of Puchi Skill Function
+    -- End  Puchi Skill Function
 
 function autoupgradefunc()
     local success, err = pcall(function() --///
@@ -3933,6 +3944,16 @@ function DelTer()
     end  
 end   
 
+function DelHill()
+	if game.Workspace._terrain:FindFirstChild("terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].hill:GetChildren()) do
+			if v.ClassName == "MeshPart" then v:Destroy() end
+        	if v.ClassName == "Model" then v:Destroy() end
+			if v.ClassName == "Folder" then v:Destroy() end
+			if v.ClassName == "MeshPart" then v:Destroy() end
+        end
+    end  
+end   
 
 function DelMapMain()
 	if game.Workspace:FindFirstChild("_map") then

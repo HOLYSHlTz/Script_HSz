@@ -810,6 +810,102 @@ local function UnitSec()
         GetUnits()
     end)
 end
+
+
+SelectUnits:Cheat("Checkbox","🦸 Auto Save Unit เวลาเปลี่ยนตัว  ", function(bool)
+    warn("Auto Save Unit set to " .. tostring(bool))
+    Settings.AutoSaveUnit = bool
+    saveSettings()
+end,{enabled = Settings.AutoSaveUnit })
+
+-- End of Unit Section Function
+
+-- Start of Auto Save Unit Function
+function AutoSaveUnit()
+if Settings.AutoSaveUnit then
+    local function saveUnit()
+    -- Generate Selected Unit Parameters
+    if Settings.SelectedUnits == nil then
+        Settings.SelectedUnits = {}
+        for i = 1, 6, 1 do
+            Settings.SelectedUnits["UP" .. i] = "nil"
+        end
+        
+        else
+            -- Reset Selected Unit List to nil
+            for i = 1, 6, 1 do
+                Settings.SelectedUnits["UP" .. i] = "nil"
+            end
+    end
+            
+    -- Transfer Equipped Units to Selected Unit List and Save to JSON
+    for i, v in pairs(getgenv().profile_data.equipped_units) do
+        if v.equipped_slot then
+            Settings.SelectedUnits["UP" .. tostring(v.equipped_slot)] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
+            print("UP" .. tostring(v.equipped_slot) .. " " .. tostring(v.unit_id) .. " #" .. tostring(v.uuid))
+        end
+    end
+    saveSettings()
+    end
+
+    local function fetchUnit()
+        getgenv().profile_data = { 
+            equipped_units = {}
+        }
+        table.clear(getgenv().profile_data.equipped_units)
+        
+        -- Fetch Unit List
+        for i, v in pairs(getgc(true)) do
+            if type(v) == "table" and rawget(v, "xp") then
+                wait()
+                table.insert(getgenv().profile_data.equipped_units, v)
+            end
+        end
+            
+        -- Generate Selected Unit Parameters
+        if Settings.SelectedUnits == nil then
+            Settings.SelectedUnits = {}
+            for i = 1, 6, 1 do
+                Settings.SelectedUnits["UP" .. i] = "nil"
+            end
+        end
+
+        -- Generate Compare List Parameters
+        EquippedList = {}
+        table.clear(EquippedList)
+        
+        for i = 1, 6, 1 do
+            EquippedList["UP" .. i] = "nil"
+        end
+            
+        -- Filter Fetched Unit to List Equipped Units Only
+        for i, v in pairs(getgenv().profile_data.equipped_units) do
+            if v.equipped_slot then
+                EquippedList["UP" .. v.equipped_slot] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
+            end
+        end
+            
+        -- If Equipped Slot in Empty, Put "nil"
+        for i = 1, 6, 1 do
+            if EquippedList["UP"..i] == nil then
+                EquippedList["UP"..i] = "nil"
+            end
+        end
+            
+        -- Compared Current List to Saved JSON List if not the same then call AutoSave Function
+        for i = 1, 6, 1 do
+            if EquippedList["UP"..i] ~= Settings.SelectedUnits["UP"..i] then
+                saveUnit()
+            end
+        end
+    end
+    
+    fetchUnit()
+    
+    end
+end
+
+-- End of Auto Save Unit Function
 ----------------------------------------------
 ------------------ World Section -------------updatefix
 ----------------------------------------------
@@ -1943,6 +2039,7 @@ function MouseClick2(UnitPos)
 	end
 end
 local function UnitPosSec()
+    
     UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 1", function()
         MouseClick2("UP1")
     end)

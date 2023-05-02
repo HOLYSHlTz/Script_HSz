@@ -1443,93 +1443,6 @@ local function DELMAPNEW()
 end
 
 ----------------------------------------------
-------------- Unit AOE Config ---------------- 
-----------------------------------------------
-local function UNITAOEAA()
-
-UnitAOE:Cheat("Dropdown", "เลือก Unit AOE",function(value)
-    Settings.unitAOE = value
-    saveSettings()
-end, { options = {"None","escanor_evolved"}, default = Settings.unitAOE})
-
-UnitAOE:Cheat("Checkbox"," Enable Unit AOE ", function(bool)
-	print(bool)
-	Settings.blackhole = bool
-	saveSettings()
-end,{enabled = Settings.blackhole})
-
-task.spawn(function()
-	while task.wait() do
-		if Settings.blackhole then
-
-    units = game.Workspace._UNITS
-    
-    charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame
-    basePosition = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    basePosition2 = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    enemyPosition = game.Workspace._BASES.pve.base_.fake_unit.HumanoidRootPart.CFrame
-
-    
-    if currentBend ~= findFarthest() then  -- if currentBend info is not the same as findFarthest result then
-        currentBend = findFarthest()  -- parse data to variable
-    end
-    
-    for i, v in pairs(units:getChildren()) do
-        if v:WaitForChild("_stats"):FindFirstChild("base") then 
-            if tostring(v._stats.base.Value) == "pve" then
-                if tostring(v._stats.last_reached_bend.Value) == tostring(currentBend) then  -- search for enemy with current bend Value 
-                    --game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame -- make unit follow the enemy 
-                        repeat
-                            game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = Enemies.HumanoidRootPart.CFrame
-                            --game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame -- make unit follow the enemy 
-                            task.wait()
-                        --until not v.HumanoidRootPart.CFrame or not Settings.blackhole
-                        until not Settings.blackhole
-                    
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end
-
-function findFarthest()
-    local infoLastBend = {}
-    
-    if game.Workspace._wave_time.Value < 100 then  -- If current wave time is less than 55 then check current Bend Value
-        for i, v in pairs(game.Workspace._UNITS:getChildren()) do
-            if v:WaitForChild("_stats"):FindFirstChild("base") then  -- Look for Object Name Base
-                if tostring(v._stats.base.Value) == "pve" then  -- If Base Value is PVE
-                    if tostring(v._stats.last_reached_bend.Value) ~= "spawn" then  -- if Bend Value is not spawn
-                        lastBend = tostring(v._stats.last_reached_bend.Value)  -- parse Instance to String
-                        table.insert(infoLastBend, tonumber(lastBend))  -- parse to Table and convert to Number
-                    end
-                end
-            end
-        end
-        table.sort(infoLastBend)  -- sort Table Data in ascending Order
-        if infoLastBend ~= nil then  -- if Table Data is not nil
-            if getLastBend ~= infoLastBend[#infoLastBend] then  -- compare if Data are different, then replace Value if Different
-                getLastBend = infoLastBend[#infoLastBend]
-                return getLastBend  -- if different, return new Value
-                else
-                    return getLastBend  -- if not different, return old Value
-            end
-            else
-                return 1  -- if nil return Bend Value 1
-        end
-        else
-            if getLastBend ~= nil then  -- if data is not nil while time is not less than 55
-                return getLastBend  -- return same data
-                else
-                    return 1  -- else if data is nil while not less current wave is not less than 55 return bend value 1
-            end
-    end
-end
-
-----------------------------------------------
 ---------------- Other Config ---------------- 
 ----------------------------------------------
 local function DeleteMapSec()
@@ -1542,6 +1455,7 @@ local function DeleteMapSec()
     DelMapConfig2:Cheat("Button", "Leave To Lobby", function()
         warn("Return to Lobby")
         Teleport()
+        --TPReturner()
     end)
 
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
@@ -1568,6 +1482,103 @@ local function DeleteMapSec()
     DelMapConfig2:Cheat("Label","")  
 
 end
+
+----------------------------------------------
+------------- Unit AOE Config ---------------- 
+----------------------------------------------
+local function UNITAOEAA()
+
+    -- Start of Check Deployed Unit
+    UnitAOE:Cheat("Button", "ชื่อ Unit ที่วาง [กด F9 ดู]", function()
+        for i, v in pairs(game.Workspace._UNITS:getChildren()) do
+            if v:FindFirstChild("_stats"):FindFirstChild("player") then
+                if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
+                    warn(v)
+                end
+            end
+        end
+    end)
+    -- End of Check Deployed Unit
+    
+    UnitAOE:Cheat("Textbox", "ใส่ชื่อ Unit", function(Value)
+        Settings.unitAOE = Value
+        saveSettings()
+        end, {placeholder = Settings.unitAOE})
+
+    UnitAOE:Cheat("Dropdown", "เลือก Unit AOE",function(value)
+        Settings.unitAOE = value
+        saveSettings()
+    end, { options = {"None","escanor_evolved","aizen_hog_evolved","shigaraki","esdeath","yamamoto_evolved","gon_adult","unohana","rias","jin_mori","jin_mori:shiny",
+    "tengen_2","aokiji","kenpachi_evolved","akeno"}, default = Settings.unitAOE})
+
+
+UnitAOE:Cheat("Checkbox"," เปิด Unit Inf Range [AOE] ", function(bool)
+	print(bool)
+	Settings.blackhole = bool
+	saveSettings()
+end,{enabled = Settings.blackhole})
+
+task.spawn(function()
+	while task.wait() do
+		if Settings.blackhole then
+            --function infiniteRange()
+    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+    local player = game.Players.LocalPlayer.Name
+    local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+        
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
+        if Unit:getChildren()[1] then
+            for i, v in pairs(Unit:getChildren()) do
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
+                            enemy = v.HumanoidRootPart.CFrame
+                        end
+                    end
+                end
+            end
+        end
+        return enemy
+    end
+
+    function followEnemy()
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if game.Workspace._wave_time.Value > 0 then
+
+                                        game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemy()
+            end
+        end
+    end)
+end
+
+
 ----------------------------------------------
 ------------------ credits -------------------
 ----------------------------------------------
@@ -2324,21 +2335,6 @@ local function reFarmconfig()
     reFarmConfig:Cheat("Button", "Reset Farm config", function()
         print(Settings.refarmc)
         refarmcon()
-    end)
-
-    reFarmConfig:Cheat("Button", "Set Farm Story", function()
-        print(Settings.setfarm1)
-        setfarm1()
-    end)
-
-    reFarmConfig:Cheat("Button", "Farm Story & Replay", function()
-        print(Settings.setfarm2)
-        setfarm2()
-    end)
-
-    reFarmConfig:Cheat("Button", "Farm Inf Castle & Next Level", function()
-        print(Settings.setfarmIC)
-        setfarmIC()
     end)
 
 end
@@ -3442,6 +3438,7 @@ function TPReturner()
        end
    end
 end
+
 function Teleport()
    while wait() do
        pcall(function()
@@ -5831,7 +5828,9 @@ warn("All Loaded !!!")
 if game.PlaceId == 8304191830 then
     repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
     checkInterNet()
+    --infiniteRange()
 elseif game.PlaceId ~= 8304191830 then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     checkInterNet()
+    --infiniteRange()
 end

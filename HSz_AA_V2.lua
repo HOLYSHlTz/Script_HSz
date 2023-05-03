@@ -681,14 +681,14 @@ local Unit5 = UC:Sector("Unit 5")
 local Unit6 = UC:Sector("Unit 6")
 
 --- Unit AOE
-local UA = Window:Category("🏃‍♀️ Unit ZicZac ")
+local UA = Window:Category("⚔️ INF Range")
 
 Unit = {}
 for i = 1, 6 do
-    Unit["AOE"..i] = UA:Sector("Unit " .. i .. " AOE")
+    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " INF Range")
 end
 
-local UnitAOE = UA:Sector(" Unit AOE ")
+local UnitAOE = UA:Sector("INF Range Config ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
@@ -725,7 +725,7 @@ local starbux = sponsor:Sector("💎 ROBUX กลุ่ม 💎")
 ---------------- Units Selection -------------
 ----------------------------------------------
 local function UnitSec()
-    --#region Select Units Tab
+    --#region เลือก Units Tab
     local Units = {}
     
     function Check()
@@ -1492,7 +1492,7 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-UnitAOE:Cheat("Checkbox","Enable ZicZac Unit ", function(bool)
+UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
 	print(bool)
 	Settings.blackhole = bool
 	saveSettings()
@@ -1521,7 +1521,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1532,7 +1532,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU1()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1591,7 +1591,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1602,7 +1602,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU2()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1660,7 +1660,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1671,7 +1671,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU3()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1729,7 +1729,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1740,7 +1740,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU4()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1798,7 +1798,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1809,7 +1809,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU5()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1867,7 +1867,7 @@ task.spawn(function()
                         if tonumber(distance) == distanceTable[1] then
 
                             enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                         end
                     end
@@ -1880,7 +1880,7 @@ task.spawn(function()
            
                 
     local function followEnemyU6()
-        --Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1926,65 +1926,61 @@ table.insert(names, Units[1])
 end
 --- End of Fetch Unit
 
---- Assigned Unit to Dropdown Option
+--- Check Slot Unit to Dropdown 
 --Unit1
 for i = 1, 1 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE1 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE1 or nil})
 end
---- End of Assigned Unit
 
---- Assigned Unit to Dropdown Option
+
 --Unit2
 for i = 2, 2 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE2 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE2 or nil})
 end
---- End of Assigned Unit
 
---- Assigned Unit to Dropdown Option
+
 --Unit3
 for i = 3, 3 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE3 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE3 or nil})
 end
---- End of Assigned Unit
 
---- Assigned Unit to Dropdown Option
+
 --Unit4
 for i = 4, 4 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE4 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE4 or nil})
 end
---- End of Assigned Unit
 
---- Assigned Unit to Dropdown Option
+
+
 --Unit5
 for i = 5, 5 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE5 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE5 or nil})
 end
---- End of Assigned Unit
 
---- Assigned Unit to Dropdown Option
+
 --Unit6
 for i = 6, 6 do
- Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+ Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
     Settings.UnitAOE6 = value
     saveSettings()
 end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
 end
---- End of Assigned Unit
+--- End Check Unit
 
 
 ----------------------------------------------

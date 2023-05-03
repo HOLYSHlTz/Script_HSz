@@ -1501,7 +1501,7 @@ local function UNITAOEAA()
     -- End of Check Deployed Unit
 
 
-UnitAOE:Cheat("Checkbox","Enable Unit AOE ", function(bool)
+UnitAOE:Cheat("Checkbox","Enable ZicZac Unit ", function(bool)
 	print(bool)
 	Settings.blackhole = bool
 	saveSettings()
@@ -1536,7 +1536,7 @@ task.spawn(function()
                                 if tonumber(distance) == distanceTable[1] then
 
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -4)
+                                        CFrame.new(0, 0, -3)
 
                                 end
                             end
@@ -1641,7 +1641,7 @@ local function getDistance()
                             if tonumber(distance) == distanceTable[1] then
 
                                 enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
+                                    CFrame.new(0, 0, -3)
 
                             end
                         end
@@ -1733,7 +1733,7 @@ local function getDistance()
                             if tonumber(distance) == distanceTable[1] then
 
                                 enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
+                                    CFrame.new(0, 0, -3)
 
                             end
                         end
@@ -1825,7 +1825,7 @@ local function getDistance()
                             if tonumber(distance) == distanceTable[1] then
 
                                 enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
+                                    CFrame.new(0, 0, -3)
 
                             end
                         end

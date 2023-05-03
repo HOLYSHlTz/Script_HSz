@@ -1413,6 +1413,7 @@ local function DELMAPNEW()
         print(bool)
         Settings.deletemap = bool
         saveSettings()
+        warn("Enable Delete map")
     end,{enabled = Settings.deletemap})
 
     DELMAP:Cheat("Checkbox"," Place Spawn วางได้ทุกจุด", function(bool)
@@ -5780,7 +5781,6 @@ end
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
         if game.PlaceId ~= 8304191830 and Settings.deletemap then
-            warn("Enable Delete map")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
             if game.Workspace._map:FindFirstChild("namek mushroom model") then

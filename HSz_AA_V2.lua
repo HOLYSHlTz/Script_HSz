@@ -655,22 +655,20 @@ local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradan
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.RightControl)
-local Home = Window:Category(" 🏠 หน้าแรก")
+local Home = Window:Category("🏠 หน้าแรก")
 local Developers = Home:Sector("HSz Anime Adventures")
 local asdasd = Home:Sector(" ")
 local UIUPDT = Home:Sector("⚙️ Fix UPDATE "..version.." ⚙️")
-local Farm = Window:Category(" 🤖 Auto Farm")
+local Farm = Window:Category("🤖 Auto Farm")
 local SelectUnits = Farm:Sector("🧙‍ เลือก Units")
 local SelectWorld = Farm:Sector("🌏 เลือก World")
 local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
 local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
---[[local Portals = Window:Category(" 🚪 Portals Farm")
-local devilcity = Portals:Sector("😈‍ Devil Portal 😈")
-local alinecity = Portals:Sector("👽 Aline Portal 👽")]]
 
-local UC = Window:Category(" 🧙 ตั้งค่า Unit")
+
+local UC = Window:Category("🧙 ตั้งค่า Unit")
 local NDY = UC:Sector("Beta Unit Config ")
 local NDY2 = UC:Sector(" ")
 local emptyxx = UC:Sector(" ")
@@ -682,30 +680,36 @@ local Unit4 = UC:Sector("Unit 4")
 local Unit5 = UC:Sector("Unit 5")
 local Unit6 = UC:Sector("Unit 6")
 
-local ETC = Window:Category(" 🌐 Discord & Shop")
-local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
-local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
-local devilcity1 = ETC:Sector("")
-local OtherSec2 = ETC:Sector("")
-local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
+--- Unit AOE
+local UA = Window:Category("🏃‍♀️ Unit ZicZac ")
 
+Unit = {}
+for i = 1, 6 do
+    Unit["AOE"..i] = UA:Sector("Unit " .. i .. " AOE")
+end
 
+local UnitAOE = UA:Sector(" Unit AOE ")
+--- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
 local LowCPU0 = LG:Sector(" ")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
-local UnitAOE = LG:Sector(" Unit AOE ")
-local UnitAOE1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
 local OtherSec1 = LG:Sector("")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
---local DelMapConfig = LG:Sector("")
+local DelMapConfig = LG:Sector("")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
 local DelMapConfig3 = LG:Sector("")
 local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
 
+local ETC = Window:Category("🌐 Discord & Shop")
+local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
+local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
+local devilcity1 = ETC:Sector("")
+local OtherSec2 = ETC:Sector("")
+local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 
 
 -------------
@@ -1488,25 +1492,13 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-    -- Start of Check Deployed Unit
-    UnitAOE:Cheat("Button", "ชื่อ Unit ที่วาง [กด F9 ดู]", function()
-        for i, v in pairs(game.Workspace._UNITS:getChildren()) do
-            if v:FindFirstChild("_stats"):FindFirstChild("player") then
-                if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
-                    warn(v)
-                end
-            end
-        end
-    end)
-    -- End of Check Deployed Unit
-
-
 UnitAOE:Cheat("Checkbox","Enable ZicZac Unit ", function(bool)
 	print(bool)
 	Settings.blackhole = bool
 	saveSettings()
 end,{enabled = Settings.blackhole})
 
+--Unit1
 task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
@@ -1516,30 +1508,21 @@ task.spawn(function()
     local Unit = game.Workspace._UNITS
     local distanceTable = {}
     local infoLastBend = {}
-    
-    local function getDistance()
 
+    local function getDistance(toCheck)
         table.clear(distanceTable)
-        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
-                                if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
 
-                                    enemy = v.HumanoidRootPart.CFrame *
+                            enemy = v.HumanoidRootPart.CFrame *
                                         CFrame.new(0, 0, -4)
 
-                                end
-                            end
                         end
                     end
                 end
@@ -1559,10 +1542,14 @@ task.spawn(function()
                         if tostring(v._stats.player.Value) == player then
                             local success, err = pcall(function()
                                 if tostring(v._stats.player.Value) == player then
-                                        if game.Workspace._wave_time.Value > 0 then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
+                                        --if game.Workspace._wave_time.Value > 0 then
 
-                                        game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                        game.Workspace._UNITS[Settings.unitAOE].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
                                     end
                                 end
@@ -1579,302 +1566,425 @@ task.spawn(function()
             end
         end
     end)
---end
-    
-    UnitAOE:Cheat("Textbox", "ใส่ชื่อ Unit1", function(Value)
-        Settings.unitAOE = Value
-        saveSettings()
-        end, {placeholder = Settings.unitAOE})
-
-    UnitAOE:Cheat("Dropdown", "เลือก Unit1 AOE",function(value)
-        Settings.unitAOE = value
-        saveSettings()
-    end, { options = {"None","escanor_evolved","aizen_hog_evolved","shigaraki","esdeath","yamamoto_evolved","gon_adult","unohana","rias","jin_mori","jin_mori:shiny",
-    "tengen_2","aokiji","kenpachi_evolved","akeno"}, default = Settings.unitAOE})
 
 
 --Unit2
-
-UnitAOE:Cheat("Textbox", "ใส่ชื่อ Unit2", function(Value)
-    Settings.unitAOE2 = Value
-    saveSettings()
-    end, {placeholder = Settings.unitAOE2})
-
-UnitAOE:Cheat("Dropdown", "เลือก Unit2 AOE",function(value)
-    Settings.unitAOE2 = value
-    saveSettings()
-end, { options = {"None","escanor_evolved","aizen_hog_evolved","shigaraki","esdeath","yamamoto_evolved","gon_adult","unohana","rias","jin_mori","jin_mori:shiny",
-"tengen_2","aokiji","kenpachi_evolved","akeno"}, default = Settings.unitAOE2})
-
---[[UnitAOE:Cheat("Checkbox"," Enable Unit2 AOE ", function(bool)
-print(bool)
-Settings.blackhole2 = bool
-saveSettings()
-end,{enabled = Settings.blackhole2})]]
-
 task.spawn(function()
-while task.wait() do
-    if Settings.blackhole then
+	while task.wait() do
+		if Settings.blackhole then
 
-
-local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-local player = game.Players.LocalPlayer.Name
-local Unit = game.Workspace._UNITS
-local distanceTable = {}
-local infoLastBend = {}
-
-local function getDistance()
-    table.clear(distanceTable)
-    table.clear(infoLastBend)
-    if Unit:getChildren()[1] then
-        for i, v in pairs(Unit:getChildren()) do
-            if v:WaitForChild("_stats")then
-                if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                    if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                        lastBend = tostring(v._stats.last_reached_bend.Value)
-                        table.insert(infoLastBend, tonumber(lastBend))
-                        table.sort(infoLastBend)
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
-                            if tonumber(distance) == distanceTable[1] then
-
-                                enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
-
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-    return enemy
-end
-            
-local function followEnemyU2()
-   -- Settings.unitAOE2 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+    local infoLastBend = {}
+
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("player") then
-                    if tostring(v._stats.player.Value) == player then
-                        local success, err = pcall(function()
-                            if tostring(v._stats.player.Value) == player then
-                                if game.Workspace._wave_time.Value > 0 then
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
 
-                                    game.Workspace._UNITS[Settings.unitAOE2].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                    game.Workspace._UNITS[Settings.unitAOE2].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
 
-                                end
-                            end
-                        end)
-                        if err then
-                            return
-                            end
                         end
                     end
                 end
             end
         end
-        followEnemyU2()
-        end
+        return enemy
     end
-end)
+                
+    local function followEnemyU2()
+        --Settings.unitAOE = "Select Units"
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE2 then
+                                        --if game.Workspace._wave_time.Value > 0 then
+
+                                        --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemyU2()
+            end
+        end
+    end)
 
 --Unit3
-
-UnitAOE:Cheat("Textbox", "ใส่ชื่อ Unit3", function(Value)
-    Settings.unitAOE3 = Value
-    saveSettings()
-    end, {placeholder = Settings.unitAOE3})
-
-UnitAOE:Cheat("Dropdown", "เลือก Unit3 AOE",function(value)
-    Settings.unitAOE3 = value
-    saveSettings()
-end, { options = {"None","escanor_evolved","aizen_hog_evolved","shigaraki","esdeath","yamamoto_evolved","gon_adult","unohana","rias","jin_mori","jin_mori:shiny",
-"tengen_2","aokiji","kenpachi_evolved","akeno"}, default = Settings.unitAOE3})
-
---[[UnitAOE:Cheat("Checkbox"," Enable Unit3 AOE ", function(bool)
-print(bool)
-Settings.blackhole3 = bool
-saveSettings()
-end,{enabled = Settings.blackhole3})]]
-
 task.spawn(function()
-while task.wait() do
-    if Settings.blackhole then
+	while task.wait() do
+		if Settings.blackhole then
 
-
-local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-local player = game.Players.LocalPlayer.Name
-local Unit = game.Workspace._UNITS
-local distanceTable = {}
-local infoLastBend = {}
-
-local function getDistance()
-    table.clear(distanceTable)
-    table.clear(infoLastBend)
-    if Unit:getChildren()[1] then
-        for i, v in pairs(Unit:getChildren()) do
-            if v:WaitForChild("_stats")then
-                if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                    if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                        lastBend = tostring(v._stats.last_reached_bend.Value)
-                        table.insert(infoLastBend, tonumber(lastBend))
-                        table.sort(infoLastBend)
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
-                            if tonumber(distance) == distanceTable[1] then
-
-                                enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
-
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-    return enemy
-end
-            
-local function followEnemyU3()
-   -- Settings.unitAOE3 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+    local infoLastBend = {}
+
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("player") then
-                    if tostring(v._stats.player.Value) == player then
-                        local success, err = pcall(function()
-                           if tostring(v._stats.player.Value) == player then
-                                        if game.Workspace._wave_time.Value > 0 then
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
 
-                                    game.Workspace._UNITS[Settings.unitAOE3].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                    game.Workspace._UNITS[Settings.unitAOE3].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
 
-                                end
-                            end
-                        end)
-                        if err then
-                            return
-                            end
                         end
                     end
                 end
             end
         end
-        followEnemyU3()
-        end
+        return enemy
     end
-end)
+                
+    local function followEnemyU3()
+        --Settings.unitAOE = "Select Units"
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE3 then
+                                        --if game.Workspace._wave_time.Value > 0 then
+
+                                        --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemyU3()
+            end
+        end
+    end)
 
 --Unit4
-
-UnitAOE:Cheat("Textbox", "ใส่ชื่อ Unit4", function(Value)
-    Settings.unitAOE4 = Value
-    saveSettings()
-    end, {placeholder = Settings.unitAOE4})
-
-UnitAOE:Cheat("Dropdown", "เลือก Unit4 AOE",function(value)
-    Settings.unitAOE4 = value
-    saveSettings()
-end, { options = {"None","escanor_evolved","aizen_hog_evolved","shigaraki","esdeath","yamamoto_evolved","gon_adult","unohana","rias","jin_mori","jin_mori:shiny",
-"tengen_2","aokiji","kenpachi_evolved","akeno"}, default = Settings.unitAOE4})
-
---[[UnitAOE:Cheat("Checkbox"," Enable Unit4 AOE ", function(bool)
-print(bool)
-Settings.blackhole4 = bool
-saveSettings()
-end,{enabled = Settings.blackhole4})]]
-
 task.spawn(function()
-while task.wait() do
-    if Settings.blackhole then
+	while task.wait() do
+		if Settings.blackhole then
 
-
-local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-local player = game.Players.LocalPlayer.Name
-local Unit = game.Workspace._UNITS
-local distanceTable = {}
-local infoLastBend = {}
-
-local function getDistance()
-    table.clear(distanceTable)
-    table.clear(infoLastBend)
-    if Unit:getChildren()[1] then
-        for i, v in pairs(Unit:getChildren()) do
-            if v:WaitForChild("_stats")then
-                if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                    if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                        lastBend = tostring(v._stats.last_reached_bend.Value)
-                        table.insert(infoLastBend, tonumber(lastBend))
-                        table.sort(infoLastBend)
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
-                            if tonumber(distance) == distanceTable[1] then
-
-                                enemy = v.HumanoidRootPart.CFrame *
-                                    CFrame.new(0, 0, -4)
-
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end
-    return enemy
-end
-            
-local function followEnemyU4()
-    --Settings.unitAOE4 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+    local infoLastBend = {}
+
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("player") then
-                    if tostring(v._stats.player.Value) == player then
-                        local success, err = pcall(function()
-                            if tostring(v._stats.player.Value) == player then
-                                if game.Workspace._wave_time.Value > 0 then
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
 
-                                    game.Workspace._UNITS[Settings.unitAOE4].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                    game.Workspace._UNITS[Settings.unitAOE4].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
 
-                                end
-                            end
-                        end)
-                        if err then
-                            return
-                            end
                         end
                     end
                 end
             end
         end
-        followEnemyU4()
-        end
+        return enemy
     end
-end)
+                
+    local function followEnemyU4()
+        --Settings.unitAOE = "Select Units"
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE4 then
+                                        --if game.Workspace._wave_time.Value > 0 then
 
+                                        --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemyU4()
+            end
+        end
+    end)
+
+--Unit5
+task.spawn(function()
+	while task.wait() do
+		if Settings.blackhole then
+
+    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+    local player = game.Players.LocalPlayer.Name
+    local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+    local infoLastBend = {}
+
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
+        if Unit:getChildren()[1] then
+            for i, v in pairs(Unit:getChildren()) do
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
+
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
+
+                        end
+                    end
+                end
+            end
+        end
+        return enemy
+    end
+                
+    local function followEnemyU5()
+        --Settings.unitAOE = "Select Units"
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE5 then
+                                        --if game.Workspace._wave_time.Value > 0 then
+
+                                        --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemyU5()
+            end
+        end
+    end)
+
+--Unit6
+task.spawn(function()
+	while task.wait() do
+		if Settings.blackhole then
+
+    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+    local player = game.Players.LocalPlayer.Name
+    local Unit = game.Workspace._UNITS
+    local distanceTable = {}
+    local infoLastBend = {}
+
+    local function getDistance(toCheck)
+        table.clear(distanceTable)
+        if Unit:getChildren()[1] then
+            for i, v in pairs(Unit:getChildren()) do
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
+
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
+
+                        end
+                    end
+                end
+            end
+        end
+        return enemy
+    end
+                       
+           
+                
+    local function followEnemyU6()
+        --Settings.unitAOE = "Select Units"
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("player") then
+                        if tostring(v._stats.player.Value) == player then
+                            local success, err = pcall(function()
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
+                                        --if game.Workspace._wave_time.Value > 0 then
+
+                                        --game.Workspace._UNITS[Settings.UnitAOE6].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        --game.Workspace._UNITS[Settings.UnitAOE6].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                        v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                    end
+                                end
+                            end)
+                            if err then
+                                return
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+            followEnemyU6()
+            end
+        end
+    end)
 
 end
+    
 
+--- Fetch Units from Equipped List
+local names = {}
+for i = 1, 6 do
+Units = Settings.SelectedUnits["U"..i]:split(" #")
+table.insert(names, Units[1])
+end
+--- End of Fetch Unit
 
+--- Assigned Unit to Dropdown Option
+--Unit1
+for i = 1, 1 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE1 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE1 or nil})
+end
+--- End of Assigned Unit
+
+--- Assigned Unit to Dropdown Option
+--Unit2
+for i = 2, 2 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE2 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE2 or nil})
+end
+--- End of Assigned Unit
+
+--- Assigned Unit to Dropdown Option
+--Unit3
+for i = 3, 3 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE3 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE3 or nil})
+end
+--- End of Assigned Unit
+
+--- Assigned Unit to Dropdown Option
+--Unit4
+for i = 4, 4 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE4 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE4 or nil})
+end
+--- End of Assigned Unit
+
+--- Assigned Unit to Dropdown Option
+--Unit5
+for i = 5, 5 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE5 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE5 or nil})
+end
+--- End of Assigned Unit
+
+--- Assigned Unit to Dropdown Option
+--Unit6
+for i = 6, 6 do
+ Unit["AOE"..i]:Cheat("Dropdown", "Select Unit" .. i .. " AOE",function(value)
+    Settings.UnitAOE6 = value
+    saveSettings()
+end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
+end
+--- End of Assigned Unit
 
 
 ----------------------------------------------
@@ -2994,7 +3104,6 @@ if game.PlaceId == 8304191830 then
     others()
     DELMAPNEW()
     UNITAOEAA()
-    UnitAOE:Cheat("Label"," ")   
 else
     SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
     AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
@@ -3016,7 +3125,6 @@ else
     others()
     DELMAPNEW()
     UNITAOEAA()
-    UnitAOE:Cheat("Label"," ")   
     WebhookSec:Cheat("Label","")
     WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
 end

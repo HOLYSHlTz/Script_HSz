@@ -2360,6 +2360,7 @@ task.spawn(function()
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
     local function getmaxvalue(val)
        local mainvalueifonetable = 499999
+       --local mainvalueifonetable = 399999
        if type(val) ~= "number" then
            return nil
        end
@@ -2405,7 +2406,8 @@ end
     --tries = tonumber(Settings.mix or 1.5)
 
     if Settings.EnableLag then
-        bomb(tableincrease, tonumber(Settings.mix))
+        --bomb(tableincrease, tonumber(Settings.mix))
+        bomb(tonumber(Settings.max), tonumber(Settings.mix))
     elseif not Settings.EnableLag then
         bomb(tableincrease, 0)
     end
@@ -2434,21 +2436,21 @@ end)
         saveSettings()
     end, {placeholder = Settings.delag or 1.5})]]
 
-    LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max))  
+    --LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max))  
     LG1:Cheat("Slider", "LAG Threads [slide]", function(Value)
         print("LAG Lv.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 250, suffix = "", default = 22 })
 
-    LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
+    --LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
     LG1:Cheat("Slider", "LAG Lv. [slide]", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
     end, {min = 1, max = 7, suffix = "", default = 1.2 })
 
-    LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
+    --LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
     LG1:Cheat("Slider", "Delay [slide]", function(Value)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)

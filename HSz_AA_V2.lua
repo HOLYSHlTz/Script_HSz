@@ -1549,7 +1549,7 @@ task.spawn(function()
     end
                 
     local function followEnemyU1()
-        Settings.unitAOE = "Select Units"
+        --Settings.unitAOE = "Select Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
         local player = game.Players.LocalPlayer.Name
         local Unit = game.Workspace._UNITS
@@ -1654,7 +1654,7 @@ local function getDistance()
 end
             
 local function followEnemyU2()
-    Settings.unitAOE2 = "Select Units"
+   -- Settings.unitAOE2 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
@@ -1746,7 +1746,7 @@ local function getDistance()
 end
             
 local function followEnemyU3()
-    Settings.unitAOE3 = "Select Units"
+   -- Settings.unitAOE3 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
@@ -1838,7 +1838,7 @@ local function getDistance()
 end
             
 local function followEnemyU4()
-    Settings.unitAOE4 = "Select Units"
+    --Settings.unitAOE4 = "Select Units"
     local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS

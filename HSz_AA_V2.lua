@@ -654,7 +654,7 @@ local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
 local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)
-Window.ChangeToggleKey(Enum.KeyCode.RightControl)
+Window.ChangeToggleKey(Enum.KeyCode.P)
 local Home = Window:Category("🏠 หน้าแรก")
 local Developers = Home:Sector("HSz Anime Adventures")
 local asdasd = Home:Sector(" ")

@@ -1509,20 +1509,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end
@@ -1579,20 +1587,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end
@@ -1648,20 +1664,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end
@@ -1717,20 +1741,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end
@@ -1786,20 +1818,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end
@@ -1855,20 +1895,28 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance(toCheck)
+    local function getDistance()
         table.clear(distanceTable)
+        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                        table.insert(distanceTable, tonumber(distance))
-                        table.sort(distanceTable)
-                        if tonumber(distance) == distanceTable[1] then
+                if v:WaitForChild("_stats")then
+                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
+                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
+                            lastBend = tostring(v._stats.last_reached_bend.Value)
+                            table.insert(infoLastBend, tonumber(lastBend))
+                            table.sort(infoLastBend)
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+                                if tonumber(distance) == distanceTable[1] then
 
-                            enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -3)
+                                    enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -5)
 
+                                end
+                            end
                         end
                     end
                 end

@@ -2041,7 +2041,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add New Raid Entertainment   \n   \n    \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add New Raid Entertainment   \n [+]Fix script not loaded   \n [+]Fix Unit Ziczac error   \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5

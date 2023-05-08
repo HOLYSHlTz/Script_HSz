@@ -1920,8 +1920,8 @@ end
 
 --- Fetch Units from Equipped List
 local names = {}
-for i = 1, 6 do
-Units = Settings.SelectedUnits["U"..i]:split(" #")
+for v = 1, 6 do
+Units = Settings.SelectedUnits["U"..v]:split(" #")
 table.insert(names, Units[1])
 end
 --- End of Fetch Unit
@@ -2763,8 +2763,8 @@ task.spawn(function()
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
     local function getmaxvalue(val)
-       local mainvalueifonetable = 499999
-       --local mainvalueifonetable = 399999
+       --local mainvalueifonetable = 499999
+       local mainvalueifonetable = tonumber(Settings.lagimpact or 499999)
        if type(val) ~= "number" then
            return nil
        end
@@ -2821,45 +2821,33 @@ end
         end
     end
 end)
+ 
 
-    --[[LG1:Cheat("Textbox", "LAG Threads", function(Value)
-        print("LAG threads.:", Value)
-        Settings.max = tonumber(Value)
+    LG1:Cheat("Slider", "LAG IMPACT(S) ", function(Value)
+        print("LAG Lv.:", Value)
+        Settings.lagimpact = tonumber(Value)
         saveSettings()
-    end, {placeholder = Settings.max or 22})
+    end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
 
-    LG1:Cheat("Textbox", "LAG Tries ", function(Value)
-        print("LAG tries.:", Value)
-        Settings.mix = tonumber(Value)
-        saveSettings()
-    end, {placeholder = Settings.mix or 0})
-
-    LG1:Cheat("Textbox", "Delay ", function(Value)
-        print("Delay.:", Value)
-        Settings.delag = tonumber(Value)
-        saveSettings()
-    end, {placeholder = Settings.delag or 1.5})]]
-
-    --LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max))  
-    LG1:Cheat("Slider", "LAG Threads [slide]", function(Value)
+    LG1:Cheat("Slider", "LAG Threads ", function(Value)
         print("LAG Lv.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
-    end, {min = 0, max = 250, suffix = "", default = 22 })
+    end, {min = 0, max = 250, suffix = "", default = Settings.max })
 
     --LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
-    LG1:Cheat("Slider", "LAG Lv. [slide]", function(Value)
+    LG1:Cheat("Slider", "LAG Lv. ", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
-    end, {min = 1, max = 7, suffix = "", default = 1.2 })
+    end, {min = 1, max = 7, suffix = "", default = Settings.mix })
 
     --LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
-    LG1:Cheat("Slider", "Delay [slide]", function(Value)
+    LG1:Cheat("Slider", "Delay ", function(Value)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
-    end, {min = 0.1, max = 10, suffix = "", default = 1.5 })
+    end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
 
     LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
     LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")

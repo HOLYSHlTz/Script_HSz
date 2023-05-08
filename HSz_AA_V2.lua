@@ -655,10 +655,13 @@ local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradan
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.P)
+
 local Home = Window:Category("🏠 หน้าแรก")
 local Developers = Home:Sector("HSz Anime Adventures")
 local asdasd = Home:Sector(" ")
 local UIUPDT = Home:Sector("⚙️ Fix UPDATE "..version.." ⚙️")
+
+
 local Farm = Window:Category("🤖 Auto Farm")
 local SelectUnits = Farm:Sector("🧙‍ เลือก Units")
 local SelectWorld = Farm:Sector("🌏 เลือก World")
@@ -666,6 +669,9 @@ local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
 local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
+
+
+
 
 
 local UC = Window:Category("🧙 ตั้งค่า Unit")
@@ -2038,6 +2044,7 @@ local function credits()
 
     Developers:Cheat("Label","📜 Scripted by: Negative & HOLYSHz ")       
     Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
+    Developers:Cheat("Label","⚒️ กด \"P\" เพื่อ เปิด - ปิด เมนู")   
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    

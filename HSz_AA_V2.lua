@@ -1509,7 +1509,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then
@@ -1587,7 +1587,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then
@@ -1664,7 +1664,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then
@@ -1741,7 +1741,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then
@@ -1818,7 +1818,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then
@@ -1895,7 +1895,7 @@ task.spawn(function()
     local distanceTable = {}
     local infoLastBend = {}
 
-    local function getDistance()
+    local function getDistance(toCheck)
         table.clear(distanceTable)
         table.clear(infoLastBend)
         if Unit:getChildren()[1] then

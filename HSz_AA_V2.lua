@@ -1931,8 +1931,6 @@ task.spawn(function()
         return enemy
     end
                        
-           
-                
     local function followEnemyU6()
         --Settings.unitAOE = "เลือก Units"
         local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
@@ -1945,10 +1943,6 @@ task.spawn(function()
                             local success, err = pcall(function()
                                 if tostring(v._stats.player.Value) == player then
                                     if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
-                                        --if game.Workspace._wave_time.Value > 0 then
-
-                                        --game.Workspace._UNITS[Settings.UnitAOE6].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                        --game.Workspace._UNITS[Settings.UnitAOE6].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
                                         v.HumanoidRootPart.CFrame = getDistance("enemyName")
                                         v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
@@ -1970,12 +1964,12 @@ task.spawn(function()
     end)
 
 end
-    
+
 
 --- Fetch Units from Equipped List
 local names = {}
-for v = 1, 6 do
-Units = Settings.SelectedUnits["U"..v]:split(" #")
+for i = 1, 6 do
+Units = Settings.SelectedUnits["U"..i]:split(" #")
 table.insert(names, Units[1])
 end
 --- End of Fetch Unit
@@ -2195,7 +2189,7 @@ function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
     print("updatepos")
     saveSettings()
 end
---updatefix fixmap
+--updatefix 
 function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
     local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
     world = GetLevelData.world or GetLevelData.name
@@ -2204,7 +2198,7 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
     end
     warn("savepos test")
 end
-
+--fixmap
 function savepos(UnitPos, a,a2,a3,a4,a5,a6)
     if game.Workspace._map:FindFirstChild("namek mushroom model") then
         updatepos("namek", UnitPos, a,a2,a3,a4,a5,a6)
@@ -5923,8 +5917,11 @@ function DelMapentertain2()
         end
     end   
 end
+
+--fixmap
 ---------------------------------------------------------------------------------------
----------------------------------------------------------------
+---------------------------------------------------------------------------------------
+
 coroutine.resume(coroutine.create(function()
     while task.wait(1.5) do
         if game.PlaceId ~= 8304191830 and Settings.deletemap then
@@ -6108,6 +6105,8 @@ coroutine.resume(coroutine.create(function()
         end
     end
 end))
+
+--fixmap end
 
 --hide name
 function hidename()

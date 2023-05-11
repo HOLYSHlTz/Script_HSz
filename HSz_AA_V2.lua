@@ -1968,8 +1968,8 @@ end
 
 --- Fetch Units from Equipped List
 local names = {}
-for i = 1, 6 do
-Units = Settings.SelectedUnits["U"..i]:split(" #")
+for h = 1, 6 do
+Units = Settings.SelectedUnits["U"..h]:split(" #")
 table.insert(names, Units[1])
 end
 --- End of Fetch Unit

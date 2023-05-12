@@ -695,6 +695,7 @@ for i = 1, 6 do
 end
 
 local UnitAOE = UA:Sector("INF Range Config ")
+local UnitAOE1 = UA:Sector("Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
@@ -1497,6 +1498,20 @@ end
 ------------- Unit AOE Config ---------------- 
 ----------------------------------------------
 local function UNITAOEAA()
+
+UnitAOE1:Cheat("Button", "🧙 โหลด Unit ใหม่", function() --Selects Currently Equipped Units!
+        Settings.SelectedUnits = {
+            U1 = "nil",
+            U2 = "nil",
+            U3 = "nil",
+            U4 = "nil",
+            U5 = "nil",
+            U6 = "nil"
+        }
+        saveSettings()
+        GetUnits()
+        autoload2()
+    end)
 
 UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
 	print(bool)
@@ -2996,6 +3011,7 @@ function SnipeMerchant()
         Settings.ASM_SelectedOtherItems = value
         saveSettings()
     end, { options = {"None","Any Items","LuckPotion","star_remnant","summon_ticket"}, default =Settings.ASM_SelectedOtherItems})
+    
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Evo Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedEvoItems = value
         saveSettings()

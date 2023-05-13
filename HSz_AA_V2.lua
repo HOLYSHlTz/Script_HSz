@@ -52,7 +52,7 @@ Settings = ReadSetting()
         end
         return list
     end
-    
+
     if game.PlaceId ~= 8304191830 then
         GLD()
     end
@@ -957,7 +957,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Raid Worlds" then
             storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District"}
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade"}     
         end
@@ -1040,6 +1040,8 @@ local function WorldSec()
             levellist = {"april_portal_item"}
         elseif level == "Zeldris Portals" then
             levellist = {"portal_zeldris"}    
+        elseif level == "Dressrosa Portals" then
+            levellist = {"portal_item__dressrosa"} 
         ---///Dungeon\\\---    updatefix
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
@@ -3233,6 +3235,16 @@ function getDemonPortals()
     return portals
 end
 
+function getOPNPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__dressrosa" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 function getZeldrisPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -3408,6 +3420,29 @@ local function startfarming()
                 print("send Webhook")
                 task.wait(1.1)
                 warn("Demon farming")
+                task.wait(7)
+                --OPN fixportal		
+            elseif level == "portal_item__dressrosa" then
+                local args = {
+                    [1] = GetPortals("portal_item__dressrosa")[1]["uuid"],
+                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
+                
+                task.wait(1.5)
+                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
+                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
+                        local args = { [1] = tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                        break;
+                    end 
+                end
+            pcall(function() 
+                BabyWebhook()
+                SnipeShopNew()
+             end)
+                print("send Webhook")
+                task.wait(1.1)
+                warn("OPNew farming")
                 task.wait(7)
                 --7Ds fixportal		
             elseif level == "portal_zeldris" then

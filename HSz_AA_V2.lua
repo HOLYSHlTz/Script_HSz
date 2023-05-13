@@ -1,5 +1,5 @@
 --updatefix
-local version = "12.5.0"
+local version = "13.0.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -256,7 +256,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/d8be343e0f58e597b962f726e1d03d3b/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -354,7 +354,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/d8be343e0f58e597b962f726e1d03d3b/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -437,7 +437,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/d8be343e0f58e597b962f726e1d03d3b/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -519,7 +519,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/d8be343e0f58e597b962f726e1d03d3b/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -585,7 +585,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/d8be343e0f58e597b962f726e1d03d3b/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -950,7 +950,7 @@ local function WorldSec()
         if Settings.WorldCategory == "Story Worlds" then
             storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
             "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
-            "Hero City"}
+            "Hero City","Puppet Island"}
         elseif Settings.WorldCategory == "Legend Stages" then
             storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
         elseif Settings.WorldCategory == "Raid Worlds" then
@@ -1004,6 +1004,8 @@ local function WorldSec()
             levellist = {"7ds_infinite","7ds_level_1","7ds_level_2","7ds_level_3","7ds_level_4","7ds_level_5","7ds_level_6",}
         elseif level == "Hero City" then
             levellist = {"mha_infinite","mha_level_1","mha_level_2","mha_level_3","mha_level_4","mha_level_5","mha_level_6",}
+        elseif level == "Puppet Island" then
+            levellist = {"dressrosa_infinite","dressrosa_level_1","dressrosa_level_2","dressrosa_level_3","dressrosa_level_4","dressrosa_level_5","dressrosa_level_6",}
         --///Legend Stages\\\---
         elseif level == "Clover Kingdom (Elf Invasion)" then
             levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
@@ -1060,7 +1062,8 @@ local function WorldSec()
         if level == "namek_infinite" or level == "aot_infinite" or level == "demonslayer_infinite" 
         or level == "naruto_infinite" or level == "marineford_infinite" or level == "tokyoghoul_infinite" or level == "hueco_infinite" 
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
-        or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+        or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
+        or level == "dressrosa_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             diff = {"Hard"}
         elseif cata == "Portals" or cata == "Dungeon"  then
             diff = {"Default"}
@@ -1475,20 +1478,6 @@ local function DeleteMapSec()
         saveSettings()
         autoDailyquest()
     end,{enabled = Settings.autoDailyquest})
-
-    DelMapConfig2:Cheat("Checkbox","Auto Feed EGG ", function(bool)
-        print(bool)
-        Settings.AutoFeedEgg = bool
-        saveSettings()
-        --FeedEggA()
-    end,{enabled = Settings.AutoFeedEgg})
-    
-    DelMapConfig2:Cheat("Checkbox","Auto Claim EGG ", function(bool)
-        print(bool)
-        Settings.AutoClaimEgg = bool
-        saveSettings()
-        --ClaimEggA()
-    end,{enabled = Settings.AutoClaimEgg})
 
     DelMapConfig2:Cheat("Label","")  
 
@@ -2257,6 +2246,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("entertain", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("Ant Nest") then
         updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("linings") then
+        updatepos("OPnew", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -4588,6 +4579,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("entertain")
             elseif game.Workspace._map:FindFirstChild("Ant Nest") then
                 PlaceUnitsTEST("hxhant")
+            elseif game.Workspace._map:FindFirstChild("linings") then
+                PlaceUnitsTEST("OPnew")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -4643,6 +4636,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("entertain")
             elseif game.Workspace._map:FindFirstChild("Ant Nest") then
                 PlaceUnits("hxhant")
+            elseif game.Workspace._map:FindFirstChild("linings") then
+                PlaceUnits("OPnew")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -5934,6 +5929,99 @@ function DelMapentertain2()
     end   
 end
 
+--OPnew
+
+function DelMapOPnew()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].cloth:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].hay:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].paper:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["wood stacks"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["tables and tents"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapOPnew6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].linings:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
 --fixmap
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -6105,10 +6193,20 @@ coroutine.resume(coroutine.create(function()
 		DelMapAnt10()
 		DelMapAnt11()
 		DelMapAnt12()
-            elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
-                DelTer() 
-				DelMapMain()
-				DelMapClover1()
+    elseif game.Workspace._map:FindFirstChild("linings") then
+        DelTer() 
+        DelMapMain()
+        DelMapOPnew()
+        DelMapOPnew1()
+        DelMapOPnew2()
+        DelMapOPnew3()
+        DelMapOPnew4()
+        DelMapOPnew5()
+        DelMapOPnew6()
+    elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
+        DelTer() 
+		DelMapMain()
+		DelMapClover1()
 		DelMapClover2()
 		DelMapClover3()
 		DelMapClover4()
@@ -6146,7 +6244,7 @@ end
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("mha_daily")
+         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("dressrosa_daily")
          wait(15)
     end
 end
@@ -6169,53 +6267,6 @@ end
         end
     end
         -- End of Check Connection
---AutoFeedEgg
-function FeedEgg()
-    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
-    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
-        for _, v in pairs(eggs) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["feed_easter_meter"]:InvokeServer(v)()    end)
-        end
-    end
-end
-
-function FeedEggA()
-    print("Feed Eggs")
-        pcall(function()
-            FeedEgg()
-            wait(1)
-            FeedEgg()
-        return FeedEggA()
-        end)
-    end
-
-if Settings.AutoFeedEgg then
-    FeedEggA()
-end
-
---AutoClaimEgg
-function ClaimEgg()
-    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
-    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
-        for _, v in pairs(eggs) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["claim_easter_meter"]:InvokeServer(v)()    end)
-        end
-    end
-end
-
-function ClaimEggA()
-     print("Claim Eggs")
-        pcall(function()
-            ClaimEgg()
-                wait(1)
-            ClaimEgg()
-        return ClaimEggA()
-        end)
-    end
-
-if Settings.AutoClaimEgg then
-    ClaimEgg()
-end
 
 --placeany
 function placeAny()
@@ -6249,7 +6300,7 @@ function placeunittwin()
 --ReedemCode
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT"} 
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION"} 
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
     end

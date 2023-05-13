@@ -281,7 +281,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = " ```ini\nWorld : "..mapid.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
+                            ["value"] = " ```ini\nWorld : "..world.. " 🌏\nMap : "..mapid.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
                             ["inline"] = true
                         },
                         {

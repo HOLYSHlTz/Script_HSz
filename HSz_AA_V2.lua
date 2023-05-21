@@ -1515,41 +1515,30 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
 
-    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    local player = game.Players.LocalPlayer.Name
-    local Unit = game.Workspace._UNITS
-    local distanceTable = {}
-    local infoLastBend = {}
-
-    local function getDistance(toCheck)
-        table.clear(distanceTable)
-        table.clear(infoLastBend)
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local distanceTable = {}
+        
+            local function getDistance(toCheck)
+                table.clear(distanceTable)
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("base") then
+                            if tostring(v._stats.base.Value) == "pve" then
+                                distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                table.insert(distanceTable, tonumber(distance))
+                                table.sort(distanceTable)
                                 if tonumber(distance) == distanceTable[1] then
-
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
+                                        CFrame.new(0, 0, -4)
                                 end
                             end
-                        end 
+                        end
                     end
                 end
+                return enemy
             end
-        end
-        return enemy
-    end
                 
     local function followEnemyU1()
         --Settings.unitAOE = "เลือก Units"
@@ -1593,41 +1582,30 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
 
-    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    local player = game.Players.LocalPlayer.Name
-    local Unit = game.Workspace._UNITS
-    local distanceTable = {}
-    local infoLastBend = {}
-
-    local function getDistance(toCheck)
-        table.clear(distanceTable)
-        table.clear(infoLastBend)
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local distanceTable = {}
+        
+            local function getDistance(toCheck)
+                table.clear(distanceTable)
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("base") then
+                            if tostring(v._stats.base.Value) == "pve" then
+                                distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                table.insert(distanceTable, tonumber(distance))
+                                table.sort(distanceTable)
                                 if tonumber(distance) == distanceTable[1] then
-
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
+                                        CFrame.new(0, 0, -4)
                                 end
                             end
                         end
                     end
                 end
+                return enemy
             end
-        end
-        return enemy
-    end
                 
     local function followEnemyU2()
         --Settings.unitAOE = "เลือก Units"
@@ -1670,41 +1648,30 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
 
-    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    local player = game.Players.LocalPlayer.Name
-    local Unit = game.Workspace._UNITS
-    local distanceTable = {}
-    local infoLastBend = {}
-
-    local function getDistance(toCheck)
-        table.clear(distanceTable)
-        table.clear(infoLastBend)
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local distanceTable = {}
+        
+            local function getDistance(toCheck)
+                table.clear(distanceTable)
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("base") then
+                            if tostring(v._stats.base.Value) == "pve" then
+                                distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                table.insert(distanceTable, tonumber(distance))
+                                table.sort(distanceTable)
                                 if tonumber(distance) == distanceTable[1] then
-
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
+                                        CFrame.new(0, 0, -4)
                                 end
                             end
                         end
                     end
                 end
+                return enemy
             end
-        end
-        return enemy
-    end
                 
     local function followEnemyU3()
         --Settings.unitAOE = "เลือก Units"
@@ -1747,41 +1714,30 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
 
-    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    local player = game.Players.LocalPlayer.Name
-    local Unit = game.Workspace._UNITS
-    local distanceTable = {}
-    local infoLastBend = {}
-
-    local function getDistance(toCheck)
-        table.clear(distanceTable)
-        table.clear(infoLastBend)
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local distanceTable = {}
+        
+            local function getDistance(toCheck)
+                table.clear(distanceTable)
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("base") then
+                            if tostring(v._stats.base.Value) == "pve" then
+                                distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                table.insert(distanceTable, tonumber(distance))
+                                table.sort(distanceTable)
                                 if tonumber(distance) == distanceTable[1] then
-
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
+                                        CFrame.new(0, 0, -4)
                                 end
                             end
                         end
                     end
                 end
+                return enemy
             end
-        end
-        return enemy
-    end
                 
     local function followEnemyU4()
         --Settings.unitAOE = "เลือก Units"
@@ -1824,41 +1780,30 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.blackhole then
 
-    local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-    local player = game.Players.LocalPlayer.Name
-    local Unit = game.Workspace._UNITS
-    local distanceTable = {}
-    local infoLastBend = {}
-
-    local function getDistance(toCheck)
-        table.clear(distanceTable)
-        table.clear(infoLastBend)
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local distanceTable = {}
+        
+            local function getDistance(toCheck)
+                table.clear(distanceTable)
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("base") then
+                            if tostring(v._stats.base.Value) == "pve" then
+                                distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                table.insert(distanceTable, tonumber(distance))
+                                table.sort(distanceTable)
                                 if tonumber(distance) == distanceTable[1] then
-
                                     enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
+                                        CFrame.new(0, 0, -4)
                                 end
                             end
                         end
                     end
                 end
+                return enemy
             end
-        end
-        return enemy
-    end
                 
     local function followEnemyU5()
         --Settings.unitAOE = "เลือก Units"
@@ -1905,30 +1850,19 @@ task.spawn(function()
     local player = game.Players.LocalPlayer.Name
     local Unit = game.Workspace._UNITS
     local distanceTable = {}
-    local infoLastBend = {}
 
     local function getDistance(toCheck)
         table.clear(distanceTable)
-        table.clear(infoLastBend)
         if Unit:getChildren()[1] then
             for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats")then
-                    if tostring(v._stats:WaitForChild("base").Value) == "pve" then
-                        if tostring(v._stats:WaitForChild("last_reached_bend").Value) ~= "spawn" then
-                            lastBend = tostring(v._stats.last_reached_bend.Value)
-                            table.insert(infoLastBend, tonumber(lastBend))
-                            table.sort(infoLastBend)
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tostring(v._stats.last_reached_bend.Value) == tostring(infoLastBend[#infoLastBend]) then
-                                if tonumber(distance) == distanceTable[1] then
-
-                                    enemy = v.HumanoidRootPart.CFrame *
-                                        CFrame.new(0, 0, -5)
-
-                                end
-                            end
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                        table.insert(distanceTable, tonumber(distance))
+                        table.sort(distanceTable)
+                        if tonumber(distance) == distanceTable[1] then
+                            enemy = v.HumanoidRootPart.CFrame *
+                                        CFrame.new(0, 0, -4)
                         end
                     end
                 end
@@ -2048,7 +1982,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Add New Raid Entertainment   \n [+]Fix script not loaded   \n [+]Fix Unit Ziczac error   \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Fix Inf Range issue   \n [+]Fix script not loaded   \n [+]Fix Unit Ziczac error   \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5

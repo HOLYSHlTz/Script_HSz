@@ -1496,12 +1496,12 @@ end
 local function credits()
 
     Developers:Cheat("Label","📜 Scripted by: Negative & HOLYSHz ")       
-    Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
+    --Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
     Developers:Cheat("Label","⚒️ กด \"P\" เพื่อ เปิด - ปิด เมนู")   
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Fix for MOBILE   \n    \n    \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n     \n [+]Fix for MOBILE   \n [+]Add Madoka Portals   \n    \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5

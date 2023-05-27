@@ -1984,7 +1984,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n   \n [+]Add Madoka Portals   \n [+]Fix Inf Range issue   \n [+]Fix script not loaded \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n   \n [+]Add Madoka Portals   \n [+]Fix savepos Madoka Map   \n \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
@@ -2186,6 +2186,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("hxhant", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("linings") then
         updatepos("OPnew", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("buildingsouter") then
+        updatepos("Modako", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -4588,6 +4590,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("hxhant")
             elseif game.Workspace._map:FindFirstChild("linings") then
                 PlaceUnitsTEST("OPnew")
+            elseif game.Workspace._map:FindFirstChild("buildingsouter") then
+                PlaceUnitsTEST("Modako")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -4645,6 +4649,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("hxhant")
             elseif game.Workspace._map:FindFirstChild("linings") then
                 PlaceUnits("OPnew")
+            elseif game.Workspace._map:FindFirstChild("buildingsouter") then
+                PlaceUnits("Modako")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -6029,6 +6035,144 @@ function DelMapOPnew6()
         end
     end   
 end
+
+--Modako
+function DelMapmodako()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].debrisouter:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].buildingsouter:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fence:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["fire p"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].paper:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako6()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["road lines"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako7()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].roadtreethings:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako8()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].telepoles:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako9()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].watertanks:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapmodako10()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].sparks:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
 --fixmap
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -6210,6 +6354,19 @@ coroutine.resume(coroutine.create(function()
         DelMapOPnew4()
         DelMapOPnew5()
         DelMapOPnew6()
+    elseif game.Workspace._map:FindFirstChild("buildingsouter") then
+        DelTer() 
+        DelMapmodako()
+        DelMapmodako1()
+        DelMapmodako2()
+        DelMapmodako3()
+        DelMapmodako4()
+        DelMapmodako5()
+        DelMapmodako6()
+        DelMapmodako7()
+        DelMapmodako8()
+        DelMapmodako9()
+        DelMapmodako10()
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         DelTer() 
 		DelMapMain()

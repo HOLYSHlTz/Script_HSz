@@ -1,5 +1,5 @@
 --updatefix
-local version = "13.0.0"
+local version = "13.5.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -256,7 +256,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -354,7 +354,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -437,7 +437,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -519,7 +519,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -585,7 +585,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/9decb0bba784c04fd561a4b26972dab9/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -945,7 +945,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Raid Worlds" then
             storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District"}
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals[ANY]"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade"}     
         end
@@ -1030,6 +1030,8 @@ local function WorldSec()
             levellist = {"portal_zeldris"}    
         elseif level == "Dressrosa Portals" then
             levellist = {"portal_item__dressrosa"} 
+        elseif level == "Madoka Portals[ANY]" then
+            levellist = {"portal_item__madoka"}
         ---///Dungeon\\\---    updatefix
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
@@ -2703,6 +2705,17 @@ function getZeldrisPortals()
     end
     return portals
 end
+
+function getMadokaPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__madoka" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 function GetPortals(id)
     local reg = getreg() 
     local portals = {}
@@ -2891,6 +2904,29 @@ local function startfarming()
                 print("send Webhook")
                 task.wait(1.1)
                 warn("OPNew farming")
+                task.wait(7)
+                --Madoka fixportal		
+            elseif level == "portal_item__madoka" then
+                local args = {
+                    [1] = GetPortals("portal_item__madoka")[1]["uuid"],
+                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
+                
+                task.wait(1.5)
+                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
+                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
+                        local args = { [1] = tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                        break;
+                    end 
+                end
+            pcall(function() 
+                BabyWebhook()
+                SnipeShopNew()
+             end)
+                print("send Webhook")
+                task.wait(1.1)
+                warn("Madoka farming")
                 task.wait(7)
                 --7Ds fixportal		
             elseif level == "portal_zeldris" then
@@ -5828,10 +5864,10 @@ function placeunittwin()
         placeunittwin() 
     end
 
---ReedemCode
+--ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT"} 
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA"} 
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
     end

@@ -3598,6 +3598,11 @@ function autoabilityfunc()
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
+--AutoSkill 
+                            elseif v._stats.id.Value == "homura_evolved" then
+                                if v._stats.state.Value == "attack" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
                             
                                
                             elseif v._stats.id.Value ~= "pucci_heaven" then

@@ -1,5 +1,5 @@
 --updatefix
-local version = "13.5.0"
+local version = "14.0.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -939,11 +939,11 @@ local function WorldSec()
         if Settings.WorldCategory == "Story Worlds" then
             storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
             "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
-            "Hero City","Puppet Island"}
+            "Hero City","Puppet Island","Virtual Dungeon"}
         elseif Settings.WorldCategory == "Legend Stages" then
-            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)"}
+            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)"}
         elseif Settings.WorldCategory == "Raid Worlds" then
-            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District"}
+            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", "Hero City (Hero Slayer)"}
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals[ANY]"}
         elseif Settings.WorldCategory == "Dungeon" then
@@ -993,6 +993,10 @@ local function WorldSec()
             levellist = {"7ds_infinite","7ds_level_1","7ds_level_2","7ds_level_3","7ds_level_4","7ds_level_5","7ds_level_6",}
         elseif level == "Hero City" then
             levellist = {"mha_infinite","mha_level_1","mha_level_2","mha_level_3","mha_level_4","mha_level_5","mha_level_6",}
+        elseif level == "Puppet Island" then
+            levellist = {"dressrosa_infinite","dressrosa_level_1","dressrosa_level_2","dressrosa_level_3","dressrosa_level_4","dressrosa_level_5","dressrosa_level_6",}
+        elseif level == "Virtual Dungeon" then
+            levellist = {"sao_infinite","sao_level_1","sao_level_2","sao_level_3","sao_level_4","sao_level_5","sao_level_6",}
         --///Legend Stages\\\---
         elseif level == "Clover Kingdom (Elf Invasion)" then
             levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
@@ -1004,8 +1008,8 @@ local function WorldSec()
             levellist = {"7ds_legend_1","7ds_legend_2","7ds_legend_3"}
         elseif level == "Hero City (Midnight)" then
             levellist = {"mha_legend_1","mha_legend_2","mha_legend_3","mha_legend_4","mha_legend_5","mha_legend_6"}
-        elseif level == "Puppet Island" then
-            levellist = {"dressrosa_infinite","dressrosa_level_1","dressrosa_level_2","dressrosa_level_3","dressrosa_level_4","dressrosa_level_5","dressrosa_level_6",}
+        elseif level == "Virtual Dungeon (Bosses)" then
+            levellist = {"sao_legend_1","sao_legend_2","sao_legend_3"}
         --///Raids\\\---
         elseif level == "Storm Hideout" then
             levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"}
@@ -1021,6 +1025,8 @@ local function WorldSec()
             levellist = {"west_city_frieza_level_1","west_city_frieza_level_2","west_city_frieza_level_3","west_city_frieza_level_4","west_city_frieza_level_5"}
         elseif level == "Entertainment District" then
             levellist = {"entertainment_district_level_1","entertainment_district_level_2","entertainment_district_level_3","entertainment_district_level_4","entertainment_district_level_5"}
+        elseif level == "Hero City (Hero Slayer)" then
+            levellist = {"mha_stain"}
         --///Portals\\\---
         elseif level == "Alien Portals" then
             levellist = {"portal_boros_g"}
@@ -1056,6 +1062,7 @@ local function WorldSec()
         or level == "naruto_infinite" or level == "marineford_infinite" or level == "tokyoghoul_infinite" or level == "hueco_infinite" 
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
         or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
+        or level == "sao_infinite" 
         or level == "dressrosa_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             diff = {"Hard"}
         elseif cata == "Portals" or cata == "Dungeon"  then
@@ -1501,7 +1508,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n     \n [+]Fix for MOBILE   \n [+]Add Madoka Portals   \n [+]Fix savepos Madoka Map       \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n     \n   \n [+]Add SAO Map   \n [+]Add SAO Legend Stage   \n [+]Add New Raid mha    \n   \n    ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
@@ -1705,6 +1712,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("OPnew", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("buildingsouter") then
         updatepos("Modako", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("water beams") then
+        updatepos("sao", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -4111,6 +4120,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("OPnew")
             elseif game.Workspace._map:FindFirstChild("buildingsouter") then
                 PlaceUnitsTEST("Modako")
+            elseif game.Workspace._map:FindFirstChild("water beams") then
+                PlaceUnitsTEST("sao")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -4170,6 +4181,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("OPnew")
             elseif game.Workspace._map:FindFirstChild("buildingsouter") then
                 PlaceUnits("Modako")
+            elseif game.Workspace._map:FindFirstChild("water beams") then
+                PlaceUnits("sao")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -5691,6 +5704,87 @@ function DelMapmodako10()
     end   
 end
 
+--SAO
+function DelMapsao()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapsao1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].light:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapsao2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fish:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapsao3()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["water beams"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapsao4()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fireflies:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapsao5()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].torches:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
 --fixmap
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -5885,6 +5979,15 @@ coroutine.resume(coroutine.create(function()
         DelMapmodako8()
         DelMapmodako9()
         DelMapmodako10()
+    elseif game.Workspace._map:FindFirstChild("water beams") then
+        DelTer() 
+		DelMapMain()
+        DelMapsao()
+		DelMapsao1()
+		DelMapsao2()
+		DelMapsao3()
+		DelMapsao4()
+		DelMapsao5()
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         DelTer() 
 		DelMapMain()
@@ -5926,7 +6029,7 @@ end
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("mha_daily")
+         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("sao_daily")
          wait(15)
     end
 end
@@ -6029,7 +6132,7 @@ function placeunittwin()
 --ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA"} 
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD"} 
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
     end

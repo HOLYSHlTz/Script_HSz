@@ -2762,7 +2762,8 @@ end,{enabled = Settings.EnableLag})
 
 task.spawn(function()
 	while task.wait() do
-		if Settings.EnableLag then
+        local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
@@ -2825,33 +2826,44 @@ end
         end
     end
 end)
- 
+
+    LG1:Cheat("Textbox", " Lag เมื่อถึง Wave ", function(Value)
+        Value = tonumber(Value)
+        Settings.LagatWave = Value
+        saveSettings()
+    end, {placeholder = Settings.LagatWave}) 
+
 
     LG1:Cheat("Slider", "LAG IMPACT(S) ", function(Value)
         print("LAG Lv.:", Value)
         Settings.lagimpact = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
+    LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
+
 
     LG1:Cheat("Slider", "LAG Threads ", function(Value)
         print("LAG Lv.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 250, suffix = "", default = Settings.max })
+    LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max)) 
 
-    --LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
+
     LG1:Cheat("Slider", "LAG Lv. ", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
     end, {min = 1, max = 7, suffix = "", default = Settings.mix })
+    LG1:Cheat("Label","LAG Lv. : "..tonumber(Settings.mix)) 
 
-    --LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
+
     LG1:Cheat("Slider", "Delay ", function(Value)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
     end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
+    LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
 
     LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
     LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")

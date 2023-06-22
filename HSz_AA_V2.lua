@@ -2839,7 +2839,7 @@ end)
         Settings.lagimpact = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
-    LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
+    --LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
 
 
     LG1:Cheat("Slider", "LAG Threads ", function(Value)
@@ -2847,7 +2847,7 @@ end)
         Settings.max = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 250, suffix = "", default = Settings.max })
-    LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max)) 
+    --LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max)) 
 
 
     LG1:Cheat("Slider", "LAG Lv. ", function(Value)
@@ -2855,7 +2855,7 @@ end)
         Settings.mix = tonumber(Value)
         saveSettings()
     end, {min = 1, max = 7, suffix = "", default = Settings.mix })
-    LG1:Cheat("Label","LAG Lv. : "..tonumber(Settings.mix)) 
+    --LG1:Cheat("Label","LAG Lv. : "..tonumber(Settings.mix)) 
 
 
     LG1:Cheat("Slider", "Delay ", function(Value)
@@ -2863,8 +2863,9 @@ end)
         Settings.delag = tonumber(Value)
         saveSettings()
     end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
-    LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
+    --LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
 
+    LG1:Cheat("Label","  Lag At Wave = จะ Lag เมื่อถึง Wave ")
     LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
     LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
     LG1:Cheat("Label","  Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")

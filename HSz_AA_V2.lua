@@ -1095,6 +1095,7 @@ local function WorldSec()
         Settings.SelectedTier = value
         saveSettings()
     end, {options = Table_Tier, default = Settings.SelectedTier})
+
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
         Settings.isFriendOnly = bool
@@ -1926,14 +1927,14 @@ end
 
 --- Fetch Units from Equipped List
 local names = {}
-Settings.SelectedUnits = {
+--[[Settings.SelectedUnits = {
     U1 = "nil",
     U2 = "nil",
     U3 = "nil",
     U4 = "nil",
     U5 = "nil",
     U6 = "nil"
-}
+}]]
 for h = 1, 6 do
     Units = Settings.SelectedUnits["U"..h]:split(" #")
     table.insert(names, Units[1])

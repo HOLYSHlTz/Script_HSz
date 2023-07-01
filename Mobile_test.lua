@@ -52,7 +52,7 @@ Settings = ReadSetting()
         end
         return list
     end
-    
+
     if game.PlaceId ~= 8304191830 then
         GLD()
     end
@@ -256,7 +256,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -354,7 +354,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -397,13 +397,13 @@ function BabyWebhook()
 end
 
 function SnipeShopNew()
-    if Settings.snipeWebhookEnabled then
-pcall(function() 
-    SpecialSummonSniperWebhook()
-    StandardSummonSniperWebhook()
-    ShopSniperWebhook()
-end)
-end
+        if Settings.snipeWebhookEnabled then
+    pcall(function() 
+            SpecialSummonSniperWebhook()
+            StandardSummonSniperWebhook()
+            ShopSniperWebhook()
+        end)
+    end
 end
 --special
 function SpecialSummonSniperWebhook()
@@ -437,7 +437,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -519,7 +519,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -585,7 +585,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/fbdb712cfd54ebcdf11fff6bed7d9616/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -671,9 +671,6 @@ local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
 
 
-
-
-
 local UC = Window:Category("🧙 ตั้งค่า Unit")
 local NDY = UC:Sector("Beta Unit Config ")
 local NDY2 = UC:Sector(" ")
@@ -686,6 +683,16 @@ local Unit4 = UC:Sector("Unit 4")
 local Unit5 = UC:Sector("Unit 5")
 local Unit6 = UC:Sector("Unit 6")
 
+--- Unit AOE
+local UA = Window:Category("⚔️ INF Range")
+
+Unit = {}
+for i = 1, 6 do
+    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " INF Range")
+end
+
+local UnitAOE = UA:Sector("INF Range Config ")
+--- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
 local LowCPU0 = LG:Sector(" ")
@@ -720,6 +727,17 @@ local starbux = sponsor:Sector("💎 ROBUX กลุ่ม 💎")
 ----------------------------------------------
 ---------------- Units Selection -------------
 ----------------------------------------------
+if Settings.SelectedUnits == nil then
+    Settings.SelectedUnits = {
+        U1 = "nil",
+        U2 = "nil",
+        U3 = "nil",
+        U4 = "nil",
+        U5 = "nil",
+        U6 = "nil"
+    }
+    saveSettings()
+end
 local function UnitSec()
     --#region เลือก Units Tab
     local Units = {}
@@ -810,7 +828,6 @@ local function UnitSec()
     end)
 end
 
-
 SelectUnits:Cheat("Checkbox","🦸 Auto Save Unit เวลาเปลี่ยนตัว  ", function(bool)
     warn("Auto Save Unit set to " .. tostring(bool))
     Settings.AutoSaveUnit = bool
@@ -821,30 +838,29 @@ end,{enabled = Settings.AutoSaveUnit })
 
 -- Start of Auto Save Unit Function
 function AutoSaveUnit()
-if Settings.AutoSaveUnit then
-    local function saveUnit()
-    -- Generate Selected Unit Parameters
-    if Settings.SelectedUnits == nil then
-        Settings.SelectedUnits = {}
-        for i = 1, 6, 1 do
-            Settings.SelectedUnits["UP" .. i] = "nil"
-        end
-        
+    if Settings.AutoSaveUnit then
+        local function saveUnit()
+        -- Generate Selected Unit Parameters
+        if Settings.SelectedUnits == nil then
+            Settings.SelectedUnits = {}
+            for i = 1, 6, 1 do
+                Settings.SelectedUnits["UP" .. i] = "nil"
+            end
         else
             -- Reset Selected Unit List to nil
             for i = 1, 6, 1 do
                 Settings.SelectedUnits["UP" .. i] = "nil"
             end
-    end
-            
-    -- Transfer Equipped Units to Selected Unit List and Save to JSON
-    for i, v in pairs(getgenv().profile_data.equipped_units) do
-        if v.equipped_slot then
-            Settings.SelectedUnits["UP" .. tostring(v.equipped_slot)] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
-            print("UP" .. tostring(v.equipped_slot) .. " " .. tostring(v.unit_id) .. " #" .. tostring(v.uuid))
         end
-    end
-    saveSettings()
+                
+        -- Transfer Equipped Units to Selected Unit List and Save to JSON
+        for i, v in pairs(getgenv().profile_data.equipped_units) do
+            if v.equipped_slot then
+                Settings.SelectedUnits["UP" .. tostring(v.equipped_slot)] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
+                print("UP" .. tostring(v.equipped_slot) .. " " .. tostring(v.unit_id) .. " #" .. tostring(v.uuid))
+            end
+        end
+        saveSettings()
     end
 
     local function fetchUnit()
@@ -1012,7 +1028,7 @@ local function WorldSec()
             levellist = {"sao_legend_1","sao_legend_2","sao_legend_3"}
         --///Raids\\\---
         elseif level == "Storm Hideout" then
-            levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"}
+            levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"} 
         elseif level == "West City" then
             levellist = {"west_city_raid"}
         elseif level == "Infinity Train" then
@@ -1035,7 +1051,7 @@ local function WorldSec()
         elseif level == "Zeldris Portals" then
             levellist = {"portal_zeldris"}    
         elseif level == "Dressrosa Portals" then
-            levellist = {"portal_item__dressrosa"} 
+            levellist = {"portal_item__dressrosa"}
         elseif level == "Madoka Portals[ANY]" then
             levellist = {"portal_item__madoka"}
         ---///Dungeon\\\---    updatefix
@@ -1074,8 +1090,17 @@ local function WorldSec()
             selectdiff:AddOption(diff[i])
         end
     end
-    
-    SelectWorld:Cheat("Checkbox","👬 Friends Only  ", function(bool)
+    Table_Tier = {}
+    for i = 0,15 do
+        table.insert(Table_Tier,i)
+    end
+    Settings.SelectedTier = Settings.SelectedTier or 0
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก Tier Portal",function(value)
+        print(value)
+        Settings.SelectedTier = value
+        saveSettings()
+    end, {options = Table_Tier, default = Settings.SelectedTier})
+    SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
         Settings.isFriendOnly = bool
         saveSettings()
@@ -1121,7 +1146,11 @@ local function AutoFarmSec()
         Settings.AutoReplay = bool
         saveSettings()
     end,{enabled = Settings.AutoReplay})
-
+    AutoFarmConfig:Cheat("Checkbox"," Auto Pick Portal เล่นซ้ำประตู ", function(bool)
+        print(bool)
+        Settings.AutoPickPortal = bool
+        saveSettings()
+    end,{enabled = Settings.AutoPickPortal})
     AutoFarmConfig:Cheat("Checkbox"," Auto Next Story  ", function(bool)
         print(bool)
         Settings.AutoNext = bool
@@ -1479,24 +1508,468 @@ local function DeleteMapSec()
         autoDailyquest()
     end,{enabled = Settings.autoDailyquest})
 
-    DelMapConfig2:Cheat("Checkbox","Auto Feed EGG ", function(bool)
-        print(bool)
-        Settings.AutoFeedEgg = bool
-        saveSettings()
-        --FeedEggA()
-    end,{enabled = Settings.AutoFeedEgg})
-    
-    DelMapConfig2:Cheat("Checkbox","Auto Claim EGG ", function(bool)
-        print(bool)
-        Settings.AutoClaimEgg = bool
-        saveSettings()
-        --ClaimEggA()
-    end,{enabled = Settings.AutoClaimEgg})
-
     DelMapConfig2:Cheat("Label","")  
 
 end
 
+----------------------------------------------
+------------- Unit AOE Config ---------------- 
+----------------------------------------------
+local function UNITAOEAA()
+
+    UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
+        print(bool)
+        Settings.blackhole = bool
+        saveSettings()
+    end,{enabled = Settings.blackhole})
+
+    --Unit1
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followEnemyU1()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
+                                            --if game.Workspace._wave_time.Value > 0 then
+
+                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU1()
+                end
+            end
+        end)
+
+
+    --Unit2
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followEnemyU2()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE2 then
+                                            --if game.Workspace._wave_time.Value > 0 then
+
+                                            --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU2()
+                end
+            end
+        end)
+
+    --Unit3
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followEnemyU3()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE3 then
+                                            --if game.Workspace._wave_time.Value > 0 then
+
+                                            --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU3()
+                end
+            end
+        end)
+
+    --Unit4
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followEnemyU4()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE4 then
+                                            --if game.Workspace._wave_time.Value > 0 then
+
+                                            --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU4()
+                end
+            end
+        end)
+
+    --Unit5
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followEnemyU5()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE5 then
+                                            --if game.Workspace._wave_time.Value > 0 then
+
+                                            --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU5()
+                end
+            end
+        end)
+
+    --Unit6
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+        local distanceTable = {}
+
+        local function getDistance(toCheck)
+            table.clear(distanceTable)
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("base") then
+                        if tostring(v._stats.base.Value) == "pve" then
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tonumber(distance) == distanceTable[1] then
+                                enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -4)
+                            end
+                        end
+                    end
+                end
+            end
+            return enemy
+        end
+                        
+        local function followEnemyU6()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU6()
+                end
+            end
+        end)
+
+end
+--- Fetch Units from Equipped List
+if Settings.SelectedUnits ~= nil then
+    local names = {}
+    for h = 1, 6 do
+        Units = Settings.SelectedUnits["U"..h]:split(" #")
+        table.insert(names, Units[1])
+    end
+    --- End of Fetch Unit
+    --- Check Slot Unit to Dropdown 
+    --Unit1
+    for i = 1, 1 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE1 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE1 or nil})
+    end
+    --Unit2
+    for i = 2, 2 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE2 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE2 or nil})
+    end
+    --Unit3
+    for i = 3, 3 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE3 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE3 or nil})
+    end
+    --Unit4
+    for i = 4, 4 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE4 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE4 or nil})
+    end
+    --Unit5
+    for i = 5, 5 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE5 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE5 or nil})
+    end
+    --Unit6
+    for i = 6, 6 do
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
+            Settings.UnitAOE6 = value
+            saveSettings()
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
+    end
+    --- End Check Unit
+end
 ----------------------------------------------
 ------------------ credits -------------------
 ----------------------------------------------
@@ -2279,7 +2752,8 @@ end,{enabled = Settings.EnableLag})
 
 task.spawn(function()
 	while task.wait() do
-		if Settings.EnableLag then
+        local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
@@ -2342,34 +2816,46 @@ end
         end
     end
 end)
- 
+
+    LG1:Cheat("Textbox", " Lag เมื่อถึง Wave ", function(Value)
+        Value = tonumber(Value)
+        Settings.LagatWave = Value
+        saveSettings()
+    end, {placeholder = Settings.LagatWave}) 
+
 
     LG1:Cheat("Slider", "LAG IMPACT(S) ", function(Value)
         print("LAG Lv.:", Value)
         Settings.lagimpact = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
+    --LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
+
 
     LG1:Cheat("Slider", "LAG Threads ", function(Value)
         print("LAG Lv.:", Value)
         Settings.max = tonumber(Value)
         saveSettings()
     end, {min = 0, max = 250, suffix = "", default = Settings.max })
+    --LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max)) 
 
-    --LG1:Cheat("Label","LAG Lv : "..tonumber(Settings.mix)) 
+
     LG1:Cheat("Slider", "LAG Lv. ", function(Value)
         print("LAG Lv.:", Value)
         Settings.mix = tonumber(Value)
         saveSettings()
     end, {min = 1, max = 7, suffix = "", default = Settings.mix })
+    --LG1:Cheat("Label","LAG Lv. : "..tonumber(Settings.mix)) 
 
-    --LG1:Cheat("Label","Delay : "..tonumber(Settings.delag)) 
+
     LG1:Cheat("Slider", "Delay ", function(Value)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
     end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
+    --LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
 
+    LG1:Cheat("Label","  Lag At Wave = จะ Lag เมื่อถึง Wave ")
     LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
     LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
     LG1:Cheat("Label","  Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
@@ -2468,6 +2954,7 @@ function SnipeMerchant()
         Settings.ASM_SelectedOtherItems = value
         saveSettings()
     end, { options = {"None","Any Items","LuckPotion","star_remnant","summon_ticket"}, default =Settings.ASM_SelectedOtherItems})
+    
     AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Evo Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedEvoItems = value
         saveSettings()
@@ -2608,7 +3095,7 @@ if game.PlaceId == 8304191830 then
     --lowCPUsec()
     others()
     DELMAPNEW()
-    --UNITAOEAA()
+    UNITAOEAA()
 else
     SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
     AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
@@ -2629,7 +3116,7 @@ else
     --lowCPUsec()
     others()
     DELMAPNEW()
-    --UNITAOEAA()
+    UNITAOEAA()
     WebhookSec:Cheat("Label","")
     WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
 end
@@ -2737,9 +3224,9 @@ function GetPortals(id)
                     if type(v) == 'table' then
                         if v["session"] then
                             for _, item in pairs(v["session"]["inventory"]['inventory_profile_data']['unique_items']) do
-                            if item["item_id"]:match(id) then
+                                if item["item_id"]:match(id) then
                                     table.insert(portals, item)
-                              end
+                                end
                             end
                             return portals
                         end
@@ -2747,6 +3234,82 @@ function GetPortals(id)
                 end
             end
         end
+    end
+end
+
+function GetPlayerPortal()
+    local PlayerPortal
+    if game:GetService("Workspace"):FindFirstChild("_PORTALS") then
+        for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
+            if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
+                local PlayerPortal = { [1] = tostring(v.Parent.Name) }
+                break;
+            end 
+        end
+        pcall(function() 
+            BabyWebhook()
+            SnipeShopNew()
+        end)
+    end
+    return PlayerPortal
+end
+
+function GetPlayerPortalUse(level)
+    local PortalName,PortalUUID,PortalPlayer
+    -- Aline fixportal
+    if level == "portal_boros_g" then
+        PortalName = "Aline farming"
+        PortalUUID = GetPortals("portal_boros_g")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+    -- Demon fixportal		
+    elseif level == "april_portal_item" then
+        PortalName = "Demon farming"
+        PortalUUID = GetPortals("april_portal_item")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+    --OPN fixportal		
+    elseif level == "portal_item__dressrosa" then
+        PortalName = "OPNew farming"
+        PortalUUID = GetPortals("portal_item__dressrosa")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+        --7Ds fixportal		
+    elseif level == "portal_zeldris" then
+        PortalName = "7ds farming"
+        PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+    ------------------------------
+    -- [[ Portal Event Portal ]] --
+    --Madoka fixportal		
+    elseif level == "portal_item__madoka" then
+        local PortalEvent = GetPortals("portal_item__madoka")
+        for i,v in pairs(PortalEvent) do
+            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
+                PortalEventUse = v
+
+                PortalName = "Madoka farming"
+                PortalUUID = PortalEventUse["uuid"]
+                PortalPlayer = GetPlayerPortal()
+                break
+            end
+        end
+    end
+
+    return {PortalName,PortalUUID,PortalPlayer}
+end
+
+function StartPortal(input)
+    local DataPlayerPortal = GetPlayerPortalUse(input)
+    if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
+        return DataPlayerPortal
+    else
+        local args = {
+            [1] = DataPlayerPortal[2],
+            [2] = { ["friends_only"] = getgenv().isFriendOnly } 
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
+        task.wait(1.5)
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(DataPlayerPortal[3]))
+        warn(DataPlayerPortal[1])
+        task.wait(7)
     end
 end
 
@@ -2853,117 +3416,7 @@ local function startfarming()
                 task.wait(3)
             end       
         elseif cata == "Portals" then
-            --aline fixportal
-            if level == "portal_boros_g" then
-                local args = {
-                    [1] = GetPortals("portal_boros_g")[1]["uuid"],
-                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                
-                task.wait(1.5)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        break;
-                    end 
-                end
-                warn("Aline farming")
-                task.wait(7)
-                --Demon fixportal		
-            elseif level == "april_portal_item" then
-                local args = {
-                    [1] = GetPortals("april_portal_item")[1]["uuid"],
-                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                
-                task.wait(1.5)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        break;
-                    end 
-                end
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(1.1)
-                warn("Demon farming")
-                task.wait(7)
-                --OPN fixportal		
-            elseif level == "portal_item__dressrosa" then
-                local args = {
-                    [1] = GetPortals("portal_item__dressrosa")[1]["uuid"],
-                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                
-                task.wait(1.5)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        break;
-                    end 
-                end
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(1.1)
-                warn("OPNew farming")
-                task.wait(7)
-                --Madoka fixportal		
-            elseif level == "portal_item__madoka" then
-                local args = {
-                    [1] = GetPortals("portal_item__madoka")[1]["uuid"],
-                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                
-                task.wait(1.5)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        break;
-                    end 
-                end
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(1.1)
-                warn("Madoka farming")
-                task.wait(7)
-                --7Ds fixportal		
-            elseif level == "portal_zeldris" then
-                local args = {
-                    [1] = GetPortals("portal_zeldris")[1]["uuid"],
-                    [2] = { ["friends_only"] = getgenv().isFriendOnly } }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                
-                task.wait(1.5)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        break;
-                    end 
-                end
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(1.1)
-                warn("7ds farming")
-                task.wait(7)
-            end
-            --ดันนิ้ว
+            StartPortal(level)
         elseif cata == "Dungeon" then
             if level == "jjk_finger" then --_lobbytemplate_event222
             getgenv().door = "_lobbytemplate_event222"
@@ -3104,30 +3557,21 @@ function autoabilityfunc()
                    
     				elseif v._stats:FindFirstChild("player") then
     					if tostring(v._stats.player.Value) == player then
-    
-                            
-                            
                             if v._stats.id.Value == "wendy" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 task.wait(21)
-                            
-                            
                             elseif v._stats.id.Value == "erwin" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 task.wait(21)
-                                
-                                
                             elseif v._stats.id.Value == "gojo_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
-
+                            --AutoSkill
                             elseif v._stats.id.Value == "homura_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
-                            
-                               
                             elseif v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.state.Value == "attack" then
                                     if v._stats.active_attack.Value ~= "nil" then
@@ -3148,9 +3592,9 @@ function autoabilityfunc()
         end
     end
 end
-    -- End  Auto Abilities Function
+-- End  Auto Abilities Function
     
-    -- Start  Puchi Skill Function
+-- Start  Puchi Skill Function
 function UsePuchiSkill()
     local player = game.Players.LocalPlayer.Name
 	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
@@ -3183,7 +3627,7 @@ function UsePuchiSkill()
 		end
 	end
 end
-    -- End  Puchi Skill Function
+-- End  Puchi Skill Function
 
 function autoupgradefunc()
     local success, err = pcall(function() --///
@@ -3203,7 +3647,6 @@ function autoupgradefunc()
         error(err)
     end
 end
-
 
 local function FarmInfinityCastle()
     if Settings.AutoInfinityCastle and Settings.AutoFarm or Settings.AutoInfinityCastle then
@@ -3373,6 +3816,7 @@ if not File then
    table.insert(AllIDs, actualHour)
    writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
 end
+
 function TPReturner()
    local Site;
    if foundAnything == "" then
@@ -3440,36 +3884,45 @@ end
 -------------------------------------------
 -------------------------------------------
 coroutine.resume(coroutine.create(function()
-	
     task.spawn(function()
         local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        GameFinished:GetPropertyChangedSignal("Value"):Connect(function()
-            print("Changed", GameFinished.Value == true)
-            if GameFinished.Value == true then
-                repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
-                pcall(function() webhook() end)
-                print("Wait next or leave")
-                task.wait(2.1)
-            if Settings.AutoReplay then
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                    print("Replay...") 
-            elseif Settings.AutoNext then
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                    print("Next Story...") 
-            elseif Settings.AutoContinue then
-                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
-                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))   
-                    print("Next Room infint Castle...")              
-            elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue then
-                   game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
-                
-                    Teleport()
-                    print("Returning to lobby...")
+        while wait() do
+            if GameFinished and GameFinished.Value == true then
+                print("Changed", GameFinished.Value == true)
+                if GameFinished.Value == true then
+                    repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
+                    pcall(function() webhook() end)
+                    print("Wait next or leave")
+                    task.wait(2.1)
+                    cata = Settings.WorldCategory; level = Settings.SelectedLevel;
+                    if Settings.AutoPickPortal and cata == "Portals"  then
+                        local DataPortalReplay = GetPlayerPortalUse(level)
+                        local args = {
+                            [1] = "replay",
+                            [2] = { ["item_uuid"] = DataPortalReplay[2] }
+                        }
+                        game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("set_game_finished_vote"):InvokeServer(unpack(args))
+                        print("Replay...") 
+                    elseif Settings.AutoReplay then
+                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        print("Replay...") 
+                    elseif Settings.AutoNext then
+                        local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        print("Next Story...") 
+                    elseif Settings.AutoContinue then
+                        local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
+                        local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))   
+                        print("Next Room infint Castle...")         
+                    elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue then
+                        game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
+                        Teleport()
+                        print("Returning to lobby...")
+                    end
                 end
             end
-        end)
+        end
     end)
 
     while task.wait() do
@@ -5473,6 +5926,7 @@ function DelMapentertain2()
         end
     end   
 end
+
 --OPnew
 
 function DelMapOPnew()
@@ -6029,8 +6483,8 @@ end
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("sao_daily")
-         wait(15)
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("sao_daily")
+        wait(15)
     end
 end
 
@@ -6038,67 +6492,20 @@ if Settings.autoDailyquest then
     autoDailyquest()
 end
 
-    -- Start of Check Connection
-    function checkInterNet()
-        warn("Auto Reconnect Loaded")
-        while task.wait(5) do
-            game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
-                if a.Name == 'ErrorPrompt' then
-                    task.wait(10)
-                    warn("Trying to Reconnect")
-                    TPReturner()
-                end
-            end)
-        end
-    end
-        -- End of Check Connection
---AutoFeedEgg
-function FeedEgg()
-    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
-    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
-        for _, v in pairs(eggs) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["feed_easter_meter"]:InvokeServer(v)()    end)
-        end
-    end
-end
-
-function FeedEggA()
-    print("Feed Eggs")
-        pcall(function()
-            FeedEgg()
-            wait(1)
-            FeedEgg()
-        return FeedEggA()
+-- Start of Check Connection
+function checkInterNet()
+    warn("Auto Reconnect Loaded")
+    while task.wait(5) do
+        game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
+            if a.Name == 'ErrorPrompt' then
+                task.wait(10)
+                warn("Trying to Reconnect")
+                TPReturner()
+            end
         end)
     end
-
-if Settings.AutoFeedEgg then
-    FeedEggA()
 end
-
---AutoClaimEgg
-function ClaimEgg()
-    if game.Workspace.EasterArea:FindFirstChild("leaderboard") then
-    eggs = {"easter_egg_1","easter_egg_2","easter_egg_3","easter_egg_4","easter_egg_5","easter_egg_6"}
-        for _, v in pairs(eggs) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["claim_easter_meter"]:InvokeServer(v)()    end)
-        end
-    end
-end
-
-function ClaimEggA()
-     print("Claim Eggs")
-        pcall(function()
-            ClaimEgg()
-                wait(1)
-            ClaimEgg()
-        return ClaimEggA()
-        end)
-    end
-
-if Settings.AutoClaimEgg then
-    ClaimEgg()
-end
+-- End of Check Connection
 
 --placeany
 function placeAny()
@@ -6106,12 +6513,12 @@ function placeAny()
     local services = require(game.ReplicatedStorage.src.Loader)
     local placement_service = services.load_client_service(script, "PlacementServiceClient")
     
-        task.spawn(function()
-            while task.wait() do
-                placement_service.can_place = true
-            end
-        end)
-    end
+    task.spawn(function()
+        while task.wait() do
+            placement_service.can_place = true
+        end
+    end)
+end
 
 
 function placeunittwin() 
@@ -6132,9 +6539,9 @@ function placeunittwin()
 --ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD"} 
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD"}
         for _, v in pairs(codes) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end)
+        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end
 end
 

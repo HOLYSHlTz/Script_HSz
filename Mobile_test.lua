@@ -692,6 +692,7 @@ for i = 1, 6 do
 end
 
 local UnitAOE = UA:Sector("INF Range Config ")
+local UnitAOE1 = UA:Sector("Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
@@ -1146,7 +1147,7 @@ local function AutoFarmSec()
         Settings.AutoReplay = bool
         saveSettings()
     end,{enabled = Settings.AutoReplay})
-    AutoFarmConfig:Cheat("Checkbox"," Auto Pick Portal เล่นซ้ำประตู ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Pick Portal เล่นซ้ำ ", function(bool)
         print(bool)
         Settings.AutoPickPortal = bool
         saveSettings()
@@ -1516,6 +1517,20 @@ end
 ------------- Unit AOE Config ---------------- 
 ----------------------------------------------
 local function UNITAOEAA()
+
+    UnitAOE1:Cheat("Button", "🧙 โหลด Unit ใหม่", function() --Selects Currently Equipped Units!
+        Settings.SelectedUnits = {
+            U1 = "nil",
+            U2 = "nil",
+            U3 = "nil",
+            U4 = "nil",
+            U5 = "nil",
+            U6 = "nil"
+        }
+        saveSettings()
+        GetUnits()
+        autoload2()
+    end)
 
     UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
         print(bool)
@@ -3298,12 +3313,14 @@ end
 
 function StartPortal(input)
     local DataPlayerPortal = GetPlayerPortalUse(input)
-    if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
+    for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
+        if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name and game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
+    --if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer() then
         return DataPlayerPortal
     else
         local args = {
             [1] = DataPlayerPortal[2],
-            [2] = { ["friends_only"] = getgenv().isFriendOnly } 
+            [2] = { ["friends_only"] = Settings.isFriendOnly } --getgenv().isFriendOnly 
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
         task.wait(1.5)
@@ -3312,6 +3329,8 @@ function StartPortal(input)
         task.wait(7)
     end
 end
+end
+--end
 
 Settings.teleporting = true
 getgenv().door = "_lobbytemplategreen1"

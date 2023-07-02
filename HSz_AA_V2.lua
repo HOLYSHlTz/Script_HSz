@@ -3918,20 +3918,26 @@ coroutine.resume(coroutine.create(function()
                     repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
                     pcall(function() webhook() end)
                     print("Wait next or leave")
-                    task.wait(2.1)
+                    task.wait(1.5)
                     cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-                    if Settings.AutoPickPortal and cata == "Portals"  then
+                    if Settings.AutoReplay then
+                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                        warn("Replay ...") 
+                    elseif Settings.AutoPickPortal and cata == "Portals"  then
                         local DataPortalReplay = GetPlayerPortalUse(level)
                         local args = {
                             [1] = "replay",
                             [2] = { ["item_uuid"] = DataPortalReplay[2] }
                         }
-                        game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("set_game_finished_vote"):InvokeServer(unpack(args))
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                        local args = {
+                            [1] = "replay",
+                            [2] = { ["item_uuid"] = DataPortalReplay[2] }
+                        }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                        --game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("set_game_finished_vote"):InvokeServer(unpack(args))
                         warn("Pick Portal Replay...") 
-                    elseif Settings.AutoReplay then
-                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                        local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                        warn("Replay ...") 
                     elseif Settings.AutoNext then
                         local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                         local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))

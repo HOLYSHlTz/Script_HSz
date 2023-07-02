@@ -1106,7 +1106,7 @@ local function WorldSec()
     end, {options = Table_Tier, default = Settings.SelectedTier})
 
     Settings.SelectedChallenge = Settings.SelectedChallenge or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "Din't use Challenge",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิดประตู",function(value)
         warn("Change to : "..value)
         Settings.SelectedChallenge = value
         saveSettings()

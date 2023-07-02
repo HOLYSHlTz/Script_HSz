@@ -3294,8 +3294,10 @@ function GetPlayerPortalUse(level)
         PortalName = "7ds farming"
         PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
+        
     ------------------------------
     -- [[ Portal Event Portal ]] --
+
     --Madoka fixportal		
     elseif level == "portal_item__madoka" then
         local PortalEvent = GetPortals("portal_item__madoka")
@@ -3309,8 +3311,8 @@ function GetPlayerPortalUse(level)
                 break
             end
         end
-    end
 
+    end
     return {PortalName,PortalUUID,PortalPlayer}
 end
 
@@ -3928,7 +3930,7 @@ coroutine.resume(coroutine.create(function()
                             [2] = { ["item_uuid"] = DataPortalReplay[2] }
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("set_game_finished_vote"):InvokeServer(unpack(args))
-                        print("Replay...") 
+                        print("Pick Portal Replay...") 
                     elseif Settings.AutoReplay then
                         local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                         local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))

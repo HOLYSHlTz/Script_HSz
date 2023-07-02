@@ -696,8 +696,7 @@ local UnitAOE1 = UA:Sector("Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
-local LowCPU = LG:Sector("Low CPU Mode ")
-local LowCPU0 = LG:Sector(" ")
+local LowCPU = LG:Sector(" ")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
@@ -3083,19 +3082,6 @@ function others()
     end,{enabled = Settings.hidenamep})
 end
 
-     --Start of Low CPU Section
-function lowCPUsec()
-    LowCPU:Cheat("Checkbox","Low CPU mode ", function(bool)
-        warn("Low CPU Mode is set to " .. tostring(bool))
-        Settings.lowCPU = bool
-        saveSettings()
-    end,{enabled = Settings.lowCPU})
-    
-    LowCPU:Cheat("Button","Activate Low CPU ", function()
-        lowCPU()
-    end)
-end
-    -- End of Low CPU Section
 
 
 ----------------------------------------------
@@ -3119,7 +3105,6 @@ if game.PlaceId == 8304191830 then
     SnipeMerchant()
     Webhooksec()
     Webhooksec2()
-    lowCPUsec()
     others()
     DELMAPNEW()
     UNITAOEAA()
@@ -3140,7 +3125,6 @@ else
     credits()
     SnipeMerchant()
     Webhooksec()
-    lowCPUsec()
     others()
     DELMAPNEW()
     UNITAOEAA()

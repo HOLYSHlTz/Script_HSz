@@ -696,7 +696,8 @@ local UnitAOE1 = UA:Sector("Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
-local LowCPU0 = LG:Sector(" ")
+local LowCPU = LG:Sector("")
+local LowCPU2 = LG:Sector("")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
@@ -1099,10 +1100,18 @@ local function WorldSec()
 
     Settings.SelectedTier = Settings.SelectedTier or 0
     local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก Tier Portal <=",function(value)
-        print(value)
+        warn("Change to : "..value)
         Settings.SelectedTier = value
         saveSettings()
     end, {options = Table_Tier, default = Settings.SelectedTier})
+
+    Settings.SelectedChallenge = Settings.SelectedChallenge or "double_cost"
+    local selectlevel = SelectWorld:Cheat("Dropdown", "Din't use Challenge",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedChallenge = value
+        saveSettings()
+    end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
+    "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge})
     
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
@@ -1999,7 +2008,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n     \n   \n [+]Add SAO Map   \n [+]Add SAO Legend Stage   \n [+]Add New Raid mha    \n   \n    ")   
+    UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [+]Challenges Settings[+] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
@@ -3074,19 +3083,6 @@ function others()
     end,{enabled = Settings.hidenamep})
 end
 
-    --[[ Start of Low CPU Section
-function lowCPUsec()
-    LowCPU:Cheat("Checkbox","Low CPU mode ", function(bool)
-        warn("Low CPU Mode is set to " .. tostring(bool))
-        Settings.lowCPU = bool
-        saveSettings()
-    end,{enabled = Settings.lowCPU})
-    
-    LowCPU:Cheat("Button","Activate Low CPU ", function()
-        lowCPU()
-    end)
-end
-    -- End of Low CPU Section]]
 
 
 ----------------------------------------------
@@ -3110,7 +3106,6 @@ if game.PlaceId == 8304191830 then
     SnipeMerchant()
     Webhooksec()
     Webhooksec2()
-    --lowCPUsec()
     others()
     DELMAPNEW()
     UNITAOEAA()
@@ -3131,7 +3126,6 @@ else
     credits()
     SnipeMerchant()
     Webhooksec()
-    --lowCPUsec()
     others()
     DELMAPNEW()
     UNITAOEAA()
@@ -3303,6 +3297,7 @@ function GetPlayerPortalUse(level)
         local PortalEvent = GetPortals("portal_item__madoka")
         for i,v in pairs(PortalEvent) do
             if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
+            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge then
                 PortalEventUse = v
 
                 PortalName = "Madoka farming"
@@ -3311,8 +3306,10 @@ function GetPlayerPortalUse(level)
                 break
             end
         end
-
     end
+
+
+end
     return {PortalName,PortalUUID,PortalPlayer}
 end
 
@@ -3930,23 +3927,23 @@ coroutine.resume(coroutine.create(function()
                             [2] = { ["item_uuid"] = DataPortalReplay[2] }
                         }
                         game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("set_game_finished_vote"):InvokeServer(unpack(args))
-                        print("Pick Portal Replay...") 
+                        warn("Pick Portal Replay...") 
                     elseif Settings.AutoReplay then
                         local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                         local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                        print("Replay...") 
+                        warn("Replay ...") 
                     elseif Settings.AutoNext then
                         local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                         local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                        print("Next Story...") 
+                        warn("Next Story...") 
                     elseif Settings.AutoContinue then
                         local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
                         local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))   
-                        print("Next Room infint Castle...")         
+                        warn("Next Room infint Castle...")         
                     elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue then
                         game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
                         Teleport()
-                        print("Returning to lobby...")
+                        warn("Returning to lobby...")
                     end
                 end
             end

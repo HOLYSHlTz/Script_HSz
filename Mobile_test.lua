@@ -1091,16 +1091,19 @@ local function WorldSec()
             selectdiff:AddOption(diff[i])
         end
     end
+
     Table_Tier = {}
     for i = 0,15 do
         table.insert(Table_Tier,i)
     end
+
     Settings.SelectedTier = Settings.SelectedTier or 0
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก Tier Portal",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก Tier Portal <=",function(value)
         print(value)
         Settings.SelectedTier = value
         saveSettings()
     end, {options = Table_Tier, default = Settings.SelectedTier})
+    
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
         Settings.isFriendOnly = bool
@@ -3297,7 +3300,7 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_item__madoka" then
         local PortalEvent = GetPortals("portal_item__madoka")
         for i,v in pairs(PortalEvent) do
-            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
+            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
                 PortalEventUse = v
 
                 PortalName = "Madoka farming"

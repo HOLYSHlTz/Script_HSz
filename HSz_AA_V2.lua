@@ -2225,6 +2225,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("sao", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("swords") then
         updatepos("Berserk", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("Storm") then
+        updatepos("Eclipse", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -4034,7 +4036,7 @@ coroutine.resume(coroutine.create(function()
                     print("Next Story...") 
             elseif Settings.AutoContinue then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
-                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))   
+                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 
                     print("Next Room infint Castle...")              
             elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
                    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
@@ -4698,6 +4700,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("sao")
             elseif game.Workspace._map:FindFirstChild("swords") then
                 PlaceUnitsTEST("Berserk")
+            elseif game.Workspace._map:FindFirstChild("Storm") then
+                PlaceUnitsTEST("Eclipse")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -4761,6 +4765,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("sao")
             elseif game.Workspace._map:FindFirstChild("swords") then
                 PlaceUnits("Berserk")
+            elseif game.Workspace._map:FindFirstChild("Storm") then
+                PlaceUnits("Eclipse")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -6441,6 +6447,55 @@ function DelMapBerserk2()
         end
     end   
 end
+
+--Eclipse
+function DelMapEclipse()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapEclipse2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].Storm:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapEclipse3()
+	if game.Workspace:FindFirstChild("_terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
 --fixmap
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -6651,6 +6706,12 @@ coroutine.resume(coroutine.create(function()
         DelMapBerserk()
 		DelMapBerserk1()
 		DelMapBerserk2()
+    elseif game.Workspace._map:FindFirstChild("Storm") then
+        DelTer() 
+		DelMapMain()
+        DelMapEclipse()
+		DelMapEclipse2()
+		DelMapEclipse3()
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         DelTer() 
 		DelMapMain()

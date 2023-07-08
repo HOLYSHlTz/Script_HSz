@@ -1,5 +1,5 @@
 --updatefix
-local version = "14.0.0"
+local version = "15.0.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -256,7 +256,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -354,7 +354,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -437,7 +437,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -519,7 +519,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -585,7 +585,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/965ddc5fb493368cb85ec3e5273da0e8/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -957,15 +957,16 @@ local function WorldSec()
         if Settings.WorldCategory == "Story Worlds" then
             storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
             "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
-            "Hero City","Puppet Island","Virtual Dungeon"}
+            "Hero City","Puppet Island","Virtual Dungeon","Windhym"}
         elseif Settings.WorldCategory == "Legend Stages" then
             storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)"}
         elseif Settings.WorldCategory == "Raid Worlds" then
-            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", "Hero City (Hero Slayer)"}
+            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", 
+            "Hero City (Hero Slayer)", "Marine's Ford (Buddha)"}
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals[ANY]"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals[ANY]","The Eclipse"}
         elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade"}     
+            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
         end
     
         for i = 1, #storylist do
@@ -1015,6 +1016,8 @@ local function WorldSec()
             levellist = {"dressrosa_infinite","dressrosa_level_1","dressrosa_level_2","dressrosa_level_3","dressrosa_level_4","dressrosa_level_5","dressrosa_level_6",}
         elseif level == "Virtual Dungeon" then
             levellist = {"sao_infinite","sao_level_1","sao_level_2","sao_level_3","sao_level_4","sao_level_5","sao_level_6",}
+        elseif level == "Windhym" then
+            levellist = {"berserk_infinite","berserk_level_1","berserk_level_2","berserk_level_3","berserk_level_4","berserk_level_5","berserk_level_6",}
         --///Legend Stages\\\---
         elseif level == "Clover Kingdom (Elf Invasion)" then
             levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
@@ -1045,6 +1048,8 @@ local function WorldSec()
             levellist = {"entertainment_district_level_1","entertainment_district_level_2","entertainment_district_level_3","entertainment_district_level_4","entertainment_district_level_5"}
         elseif level == "Hero City (Hero Slayer)" then
             levellist = {"mha_stain"}
+        elseif level == "Marine's Ford (Buddha)" then
+            levellist = {"marineford_sengoku"}
         --///Portals\\\---
         elseif level == "Alien Portals" then
             levellist = {"portal_boros_g"}
@@ -1056,11 +1061,15 @@ local function WorldSec()
             levellist = {"portal_item__dressrosa"}
         elseif level == "Madoka Portals[ANY]" then
             levellist = {"portal_item__madoka"}
+        elseif level == "The Eclipse" then
+            levellist = {"portal_item__eclipse"}
         ---///Dungeon\\\---    updatefix
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
         elseif level == "ดันเกะโท Crused Parade" then
-            levellist = {"jjk_raid"}     
+            levellist = {"jjk_raid"}   
+        elseif level == "Anniversary Island" then
+            levellist = {"namek_anniversary"}  
         end
         for i = 1, #levellist do
             selectlevel:AddOption(levellist[i])
@@ -1081,9 +1090,9 @@ local function WorldSec()
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
         or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
         or level == "sao_infinite" 
-        or level == "dressrosa_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+        or level == "dressrosa_infinite" or cata == "Legend Stages" or cata == "Raid Worlds" then
             diff = {"Hard"}
-        elseif cata == "Portals" or cata == "Dungeon"  then
+        elseif cata == "Portals" or cata == "Dungeon" then
             diff = {"Default"}
         else
             diff = {"Normal", "Hard"}
@@ -2214,6 +2223,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("Modako", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("water beams") then
         updatepos("sao", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("swords") then
+        updatepos("Berserk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -3226,6 +3237,18 @@ function getMadokaPortals()
     return portals
 end
 
+function getberserkPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__eclipse" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
+--End Fixportal
+
 function GetPortals(id)
     local reg = getreg() 
     local portals = {}
@@ -3287,6 +3310,11 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_zeldris" then
         PortalName = "7ds farming"
         PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+        --Berserk fixportal		
+    elseif level == "portal_item__eclipse" then
+        PortalName = "Berserk farming"
+        PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
         
     ------------------------------
@@ -3442,10 +3470,11 @@ local function startfarming()
             end       
         elseif cata == "Portals" then
             StartPortal(level)
+
         elseif cata == "Dungeon" then
-            if level == "jjk_finger" then --_lobbytemplate_event222
-            getgenv().door = "_lobbytemplate_event222"
-            local string_1 = "_lobbytemplate_event222";
+            if level == "jjk_finger" then --_lobbytemplate_event221
+            getgenv().door = "_lobbytemplate_event221"
+            local string_1 = "_lobbytemplate_event221";
             local table_1 = {
                 ["selected_key"] = "key_jjk_finger" --key_jjk_finger
             };
@@ -3499,11 +3528,11 @@ local function startfarming()
                 warn("DUNGEONS jjk_finger farming")
                 task.wait(3)
             end
-                --ดันเกะโท
+        --ดันเกะโท
         elseif cata == "Dungeon" then
             if level == "jjk_raid" then
-                getgenv().door = "_lobbytemplate_event23"
-                local string_1 = "_lobbytemplate_event23";
+                getgenv().door = "_lobbytemplate_event22"
+                local string_1 = "_lobbytemplate_event22";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
@@ -3557,6 +3586,67 @@ local function startfarming()
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(3)
                 end
+            --Events Annivesary
+        elseif cata == "Dungeon" then
+            if level == "namek_anniversary" then
+                getgenv().door = "_lobbytemplate_event323"
+                local string_1 = "_lobbytemplate_event323";
+                local table_1 = {
+                    ["selected_key"] = "key_jjk_map"
+                };
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
+                Target:InvokeServer(string_1, table_1);
+            
+                if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
+                    for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
+                        if v.Name == "Owner" and v.Value == nil then
+                            local args = { [1] = tostring(v.Parent.Name) }
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+        
+                            task.wait()
+                        
+                            local args = {
+                                [1] = tostring(v.Parent.Name), -- Lobby 
+                                [2] = Settings.SelectedLevel, -- World/Level
+                                [3] = Settings.isFriendOnly or true, -- Friends Only or not
+                                [4] = Settings.Difficulty 
+                            }
+        
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+        
+                            local args = { [1] =tostring(v.Parent.Name) }
+                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                            
+                            getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+                            plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+                            break
+                        end
+                    end
+        
+                    task.wait()
+        
+                    plr.Character.HumanoidRootPart.CFrame = cpos
+        
+                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
+                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
+                            getgenv().teleporting = false
+                        else
+                            getgenv().teleporting = true
+                        end
+                    end
+        
+                pcall(function() 
+                    BabyWebhook()
+                    SnipeShopNew()
+                 end)
+                    print("send Webhook")
+                    task.wait(1.1)
+                    warn("DUNGEONS Annivesary farming")
+                    task.wait(3)
+                end
+            end
+
+
                 end
             end
         end
@@ -4606,6 +4696,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("Modako")
             elseif game.Workspace._map:FindFirstChild("water beams") then
                 PlaceUnitsTEST("sao")
+            elseif game.Workspace._map:FindFirstChild("swords") then
+                PlaceUnitsTEST("Berserk")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -4667,6 +4759,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("Modako")
             elseif game.Workspace._map:FindFirstChild("water beams") then
                 PlaceUnits("sao")
+            elseif game.Workspace._map:FindFirstChild("swords") then
+                PlaceUnits("Berserk")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -4710,6 +4804,34 @@ function DelMapMain()
     end  
 end
 --Namek
+function DelMapnamekmap()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+                if v.Name == "cakes" then v:Destroy() end
+                if v.Name == "balloons" then v:Destroy() end
+                if v.Name == "obstacles" then v:Destroy() end
+        end
+    end   
+end
 
 function DelMapnamekmap2()
 	if game.Workspace:FindFirstChild("_map") then
@@ -6270,6 +6392,55 @@ function DelMapsao5()
         end
     end   
 end
+
+--Berserk
+function DelMapBerserk()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+				if v.Name == "grass" then v:Destroy() end
+				if v.Name == "trees" then v:Destroy() end
+				if v.Name == "Folder" then v:Destroy() end
+				if v.Name == "wires" then v:Destroy() end
+				if v.Name == "bushes" then v:Destroy() end
+				if v.Name == "poles" then v:Destroy() end
+				if v.Name == "flowers" then v:Destroy() end
+				if v.Name == "gates" then v:Destroy() end
+				if v.Name == "lamps" then v:Destroy() end
+				if v.Name == "paper textures" then v:Destroy() end
+				if v.Name == "notice boards" then v:Destroy() end
+				if v.Name == "grass things" then v:Destroy() end
+				if v.Name == "lanterns" then v:Destroy() end
+				if v.Name == "houses outer (collision)" then v:Destroy() end
+				if v.Name == "doors" then v:Destroy() end
+				if v.Name == "_secret" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapBerserk1()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].swords:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapBerserk2()
+	if game.Workspace:FindFirstChild("_terrain") then
+    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
 --fixmap
 ---------------------------------------------------------------------------------------
 ---------------------------------------------------------------------------------------
@@ -6282,6 +6453,7 @@ coroutine.resume(coroutine.create(function()
             if game.Workspace._map:FindFirstChild("namek mushroom model") then
 				DelTer() 
 				DelMapMain()
+                DelMapnamekmap()
                 DelMapnamekmap2()
 				DelMapnamekmap3()
 				DelMapnamekmap4()
@@ -6473,6 +6645,12 @@ coroutine.resume(coroutine.create(function()
 		DelMapsao3()
 		DelMapsao4()
 		DelMapsao5()
+    elseif game.Workspace._map:FindFirstChild("swords") then
+        DelTer() 
+		DelMapMain()
+        DelMapBerserk()
+		DelMapBerserk1()
+		DelMapBerserk2()
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         DelTer() 
 		DelMapMain()
@@ -6510,11 +6688,11 @@ end
 
 
 
---Auto Grab Daily Quest
+--Auto Grab Daily Quest --updatefix
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("sao_daily")
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("berserk_daily")
         wait(15)
     end
 end
@@ -6570,7 +6748,7 @@ function placeunittwin()
 --ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD"}
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

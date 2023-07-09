@@ -2546,30 +2546,35 @@ local function unitconfig()
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U1_Priority})
 
+    Settings.U1_Wave = Settings.U1_Wave or 1
     Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U1_Wave})
 
+    Settings.U1_TotalAmmount = Settings.U1_TotalAmmount or 6
     Unit1:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U1_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U1_TotalAmmount})
 
+    Settings.U1_UpgWave = Settings.U1_UpgWave or 1
     Unit1:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U1_UpgWave})
 
+    Settings.U1_UpgCap = Settings.U1_UpgCap or 9
     Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U1_UpgCap})
 
+    Settings.U1_SellWave = Settings.U1_SellWave or 999
     Unit1:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_SellWave = Value
@@ -2585,30 +2590,35 @@ local function unitconfig()
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U2_Priority})
 
-    Unit2:Cheat("Textbox", "วางตัวเมื่อถึง wav", function(Value)
+    Settings.U2_Wave = Settings.U2_Wave or 1
+    Unit2:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U2_Wave})
 
+    Settings.U2_TotalAmmount = Settings.U2_TotalAmmount or 6
     Unit2:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U2_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U2_TotalAmmount})
 
+    Settings.U2_UpgWave = Settings.U2_UpgWave or 1
     Unit2:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U2_UpgWave})
 
+    Settings.U2_UpgCap = Settings.U2_UpgCap or 9
     Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U2_UpgCap})
 
+    Settings.U2_SellWave = Settings.U2_SellWave or 999
     Unit2:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_SellWave = Value
@@ -2624,30 +2634,35 @@ local function unitconfig()
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U3_Priority})
 
+    Settings.U3_Wave = Settings.U3_Wave or 1
     Unit3:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U3_Wave})
-    
+
+    Settings.U3_TotalAmmount = Settings.U3_TotalAmmount or 6
     Unit3:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U3_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U3_TotalAmmount})
 
+    Settings.U3_UpgWave = Settings.U3_UpgWave or 1
     Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U3_UpgWave})
-    
+
+    Settings.U3_UpgCap = Settings.U3_UpgCap or 9
     Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U3_UpgCap})
-    
+
+    Settings.U3_SellWave = Settings.U3_SellWave or 999
     Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_SellWave = Value
@@ -2663,30 +2678,35 @@ local function unitconfig()
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U4_Priority})
 
+    Settings.U4_Wave = Settings.U4_Wave or 1
     Unit4:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U4_Wave})
-    
+
+    Settings.U4_TotalAmmount = Settings.U4_TotalAmmount or 6
     Unit4:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U4_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U4_TotalAmmount})
-    
+
+    Settings.U4_UpgWave = Settings.U4_UpgWave or 1
     Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U4_UpgWave})
-    
+
+    Settings.U4_UpgCap = Settings.U4_UpgCap or 9
     Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U4_UpgCap})
-    
+
+    Settings.U4_SellWave = Settings.U4_SellWave or 999
     Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_SellWave = Value
@@ -2702,73 +2722,85 @@ local function unitconfig()
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U5_Priority})
 
+    Settings.U5_Wave = Settings.U5_Wave or 1
     Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U5_Wave})
-        
+
+    Settings.U5_TotalAmmount = Settings.U5_TotalAmmount or 6
     Unit5:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U5_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U5_TotalAmmount})
-        
+
+    Settings.U5_UpgWave = Settings.U5_UpgWave or 1
     Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U5_UpgWave})
-        
+
+    Settings.U5_UpgCap = Settings.U5_UpgCap or 9
     Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U5_UpgCap})
-        
+
+    Settings.U5_SellWave = Settings.U5_SellWave or 999
     Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_SellWave = Value
         saveSettings()
     end, {placeholder = Settings.U5_SellWave}) 
+
     --//UNIT 6
 
-    Settings.U6_Priority = Settings.U6_Priority or "first"
+        Settings.U6_Priority = Settings.U6_Priority or "first"
     Unit6:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
         Settings.U6_Priority = value
         saveSettings()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U6_Priority})
 
+    Settings.U6_Wave = Settings.U6_Wave or 1
     Unit6:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U6_Wave})
-    
+
+    Settings.U6_TotalAmmount = Settings.U6_TotalAmmount or 6
     Unit6:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U6_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U6_TotalAmmount})
 
+    Settings.U6_UpgWave = Settings.U6_UpgWave or 1
     Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U6_UpgWave})
-    
+
+    Settings.U6_UpgCap = Settings.U6_UpgCap or 9
     Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U6_UpgCap})
-    
+
+    Settings.U6_SellWave = Settings.U6_SellWave or 999
     Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_SellWave = Value
         saveSettings()
-    end, {placeholder = Settings.U6_SellWave})  
+    end, {placeholder = Settings.U6_SellWave}) 
+    
 end
 
 ---------------------------------------------

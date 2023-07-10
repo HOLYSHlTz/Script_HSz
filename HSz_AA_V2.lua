@@ -3393,14 +3393,14 @@ function StartPortal(input)
                     [2] = { ["friends_only"] = Settings.isFriendOnly } --getgenv().isFriendOnly 
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                task.wait(1.5)
+                task.wait(1)
                 for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
                     if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
                         local args = { [1] = tostring(v.Parent.Name) }
                         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
                 --game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(DataPlayerPortal[3]))
                 warn(DataPlayerPortal[1])
-                task.wait(3)
+                task.wait(1)
             end
         end
     end
@@ -3456,9 +3456,9 @@ local function startfarming()
             
             end)
                 print("send Webhook")
-                task.wait(1.1)
+                task.wait(0.5)
                 warn("farming")
-                task.wait(3)
+                task.wait(1)
             end
         elseif cata == "Raid Worlds" then
             getgenv().door =  "_lobbytemplate212"
@@ -3504,9 +3504,9 @@ local function startfarming()
                 SnipeShopNew() 
             end)
                 print("send Webhook")
-                task.wait(1.1)
+                task.wait(0.5)
                 warn("Raid farming")
-                task.wait(3)
+                task.wait(1)
             end       
         elseif cata == "Portals" then
             StartPortal(level)
@@ -3564,9 +3564,9 @@ local function startfarming()
                 SnipeShopNew()
              end)
                 print("send Webhook")
-                task.wait(1.1)
+                task.wait(0.5)
                 warn("DUNGEONS jjk_finger farming")
-                task.wait(3)
+                task.wait(1)
             end
         --ดันเกะโท
         elseif cata == "Dungeon" then
@@ -3622,9 +3622,9 @@ local function startfarming()
                     SnipeShopNew()
                  end)
                     print("send Webhook")
-                    task.wait(1.1)
+                    task.wait(0.5)
                     warn("DUNGEONS jjk_raid farming")
-                    task.wait(3)
+                    task.wait(1)
                 end
             --Events Annivesary
         elseif cata == "Dungeon" then
@@ -3680,9 +3680,9 @@ local function startfarming()
                     SnipeShopNew()
                  end)
                     print("send Webhook")
-                    task.wait(1.1)
+                    task.wait(0.5)
                     warn("DUNGEONS Annivesary farming")
-                    task.wait(3)
+                    task.wait(1)
                 end
             end
 
@@ -3827,7 +3827,7 @@ local function FarmInfinityCastle()
                 SnipeShopNew()
              end)
                 print("send Webhook")
-                task.wait(1.1)
+                task.wait(0.5)
                 warn("Infinity Castle Farm")
             task.wait(6)
         end
@@ -4047,7 +4047,7 @@ coroutine.resume(coroutine.create(function()
                 repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
                 pcall(function() webhook() end)
                 print("Wait next or leave")
-                task.wait(2.1)
+                task.wait(0.5)
 
             cata = Settings.WorldCategory; level = Settings.SelectedLevel;
             if Settings.AutoPickPortal and cata == "Portals"  then
@@ -6748,7 +6748,7 @@ end
 ---------------------------------------------------------------------------------------
 
 coroutine.resume(coroutine.create(function()
-    while task.wait(1.5) do
+    while task.wait(1) do
         if game.PlaceId ~= 8304191830 and Settings.deletemap then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")

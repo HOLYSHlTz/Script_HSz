@@ -1569,6 +1569,8 @@ local function UNITAOEAA()
         autoload2()
     end)
 
+
+
     UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
         print(bool)
         Settings.blackhole = bool
@@ -1583,6 +1585,7 @@ local function UNITAOEAA()
                 local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
                 local player = game.Players.LocalPlayer.Name
                 local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
                 local distanceTable = {}
             
                 local function getDistance(toCheck)
@@ -1595,6 +1598,7 @@ local function UNITAOEAA()
                                     table.insert(distanceTable, tonumber(distance))
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
+
                                         enemy = v.HumanoidRootPart.CFrame *
                                             CFrame.new(0, 0, -4)
                                     end
@@ -1610,6 +1614,8 @@ local function UNITAOEAA()
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
                 if Unit:getChildren()[1] then
                     for i, v in pairs(Unit:getChildren()) do
                         if v:WaitForChild("_stats"):FindFirstChild("player") then
@@ -1967,6 +1973,7 @@ local function UNITAOEAA()
                 end
             end
         end)
+
 
 end
 --- Fetch Units from Equipped List
@@ -3724,6 +3731,10 @@ function autoabilityfunc()
                                 end
                             --AutoSkill
                             elseif v._stats.id.Value == "homura_evolved" then
+                                if v._stats.state.Value == "attack" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
+                            elseif v._stats.id.Value == "shanks_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end

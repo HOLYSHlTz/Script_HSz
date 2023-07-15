@@ -3991,7 +3991,7 @@ coroutine.resume(coroutine.create(function()
         if Settings.unitconfig and Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
-                    upgradeunit(name, min)
+                    --upgradeunit(name, min)
                     upgradeunit1(name)
                     upgradeunit2(name)
                     upgradeunit3(name)

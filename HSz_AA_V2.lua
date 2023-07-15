@@ -280,7 +280,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛```",
+                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {
@@ -696,8 +696,8 @@ local UnitAOE1 = UA:Sector("Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
-local LowCPU = LG:Sector("")
-local LowCPU2 = LG:Sector("")
+local LowCPU2 = LG:Sector("Low CPU Mode")
+local LowCPU3 = LG:Sector("")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
@@ -1974,7 +1974,6 @@ local function UNITAOEAA()
             end
         end)
 
-
 end
 --- Fetch Units from Equipped List
 if Settings.SelectedUnits ~= nil then
@@ -2510,7 +2509,10 @@ function MouseClick2(UnitPos)
 		mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
 	end
 end
+
+--------------------------------END SAVEPOSTEST
 local function UnitPosSec()
+    
     
     UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 1", function()
         MouseClick2("UP1")
@@ -2820,11 +2822,36 @@ local function reFarmconfig()
     end)
 
 end
+
+
+
+---------------------------------------------
+-------------- LOWW CPU Config --------------
+---------------------------------------------
+local function LowCPUModeT()
+LowCPU2:Cheat("Checkbox","Enable Low CPU Mode ", function(bool)
+	print(bool)
+	Settings.lowCpuMode = bool
+	saveSettings()
+end,{enabled = Settings.lowCpuMode})
+
+task.spawn(function()
+	while task.wait() do
+        if isrbxactive() ~= true and Settings.lowCpuMode then
+            setfpscap(30)
+            game:GetService("RunService"):Set3dRenderingEnabled(false)
+        else
+            setfpscap(1000)
+            game:GetService("RunService"):Set3dRenderingEnabled(true)
+        end
+    end
+end)
+end
 ---------------------------------------------
 -------------- LAGGY Config -----------------
 ---------------------------------------------
-
 local function LAGGYconfig()
+
     LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
 
     --test New Lag
@@ -2838,8 +2865,10 @@ task.spawn(function()
 	while task.wait() do
         local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
 		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
+            
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
+
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
     local function getmaxvalue(val)
        --local mainvalueifonetable = 499999
@@ -2849,7 +2878,7 @@ task.spawn(function()
        end
        local calculateperfectval = (mainvalueifonetable/(val+2))
        return calculateperfectval
-    end
+end
      
     --local function bomb(tableincrease, tries)
 function bomb(tableincrease, tries)
@@ -2900,6 +2929,8 @@ end
         end
     end
 end)
+
+
 
     LG1:Cheat("Textbox", " Lag เมื่อถึง Wave ", function(Value)
         Value = tonumber(Value)
@@ -3155,6 +3186,7 @@ if game.PlaceId == 8304191830 then
     ChallengeSec()
     DeleteMapSec()
     unitconfig()
+    LowCPUModeT()
     LAGGYconfig()
     reFarmconfig()
     credits()
@@ -3177,6 +3209,7 @@ else
     DeleteMapSec()
     UnitPosSec()
     unitconfig()
+    LowCPUModeT()
     LAGGYconfig()
     reFarmconfig()
     sponsor()

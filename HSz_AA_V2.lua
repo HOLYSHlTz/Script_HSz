@@ -1600,7 +1600,7 @@ local function UNITAOEAA()
                                     if tonumber(distance) == distanceTable[1] then
 
                                         enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                                     end
                                 end
                             end
@@ -1623,13 +1623,10 @@ local function UNITAOEAA()
                                 local success, err = pcall(function()
                                     if tostring(v._stats.player.Value) == player then
                                         if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
                                             v.HumanoidRootPart.CFrame = getDistance("enemyName")
                                             v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
 
                                         end
                                     end
@@ -1669,7 +1666,7 @@ local function UNITAOEAA()
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
                                         enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                                     end
                                 end
                             end
@@ -1735,7 +1732,7 @@ local function UNITAOEAA()
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
                                         enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                                     end
                                 end
                             end
@@ -1801,7 +1798,7 @@ local function UNITAOEAA()
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
                                         enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                                     end
                                 end
                             end
@@ -1867,7 +1864,7 @@ local function UNITAOEAA()
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
                                         enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                                     end
                                 end
                             end
@@ -1933,7 +1930,7 @@ local function UNITAOEAA()
                             table.sort(distanceTable)
                             if tonumber(distance) == distanceTable[1] then
                                 enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -4)
+                                            CFrame.new(0, 0, -2)
                             end
                         end
                     end
@@ -3975,7 +3972,13 @@ coroutine.resume(coroutine.create(function()
         if Settings.unitconfig and not Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
-                    upgradeunit(name, min)
+                    --upgradeunit(name, min)
+                    upgradeunit1(name)
+                    upgradeunit2(name)
+                    upgradeunit3(name)
+                    upgradeunit4(name)
+                    upgradeunit5(name)
+                    upgradeunit6(name)
                     --upgradeunitTEST()
                 end)
             end
@@ -3989,6 +3992,12 @@ coroutine.resume(coroutine.create(function()
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
                     upgradeunit(name, min)
+                    upgradeunit1(name)
+                    upgradeunit2(name)
+                    upgradeunit3(name)
+                    upgradeunit4(name)
+                    upgradeunit5(name)
+                    upgradeunit6(name)
                     --upgradeunitTEST()
                 end)
             end

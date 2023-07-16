@@ -5049,9 +5049,10 @@ function DelTer()
 			if v.ClassName == "MeshPart" then v:Destroy() end
         	if v.ClassName == "Model" then v:Destroy() end
 			if v.ClassName == "Folder" then v:Destroy() end
+			if v.ClassName == "Part" then v:Destroy() end
         end
     end  
-end   
+end  
 
 function DelHill()
 	if game.Workspace._terrain:FindFirstChild("terrain") then
@@ -5355,6 +5356,28 @@ function DelMapAlinevents()
 				if v.ClassName == "Part" then v:Destroy() end
         end
     end  
+end
+
+function DelMapAlin01()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].fences:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
+function DelMapAlin02()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"].vents:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
 end
 
 --Sand
@@ -6926,6 +6949,8 @@ coroutine.resume(coroutine.create(function()
 		DelMapAlinefences()
 		DelMapAlinepole()
 		DelMapAlinevents()
+        DelMapAlin01()
+		DelMapAlin02()
             elseif game.Workspace._map:FindFirstChild("s") then
                 DelTer() 
 				DelMapMain()

@@ -2032,12 +2032,13 @@ local function UNITAOEAA()
                         end
                     end
                 end
-                followEnemyU6()
+                followEnemyU7()
                 end
             end
         end)
 
 end
+
 
 --- Fetch Units from Equipped List
 if Settings.SelectedUnits ~= nil then
@@ -4006,6 +4007,7 @@ function autoabilityloop()
 
         repeat task.wait() until game:IsLoaded()
         local LocalPlayer = game.Players.LocalPlayer
+        local LPlayer = game.Players.LocalPlayer.Name
         local Units = {'erwin','erwin:shiny','erwin_school','erwin_halloween','wendy','leafa'}
         local Delay = {
             ['erwin'] = 16.4,
@@ -4013,7 +4015,7 @@ function autoabilityloop()
             ['erwin_school'] = 16.4,
             ['erwin_halloween'] = 16.4,
             ['wendy'] = 16.4,
-            ['leafa'] = 16.5,
+            ['leafa'] = 16.5
         }
         _G.Stop = false
         while wait() do
@@ -4022,7 +4024,7 @@ function autoabilityloop()
           end
           local wendy1 = {}
           for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
-              if table.find(Units,v.Name) and v._stats.player.Value == LocalPlayer then
+              if table.find(Units,v.Name) and v._stats.player.Value == LPlayer then
                   table.insert(wendy1, v)
               end
           end

@@ -3917,7 +3917,11 @@ local function startfarming()
     end
 end
 --end fixportal]]
-    -- Start Auto Ability Function
+
+------------------------------------
+---- Start Auto Ability Function----
+------------------------------------
+
 getgenv().autoabilityerr = false
 function autoabilityfunc()
     local player = game.Players.LocalPlayer.Name
@@ -3933,48 +3937,40 @@ function autoabilityfunc()
                             UsePuchiSkill()
                         end
                         
-                   
+
     				elseif v._stats:FindFirstChild("player") then
     					if tostring(v._stats.player.Value) == player then
-                            --[[if v._stats.id.Value == "wendy" then
-                                autoabilityloop()
-                            end
-                            if v._stats.id.Value == "erwin" then
-                                autoabilityloop()
-                            end
-                            if v._stats.id.Value == "leafa" then
-                                autoabilityloop()
-                            end]]
+
+                            --AutoSkill
 
                             if v._stats.id.Value == "gojo_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Gojo")
                                 end
-                            --AutoSkills
-                            elseif v._stats.id.Value == "homura_evolved" then
+                            end
+                            
+                            if v._stats.id.Value == "homura_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Homura")
                                 end
-                            elseif v._stats.id.Value == "shanks_evolved" then
+                            end
+
+                            if v._stats.id.Value == "shanks_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Shanks")
                                 end
-                            elseif v._stats.id.Value ~= "pucci_heaven" then
-                                if v._stats.state.Value == "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                        
-                                    end
-                                end
                             end
+
                         end
                     end
                 end
             end
         end)
+
+
       
         if err then
             warn("Can't use Ability")
@@ -3988,6 +3984,7 @@ end
 -- Start  Puchi Skill Function
 function UsePuchiSkill()
     local player = game.Players.LocalPlayer.Name
+    local LocalPlayer = game.Players.LocalPlayer
 	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
 		if v:FindFirstChild("_stats") then
 			if v._stats:FindFirstChild("player") then
@@ -4023,6 +4020,7 @@ function UsePuchiSkill()
 end
 -- End  Puchi Skill Function
 
+-- Start  Auto Buff 100 Function
 function autoabilityloop()
     if Settings.EnableBuffLoop then
 
@@ -4154,8 +4152,6 @@ function autoabilitywendy()
     end
 end
 
-
-
 function autoabilityleafa()
     if Settings.EnableBuffleafaLoop then
 
@@ -4197,7 +4193,8 @@ function autoabilityleafa()
     end
 end
 
-
+-- End  Auto Buff 100 Function
+-----------------------------------------------------------
 
 function autoupgradefunc()
     local success, err = pcall(function() --///

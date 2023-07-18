@@ -1563,18 +1563,14 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-    UnitAOE1:Cheat("Button", "🧙 โหลด Unit ใหม่", function() --Selects Currently Equipped Units!
-        Settings.SelectedUnits = {
-            U1 = "nil",
-            U2 = "nil",
-            U3 = "nil",
-            U4 = "nil",
-            U5 = "nil",
-            U6 = "nil"
-        }
-        saveSettings()
-        GetUnits()
-        autoload2()
+    UnitAOE1:Cheat("Button", "Check Unit", function()
+        for i, v in pairs(game.Workspace._UNITS:getChildren()) do
+            if v:FindFirstChild("_stats"):FindFirstChild("player") then
+                if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
+                    warn(v)
+		        end
+	        end
+        end
     end)
 
 
@@ -1979,7 +1975,70 @@ local function UNITAOEAA()
             end
         end)
 
+        --Unit7
+    task.spawn(function()
+        while task.wait() do
+            if Settings.blackhole then
+
+        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+        local player = game.Players.LocalPlayer.Name
+        local Unit = game.Workspace._UNITS
+        local distanceTable = {}
+
+        local function getDistance(toCheck)
+            table.clear(distanceTable)
+            if Unit:getChildren()[1] then
+                for i, v in pairs(Unit:getChildren()) do
+                    if v:WaitForChild("_stats"):FindFirstChild("base") then
+                        if tostring(v._stats.base.Value) == "pve" then
+                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                            table.insert(distanceTable, tonumber(distance))
+                            table.sort(distanceTable)
+                            if tonumber(distance) == distanceTable[1] then
+                                enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                            end
+                        end
+                    end
+                end
+            end
+            return enemy
+        end
+                        
+        local function followEnemyU7()
+            --Settings.unitAOE = "เลือก Units"
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE7 then
+
+                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
+                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followEnemyU6()
+                end
+            end
+        end)
+
 end
+
 --- Fetch Units from Equipped List
 if Settings.SelectedUnits ~= nil then
     local names = {}
@@ -2032,6 +2091,14 @@ if Settings.SelectedUnits ~= nil then
         end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
     end
     --- End Check Unit
+
+    Settings.UnitAOE7 = Settings.UnitAOE7 or "femto"
+    UnitAOE:Cheat("Dropdown", " Select Griffin Name ",function(value)
+        warn("Change to : "..value)
+        Settings.UnitAOE7 = value
+        saveSettings()
+    end, { options = {"None","femto_egg","griffith_reincarnation","femto"}, default =Settings.UnitAOE7})
+
 end
 ----------------------------------------------
 ------------------ credits -------------------

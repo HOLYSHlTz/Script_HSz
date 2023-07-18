@@ -1201,6 +1201,12 @@ local function AutoFarmSec()
         Settings.AutoLeave = bool
         saveSettings()
     end,{enabled = Settings.AutoLeave})
+
+    AutoFarmConfig:Cheat("Checkbox"," Auto Upgrade Units อัปตัว  ", function(bool)
+        print(bool)
+        Settings.AutoUpgrade = bool
+        saveSettings()
+    end,{enabled = Settings.AutoUpgrade})
     
     AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล ", function(bool)
         print(bool)
@@ -1208,18 +1214,33 @@ local function AutoFarmSec()
         saveSettings()
     end,{enabled = Settings.AutoAbilities})
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [TEST] ", function(bool)
+    --[[AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [TEST] ", function(bool)
         print(bool)
         Settings.EnableBuffLoop = bool
         autoabilityloop()
         saveSettings()
-    end,{enabled = Settings.EnableBuffLoop})
+    end,{enabled = Settings.EnableBuffLoop})]]
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto Upgrade Units อัปตัว  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Erwin] ", function(bool)
         print(bool)
-        Settings.AutoUpgrade = bool
+        Settings.EnableBufferwinLoop = bool
+        autoabilityerwin()
         saveSettings()
-    end,{enabled = Settings.AutoUpgrade})
+    end,{enabled = Settings.EnableBufferwinLoop})
+
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Wendy] ", function(bool)
+        print(bool)
+        Settings.EnableBuffwendyLoop = bool
+        autoabilitywendy()
+        saveSettings()
+    end,{enabled = Settings.EnableBuffwendyLoop})
+
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Leafa] ", function(bool)
+        print(bool)
+        Settings.EnableBuffleafaLoop = bool
+        autoabilityleafa()
+        saveSettings()
+    end,{enabled = Settings.EnableBuffleafaLoop})
 
     AutoFarmConfig:Cheat("Checkbox"," ขายตัว เมื่อถึง Wave ", function(bool)
         print(bool)
@@ -4010,12 +4031,97 @@ function autoabilityloop()
         local LPlayer = game.Players.LocalPlayer.Name
         local Units = {'erwin','erwin:shiny','erwin_school','erwin_halloween','wendy','leafa'}
         local Delay = {
-            ['erwin'] = 16.4,
-            ['erwin:shiny'] = 16.4,
-            ['erwin_school'] = 16.4,
-            ['erwin_halloween'] = 16.4,
-            ['wendy'] = 16.4,
-            ['leafa'] = 16.5
+            ['erwin'] = 16.5,
+            ['erwin:shiny'] = 16.5,
+            ['erwin_school'] = 16.5,
+            ['erwin_halloween'] = 16.5,
+            ['wendy'] = 16.5,
+            ['leafa'] = 16.5,
+        }
+        _G.Stop = false
+        while wait() do
+          if _G.Stop then
+            break
+          end
+          local unit1 = {}
+          for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
+              if table.find(Units,v.Name) and v._stats.player.Value == LocalPlayer then
+                  table.insert(unit1, v)
+              end
+          end
+        
+          if #unit1 == 4 then
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(unit1[1])
+            warn("Use Skill " ..unit1[1].Name .." 1 " )
+            wait(Delay[unit1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(unit1[3])
+            warn("Use Skill " ..unit1[1].Name .." 2 " )
+            wait(Delay[unit1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(unit1[2])
+            warn("Use Skill " ..unit1[1].Name .." 3 " )
+            wait(Delay[unit1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(unit1[4])
+            warn("Use Skill " ..unit1[1].Name .." 4 " )
+            wait(Delay[unit1[1].Name])
+          end
+        end
+
+    end
+end
+
+function autoabilityerwin()
+    if Settings.EnableBufferwinLoop then
+
+        repeat task.wait() until game:IsLoaded()
+        local LocalPlayer = game.Players.LocalPlayer
+        local LPlayer = game.Players.LocalPlayer.Name
+        local UnitsE = {'erwin','erwin:shiny','erwin_school','erwin_halloween'}
+        local Delay = {
+            ['erwin'] = 16.5,
+            ['erwin:shiny'] = 16.5,
+            ['erwin_school'] = 16.5,
+            ['erwin_halloween'] = 16.5,
+        }
+        _G.Stop = false
+        while wait() do
+          if _G.Stop then
+            break
+          end
+          local erwin1 = {}
+          for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
+              if table.find(UnitsE,v.Name) and v._stats.player.Value == LocalPlayer then
+                  table.insert(erwin1, v)
+              end
+          end
+        
+          if #erwin1 == 4 then
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[1])
+            warn("Use Skill " ..erwin1[1].Name .." 1 " )
+            wait(Delay[erwin1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[3])
+            warn("Use Skill " ..erwin1[1].Name .." 2 " )
+            wait(Delay[erwin1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[2])
+            warn("Use Skill " ..erwin1[1].Name .." 3 " )
+            wait(Delay[erwin1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[4])
+            warn("Use Skill " ..erwin1[1].Name .." 4 " )
+            wait(Delay[erwin1[1].Name])
+          end
+        end
+
+    end
+end
+
+function autoabilitywendy()
+    if Settings.EnableBuffwendyLoop then
+
+        repeat task.wait() until game:IsLoaded()
+        local LocalPlayer = game.Players.LocalPlayer
+        local LPlayer = game.Players.LocalPlayer.Name
+        local UnitsW = {'wendy'}
+        local Delay = {
+            ['wendy'] = 16.5,
         }
         _G.Stop = false
         while wait() do
@@ -4024,7 +4130,7 @@ function autoabilityloop()
           end
           local wendy1 = {}
           for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
-              if table.find(Units,v.Name) and v._stats.player.Value == LPlayer then
+              if table.find(UnitsW,v.Name) and v._stats.player.Value == LocalPlayer then
                   table.insert(wendy1, v)
               end
           end
@@ -4047,6 +4153,51 @@ function autoabilityloop()
 
     end
 end
+
+
+
+function autoabilityleafa()
+    if Settings.EnableBuffleafaLoop then
+
+        repeat task.wait() until game:IsLoaded()
+        local LocalPlayer = game.Players.LocalPlayer
+        local LPlayer = game.Players.LocalPlayer.Name
+        local UnitsL = {'leafa'}
+        local Delay = {
+            ['leafa'] = 16.5,
+        }
+        _G.Stop = false
+        while wait() do
+          if _G.Stop then
+            break
+          end
+          local leafa1 = {}
+          for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
+              if table.find(UnitsL,v.Name) and v._stats.player.Value == LocalPlayer then
+                  table.insert(leafa1, v)
+              end
+          end
+        
+          if #leafa1 == 4 then
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[1])
+            warn("Use Skill " ..leafa1[1].Name .." 1 " )
+            wait(Delay[leafa1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[3])
+            warn("Use Skill " ..leafa1[1].Name .." 2 " )
+            wait(Delay[leafa1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[2])
+            warn("Use Skill " ..leafa1[1].Name .." 3 " )
+            wait(Delay[leafa1[1].Name])
+            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[4])
+            warn("Use Skill " ..leafa1[1].Name .." 4 " )
+            wait(Delay[leafa1[1].Name])
+          end
+        end
+
+    end
+end
+
+
 
 function autoupgradefunc()
     local success, err = pcall(function() --///
@@ -4178,14 +4329,6 @@ coroutine.resume(coroutine.create(function()
                 getgenv().autoabilityerr = false
             end
         end
-
-        --[[if Settings.EnableBuffLoop then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    autoabilityloop()
-                end)
-            end
-        end]]
         
         if Settings.AutoUpgrade and not Settings.unitconfig then
             if game.PlaceId ~= 8304191830 then

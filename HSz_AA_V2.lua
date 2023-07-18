@@ -4107,11 +4107,6 @@ coroutine.resume(coroutine.create(function()
                     autoabilityloop()
                 end)
             end
-            if  getgenv().autoabilityerr == true then
-                task.wait()
-                autoabilityloop()
-                getgenv().autoabilityerr = false
-            end
         end
         
         if Settings.AutoUpgrade and not Settings.unitconfig then

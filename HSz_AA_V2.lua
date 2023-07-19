@@ -4070,10 +4070,10 @@ function autoabilityerwin()
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsE = {'erwin','erwin:shiny','erwin_school','erwin_halloween'}
         local Delay = {
-            ['erwin'] = 16.5,
-            ['erwin:shiny'] = 16.5,
-            ['erwin_school'] = 16.5,
-            ['erwin_halloween'] = 16.5,
+            ['erwin'] = 16.4,
+            ['erwin:shiny'] = 16.4,
+            ['erwin_school'] = 16.4,
+            ['erwin_halloween'] = 16.4,
         }
         _G.Stop = false
         while wait() do
@@ -4114,7 +4114,7 @@ function autoabilitywendy()
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsW = {'wendy'}
         local Delay = {
-            ['wendy'] = 16.5,
+            ['wendy'] = 16.4,
         }
         _G.Stop = false
         while wait() do
@@ -4155,7 +4155,7 @@ function autoabilityleafa()
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsL = {'leafa'}
         local Delay = {
-            ['leafa'] = 16.5,
+            ['leafa'] = 16.4,
         }
         _G.Stop = false
         while wait() do

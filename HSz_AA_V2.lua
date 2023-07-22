@@ -5971,7 +5971,17 @@ function DelMapTitan8()
 end
 
 --Snowy
-function DelMapSnowy1()
+function DelMapSnowy()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end  
+end
+
+function DelMapSnowy0()
 	if game.Workspace:FindFirstChild("_map") then
     	for i,v in pairs(game:GetService("Workspace")["_map"]["snow grass"]:GetChildren()) do
 				if v.ClassName == "MeshPart" then v:Destroy() end
@@ -5983,7 +5993,7 @@ end
 
 function DelMapSnowy1()
 	if game.Workspace:FindFirstChild("_map") then
-    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.trees:GetChildren()) do
+    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco:GetChildren()) do
 				if v.ClassName == "MeshPart" then v:Destroy() end
 				if v.ClassName == "Model" then v:Destroy() end
 				if v.ClassName == "Part" then v:Destroy() end
@@ -5991,26 +6001,6 @@ function DelMapSnowy1()
     end  
 end
 
-function DelMapSnowy2()
-	if game.Workspace:FindFirstChild("_map") then
-    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.rocks:GetChildren()) do
-				if v.ClassName == "MeshPart" then v:Destroy() end
-				if v.ClassName == "UnionOperation" then v:Destroy() end
-				if v.ClassName == "Model" then v:Destroy() end
-				if v.ClassName == "Part" then v:Destroy() end
-        end
-    end  
-end
-
-function DelMapSnowy3()
-	if game.Workspace:FindFirstChild("_map") then
-    	for i,v in pairs(game:GetService("Workspace")["_map"].obstacles.deco.trunks:GetChildren()) do
-				if v.ClassName == "MeshPart" then v:Destroy() end
-				if v.ClassName == "Model" then v:Destroy() end
-				if v.ClassName == "Part" then v:Destroy() end
-        end
-    end  
-end
 --Aline
 function DelMapAlinewires()
 	if game.Workspace:FindFirstChild("_map") then
@@ -7563,12 +7553,11 @@ coroutine.resume(coroutine.create(function()
             elseif game.Workspace._map:FindFirstChild("Snow Particles") then
                 DelTer() 
 				DelMapMain()
+				DelMapSnowy0()
 				DelMapSnowy1()
-		DelMapSnowy2()
-		DelMapSnowy3()
             elseif game.Workspace._map:FindFirstChild("sand_gate") then 
                 DelTer() 
-				DelMapSand1()
+		DelMapSand1()
 		DelMapSand2()
 		DelMapSand3()
 		DelMapSand4()

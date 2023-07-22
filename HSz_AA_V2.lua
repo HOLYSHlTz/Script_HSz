@@ -192,7 +192,6 @@ function webhook()
     
     totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
     totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
-
     
     local TextDropLabel = ""
 	local CountAmount = 1
@@ -249,9 +248,12 @@ function webhook()
 		    end
 		end
 	end
+
+    
 	if TextDropLabel == "" then
 		TextDropLabel = "Not Have Items Drops"
 	end
+
     
     local data = {
         ["content"] = "",
@@ -276,11 +278,11 @@ function webhook()
                     ["fields"] = {
                         {
                             ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
+                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+                            ["value"] = " ```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {

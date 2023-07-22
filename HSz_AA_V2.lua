@@ -943,7 +943,8 @@ local function WorldSec()
             "Legend Stages",
             "Raid Worlds",
             "Portals",
-            "Dungeon"
+            "Dungeon",
+            "ประตูลับ"
         },
         default = Settings.WorldCategory
     })
@@ -970,6 +971,8 @@ local function WorldSec()
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals","The Eclipse"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
+        elseif Settings.WorldCategory == "ประตูลับ" then
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ Madoka","ประตูลับ The Eclipse"}
         end
     
         for i = 1, #storylist do
@@ -1073,6 +1076,13 @@ local function WorldSec()
             levellist = {"jjk_raid"}   
         elseif level == "Anniversary Island" then
             levellist = {"namek_anniversary"}  
+            --///ประตูลับ\\\---   
+        elseif level == "ประตูลับ Dofamingo" then
+            levellist = {"portal_item__doflamingo"}
+        elseif level == "ประตูลับ Madoka" then
+            levellist = {"portal_item__madoka2"}
+        elseif level == "ประตูลับ The Eclipse" then
+            levellist = {"portal_item__femto"}
         end
         for i = 1, #levellist do
             selectlevel:AddOption(levellist[i])
@@ -1095,7 +1105,7 @@ local function WorldSec()
         or level == "sao_infinite" or level == "berserk_infinite" 
         or level == "dressrosa_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             diff = {"Hard"}
-        elseif cata == "Portals" or cata == "Dungeon" then
+        elseif cata == "Portals" or cata == "Dungeon" or cata == "ประตูลับ" then
             diff = {"Default"}
         else
             diff = {"Normal", "Hard"}
@@ -3505,6 +3515,38 @@ function getberserkPortals()
     return portals
 end
 
+--ประตูลับ
+
+function getSecretDoflamingo()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__doflamingo" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
+function getSecretMadoka()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__madoka2" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
+function getSecretEclipse()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__femto" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 --End Fixportal
 
 function GetPortals(id)
@@ -3573,6 +3615,22 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_item__eclipse" then
         PortalName = "Berserk farming"
         PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+        --ประตูลับ
+    elseif level == "portal_item__doflamingo" then
+        PortalName = "Dofamingo Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__doflamingo")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_item__madoka2" then
+        PortalName = "Madoka Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__madoka2")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_item__femto" then
+        PortalName = "The Eclipse Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__femto")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
         
     ------------------------------

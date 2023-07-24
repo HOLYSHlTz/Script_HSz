@@ -699,16 +699,16 @@ local UnitAOE1 = UA:Sector("Check Unit ")
 
 local LG = Window:Category("🛠️ Misc [BETA]")
 local LowCPU2 = LG:Sector("Low CPU Mode")
-local LowCPU3 = LG:Sector("")
+local LowCPU3 = LG:Sector(" ")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
-local OtherSec1 = LG:Sector("")
+local OtherSec1 = LG:Sector(" ")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
-local DelMapConfig = LG:Sector("")
+local DelMapConfig = LG:Sector(" ")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
-local DelMapConfig3 = LG:Sector("")
+local DelMapConfig3 = LG:Sector(" ")
 local reFarmConfig = LG:Sector("🤖 Reset Farm Config 🤖")
 
 local ETC = Window:Category("🌐 Discord & Shop")
@@ -2156,7 +2156,7 @@ local function sponsor()
 
     discord:Cheat("Label","Discord สำหรับสั่งชื้อ GamePass และ สอบถามต่าง ๆ ") 
     discord:Cheat("Button","🔥 Copy Discord Link   ", function()
-        setclipboard("https://discord.gg/eGKGE2sQtX")
+        setclipboard("https://discord.gg/6V8nzm5ZYB")
         end)
 
     --facebook
@@ -7022,6 +7022,17 @@ end
 
 --Hero mha
 
+function DelMapmha0()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]["mha_city_night_rain"]:GetChildren()) do
+				if v.ClassName == "Folder" then v:Destroy() end
+				if v.ClassName == "MeshPart" then v:Destroy() end
+				if v.ClassName == "Model" then v:Destroy() end
+				if v.ClassName == "Part" then v:Destroy() end
+        end
+    end   
+end
+
 function DelMapmha1()
 	if game.Workspace:FindFirstChild("_map") then
     	for i,v in pairs(game:GetService("Workspace")["_map"]["bridge nocollide"]:GetChildren()) do
@@ -7769,6 +7780,7 @@ coroutine.resume(coroutine.create(function()
             elseif game.Workspace._map:FindFirstChild("bridge nocollide") then
                 DelTer() 
 				DelMapMain()
+                DelMapmha0()
 				DelMapmha1()
 		DelMapmha2()
             elseif game.Workspace._map:FindFirstChild("benches and barrels") then
@@ -7958,20 +7970,6 @@ if Settings.redeemc then
     Reedemcode()
 end
 
---disms
-if game.PlaceId ~= 8304191830 then
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-end
---disms
-if game.PlaceId == 8304191830 then
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-end
-warn("Display Error Hider!!!")
-
 pcall(function()
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -7981,6 +7979,22 @@ pcall(function()
     end)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
 end)
+
+--disms
+if game.PlaceId ~= 8304191830 then
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
+end
+warn("Display Error Hider!!!")
+
+--disms
+if game.PlaceId == 8304191830 then
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
+end
+warn("Display Error Hider!!!")
 
 warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 warn("HSz Hider Name Loaded สำเร็จ!!!")

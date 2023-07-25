@@ -7927,28 +7927,6 @@ end
 if Settings.autoDailyMission then
     autoDailyMission()
 end
---start function mute Error
---disms
-function muteError1()
-    if game.PlaceId ~= 8304191830 then
-        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-        game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-    end
-    warn("Display Error Hider!!!")
-end
-
---disms
-function muteError2()
-    if game.PlaceId == 8304191830 then
-        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-        game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-    end
-    warn("Display Error Hider!!!")
-end
-
---End of function mute Error
 
 -- Start of Check Connection
 function checkInterNet()
@@ -8006,6 +7984,7 @@ if Settings.redeemc then
     Reedemcode()
 end
 
+
 pcall(function()
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(function()
@@ -8014,8 +7993,27 @@ pcall(function()
         vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     end)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
+        wait(1)
+    game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
 end)
 
+--start function mute Error
+--disms
+    if game.PlaceId ~= 8304191830 then
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+        game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
+    end
+    warn("Display Error Hider!!!")
+--disms
+    if game.PlaceId == 8304191830 then
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+        game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
+    end
+    warn("Display Error Hider!!!")
+
+--End of function mute Error
 warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
@@ -8024,11 +8022,7 @@ warn("All Loaded !!!")
 if game.PlaceId == 8304191830 then
     repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
     checkInterNet()
-    muteError1()
-    muteError2()
 elseif game.PlaceId ~= 8304191830 then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     checkInterNet()
-    muteError1()
-    muteError2()
 end

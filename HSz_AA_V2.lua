@@ -176,6 +176,8 @@ function webhook()
 	ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
     btp = plr.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V").Text
     btp2 = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.Title.Text
+    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Main.Rewards.Frame.Pages.Home.Amount.Text
+    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
     waves = cwaves:split(": ")
     if waves ~= nil and waves[2] == "999" then waves[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
 	ttime = ctime:split(": ")
@@ -278,7 +280,7 @@ function webhook()
                     ["fields"] = {
                         {
                             ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
+                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀\nBattle Pass Lv. : "..btplv.. " " ..btpAlllv.. " 📊```",
                         },
                         {
                             ["name"] ="Results :",
@@ -1586,6 +1588,13 @@ local function DeleteMapSec()
         saveSettings()
         autoDailyMission()
     end,{enabled = Settings.autoDailyMission})
+
+    DelMapConfig2:Cheat("Checkbox","Auto Join Portals ", function(bool)
+        print(Settings.autoJoinPortals)
+        Settings.autoJoinPortals = bool
+        saveSettings()
+        autoJoinportals()
+    end,{enabled = Settings.autoJoinPortals})
 
     DelMapConfig2:Cheat("Label","")  
 
@@ -3328,9 +3337,9 @@ function autoload()
     pcall(function()
         local exec = tostring(identifyexecutor())
         if exec == "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/AA_V2_HSz.lua'))()")
+            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/AA_V2_HSz.lua'))()")
+            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         end
     end)
 end
@@ -3340,7 +3349,7 @@ if Settings.AutoLoadScript then
 end
 
 function autoload2()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/AA_V2_HSz.lua'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()
 end
 
 if Settings.refarmc then
@@ -3689,6 +3698,8 @@ function StartPortal(input)
         end
     end
 end
+
+
 
 Settings.teleporting = true
 getgenv().door = "_lobbytemplategreen1"
@@ -7889,6 +7900,7 @@ end
 function autoDailyquest()
     if Settings.autoDailyquest then
         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("berserk_daily")
+        warm("Auto grab Daily quest")
         wait(15)
     end
 end
@@ -7906,6 +7918,7 @@ function autoDailyMission()
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_mha_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_jojo_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_opm_daily")
+        warm("Auto grab Daily Mission")
         wait(15)
     end
 end

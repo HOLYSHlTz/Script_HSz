@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.0.0"
+local version = "15.5.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -261,7 +261,7 @@ function webhook()
     local data = {
         ["content"] = "",
 			["username"] = "Anime Adventures V2",
-			["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
+			["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
 			["embeds"] = {
 				{
 					["author"] = {
@@ -359,7 +359,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -442,7 +442,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -524,7 +524,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -590,7 +590,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
                 ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
+                ["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
                 ["embeds"] = {
                     {
                         ["author"] = {
@@ -971,11 +971,11 @@ local function WorldSec()
             storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", 
             "Hero City (Hero Slayer)", "Marine's Ford (Buddha)"}
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals","The Eclipse"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals","The Eclipse","Summer Events"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
         elseif Settings.WorldCategory == "ประตูลับ" then
-            storylist = {"ประตูลับ Dofamingo","ประตูลับ Madoka","ประตูลับ The Eclipse"}
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ Madoka","ประตูลับ The Eclipse","ประตูลับ Summer"}
         end
     
         for i = 1, #storylist do
@@ -1072,6 +1072,8 @@ local function WorldSec()
             levellist = {"portal_item__madoka"}
         elseif level == "The Eclipse" then
             levellist = {"portal_item__eclipse"}
+        elseif level == "Summer Events" then
+            levellist = {"portal_summer"}
         ---///Dungeon\\\---    updatefix
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
@@ -1086,6 +1088,8 @@ local function WorldSec()
             levellist = {"portal_item__madoka2"}
         elseif level == "ประตูลับ The Eclipse" then
             levellist = {"portal_item__femto"}
+        elseif level == "ประตูลับ Summer" then
+            levellist = {"portal_poseidon"}
         end
         for i = 1, #levellist do
             selectlevel:AddOption(levellist[i])
@@ -3538,7 +3542,27 @@ function getberserkPortals()
     return portals
 end
 
+function getSummerPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_summer" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 --ประตูลับ
+
+function getPoseidonPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_poseidon" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
 
 function getSecretDoflamingo()
     local portals = {}
@@ -3655,6 +3679,12 @@ function GetPlayerPortalUse(level)
         PortalName = "The Eclipse Secret Portal farming"
         PortalUUID = GetPortals("portal_item__femto")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_poseidon" then
+        PortalName = "Summer Secret Portal farming"
+        PortalUUID = GetPortals("portal_poseidon")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
         
     ------------------------------
     -- [[ Portal Event Portal ]] --
@@ -3669,6 +3699,22 @@ function GetPlayerPortalUse(level)
                 PortalEventUse = v
 
                 PortalName = "Madoka farming"
+                PortalUUID = PortalEventUse["uuid"]
+                PortalPlayer = GetPlayerPortal()
+                break
+            end
+        end
+    end
+
+    elseif level == "portal_summer" then
+        local PortalEvent = GetPortals("portal_summer")
+        for i,v in pairs(PortalEvent) do
+            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
+            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
+            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
+                PortalEventUse = v
+
+                PortalName = "Summer farming"
                 PortalUUID = PortalEventUse["uuid"]
                 PortalPlayer = GetPlayerPortal()
                 break
@@ -4206,7 +4252,10 @@ end
 function autoabilityerwin()
     if Settings.EnableBufferwinLoop then
 
-        repeat task.wait() until game:IsLoaded()
+        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
+        --repeat task.wait() until  GameFinished.Value == true
+        --repeat task.wait() until game:IsLoaded()
+        repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsE = {'erwin','erwin:shiny','erwin_school','erwin_halloween'}
@@ -4255,7 +4304,10 @@ end
 function autoabilitywendy()
     if Settings.EnableBuffwendyLoop then
 
-        repeat task.wait() until game:IsLoaded()
+        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
+        --repeat task.wait() until  GameFinished.Value == true
+        --repeat task.wait() until game:IsLoaded()
+        repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsW = {'wendy'}
@@ -4301,7 +4353,10 @@ end
 function autoabilityleafa()
     if Settings.EnableBuffleafaLoop then
 
-        repeat task.wait() until game:IsLoaded()
+        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
+        --repeat task.wait() until  GameFinished.Value == true
+        --repeat task.wait() until game:IsLoaded()
+        repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsL = {'leafa'}
@@ -4564,7 +4619,7 @@ function TPReturner()
    if foundAnything == "" then
        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
    else
-       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
    end
    local ID = ""
    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
@@ -8092,7 +8147,7 @@ function placeunittwin()
 --ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY"}
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

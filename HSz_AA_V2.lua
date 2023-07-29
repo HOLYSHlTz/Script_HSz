@@ -71,7 +71,7 @@ local Table_All_Pearl_Old_data = {}
 local Table_All_Pearl_New_data = {}
 
 for i,v in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
-	Table_All_Pearl_Old_data[i]['Count'] = v
+	Table_All_Pearl_Old_data[i]['Value'] = v
 end
 ------------item drop result
 local v5 = require(game.ReplicatedStorage.src.Loader)
@@ -213,13 +213,13 @@ function webhook()
 	local CountPearlAmount = 1
 
     for i,v in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
-        Table_All_Pearl_New_data[i]['Count'] = v
+        Table_All_Pearl_New_data[i]['Value'] = v
      end
      
      for i,v in pairs(Table_All_Pearl_New_data) do
-		if v['Count'] > 0 and (v['Count'] - Table_All_Pearl_Old_data[i]['Count']) > 0 then
+		if v['Value'] > 0 and (v['Value'] - Table_All_Pearl_Old_data[i]['Value']) > 0 then
 			if string.gsub(i, "%D", "") == "" then
-                TextPearlLabel = TextPearlLabel .. tostring(CountPearlAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Pearl_Old_data[i]['Count']) .. "\n"
+                TextPearlLabel = TextPearlLabel .. tostring(CountPearlAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Value'] - Table_All_Pearl_Old_data[i]['Value']) .. "\n"
             end
 				CountPearlAmount = CountPearlAmount + 1
 		end
@@ -227,7 +227,7 @@ function webhook()
 
     
 	if TextPearlLabel == "" then
-		TextPearlLabel = "+ 0"
+		TextPearlLabel = "+0"
 	end
     ----------------------------------------
     

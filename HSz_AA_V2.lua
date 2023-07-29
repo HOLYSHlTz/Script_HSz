@@ -1172,13 +1172,13 @@ end
     devilcity:Cheat("Dropdown", "เลือก ประตู Portal",function(pornname)
         getgenv().portalnameC = pornname
         saveSettings()
-    end, { options = {"april_portal_item_contract"}, default = getgenv().portalnameC})
+    end, { options = {"summer_portal_item_contract"}, default = getgenv().portalnameC})
     devilcity:Cheat("Button","Buy Demon Portal", function(bool)
 
         local string_1 = getgenv().portalnameC
         local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["try_purchase_april_item"];
         Target:InvokeServer(string_1);
-        warn("Buy Demon Portal !!!")
+        warn("Buy Summer Portal !!!")
     end)
 end]]
 ----------------------------------------------
@@ -3219,6 +3219,53 @@ function SnipeMerchant()
         Settings.AutoSnipeMerchant = bool
         saveSettings()
     end,{enabled = Settings.AutoSnipeMerchant })
+
+    -----------------------------------------------------------------------------
+    --AutoBuySummer
+
+    AutoSnipeMerchantSec:Cheat("Label","🏪 Auto Buy Summer Item 🏪")  
+
+    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Item Summer",function(pornname)
+        getgenv().portalnameC = pornname
+        saveSettings()
+    end, { options = {"summer_portal_item_contract","capsule_summer"}, default = getgenv().portalnameC})
+
+    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
+        Settings.SummerNum = value
+        saveSettings()
+    end, { options = {"1","10","100"}, default = getgenv().SummerNum})
+
+    AutoSnipeMerchantSec:Cheat("Button","ชื้อ Summer Item [ครั้งเดียว]", function(bool)
+        local args = {
+            [1] = getgenv().portalnameC,
+            [2] = "event",
+            [3] = "event_shop",
+            [4] = Settings.SummerNum
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+        warn("Buy Summer Portal !!!")
+    end)
+
+    AutoSnipeMerchantSec:Cheat("Checkbox","Auto Buy Item Summer [มันจะชื้อรัวมาก]", function(bool)
+        print(bool)
+        Settings.AutoBuySummer = bool
+        saveSettings()
+    end,{enabled = Settings.AutoBuySummer})
+
+    task.spawn(function()
+        while task.wait() do
+    if Settings.AutoBuySummer then
+        local args = {
+            [1] = getgenv().portalnameC,
+            [2] = "event",
+            [3] = "event_shop",
+            [4] = Settings.SummerNum
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+        end
+    end
+end)
+
 end
 ----------------------------------------------
 -------------- Discord Webhook ---------------

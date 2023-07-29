@@ -281,7 +281,7 @@ function webhook()
                     ["fields"] = {
                         {
                             ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀```",
+                            ["value"] = "```ini\n"..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : ".. tostring(Count_Portal_list) .." 🌀\nPearl รวม : "..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                         },
                         {
                             ["name"] ="Results :",

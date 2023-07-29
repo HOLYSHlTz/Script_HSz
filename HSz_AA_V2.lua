@@ -65,6 +65,14 @@ local RunService = game:GetService("RunService")
 local mouse = game.Players.LocalPlayer:GetMouse()
 local UserInputService = game:GetService("UserInputService")
 ------------------------------
+
+--testPearlWebhook
+local Table_All_Pearl_Old_data = {}
+local Table_All_Pearl_New_data = {}
+
+for i,v in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
+	Table_All_Pearl_Old_data[i]['Count'] = v
+end
 ------------item drop result
 local v5 = require(game.ReplicatedStorage.src.Loader)
 local v19 = v5.load_client_service(script, "ItemInventoryServiceClient")
@@ -195,6 +203,33 @@ function webhook()
     
     totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
     totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
+
+    ---------------------------------------------
+    --testPearlWebhook
+
+    --game:GetService("Players").siradaniy321["_stats"]["_resourceSummerPearls"]
+
+    local TextPearlLabel = ""
+	local CountPearlAmount = 1
+
+    for i,v in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
+        Table_All_Pearl_New_data[i]['Count'] = v
+     end
+     
+     for i,v in pairs(Table_All_Pearl_New_data) do
+		if v['Count'] > 0 and (v['Count'] - Table_All_Pearl_Old_data[i]['Count']) > 0 then
+			if string.gsub(i, "%D", "") == "" then
+                TextPearlLabel = TextPearlLabel .. tostring(CountPearlAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Pearl_Old_data[i]['Count']) .. "\n"
+            end
+				CountPearlAmount = CountPearlAmount + 1
+		end
+	end
+
+    
+	if TextPearlLabel == "" then
+		TextPearlLabel = "+ 0"
+	end
+    ----------------------------------------
     
     local TextDropLabel = ""
 	local CountAmount = 1
@@ -290,7 +325,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Rewards :",
-                            ["value"] = "```ini\n" ..comma_value(gold).." Gold 💰\n"..comma_value(gems).." Gems 💎\n"..comma_value(xp[1]).." XP 🧪\n"..trophy.." Trophy 🏆```",
+                            ["value"] = "```ini\n" ..comma_value(gold).." Gold 💰\n"..comma_value(gems).." Gems 💎\n"..comma_value(xp[1]).." XP 🧪\n"..trophy.." Trophy 🏆\n"..TextPearlLabel.." Pearl 🦪```",
                         },
                        {
                             ["name"] ="Items Drop :",

@@ -70,6 +70,19 @@ local UserInputService = game:GetService("UserInputService")
 local Table_All_Pearl_Old_data = {}
 local Table_All_Pearl_New_data = {}
 
+for v21, v31 in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
+	if v31:IsA("Value") then
+		for v41, v51 in pairs(require(v31)) do
+		    Table_All_Pearl_Old_data[v41] = {}
+			Table_All_Pearl_Old_data[v41]['Name'] = v51['name']
+		    Table_All_Pearl_Old_data[v41]['Value'] = 0
+			Table_All_Pearl_New_data[v41] = {}
+			Table_All_Pearl_New_data[v41]['Name'] = v51['name']
+			Table_All_Pearl_New_data[v41]['Value'] = 0
+		end
+	end
+end
+
 for i,v in pairs(game:GetService("Players").LocalPlayer._stats._resourceSummerPearls:GetDescendants()) do
 	Table_All_Pearl_Old_data[i]['Value'] = v
 end

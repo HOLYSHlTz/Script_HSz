@@ -292,7 +292,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                        ..tostring(Count_Portal_list) .." 🌀\n Summer Pearls : "
+                                        ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                         },
                         {

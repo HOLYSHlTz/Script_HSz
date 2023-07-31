@@ -260,6 +260,24 @@ function webhook()
             end
         end
 
+        for i,v in pairs(Table_All_Items_New_data) do
+            if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                if v['Count Shiny'] and v['Count'] then
+                elseif string.find(i,"portal") or string.find(i,"disc") then
+                    Count_Portal_list = Count_Portal_list + 1
+                    if string.gsub(i, "%D", "") == "" then
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                    else
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                    end
+                    CountAmount = CountAmount + 1
+                else
+                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                    CountAmount = CountAmount + 1
+                end
+            end
+        end
+
         if TextDropLabel == "" then
             TextDropLabel = "Not Have Items Drops"
         end
@@ -292,7 +310,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                        ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
+                                        ..tostring(Count_Portal_list) .." 🌀\n Summer Pearls : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                         },
                         {
@@ -732,13 +750,12 @@ local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้�
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec2 = ETC:Sector("")
 
-local Summer = Window:Category("🦸🏽 Portal & Skin ")
+local Summer = Window:Category("🦸🏽 Event & Skin ")
 local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
 local SellPortals = Summer:Sector("🌀 Sell Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Summer Skin 💸")
 local SummerSkin0 = Summer:Sector("")
 local SummerEgg = Summer:Sector("🥚 Auto Open Summer Egg 🥚")
-
 
 -------------
 ---sponsorfix---
@@ -2958,15 +2975,11 @@ end
 ---------------------------------------------
 --resetautofarmUI
 local function reFarmconfig()
-
     reFarmConfig:Cheat("Button", "Reset Farm config", function()
         print(Settings.refarmc)
         refarmcon()
     end)
-
 end
-
-
 
 ---------------------------------------------
 -------------- LOWW CPU Config --------------
@@ -3250,7 +3263,7 @@ function SnipeMerchant()
         saveSettings()
     end, { options = {"1","10","100"}, default = getgenv().SummerNum})
 
-    SummerItem:Cheat("Button","ชื้อ Item [ครั้งเดียว]", function(bool)
+    SummerItem:Cheat("Button","ชื้อ Summer Item [ครั้งเดียว]", function(bool)
         local args = {
             [1] = getgenv().portalnameC,
             [2] = "event",
@@ -3284,42 +3297,142 @@ function SnipeMerchant()
     ----------------------------------------------------------------
     --Auto Open Egg
 
-    SummerEgg:Cheat("Checkbox","Auto เปิดไข่ Summer [1 ลูก]", function(bool)
+    SummerEgg:Cheat("Checkbox","Auto Open Item Summer [1]", function(bool)
         print(bool)
         Settings.AutoOpenSummer1 = bool
         saveSettings()
     end,{enabled = Settings.AutoOpenSummer1})
 
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoOpenSummer1 then
-                local args = {
-                    [1] = "capsule_summer",
-                    [2] = {
-                        ["use10"] = false
-                    }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
-            end
-        end
-    end)
-
-    SummerEgg:Cheat("Checkbox","Auto เปิดไข่ Summer [10 ลูก]", function(bool)
+    SummerEgg:Cheat("Checkbox","Auto Open Item Summer [10]", function(bool)
         print(bool)
         Settings.AutoOpenSummer10 = bool
         saveSettings()
     end,{enabled = Settings.AutoOpenSummer10})
 
+    SummerEgg:Cheat("Checkbox","Webhook Skin", function(bool)
+        print(bool)
+        Settings.SendWebhookSkin = bool
+        saveSettings()
+    end,{enabled = Settings.SendWebhookSkin})
+    SummerEgg:Cheat("Textbox", "Send Webhook Skin", function(Value)
+        Settings.WebhookUrlSkin = Value
+        saveSettings()
+    end, {placeholder = Settings.WebhookUrlSkin})
+
+    -- สร้าง Table ของ สกิน
+    local SummerSkinTable,TableSeason,WebhookSkin = {},{},{}
+    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
+        Remove_Items_Text = string.gsub(v.Name,"Items_","")
+        Remove_Skins_Text = string.gsub(Remove_Items_Text,"Skins","")
+        table.insert(TableSeason,Remove_Skins_Text)
+        
+        for i,v in pairs(require(v)) do
+            WebhookSkin[i] = 0
+            SummerSkinTable[i] = v
+        end
+    end
+    -- Add Skin In Inventory
+    for i,v in pairs(get_inventory_items_unique_items()) do
+        if string.find(v['item_id'],"_skin") then
+            WebhookSkin[v['item_id']] = WebhookSkin[v['item_id']] + 1
+        end
+    end
+
     task.spawn(function()
         while task.wait() do
-            if Settings.AutoOpenSummer10 then
+            if Settings.AutoOpenSummer1 or Settings.AutoOpenSummer10 then
                 local args = {
                     [1] = "capsule_summer",
                     [2] = {
-                        ["use10"] = true
+                        ["use10"] = Settings.AutoOpenSummer1 and false or Settings.AutoOpenSummer10 and true
                     }
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
+                if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
+                    -- Create Table New Skinb
+                    local WebhookSkinNew,TextWebhook = {},""
+                    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
+                        for i,v in pairs(require(v)) do
+                            WebhookSkinNew[i] = 0
+                        end
+                    end
+                    for i,v in pairs(get_inventory_items_unique_items()) do
+                        if string.find(v['item_id'],"_skin") then
+                            WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
+                        end
+                    end
+
+                    -- Create Text Output
+                    SentSkin = false
+                    for SkinName,Count_OldSkin in pairs(WebhookSkin) do
+                        if WebhookSkinNew[SkinName] > Count_OldSkin then
+                            local Name = SummerSkinTable[SkinName]['name']:split(" ")
+                            TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
+                            SentSkin = true
+                        end 
+                    end
+
+                    CountPortal_list = 0
+                    for i,v in pairs(get_inventory_items_unique_items()) do
+                        if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                            CountPortal_list = CountPortal_list + 1
+                        end
+                    end
+            
+                    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+                    local Time = os.date('!*t', OSTime);
+                    local exec = tostring(identifyexecutor())
+
+                    local data = {
+                        ["content"] = "",
+                        ["username"] = "Anime Adventures V2",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/7b6a3914cac2e93f7e7f27cbefa92280/150/150/Image/Png",
+                        ["embeds"] = {
+                            {
+                                ["author"] = {
+                                    ["name"] = "Anime Adventures | แจ้งเตือน V2 ✔️",
+                                    ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+                                },
+                                ["thumbnail"] = {
+                                    ['url'] = thumbnails_avatar.data[1].imageUrl,
+                                },
+                                ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
+                                ["color"] = 110335,
+                                ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                                ['footer'] = {
+                                    ['text'] = "// Made by Negative & HOLYSHz", 
+                                    ['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
+                                },
+                                ["fields"] = {
+                                    {
+                                        ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
+                                        ["value"] = "```ini\n"
+                                                    ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
+                                                    ..tostring(CountPortal_list) .." 🌀\nSummer Pearls : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                    },
+                                    {
+                                        ["name"] ="Skins Drop :",
+                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
+                                        ["inline"] = false 
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    local porn = game:GetService("HttpService"):JSONEncode(data)
+                    local headers = {["content-type"] = "application/json"}
+                    local request = http_request or request or HttpPost or syn.request or http.request
+                    local sex = {Url = Settings.WebhookUrlSkin, Body = porn, Method = "POST", Headers = headers}
+                    if SentSkin then
+                        warn("Sending webhook notification...")
+                        request(sex)
+                    end
+                end
             end
         end
     end)
@@ -3328,21 +3441,13 @@ function SnipeMerchant()
     --Auto Sell Summer Skin
 
     Settings.SelectedSellRarity = Settings.SelectedSellRarity or "Rare"
-    Settings.SelectedSellRarity2 = Settings.SelectedSellRarity2 or "Rare"
-    Settings.SelectedSellRarity3 = Settings.SelectedSellRarity3 or "Rare"
     Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
 
-    -- สร้าง Table ของ สกิน
-    local SummerSkinTable,TableSeason = {},{}
-    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-        Remove_Items_Text = string.gsub(v.Name,"Items_","")
-        Remove_Skins_Text = string.gsub(Remove_Items_Text,"Skins","")
-        table.insert(TableSeason,Remove_Skins_Text)
-
-        for i,v in pairs(require(v)) do
-            SummerSkinTable[i] = v
-        end
-    end
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSellRarity = value
+        saveSettings()
+    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
     
     SummerSkin:Cheat("Dropdown","เลือก Season", function(bool)
         print(bool)
@@ -3350,18 +3455,12 @@ function SnipeMerchant()
         saveSettings()
     end,{options = TableSeason, default = Settings.SelectedSellSeason})
 
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
-
     SummerSkin:Cheat("Checkbox","Auto Sell Skins ", function(bool)
         print(bool)
         Settings.AutoSellSskin = bool
         saveSettings()
     end,{enabled = Settings.AutoSellSskin})
-    
+
     task.spawn(function()
         while task.wait() do 
             if Settings.AutoSellSskin then
@@ -3374,8 +3473,8 @@ function SnipeMerchant()
                                 }
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            warn("Sell Skin")
-                            wait(0.3)
+                            warn("Sell Summer Skin")
+                            wait(1)
                         end
                     end
                 end

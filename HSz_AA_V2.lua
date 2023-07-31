@@ -310,7 +310,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                        ..tostring(Count_Portal_list) .." 🌀\n Summer Pearls : "
+                                        ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                         },
                         {
@@ -752,7 +752,7 @@ local OtherSec2 = ETC:Sector("")
 
 local Summer = Window:Category("🦸🏽 Event & Skin ")
 local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
-local SellPortals = Summer:Sector("🌀 Sell Portals 🌀")
+local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Summer Skin 💸")
 local SummerSkin0 = Summer:Sector("")
 local SummerEgg = Summer:Sector("🥚 Auto Open Summer Egg 🥚")

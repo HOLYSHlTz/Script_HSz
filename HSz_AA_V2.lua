@@ -3285,13 +3285,13 @@ function SnipeMerchant()
         saveSettings()
     end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
 
-    SummerEgg:Cheat("Checkbox","Auto Open Item Summer [1]", function(bool)
+    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [1 ea]", function(bool)
         print(bool)
         Settings.AutoOpenSummer1 = bool
         saveSettings()
     end,{enabled = Settings.AutoOpenSummer1})
 
-    SummerEgg:Cheat("Checkbox","Auto Open Item Summer [10]", function(bool)
+    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [10 ea]", function(bool)
         print(bool)
         Settings.AutoOpenSummer10 = bool
         saveSettings()

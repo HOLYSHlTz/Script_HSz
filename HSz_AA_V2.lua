@@ -3356,18 +3356,6 @@ function SnipeMerchant()
         saveSettings()
     end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
 
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 2",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity2 = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity2})
-
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 3",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity3 = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity3})
-
     SummerSkin:Cheat("Checkbox","Auto Sell Skins ", function(bool)
         print(bool)
         Settings.AutoSellSskin = bool
@@ -3379,8 +3367,7 @@ function SnipeMerchant()
             if Settings.AutoSellSskin then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"_skin") then
-                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity and SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity2 
-                        and SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity3  and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
+                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
                             local args = {
                                 [1] = {
                                     [1] = v["uuid"]
@@ -3388,7 +3375,7 @@ function SnipeMerchant()
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                             warn("Sell Skin")
-                            wait(1)
+                            wait(0.3)
                         end
                     end
                 end

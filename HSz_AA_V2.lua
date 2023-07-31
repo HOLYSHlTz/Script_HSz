@@ -3279,6 +3279,12 @@ function SnipeMerchant()
     ----------------------------------------------------------------
     --Auto Open Egg
 
+    Settings.SelecteStars = Settings.SelecteStars or "capsule_summer"
+    SummerEgg:Cheat("Dropdown", "เลือก ไข่ Star",function(value)
+        Settings.SelecteStars = value
+        saveSettings()
+    end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
+
     SummerEgg:Cheat("Checkbox","Auto Open Item Summer [1]", function(bool)
         print(bool)
         Settings.AutoOpenSummer1 = bool
@@ -3324,9 +3330,10 @@ function SnipeMerchant()
         while task.wait() do
             if Settings.AutoOpenSummer1 or Settings.AutoOpenSummer10 then
                 local args = {
-                    [1] = "capsule_summer",
+                    --[1] = "capsule_summer",
+                    [1] = Settings.SelecteStars,
                     [2] = {
-                        ["use10"] = Settings.AutoOpenSummer1 and false or Settings.AutoOpenSummer10 and true
+                        ["use10"] = Settings.AutoOpenSummer1 == false and Settings.AutoOpenSummer10 == true
                     }
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
@@ -3517,6 +3524,14 @@ end
 -----------------------------------------------
 function Sellportals()
 
+    Settings.SelectedSellPortals = Settings.SelectedSellPortals or "portal_summer"
+    SellPortals:Cheat("Dropdown", "🎚️ เลือก Portal",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSellPortals = value
+        saveSettings()
+    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa", "portal_item__madoka","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
+
+
     Tier_sell = {}
     for i = 0,15 do
         table.insert(Tier_sell,i)
@@ -3537,7 +3552,7 @@ function Sellportals()
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies","godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedSellChallenge})
 
-    SellPortals:Cheat("Checkbox","Auto Sell Portal ", function(bool)
+    SellPortals:Cheat("Checkbox","Auto Sell Portal [มี Challenge]", function(bool)
         print(bool)
         Settings.AutoSellPortals = bool
         saveSettings()
@@ -3548,8 +3563,38 @@ function Sellportals()
             if Settings.AutoSellPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                        if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                             if v["_unique_item_data"]["_unique_portal_data"]["challenge"] == Settings.SelectedSellChallenge then
+                                local args = {
+                                    [1] = {
+                                        [1] = v["uuid"]
+                                    }
+                                }
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
+                                warn("Sell Selecte Protals")
+                            end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
+    SellPortals:Cheat("Checkbox","Auto Sell Normal Portal [ไม่มี Challenge]", function(bool)
+        print(bool)
+        Settings.AutoSellNRPortals = bool
+        saveSettings()
+    end,{enabled = Settings.AutoSellNRPortals})
+
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoSellNRPortals then
+                for i,v in pairs(get_inventory_items_unique_items()) do
+                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                        if v['item_id'] ~= "portal_summer" and v['item_id'] == Settings.SelectedSellPortals then
+                        if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                                 local args = {
                                     [1] = {
                                         [1] = v["uuid"]
@@ -3564,7 +3609,9 @@ function Sellportals()
             end
         end
     end)
+
 end
+
 
 ----------------------------------------------
 ------------------ Others --------------------

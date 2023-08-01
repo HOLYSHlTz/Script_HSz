@@ -3530,7 +3530,7 @@ function Sellportals()
         Settings.SelectedSellPortals = value
         saveSettings()
     end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa", "portal_item__madoka","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
-
+--fixportal
 
     Tier_sell = {}
     for i = 0,15 do
@@ -3593,8 +3593,8 @@ function Sellportals()
             if Settings.AutoSellNRPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-                        if v['item_id'] == "portal_summer" and v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= 3 then
-                        if v['item_id'] ~= "portal_summer" and v['item_id'] == Settings.SelectedSellPortals then
+
+                        if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                                 local args = {
                                     [1] = {
@@ -3603,7 +3603,7 @@ function Sellportals()
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 warn("Sell Selecte Protals")
-                            end 
+
                             end
                         end
                     end
@@ -3917,22 +3917,22 @@ function GetPlayerPortalUse(level)
         PortalName = "Aline farming"
         PortalUUID = GetPortals("portal_boros_g")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
-    -- Demon fixportal		
+    -- Demon 		
     elseif level == "april_portal_item" then
         PortalName = "Demon farming"
         PortalUUID = GetPortals("april_portal_item")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
-    --OPN fixportal		
+    --OPN 		
     elseif level == "portal_item__dressrosa" then
         PortalName = "OPNew farming"
         PortalUUID = GetPortals("portal_item__dressrosa")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
-        --7Ds fixportal		
+        --7Ds 		
     elseif level == "portal_zeldris" then
         PortalName = "7ds farming"
         PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
-        --Berserk fixportal		
+        --Berserk 		
     elseif level == "portal_item__eclipse" then
         PortalName = "Berserk farming"
         PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
@@ -8437,13 +8437,14 @@ pcall(function()
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
         wait(1)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
+    warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 end)
 
 pcall(function()
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false
-    warn("TEST Display Error Hider!!!")
+    warn("Display Error Hider!!!")
 end)
 
 --start function mute Error
@@ -8462,7 +8463,6 @@ end
 
 
 --End of function mute Error
-warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 warn("All Loaded !!!")

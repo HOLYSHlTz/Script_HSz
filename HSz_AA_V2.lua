@@ -663,12 +663,13 @@ function ShopSniperWebhook()
     end
 end
 ------------------------------\
-if game.CoreGui:FindFirstChild("FinityUI") then
-    game.CoreGui["FinityUI"]:Destroy()
+if game.Players.LocalPlayer:FindFirstChild("FinityUI") then
+    game.Players.LocalPlayer["FinityUI"]:Destroy()
 end
 
 local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
-local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/NoNiName/Library/49db757497d10ad79d08684dc38ff744b3bbfac8/UILibrary/HolyUi.lua"))()
+--local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/NoNiName/Library/49db757497d10ad79d08684dc38ff744b3bbfac8/UILibrary/HolyUi.lua"))()
+local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.P)
@@ -3337,6 +3338,7 @@ function SnipeMerchant()
                     }
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
+                
                 if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
                     -- Create Table New Skinb
                     local WebhookSkinNew,TextWebhook = {},""

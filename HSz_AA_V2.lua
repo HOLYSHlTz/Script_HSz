@@ -3593,6 +3593,7 @@ function Sellportals()
             if Settings.AutoSellNRPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                        if v['item_id'] == "portal_summer" and v['item_id'] <= 3 then
                         if v['item_id'] ~= "portal_summer" and v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                                 local args = {
@@ -3602,6 +3603,7 @@ function Sellportals()
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 warn("Sell Selecte Protals")
+                            end 
                             end
                         end
                     end
@@ -3966,7 +3968,8 @@ function GetPlayerPortalUse(level)
         local PortalEvent = GetPortals("portal_item__madoka")
         for i,v in pairs(PortalEvent) do
             if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
-            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
+            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
+            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
             and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
                 PortalEventUse = v
 

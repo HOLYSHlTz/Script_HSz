@@ -663,12 +663,20 @@ function ShopSniperWebhook()
     end
 end
 ------------------------------\
-if game.Players.LocalPlayer:FindFirstChild("FinityUI") then
-    game.Players.LocalPlayer["FinityUI"]:Destroy()
+if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
+    game.Players.LocalPlayer.PlayerGui["FinityUI"]:Destroy()
 end
 
+--[[if game.Players.LocalPlayer:FindFirstChild("FinityUI") then
+    game.Players.LocalPlayer["FinityUI"]:Destroy()
+end]]
+
+--[[if game.CoreGui:FindFirstChild("FinityUI") then
+    game.CoreGui["FinityUI"]:Destroy()
+end]]
+
 local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
---local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/NoNiName/Library/49db757497d10ad79d08684dc38ff744b3bbfac8/UILibrary/HolyUi.lua"))()
+--local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
 local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)

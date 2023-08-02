@@ -996,11 +996,11 @@ local function WorldSec()
             storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", 
             "Hero City (Hero Slayer)", "Marine's Ford (Buddha)"}
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","Madoka Portals","The Eclipse","Summer Events"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","Summer Events"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
         elseif Settings.WorldCategory == "ประตูลับ" then
-            storylist = {"ประตูลับ Dofamingo","ประตูลับ Madoka","ประตูลับ The Eclipse","ประตูลับ Summer"}
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ Summer"}
         end
     
         for i = 1, #storylist do
@@ -1093,8 +1093,6 @@ local function WorldSec()
             levellist = {"portal_zeldris"}    
         elseif level == "Dressrosa Portals" then
             levellist = {"portal_item__dressrosa"}
-        elseif level == "Madoka Portals" then
-            levellist = {"portal_item__madoka"}
         elseif level == "The Eclipse" then
             levellist = {"portal_item__eclipse"}
         elseif level == "Summer Events" then
@@ -1109,8 +1107,6 @@ local function WorldSec()
             --///ประตูลับ\\\---   
         elseif level == "ประตูลับ Dofamingo" then
             levellist = {"portal_item__doflamingo"}
-        elseif level == "ประตูลับ Madoka" then
-            levellist = {"portal_item__madoka2"}
         elseif level == "ประตูลับ The Eclipse" then
             levellist = {"portal_item__femto"}
         elseif level == "ประตูลับ Summer" then
@@ -1147,7 +1143,7 @@ local function WorldSec()
         end
     end
 
-    Table_Tier = {}
+    --[[Table_Tier = {}
     for i = 0,15 do
         table.insert(Table_Tier,i)
     end
@@ -1157,7 +1153,29 @@ local function WorldSec()
         warn("Change to : "..value)
         Settings.SelectedTier = value
         saveSettings()
-    end, {options = Table_Tier, default = Settings.SelectedTier})
+    end, {options = Table_Tier, default = Settings.SelectedTier})]]
+
+    Table_Tier2 = {}
+    for i = 0,15 do
+        table.insert(Table_Tier2,i)
+    end
+    Settings.SelectedTier1 = Settings.SelectedTier1 or 0
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier มากกว่า >",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedTier1 = value
+        saveSettings()
+    end, {options = Table_Tier2, default = Settings.SelectedTier1})
+
+    Table_Tier3 = {}
+    for i = 0,15 do
+        table.insert(Table_Tier3,i)
+    end
+    Settings.SelectedTier2 = Settings.SelectedTier2 or 15
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier น้อยกว่า <",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedTier2 = value
+        saveSettings()
+    end, {options = Table_Tier3, default = Settings.SelectedTier2})
 
     Settings.SelectedChallenge = Settings.SelectedChallenge or "double_cost"
     local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
@@ -3539,7 +3557,7 @@ function Sellportals()
         warn("Change to : "..value)
         Settings.SelectedSellPortals = value
         saveSettings()
-    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa", "portal_item__madoka","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
+    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
 --fixportal
 
     Tier_sell = {}
@@ -3806,15 +3824,6 @@ function getZeldrisPortals()
     return portals
 end
 
-function getMadokaPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__madoka" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
 
 function getberserkPortals()
     local portals = {}
@@ -3858,15 +3867,6 @@ function getSecretDoflamingo()
     return portals
 end
 
-function getSecretMadoka()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__madoka2" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
 
 function getSecretEclipse()
     local portals = {}
@@ -3954,11 +3954,6 @@ function GetPlayerPortalUse(level)
         PortalUUID = GetPortals("portal_item__doflamingo")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
-    elseif level == "portal_item__madoka2" then
-        PortalName = "Madoka Secret Portal farming"
-        PortalUUID = GetPortals("portal_item__madoka2")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-
     elseif level == "portal_item__femto" then
         PortalName = "The Eclipse Secret Portal farming"
         PortalUUID = GetPortals("portal_item__femto")[1]["uuid"]
@@ -3973,36 +3968,23 @@ function GetPlayerPortalUse(level)
     ------------------------------
     -- [[ Portal Event Portal ]] --
 
-    --Madoka fixportal		
-    elseif level == "portal_item__madoka" then
-        local PortalEvent = GetPortals("portal_item__madoka")
-        for i,v in pairs(PortalEvent) do
-            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
-            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
-            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
-            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
-                PortalEventUse = v
-
-                PortalName = "Madoka farming"
-                PortalUUID = PortalEventUse["uuid"]
-                PortalPlayer = GetPlayerPortal()
-                break
-            end
-        end
-    end
 
     elseif level == "portal_summer" then
-        local PortalEvent = GetPortals("portal_summer")
-        for i,v in pairs(PortalEvent) do
-            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedTier then
-            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
-            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
-                PortalEventUse = v
+            for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
+                Settings.SelectedTier = i
+            local PortalEvent = GetPortals("portal_summer")
+            for i,v in pairs(PortalEvent) do
+                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
+                if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
+                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
+                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
+                    PortalEventUse = v
 
-                PortalName = "Summer farming"
-                PortalUUID = PortalEventUse["uuid"]
-                PortalPlayer = GetPlayerPortal()
-                break
+                    PortalName = "Summer farming"
+                    PortalUUID = PortalEventUse["uuid"]
+                    PortalPlayer = GetPlayerPortal()
+                    break
+                end
             end
         end
     end

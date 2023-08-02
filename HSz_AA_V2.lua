@@ -3480,20 +3480,19 @@ function SnipeMerchant()
     ----------------------------------------------------------------
     --Auto Sell Summer Skin
 
-    Settings.SelectedSellRarity = Settings.SelectedSellRarity or "Rare"
     Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
-
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
-    
     SummerSkin:Cheat("Dropdown","เลือก Season", function(bool)
         print(bool)
         Settings.SelectedSellSeason = bool
         saveSettings()
     end,{options = TableSeason, default = Settings.SelectedSellSeason})
+
+    Settings.SelectedSellRarity = Settings.SelectedSellRarity or "Rare"
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSellRarity = value
+        saveSettings()
+    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
 
     SummerSkin:Cheat("Checkbox","Auto Sell Skins ", function(bool)
         print(bool)
@@ -3514,7 +3513,7 @@ function SnipeMerchant()
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                             warn("Sell Summer Skin")
-                            wait(1)
+                            wait(0.2)
                         end
                     end
                 end

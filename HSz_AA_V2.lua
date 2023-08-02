@@ -203,6 +203,14 @@ function webhook()
         
         totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
         totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
+
+        local v5 = require(game.ReplicatedStorage.src.Loader)
+        local poratltierS = v5.LevelData._portal_depth
+        if poratltierS == nil then poratltierS = " ไม่มี Tier " end
+
+        local v5 = require(game.ReplicatedStorage.src.Loader)
+        local poratChallengeS = v5.LevelData._challenge
+        if poratChallengeS == nil then poratChallengeS = " ไม่มี Challenge " end
         
         local TextDropLabel = ""
         local CountAmount = 1
@@ -297,7 +305,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = "```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+                            ["value"] = "```ini\nWorld : "..mapname.. " 🌏\nMap : "..world.. " 🗺️\nTier : " ..tostring(poratltierS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {

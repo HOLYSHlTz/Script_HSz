@@ -1,5 +1,5 @@
 --updatefix
-local version = "1.0.0"
+local version = "4.0.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -39,14 +39,19 @@ end
 Settings = ReadSetting()
 ------------------------------
 
-if game.CoreGui:FindFirstChild("FinityUI") then
-    game.CoreGui["FinityUI"]:Destroy()
+if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
+    game.Players.LocalPlayer.PlayerGui["FinityUI"]:Destroy()
 end
 
-local HumanoidRootPart = game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart")
+--[[if game.Players.LocalPlayer:FindFirstChild("FinityUI") then
+    game.Players.LocalPlayer["FinityUI"]:Destroy()
+end]]
 
+--[[if game.CoreGui:FindFirstChild("FinityUI") then
+    game.CoreGui["FinityUI"]:Destroy()
+end]]
 local dir = "Anime_Warriors_2/"..game.Players.LocalPlayer.Name
-local Uilib, Player, Rayfield, Click, comma, Notify, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
+local Uilib, Player, Rayfield, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AWS2_v1] Anime Warriors Simulator 2 UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.RightControl)
@@ -58,6 +63,7 @@ local AutoEgg = Home:Sector("Open Egg")
 --local workspace = workspace
 local workspace = game.Workspace
 local huge = math.huge
+local task = task
 
 local RemoteEvent = game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent")
 local Services = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("_Index"):WaitForChild("sleitnick_knit@1.4.7"):WaitForChild("knit"):WaitForChild("Services")
@@ -65,9 +71,10 @@ local Services = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):W
 RemoteEvent:FireServer({{"!", "EnemyRender", 500}})
 
 --local HumanoidRootPart = Player.Character:WaitForChild("HumanoidRootPart")
+--local Player = game.Workspace
+local HumanoidRootPart = game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name):WaitForChild("HumanoidRootPart")
 
 local Enemies = {"Closest Enemy"}
-local Eggs = {}
 
 local function EnemyTable(v)
 	local HealthBar = v:FindFirstChild("EnemyHealthBar", true)
@@ -80,21 +87,18 @@ local function EnemyTable(v)
 	end
 end
 
-for i,v in pairs(workspace.Maps:GetChildren()) do
-	for i,v in pairs(v.Eggs:GetChildren()) do
-		if not table.find(Eggs, v.Name) then
-			table.insert(Eggs, v.Name)
-		end
-	end
+for i,v in pairs(workspace.ClientEnemies:GetChildren()) do
+	EnemyTable(v)
 end
+
 
 --Secelt_Enemy
 local EnemyDropdown = AutoFarm:Cheat("Dropdown", "👾 เลือก Enemy",function(Enemies)
 	Settings.SelectedEnemy = Enemies
 	saveSettings()
-end, {options = { }, default = Settings.SelectedEnemy})
+end, {options = Enemies, default = Settings.SelectedEnemy})
 
-task.spawn(function()
+--[[task.spawn(function()
 	while task.wait() do
 		for i,v in pairs(workspace.ClientEnemies:GetChildren()) do
 			local EnemyName = EnemyTable(v)
@@ -103,7 +107,7 @@ task.spawn(function()
 			end
 		end
 	end
-end)
+end)]]
 
 --Toggle_Auto_Attack
 AutoFarm:Cheat("Checkbox"," 🗡 Auto Attack ตีออโต้ ", function(bool)
@@ -117,7 +121,7 @@ task.spawn(function()
 		if Settings.AutoAttack then
 			local Number = huge
 			local Enemy
-			
+
 			if Settings.SelectedEnemy ~= "Closest Enemy" then
 				for i,v in pairs(workspace.ClientEnemies:GetChildren()) do
 					if v and v:FindFirstChild("HumanoidRootPart") and v.HumanoidRootPart:FindFirstChild("EnemyHealthBar") and v.HumanoidRootPart.EnemyHealthBar.Title.Text:match(Settings.SelectedEnemy) then
@@ -143,9 +147,14 @@ task.spawn(function()
 			end
 			
 			if Enemy then
-				RemoteEvent:FireServer({{"%", Enemy.Name, true}})
+				if Settings.AutoTP then
+					HumanoidRootPart.CFrame = Enemy.HumanoidRootPart.CFrame
+				end
 				
+				RemoteEvent:FireServer({{"&", Enemy.Name, true}})
+
 				repeat task.wait() until not Enemy or not Enemy.Parent or not Settings.AutoAttack
+
 			end
 		end
 	end
@@ -158,31 +167,6 @@ AutoFarm:Cheat("Checkbox"," 💨 Teleport to Enemy วาปไปที่ม�
 	saveSettings()
 end,{enabled = Settings.AutoTP})
 
-task.spawn(function()
-	while task.wait() do
-		if Settings.AutoTP then
-			local Number = huge
-			local Enemy
-
-			for i,v in pairs(workspace.ClientEnemies:GetChildren()) do
-				if v and v:FindFirstChild("HumanoidRootPart") and (v.HumanoidRootPart:FindFirstChild("EnemyHealthBar") and v.HumanoidRootPart.EnemyHealthBar.Title.Text == Settings.SelectedEnemy) or Settings.SelectedEnemy == "Closest Enemy" then
-					local Magnitude = (HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude
-					if Magnitude < Number then
-						Number = Magnitude
-						Enemy = v
-					end
-				end
-			end
-			
-			if Enemy then
-				repeat
-					HumanoidRootPart.CFrame = Enemy.HumanoidRootPart.CFrame
-					task.wait()
-				until not Enemy or not Enemy.Parent or not Settings.AutoTP
-			end
-		end
-	end
-end)
 
 --Toggle_Auto_Click
 AutoFarm:Cheat("Checkbox"," 🖱 Auto Click คลิ๊กออโต้ ", function(bool)
@@ -194,7 +178,7 @@ end,{enabled = Settings.AutoClick})
 task.spawn(function()
 	while task.wait() do
 		if Settings.AutoClick then
-			RemoteEvent:FireServer({{"&"}})
+			RemoteEvent:FireServer({{"'"}})
 		end
 	end
 end)
@@ -229,7 +213,7 @@ task.spawn(function()
 	while task.wait() do
 		if Settings.AutoQuest then
 			for i,v in pairs(workspace.Maps:GetChildren()) do
-				RemoteEvent:FireServer({{"9", v.Components:FindFirstChild("NPC", true).Parent.Name}})
+				RemoteEvent:FireServer({{"@", v.Components:FindFirstChild("NPC", true).Parent.Name}})
 			end
 		end
 	end
@@ -276,7 +260,6 @@ end)
 
 
 local VirtualUser = game:GetService("VirtualUser")
-
 game:GetService("Players").LocalPlayer.Idled:Connect(function()
     VirtualUser:CaptureController()
     VirtualUser:ClickButton2(Vector2.new())

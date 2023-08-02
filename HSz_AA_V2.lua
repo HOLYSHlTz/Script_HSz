@@ -170,12 +170,10 @@ function webhook()
         result = ResultHolder.Title.Text else levelname, result = "nil","nil" end
         if result == "VICTORY" then result = "ชนะ" end
         if result == "DEFEAT" then result = "แพ้" end
-        
         _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
         GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
         world = GetLevelData.id or GetLevelData.world or GetLevelData.name
         mapname = game:GetService("Workspace")._MAP_CONFIG.GetLevelData:InvokeServer()["name"]
-        
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
         ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
         btp = plr.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V").Text
@@ -194,15 +192,17 @@ function webhook()
         if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
         end
-        
+
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         xp = xpx:split(" ")
         if xp[1] == "+99999" then xp[1] = "+0" end
         trophy = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("TrophyReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         if trophy == "+99999" then trophy = "+0" end	 
-        
         totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
         totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
+
+        ------------------------------------------------
+        --Webhook Tier Challenge
 
         local v5 = require(game.ReplicatedStorage.src.Loader)
         local poratltierS = v5.LevelData._portal_depth
@@ -211,7 +211,21 @@ function webhook()
         local v5 = require(game.ReplicatedStorage.src.Loader)
         local poratChallengeS = v5.LevelData._challenge
         if poratChallengeS == nil then poratChallengeS = " ไม่มี Challenge " end
+        if poratChallengeS == "double_cost" then poratChallengeS = "High Cost" end
+        if poratChallengeS == "short_range" then poratChallengeS = "Short Range" end
+        if poratChallengeS == "fast_enemies" then poratChallengeS = "Fast Enemies" end
+        if poratChallengeS == "regen_enemies" then poratChallengeS = "Regen Enemies" end
+        if poratChallengeS == "tank_enemies" then poratChallengeS = "Tank Enemies" end
+        if poratChallengeS == "shield_enemies" then poratChallengeS = "Shield Enemies" end
+        if poratChallengeS == "triple_cost" then poratChallengeS = "Triple Cost" end
+        if poratChallengeS == "hyper_regen_enemies" then poratChallengeS = "Hyper-Regen Enemies" end
+        if poratChallengeS == "hyper_shield_enemies" then poratChallengeS = "Steel-Plated Enemies" end
+        if poratChallengeS == "godspeed_enemies" then poratChallengeS = "Godspeed Enemies" end
+        if poratChallengeS == "flying_enemies" then poratChallengeS = "Flying Enemies" end
+        if poratChallengeS == "mini_range" then poratChallengeS = "Mini-Range" end
         
+        --------------------------------------------------------------------
+
         local TextDropLabel = ""
         local CountAmount = 1
         for i,v in pairs(get_inventory_items()) do

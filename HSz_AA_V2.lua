@@ -1591,11 +1591,11 @@ local function ChallengeSec()
         saveSettings()
     end, {enabled =Settings.AutoChallenge})
 
-    ChallengeConfig:Cheat("Checkbox","🏆 Farm ทุกอย่าง  ", function(bool)
+    --[[ChallengeConfig:Cheat("Checkbox","🏆 Farm ทุกอย่าง  ", function(bool)
         print(bool)
        Settings.AutoChallengeAll = bool
         saveSettings()
-    end,{enabled =Settings.AutoChallengeAll})
+    end,{enabled =Settings.AutoChallengeAll})]]
 end
 ----------------------------------------------
 ----------- Delete Map Config ---------------- 
@@ -3825,10 +3825,13 @@ local function checkReward()
         return false
     end
 end
+
+--[[getgenv().door = "_lobbytemplate316"
 local function startChallenge()
     if game.PlaceId == 8304191830 then
         local cpos = plr.Character.HumanoidRootPart.CFrame
         if Settings.AutoChallenge and Settings.AutoFarm  and checkReward() == true then
+
             for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
                 if v.Name == "Owner" and v.Value == nil then
                     --print(v.Parent.Name.." "..v.Parent:GetFullName())
@@ -3842,7 +3845,31 @@ local function startChallenge()
             plr.Character.HumanoidRootPart.CFrame = cpos
         end
     end
+end]]
+----------------------------------------
+getgenv().door = "_lobbytemplate316"
+local function startChallenge()
+    if game.PlaceId == 8304191830 then
+        local cpos = plr.Character.HumanoidRootPart.CFrame
+        if Settings.AutoChallenge and Settings.AutoFarm  and checkReward() == true then
+            if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
+
+            for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
+                if v.Name == "Owner" and v.Value == nil then
+                    --print(v.Parent.Name.." "..v.Parent:GetFullName())
+                    local args = {  [1] = tostring(v.Parent.Name) }
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                    Settings.chdoor = v.Parent.Name
+                    break
+                end
+                end
+            end
+            task.wait()
+            plr.Character.HumanoidRootPart.CFrame = cpos
+        end
+    end
 end
+---------------------------------------------
 --test fixportal
 function getBorosPortals()
     local portals = {}

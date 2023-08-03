@@ -3662,6 +3662,37 @@ function Sellportals()
         end
     end)
 
+
+    SellPortals:Cheat("Checkbox","Auto Sell All Portal [ทุกประตู]", function(bool)
+        print(bool)
+        Settings.AutoSellAllPortals = bool
+        saveSettings()
+    end,{enabled = Settings.AutoSellAllPortals})
+
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoSellAllPortals then
+                for i,v in pairs(get_inventory_items_unique_items()) do
+                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+
+                        if v['item_id'] == Settings.SelectedSellPortals then
+                        --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
+                                local args = {
+                                    [1] = {
+                                        [1] = v["uuid"]
+                                    }
+                                }
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
+                                warn("Sell Selecte Protals")
+
+                            --end
+                        end
+                    end
+                end
+            end
+        end
+    end)
+
 end
 
 

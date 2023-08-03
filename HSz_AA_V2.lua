@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.1"
+local version = "15.5.2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3603,7 +3603,7 @@ function Sellportals()
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies","godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedSellChallenge})
 
-    
+
     SellPortals:Cheat("Checkbox","Auto Sell  <= [เลือก Tier & Challenge]", function(bool)
         print(bool)
         Settings.AutoSellPortals = bool
@@ -3626,6 +3626,7 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 --warn("Sell Selecte Protals")
                                 warn("Sell : " ..tostring(Settings.SelectedSellPortals) .. " | Tier : "  ..tostring(Settings.SelectedSellTier.. " | Challenge : "  ..tostring(Settings.SelectedSellChallenge)))
+                                wait(0.1)
                             end
                             end
                         end
@@ -3635,6 +3636,7 @@ function Sellportals()
         end
     end)
 
+    SellPortals:Cheat("Label"," ")    
     SellPortals:Cheat("Checkbox","Auto Sell Portal == [เลือก Tier]", function(bool)
         print(bool)
         Settings.AutoSellNRPortals = bool
@@ -3655,8 +3657,9 @@ function Sellportals()
                                     }
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                warn("Sell Selecte Protals")
-
+                                --warn("Sell Selecte Protals")
+                                warn("Sell : " ..tostring(Settings.SelectedSellPortals) .. " | Tier : "  ..tostring(Settings.SelectedSellTier.. " | Challenge : "  ..tostring(Settings.SelectedSellChallenge)))
+                                wait(0.1)
                             end
                         end
                     end
@@ -3665,7 +3668,7 @@ function Sellportals()
         end
     end)
 
-
+    SellPortals:Cheat("Label"," ")  
     SellPortals:Cheat("Checkbox","Auto Sell All Portal [ทุกประตู]", function(bool)
         print(bool)
         Settings.AutoSellAllPortals = bool
@@ -3686,8 +3689,9 @@ function Sellportals()
                                     }
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                warn("Sell Selecte Protals")
-
+                               --warn("Sell Selecte Protals")
+                               warn("Sell : " ..tostring(Settings.SelectedSellPortals) .. " | Tier : "  ..tostring(Settings.SelectedSellTier.. " | Challenge : "  ..tostring(Settings.SelectedSellChallenge)))
+                               wait(0.1)
                             --end
                         end
                     end

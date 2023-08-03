@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.3"
+local version = "15.5.0.u1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3535,7 +3535,8 @@ function SnipeMerchant()
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                             --warn("Sell Skin")
-                            warn("Sell " ..tostring(Settings.SelectedSellSeason) .. " Skin "  ..tostring(Settings.SelectedSellRarity))
+                            --warn("Sell " ..tostring(Settings.SelectedSellSeason) .. " Skin "  ..tostring(Settings.SelectedSellRarity))
+                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason) .. " | "  ..tostring(Settings.SelectedSellRarity))
                             wait(0.1)
                         end
                     end

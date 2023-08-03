@@ -3602,7 +3602,8 @@ function Sellportals()
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies","godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedSellChallenge})
 
-    SellPortals:Cheat("Checkbox","Auto Sell Portal [มี Challenge]", function(bool)
+    
+    SellPortals:Cheat("Checkbox","Auto Sell [เลือก Tier & Challenge]", function(bool)
         print(bool)
         Settings.AutoSellPortals = bool
         saveSettings()
@@ -3632,7 +3633,7 @@ function Sellportals()
         end
     end)
 
-    SellPortals:Cheat("Checkbox","Auto Sell Normal Portal [ไม่มี Challenge]", function(bool)
+    SellPortals:Cheat("Checkbox","Auto Sell Normal Portal [เลือก Tier]", function(bool)
         print(bool)
         Settings.AutoSellNRPortals = bool
         saveSettings()

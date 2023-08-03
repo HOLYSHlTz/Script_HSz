@@ -51,7 +51,7 @@ end]]
     game.CoreGui["FinityUI"]:Destroy()
 end]]
 local dir = "Anime_Warriors_2/"..game.Players.LocalPlayer.Name
-local Uilib, Player, Rayfield, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
+local Uilib, Player, Rayfield, CreateWindow  = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AWS2_v1] Anime Warriors Simulator 2 UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.RightControl)

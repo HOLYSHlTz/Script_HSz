@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0.u1"
+local version = "15.5.0-u1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -264,20 +264,21 @@ function webhook()
                 CountAmount = CountAmount + 1
             end
         end
+
         for i,v in pairs(Table_All_Items_New_data) do
             if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
                 if v['Count Shiny'] and v['Count'] then
                 elseif string.find(i,"portal") or string.find(i,"disc") then
                     Count_Portal_list = Count_Portal_list + 1
-                if string.gsub(i, "%D", "") == "" then
+                    if string.gsub(i, "%D", "") == "" then
                         TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                else
+                    else
                         TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
                     end
                     CountAmount = CountAmount + 1
-                else
-                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                    CountAmount = CountAmount + 1
+                    else
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                        CountAmount = CountAmount + 1
                 end
             end
         end
@@ -285,6 +286,7 @@ function webhook()
         if TextDropLabel == "" then
             TextDropLabel = "Not Have Items Drops"
         end
+
 
         local data = {
             ["content"] = "",
@@ -3637,7 +3639,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
                         if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                             if v["_unique_item_data"]["_unique_portal_data"]["challenge"] == Settings.SelectedSellChallenge then
@@ -3670,7 +3672,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellNRPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
 
                         if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
@@ -3702,7 +3704,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellAllPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
 
                         if v['item_id'] == Settings.SelectedSellPortals then
                         --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
@@ -4476,15 +4478,6 @@ function autoabilityfunc()
                                 end
                             end
 
-                            if v._stats.id.Value ~= "pucci_heaven" or v._stats.id.Value ~= "erwin" or v._stats.id.Value ~= "wendy" 
-                            or v._stats.id.Value ~= "leafa" or v._stats.id.Value ~= "erwin:shiny" or v._stats.id.Value ~= "erwin_school" 
-                            or v._stats.id.Value ~= "erwin_halloween" or v._stats.id.Value ~= "eren_final" then
-                                if v._stats.state.Value == "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
 
                         end
                     end
@@ -4524,7 +4517,7 @@ function autoabilityGCDfunc()
     				elseif v._stats:FindFirstChild("player") then
     					if tostring(v._stats.player.Value) == player then
     
-                            -- Execute Skill if Not Wendy, Erwin, Gojo and Puchi    
+                            --[[ Execute Skill if Not Wendy, Erwin, Gojo and Puchi    
                             if v._stats.id.Value ~= "pucci_heaven" or v._stats.id.Value ~= "erwin" or v._stats.id.Value ~= "wendy" 
                             or v._stats.id.Value ~= "leafa" or v._stats.id.Value ~= "erwin:shiny" or v._stats.id.Value ~= "erwin_school" 
                             or v._stats.id.Value ~= "erwin_halloween" or v._stats.id.Value ~= "eren_final" then
@@ -4532,7 +4525,48 @@ function autoabilityGCDfunc()
                                     if v._stats.active_attack.Value ~= "nil" then
                                         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
+                            end]]
+
+                            if v._stats.id.Value ~= "pucci_heaven" then
+                                --if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                --end
                             end
+                        end
+
+                        if v._stats.id.Value ~= "erwin" then
+                                --if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                --end
+                            end
+                        end
+
+                        if v._stats.id.Value ~= "wendy" then
+                                --if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                --end
+                            end
+                        end
+
+                        if v._stats.id.Value ~= "leafa" then
+                                --if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                --end
+                            end
+                        end
+
+                        if v._stats.id.Value ~= "eren_final" then
+                                --if v._stats.state.Value == "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                --end
+                            end
+                        end
+                        
                         end
                     end
                 end

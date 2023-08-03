@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.2"
+local version = "15.5.3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()

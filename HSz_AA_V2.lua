@@ -1580,28 +1580,28 @@ end
 local function ChallengeSec()
 
     Settings.SelectedReward = Settings.SelectedReward or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 1",function(value)
         print(value)
         Settings.SelectedReward = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward})
 
     Settings.SelectedReward2 = Settings.SelectedReward2 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward2",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 2",function(value)
         print(value)
         Settings.SelectedReward2 = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward2})
 
     Settings.SelectedReward3 = Settings.SelectedReward3 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward3",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 3",function(value)
         print(value)
         Settings.SelectedReward3 = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward3})
 
     Settings.SelectedReward4 = Settings.SelectedReward4 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward3",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 4",function(value)
         print(value)
         Settings.SelectedReward4 = value
         saveSettings()

@@ -3512,8 +3512,9 @@ function SnipeMerchant()
                                 }
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            warn("Sell Summer Skin")
-                            wait(0.2)
+                            --warn("Sell Skin")
+                            warn("Sell " ..tostring(Settings.SelectedSellSeason) .. " Skin "  ..tostring(Settings.SelectedSellRarity))
+                            wait(0.1)
                         end
                     end
                 end
@@ -3588,7 +3589,7 @@ function Sellportals()
     end
 
     Settings.SelectedSellTier = Settings.SelectedSellTier or 0
-    SellPortals:Cheat("Dropdown", "🎚️ เลือก Tier Portal <=",function(value)
+    SellPortals:Cheat("Dropdown", "🎚️ เลือก Tier Portal ",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellTier = value
         saveSettings()
@@ -3623,7 +3624,8 @@ function Sellportals()
                                     }
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                warn("Sell Selecte Protals")
+                                --warn("Sell Selecte Protals")
+                                warn("Sell : " ..tostring(Settings.SelectedSellPortals) .. " | Tier : "  ..tostring(Settings.SelectedSellTier.. " | Challenge : "  ..tostring(Settings.SelectedSellChallenge)))
                             end
                             end
                         end

@@ -124,6 +124,11 @@ end
 if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
     SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
 end
+----------
+--test
+if game.Players.LocalPlayer._stats:FindFirstChild("kills") then
+    AllKillOld = game.Players.LocalPlayer._stats.kills.Value
+end
 ----------------Map & ID Map
 local function GetCurrentLevelId()
     if game.Workspace._MAP_CONFIG then
@@ -191,6 +196,11 @@ function webhook()
 
         if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
+        end
+        ----------
+        --test
+        if game.Players.LocalPlayer._stats:FindFirstChild("kills") then
+            AllKill = game.Players.LocalPlayer._stats.kills.Value
         end
 
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
@@ -337,7 +347,11 @@ function webhook()
                             ["name"] ="Items Drop :",
                             ["value"] = "```ini\n" .. TextDropLabel .. "```",
                             ["inline"] = false 
-                        }
+                        },
+                        {
+                            ["name"] ="Old + New - Kill Count :",
+                            ["value"] = "```ini\n" .. comma_value(AllKill + AllKillOld) .." kill Count ⚔️```",
+                        },
                     }
                 }
             }
@@ -3651,6 +3665,8 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 --warn("Sell Selecte Protals")
                                 warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
+                                
                                 wait(0.1)
                             end
                             end
@@ -3684,6 +3700,8 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 --warn("Sell Selecte Protals")
                                 warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
+                               
                                 wait(0.1)
                             end
                         end
@@ -3716,6 +3734,7 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                --warn("Sell Selecte Protals")
                                warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                               --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
                                wait(0.1)
                             --end
                         end

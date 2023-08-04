@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u2"
+local version = "15.5.0-u3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -1704,11 +1704,11 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-    UnitAOE1:Cheat("Button", "Check Unit", function()
+    UnitAOE1:Cheat("Button", "Check Kill & Take Down [F9 to see]", function()
         for i, v in pairs(game.Workspace._UNITS:getChildren()) do
             if v:FindFirstChild("_stats"):FindFirstChild("player") then
                 if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
-                    warn(v)
+                    warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
 		        end
 	        end
         end
@@ -4729,9 +4729,10 @@ function autoabilitywendy()
         --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
-        local UnitsW = {'wendy'}
+        local UnitsW = {'wendy','wendy:shiny'}
         local Delay = {
-            ['wendy'] = 16.4,
+            ['wendy'] = 16.4
+            ['erwin:shiny'] = 16.4,
         }
         _G.Stop = false
         while wait() do
@@ -4778,9 +4779,10 @@ function autoabilityleafa()
         --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
-        local UnitsL = {'leafa'}
+        local UnitsL = {'leafa','leafa:shiny'}
         local Delay = {
-            ['leafa'] = 16.4,
+            ['leafa'] = 16.4
+            ['leafa:shiny'] = 16.4,
         }
         _G.Stop = false
         while wait() do

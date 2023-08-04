@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u4"
+local version = "15.5.0-u41"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3385,17 +3385,6 @@ function SnipeMerchant()
     -----------------------------------------------------------------------------------------------------
     -----------------------------------------------------------------------------------------------------
 
-    local v5 = require(game.ReplicatedStorage.src.Loader)
-    local ItemInventoryServiceClient = v5.load_client_service(script, "ItemInventoryServiceClient")
-    function get_inventory_items_unique_items()
-        return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
-    end
-    function get_inventory_items()
-        return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
-    end
-    function get_Units_Owner()
-        return ItemInventoryServiceClient["session"]["collection"]["collection_profile_data"]['owned_units']
-    end
     local CountPortal_listN = 0
     local Table_Items_Old_data = {}
     local Table_Items_New_data = {}

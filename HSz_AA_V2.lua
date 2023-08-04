@@ -3539,7 +3539,7 @@ function SnipeMerchant()
                     end
                     -----------------------------------------------------------
                     if TextDropLabel == "" then
-                        TextDropLabel = "Not Have Items Drops"
+                        TextDropLabel = "Not Have Items or Unit Drops"
                     end
                     -----------------------------------------------------------
             

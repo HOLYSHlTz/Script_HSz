@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u1"
+local version = "15.5.0-u2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -701,21 +701,17 @@ function ShopSniperWebhook()
     end
 end
 ------------------------------\
-if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
+--[[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
     game.Players.LocalPlayer.PlayerGui["FinityUI"]:Destroy()
+end]]
+
+if game.CoreGui:FindFirstChild("FinityUI") then
+    game.CoreGui["FinityUI"]:Destroy()
 end
 
---[[if game.Players.LocalPlayer:FindFirstChild("FinityUI") then
-    game.Players.LocalPlayer["FinityUI"]:Destroy()
-end]]
-
---[[if game.CoreGui:FindFirstChild("FinityUI") then
-    game.CoreGui["FinityUI"]:Destroy()
-end]]
-
 local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
---local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
-local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
+local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/finitylib.lua"))()
+--local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
 local Window = Uilib.new(true, "[HSz_AA_v2] Anime Adventures UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.P)

@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u3"
+local version = "15.5.0-u1.1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3381,6 +3381,7 @@ function SnipeMerchant()
         saveSettings()
     end, {placeholder = Settings.WebhookUrlSkin})
 
+    -----------------------------------------
     -- สร้าง Table ของ สกิน
     local SummerSkinTable,TableSeason,WebhookSkin = {},{},{}
     for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
@@ -3393,12 +3394,51 @@ function SnipeMerchant()
             SummerSkinTable[i] = v
         end
     end
+    -- สร้าง Table ของ ITEM
+    local Table_All_Items_Old_data2,Table_All_Items_New_data2 = {},{}
+    for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDescendants()) do
+        if v3:IsA("ModuleScript") then
+            for v4, v5 in pairs(require(v3)) do
+                Table_All_Items_Old_data2[v4] = {}
+                Table_All_Items_Old_data2[v4]['Name'] = v5['name']
+                Table_All_Items_Old_data2[v4]['Count'] = 0
+                Table_All_Items_New_data2[v4] = {}
+                Table_All_Items_New_data2[v4]['Name'] = v5['name']
+                Table_All_Items_New_data2[v4]['Count'] = 0
+            end
+        end
+    end
+    local Data_Units_All_Games = require(game:GetService("ReplicatedStorage").src.Data.Units)
+    for i,v in pairs(Data_Units_All_Games) do
+        if v.rarity then
+            Table_All_Items_Old_data2[i] = {}
+            Table_All_Items_Old_data2[i]['Name'] = v['name']
+            Table_All_Items_Old_data2[i]['Count'] = 0
+            Table_All_Items_Old_data2[i]['Count Shiny'] = 0
+            Table_All_Items_New_data2[i] = {}
+            Table_All_Items_New_data2[i]['Name'] = v['name']
+            Table_All_Items_New_data2[i]['Count'] = 0
+            Table_All_Items_New_data2[i]['Count Shiny'] = 0
+        end
+    end
+    ------------------------------------
     -- Add Skin In Inventory
     for i,v in pairs(get_inventory_items_unique_items()) do
         if string.find(v['item_id'],"_skin") then
             WebhookSkin[v['item_id']] = WebhookSkin[v['item_id']] + 1
         end
     end
+    for i,v in pairs(get_inventory_items()) do
+        Table_All_Items_Old_data2[i]['Count'] = v
+    end
+    for i,v in pairs(get_Units_Owner()) do
+        Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] + 1
+        if v.shiny then
+            Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] - 1
+            Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
+        end
+    end
+    -------------------------------------------------------------------------------
 
     task.spawn(function()
         while task.wait() do
@@ -3427,8 +3467,62 @@ function SnipeMerchant()
                         end
                     end
 
-                    -- Create Text Output
+                    -- Create Text Output testskin
                     SentSkin = false
+                    ----------------------------------------------------------
+
+                    local TextDropLabel = ""
+                    local CountAmount = 1
+                    for i,v in pairs(get_inventory_items()) do
+                        Table_All_Items_New_data[i]['Count'] = v
+                    end
+                    for i,v in pairs(get_Units_Owner()) do
+                        Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] + 1
+                        if v.shiny then
+                            Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] - 1
+                        Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] + 1
+                        end
+                    end
+                    for i,v in pairs(Table_All_Items_New_data) do
+                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                            if v['Count Shiny'] and v['Count'] then
+                                if v['Count'] > 0 or v['Count Shiny'] > 0 then
+                                    if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count'])
+                                        if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
+                                            TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+                                            CountAmount = CountAmount + 1
+                                        else
+                                            TextDropLabel = TextDropLabel .. "\n"
+                                            CountAmount = CountAmount + 1
+                                        end
+                                    end
+                                end
+                            end
+                        elseif v['Count Shiny'] and v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
+                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+                            CountAmount = CountAmount + 1
+                        end
+                    end
+                    for i,v in pairs(Table_All_Items_New_data) do
+                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                            if v['Count Shiny'] and v['Count'] then
+                            elseif string.find(i,"portal") or string.find(i,"disc") then
+                                Count_Portal_list = Count_Portal_list + 1
+                                if string.gsub(i, "%D", "") == "" then
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                else
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                end
+                                CountAmount = CountAmount + 1
+                                else
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                    CountAmount = CountAmount + 1
+                            end
+                        end
+                    end
+
+                    -----------------------------------------------------------
                     for SkinName,Count_OldSkin in pairs(WebhookSkin) do
                         if WebhookSkinNew[SkinName] > Count_OldSkin then
                             local Name = SummerSkinTable[SkinName]['name']:split(" ")
@@ -3443,6 +3537,11 @@ function SnipeMerchant()
                             CountPortal_list = CountPortal_list + 1
                         end
                     end
+                    -----------------------------------------------------------
+                    if TextDropLabel == "" then
+                        TextDropLabel = "Not Have Items Drops"
+                    end
+                    -----------------------------------------------------------
             
                     local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
                     local Time = os.date('!*t', OSTime);
@@ -3480,7 +3579,12 @@ function SnipeMerchant()
                                                     ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                                     },
                                     {
-                                        ["name"] ="Skins Drop :",
+                                        ["name"] =" Skins :",
+                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
+                                        ["inline"] = false 
+                                    },
+                                    {
+                                        ["name"] =" Item & Unit :",
                                         ["value"] = "```ini\n" .. TextWebhook .. "```",
                                         ["inline"] = false 
                                     }

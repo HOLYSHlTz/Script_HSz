@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u3"
+local version = "15.5.0-u2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -124,11 +124,7 @@ end
 if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
     SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
 end
-----------
---test
-if game.Players.LocalPlayer._stats:FindFirstChild("kills") then
-    AllKillOld = game.Players.LocalPlayer._stats.kills.Value
-end
+
 ----------------Map & ID Map
 local function GetCurrentLevelId()
     if game.Workspace._MAP_CONFIG then
@@ -198,10 +194,7 @@ function webhook()
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
         end
         ----------
-        --test
-        if game.Players.LocalPlayer._stats:FindFirstChild("kills") then
-            AllKill = game.Players.LocalPlayer._stats.kills.Value
-        end
+
 
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         xp = xpx:split(" ")
@@ -235,20 +228,6 @@ function webhook()
         if poratChallengeS == "mini_range" then poratChallengeS = "Mini-Range" end
         
         --------------------------------------------------------------------
-        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-            if v:FindFirstChild("_stats") then
-                if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                   if tostring(v._stats.id.Value) == UNameKC then
-                   if tostring(v._stats.kill_count.Value) == UKillKC then
-                   if tostring(v._stats.takedown_count.Value) == UTakeDownKC then
-                    --warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
-                   end
-                end
-            end
-                end
-            end
-        end
-        ------------------------------------------------------------------------
 
         local TextDropLabel = ""
         local CountAmount = 1
@@ -361,11 +340,7 @@ function webhook()
                             ["name"] ="Items Drop :",
                             ["value"] = "```ini\n" .. TextDropLabel .. "```",
                             ["inline"] = false 
-                        },
-                        {
-                            ["name"] ="Old + New - Kill Count :",
-                            ["value"] = "```ini\n" .. tostring( UNameKC.. "|" ..UKillKC.. "|" ..UTakeDownKC ) " KC ⚔️\n".. comma_value(AllKill + AllKillOld) .." kill Count ⚔️```",
-                        },
+                        }
                     }
                 }
             }

@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u41"
+local version = "15.5.0-u1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3371,12 +3371,12 @@ function SnipeMerchant()
         saveSettings()
     end,{enabled = Settings.AutoOpenSummer10})
 
-    SummerEgg:Cheat("Checkbox","Webhook Skin", function(bool)
+    SummerEgg:Cheat("Checkbox","Webhook Capsule", function(bool)
         print(bool)
         Settings.SendWebhookSkin = bool
         saveSettings()
     end,{enabled = Settings.SendWebhookSkin})
-    SummerEgg:Cheat("Textbox", "Send Webhook Skin", function(Value)
+    SummerEgg:Cheat("Textbox", "Send Webhook Capsule", function(Value)
         Settings.WebhookUrlSkin = Value
         saveSettings()
     end, {placeholder = Settings.WebhookUrlSkin})
@@ -3468,29 +3468,6 @@ function SnipeMerchant()
                 
                 if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
                     ----------------------------------------------
-                    -- Create Table New Skinb
-                    local WebhookSkinNew,TextWebhook = {},""
-                    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-                        for i,v in pairs(require(v)) do
-                            WebhookSkinNew[i] = 0
-                        end
-                    end
-                    for i,v in pairs(get_inventory_items_unique_items()) do
-                        if string.find(v['item_id'],"_skin") then
-                            WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
-                        end
-                    end
-
-                    -- Create Text Output
-                    SentSkin = false
-                    for SkinName,Count_OldSkin in pairs(WebhookSkin) do
-                        if WebhookSkinNew[SkinName] > Count_OldSkin then
-                            local Name = SummerSkinTable[SkinName]['name']:split(" ")
-                            TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
-                            SentSkin = true
-                        end 
-                    end
-
                     local TextDropSM = ""
                     local Count_Amount = 1
                     for i,v in pairs(get_inventory_items()) do
@@ -3552,6 +3529,30 @@ function SnipeMerchant()
                         TextDropSM = "Not Have Items Drops"
                     end
 
+                    -- Create Table New Skinb
+                    local WebhookSkinNew,TextWebhook = {},""
+                    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
+                        for i,v in pairs(require(v)) do
+                            WebhookSkinNew[i] = 0
+                        end
+                    end
+                    for i,v in pairs(get_inventory_items_unique_items()) do
+                        if string.find(v['item_id'],"_skin") then
+                            WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
+                        end
+                    end
+
+                    -- Create Text Output
+                    SentSkin = false
+                    for SkinName,Count_OldSkin in pairs(WebhookSkin) do
+                        if WebhookSkinNew[SkinName] > Count_OldSkin then
+                            local Name = SummerSkinTable[SkinName]['name']:split(" ")
+                            TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
+                            SentSkin = true
+                        end 
+                    end
+
+
                     CountPortal_list = 0
                     for i,v in pairs(get_inventory_items_unique_items()) do
                         if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
@@ -3597,10 +3598,13 @@ function SnipeMerchant()
                                                     ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                                     },
                                     {
-                                        ["name"] ="Rewards :",
-                                        ["value"] = "```ini\n" 
-                                                            .. TextWebhook .. "\n "
-                                                            .. TextDropSM .. "```",
+                                        ["name"] ="Skin Drop :",
+                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
+                                        ["inline"] = false 
+                                    },
+                                    {
+                                        ["name"] ="Item Droo :",
+                                        ["value"] = "```ini\n" .. TextDropSM .. "```",
                                         ["inline"] = false 
                                     }
                                 }

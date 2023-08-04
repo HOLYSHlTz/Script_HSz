@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u2"
+local version = "15.5.0-u3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -235,6 +235,20 @@ function webhook()
         if poratChallengeS == "mini_range" then poratChallengeS = "Mini-Range" end
         
         --------------------------------------------------------------------
+        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+            if v:FindFirstChild("_stats") then
+                if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+                   if tostring(v._stats.id.Value) == UNameKC then
+                   if tostring(v._stats.kill_count.Value) == UKillKC then
+                   if tostring(v._stats.takedown_count.Value) == UTakeDownKC then
+                    --warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
+                   end
+                end
+            end
+                end
+            end
+        end
+        ------------------------------------------------------------------------
 
         local TextDropLabel = ""
         local CountAmount = 1
@@ -350,7 +364,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Old + New - Kill Count :",
-                            ["value"] = "```ini\n" .. comma_value(AllKill + AllKillOld) .." kill Count ⚔️```",
+                            ["value"] = "```ini\n" .. tostring( UNameKC.. "|" ..UKillKC.. "|" ..UTakeDownKC ) " KC ⚔️\n".. comma_value(AllKill + AllKillOld) .." kill Count ⚔️```",
                         },
                     }
                 }

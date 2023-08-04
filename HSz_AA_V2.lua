@@ -4732,7 +4732,7 @@ function autoabilitywendy()
         local UnitsW = {'wendy','wendy:shiny'}
         local Delay = {
             ['wendy'] = 16.4
-            ['erwin:shiny'] = 16.4,
+            ['wendy:shiny'] = 16.4,
         }
         _G.Stop = false
         while wait() do

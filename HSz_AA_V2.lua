@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u1.2"
+local version = "15.5.0-u1.3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3432,10 +3432,10 @@ function SnipeMerchant()
         Table_All_Items_Old_data2[i]['Count'] = v
     end
     for i,v in pairs(get_Units_Owner()) do
-        Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] + 1
+        Table_All_Items_Old_data2[v["unit_id"]]['Count'] = Table_All_Items_Old_data2[v["unit_id"]]['Count'] + 1
         if v.shiny then
-            Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] - 1
-            Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
+            Table_All_Items_Old_data2[v["unit_id"]]['Count'] = Table_All_Items_Old_data2[v["unit_id"]]['Count'] - 1
+            Table_All_Items_Old_data2[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data2[v["unit_id"]]['Count Shiny'] + 1
         end
     end
     -------------------------------------------------------------------------------
@@ -3474,23 +3474,23 @@ function SnipeMerchant()
                     local TextDropLabel = ""
                     local CountAmount = 1
                     for i,v in pairs(get_inventory_items()) do
-                        Table_All_Items_New_data[i]['Count'] = v
+                        Table_All_Items_New_data2[i]['Count'] = v
                     end
                     for i,v in pairs(get_Units_Owner()) do
-                        Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] + 1
+                        Table_All_Items_New_data2[v["unit_id"]]['Count'] = Table_All_Items_New_data2[v["unit_id"]]['Count'] + 1
                         if v.shiny then
-                            Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] - 1
-                        Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] + 1
+                            Table_All_Items_New_data2[v["unit_id"]]['Count'] = Table_All_Items_New_data2[v["unit_id"]]['Count'] - 1
+                            Table_All_Items_New_data2[v["unit_id"]]['Count Shiny'] = Table_All_Items_New_data2[v["unit_id"]]['Count Shiny'] + 1
                         end
                     end
-                    for i,v in pairs(Table_All_Items_New_data) do
-                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                    for i,v in pairs(Table_All_Items_New_data2) do
+                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data2[i]['Count']) > 0 then
                             if v['Count Shiny'] and v['Count'] then
                                 if v['Count'] > 0 or v['Count Shiny'] > 0 then
-                                    if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-                                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count'])
-                                        if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
-                                            TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+                                    if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data2[i]['Count']) > 0 then
+                                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data2[i]['Count'])
+                                        if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data2[i]['Count Shiny']) > 0 then
+                                            TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data2[i]['Count Shiny']) .. "\n"
                                             CountAmount = CountAmount + 1
                                         else
                                             TextDropLabel = TextDropLabel .. "\n"
@@ -3499,24 +3499,24 @@ function SnipeMerchant()
                                     end
                                 end
                             end
-                        elseif v['Count Shiny'] and v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
-                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
+                        elseif v['Count Shiny'] and v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data2[i]['Count Shiny']) > 0 then
+                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data2[i]['Count Shiny']) .. "\n"
                             CountAmount = CountAmount + 1
                         end
                     end
-                    for i,v in pairs(Table_All_Items_New_data) do
-                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
+                    for i,v in pairs(Table_All_Items_New_data2) do
+                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data2[i]['Count']) > 0 then
                             if v['Count Shiny'] and v['Count'] then
                             elseif string.find(i,"portal") or string.find(i,"disc") then
                                 Count_Portal_list = Count_Portal_list + 1
                                 if string.gsub(i, "%D", "") == "" then
-                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data2[i]['Count']) .. "\n"
                                 else
-                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data2[i]['Count']) .. "\n"
                                 end
                                 CountAmount = CountAmount + 1
                                 else
-                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data2[i]['Count']) .. "\n"
                                     CountAmount = CountAmount + 1
                             end
                         end

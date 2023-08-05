@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-u1.1"
+local version = "15.5.0-u1.2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3523,6 +3523,7 @@ function SnipeMerchant()
                     end
 
                     -----------------------------------------------------------
+                    SentSkin = false
                     for SkinName,Count_OldSkin in pairs(WebhookSkin) do
                         if WebhookSkinNew[SkinName] > Count_OldSkin then
                             local Name = SummerSkinTable[SkinName]['name']:split(" ")
@@ -3585,7 +3586,7 @@ function SnipeMerchant()
                                     },
                                     {
                                         ["name"] =" Item & Unit :",
-                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
+                                        ["value"] = "```ini\n" .. TextDropLabel .. "```",
                                         ["inline"] = false 
                                     }
                                 }

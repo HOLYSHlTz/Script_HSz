@@ -3743,8 +3743,6 @@ function autoload()
         if exec == "Synapse X" and Settings.AutoLoadScript then
             syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
-        elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
             syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         end
     end)

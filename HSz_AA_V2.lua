@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-2"
+local version = "15.5.0-3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -6635,6 +6635,16 @@ function DelMapSnowy1()
 				if v.ClassName == "MeshPart" then v:Remove() end
 				if v.ClassName == "Model" then v:Remove() end
 				if v.ClassName == "Part" then v:Remove() end
+				if v.ClassName == "Folder" then v:Remove() end
+        end
+    end  
+end
+
+function DelMapSnowy2()
+	if game.Workspace:FindFirstChild("_map") then
+    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
+				if v.ClassName == "MeshPart" then v:Remove() end
+				if v.ClassName == "Model" then v:Remove() end
         end
     end  
 end
@@ -8255,9 +8265,9 @@ coroutine.resume(coroutine.create(function()
                 DelMapTitan8()
             elseif game.Workspace._map:FindFirstChild("Snow Particles") then
                 DelTer() 
-				DelMapMain()
 				DelMapSnowy0()
 				DelMapSnowy1()
+                DelMapSnowy2()
             elseif game.Workspace._map:FindFirstChild("sand_gate") then 
                 DelTer() 
                 DelMapSand1()

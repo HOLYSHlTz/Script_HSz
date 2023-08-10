@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-4_2"
+local version = "15.5.0-4_3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -1655,6 +1655,7 @@ local function DELMAPNEW()
     DELMAP:Cheat("Button","Activate Delete Hill ", function()
         DelHill()
     end)
+
 
 end
 
@@ -3775,6 +3776,13 @@ function others()
         saveSettings()
         autoload()
     end,{enabled = Settings.AutoLoadScript})
+
+    OtherSec:Cheat("Checkbox","Auto Check Internet", function(bool)
+        Settings.AutoReConnect = bool
+        saveSettings()
+        autoload()
+    end,{enabled = Settings.AutoReConnect})
+
     OtherSec3:Cheat("Checkbox","Hide Name Player", function(bool)
         Settings.hidenamep = bool
         saveSettings()
@@ -8741,16 +8749,22 @@ end
 
 -- Start of Check Connection
 function checkInterNet()
-    warn("Auto Reconnect Loaded")
+    if Settings.AutoReConnect then
+    warn("Auto Reconnect Enable")
     while task.wait(5) do
         game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
             if a.Name == 'ErrorPrompt' then
                 task.wait(10)
                 warn("Trying to Reconnect")
                 TPReturner()
-            end
-        end)
+                end
+            end)
+        end
     end
+end
+
+if Settings.AutoReConnect then
+    checkInterNet()
 end
 -- End of Check Connection
 
@@ -8836,10 +8850,10 @@ warn("HSz Hider Name Loaded สำเร็จ!!!")
 warn("HSz AA v2 Loaded สำเร็จ!!!")
 warn("All Loaded !!!")
 
-if game.PlaceId == 8304191830 then
+if game.PlaceId == 8304191830 and Settings.AutoReConnect then
     repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
     checkInterNet()
-elseif game.PlaceId ~= 8304191830 then
+elseif game.PlaceId ~= 8304191830 and Settings.AutoReConnect then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     checkInterNet()
 end

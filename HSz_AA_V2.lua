@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-4_3"
+local version = "15.5.0-4_4"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -8749,7 +8749,6 @@ end
 
 -- Start of Check Connection
 function checkInterNet()
-    if Settings.AutoReConnect then
     warn("Auto Reconnect Enable")
     while task.wait(5) do
         game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
@@ -8761,11 +8760,7 @@ function checkInterNet()
             end)
         end
     end
-end
 
-if Settings.AutoReConnect then
-    checkInterNet()
-end
 -- End of Check Connection
 
 --placeany

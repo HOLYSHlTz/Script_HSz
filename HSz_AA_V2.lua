@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-4"
+local version = "15.5.0-4_2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -2429,6 +2429,8 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("hueco", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("light poles") then
         updatepos("magnolia", UnitPos, a,a2,a3,a4,a5,a6)
+    elseif game.Workspace._map:FindFirstChild("summer_props") then
+        updatepos("Summer JJK", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("LanternsGround") then
         updatepos("jjk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("pumpkins") then    
@@ -2465,8 +2467,6 @@ function savepos(UnitPos, a,a2,a3,a4,a5,a6)
         updatepos("Berserk", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map:FindFirstChild("Storm") then
         updatepos("Eclipse", UnitPos, a,a2,a3,a4,a5,a6)
-    elseif game.Workspace._map:FindFirstChild("summer_props") then
-        updatepos("Summer JJK", UnitPos, a,a2,a3,a4,a5,a6)
     elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
         updatepos("clover", UnitPos, a,a2,a3,a4,a5,a6)
     end
@@ -5946,6 +5946,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("hueco")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnitsTEST("magnolia")
+            elseif game.Workspace._map:FindFirstChild("summer_props") then
+                PlaceUnitsTEST("Summer JJK")
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
                 PlaceUnitsTEST("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
@@ -5982,8 +5984,6 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnitsTEST("Berserk")
             elseif game.Workspace._map:FindFirstChild("Storm") then
                 PlaceUnitsTEST("Eclipse")
-            elseif game.Workspace._map:FindFirstChild("summer_props") then
-                PlaceUnitsTEST("Summer JJK")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnitsTEST("clover")
             end
@@ -6013,6 +6013,8 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("hueco")
             elseif game.Workspace._map:FindFirstChild("light poles") then
                 PlaceUnits("magnolia")
+            elseif game.Workspace._map:FindFirstChild("summer_props") then
+                PlaceUnits("Summer JJK")
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
                 PlaceUnits("jjk")
             elseif game.Workspace._map:FindFirstChild("pumpkins") then    
@@ -6049,8 +6051,6 @@ coroutine.resume(coroutine.create(function()
                 PlaceUnits("Berserk")
             elseif game.Workspace._map:FindFirstChild("Storm") then
                 PlaceUnits("Eclipse")
-            elseif game.Workspace._map:FindFirstChild("summer_props") then
-                PlaceUnits("Summer JJK")
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 PlaceUnits("clover") 
             end
@@ -8512,6 +8512,26 @@ coroutine.resume(coroutine.create(function()
                 DelMapMagic11()
                 DelMapMagic12()
                 DelMapMagic13()
+            elseif game.Workspace._map:FindFirstChild("summer_props") then
+                DelTer() 
+                DelMapMain()
+                DelMapSMCursed1()
+                DelMapSMCursed2()
+                DelMapSMCursed3()
+                DelMapSMCursed4()
+                DelMapSMCursed5()
+                DelMapSMCursed6()
+                DelMapSMCursed7()
+                DelMapSMCursed8()
+                DelMapSMCursed9()
+                DelMapSMCursed10()
+                DelMapSMCursed11()
+                DelMapSMCursed12()
+                DelMapSMCursed13()
+                DelMapSMCursed14()
+                DelMapSMCursed15()
+                DelMapSMCursed16()
+                DelMapSMCursed17()
             elseif game.Workspace._map:FindFirstChild("LanternsGround") then
                 DelTer() 
 				DelMapMain()
@@ -8648,26 +8668,6 @@ coroutine.resume(coroutine.create(function()
                 DelMapEclipse()
                 DelMapEclipse2()
                 DelMapEclipse3()
-            elseif game.Workspace._map:FindFirstChild("summer_props") then
-                DelTer() 
-                DelMapMain()
-                DelMapSMCursed1()
-                DelMapSMCursed2()
-                DelMapSMCursed3()
-                DelMapSMCursed4()
-                DelMapSMCursed5()
-                DelMapSMCursed6()
-                DelMapSMCursed7()
-                DelMapSMCursed8()
-                DelMapSMCursed9()
-                DelMapSMCursed10()
-                DelMapSMCursed11()
-                DelMapSMCursed12()
-                DelMapSMCursed13()
-                DelMapSMCursed14()
-                DelMapSMCursed15()
-                DelMapSMCursed16()
-                DelMapSMCursed17()
             elseif game.Workspace._map["misc deco"]:FindFirstChild("bushes") then
                 DelTer() 
                 DelMapMain()

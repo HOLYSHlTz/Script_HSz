@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-4_4"
+local version = "15.5.0-4_5"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -1230,23 +1230,7 @@ local function WorldSec()
         saveSettings()
     end,{enabled = Settings.isFriendOnly})
 end
-----------------------------------------------
----------------- Portal Config ------------- fixportal
-----------------------------------------------
---[[local function Farmportal()
-    --Devil
-    devilcity:Cheat("Dropdown", "เลือก ประตู Portal",function(pornname)
-        getgenv().portalnameC = pornname
-        saveSettings()
-    end, { options = {"summer_portal_item_contract"}, default = getgenv().portalnameC})
-    devilcity:Cheat("Button","Buy Demon Portal", function(bool)
 
-        local string_1 = getgenv().portalnameC
-        local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["try_purchase_april_item"];
-        Target:InvokeServer(string_1);
-        warn("Buy Summer Portal !!!")
-    end)
-end]]
 ----------------------------------------------
 ---------------- AutoFarm Config -------------
 ----------------------------------------------
@@ -3505,7 +3489,7 @@ function SnipeMerchant()
         end
     end)
 
-    ----------------------------------------------------------------
+    ----------------------------------------------------------------sellskin
     --Auto Sell Summer Skin
 
     Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
@@ -3515,12 +3499,26 @@ function SnipeMerchant()
         saveSettings()
     end,{options = TableSeason, default = Settings.SelectedSellSeason})
 
-    Settings.SelectedSellRarity = Settings.SelectedSellRarity or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity",function(value)
+    Settings.SelectedSellRarity1 = Settings.SelectedSellRarity1 or "Rare"
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 1",function(value)
         warn("Change to : "..value)
-        Settings.SelectedSellRarity = value
+        Settings.SelectedSellRarity1 = value
         saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity})
+    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity1})
+
+    Settings.SelectedSellRarity2 = Settings.SelectedSellRarity2 or "Rare"
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 2",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSellRarity2 = value
+        saveSettings()
+    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity2})
+
+    Settings.SelectedSellRarity3 = Settings.SelectedSellRarity3 or "Rare"
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 3",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSellRarity3 = value
+        saveSettings()
+    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity3})
 
     SummerSkin:Cheat("Checkbox","Auto Sell Skins ", function(bool)
         print(bool)
@@ -3533,15 +3531,16 @@ function SnipeMerchant()
             if Settings.AutoSellSskin then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"_skin") then
-                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
+                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity 
+                        or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity2 
+                        or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity3
+                        and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
                             local args = {
                                 [1] = {
                                     [1] = v["uuid"]
                                 }
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            --warn("Sell Skin")
-                            --warn("Sell " ..tostring(Settings.SelectedSellSeason) .. " Skin "  ..tostring(Settings.SelectedSellRarity))
                             warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason) .. " | "  ..tostring(Settings.SelectedSellRarity))
                             wait(0.1)
                         end
@@ -4011,7 +4010,7 @@ function getSecretEclipse()
     return portals
 end
 
---End Fixportal
+--End
 
 function GetPortals(id)
     local reg = getreg() 
@@ -4440,7 +4439,7 @@ local function startfarming()
         end
     end
 end
---end fixportal]]
+--end]]
 
 ------------------------------------
 ---- Start Auto Ability Function----

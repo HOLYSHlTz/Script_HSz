@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-5"
+local version = "15.5.0-5.1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3045,13 +3045,6 @@ task.spawn(function()
         end
     end
 end)
-
-LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode", function(bool)
-    print(Settings.fpsboost)
-    Settings.fpsboost = bool
-    saveSettings()
-    FPSBOOST()
-end,{enabled = Settings.fpsboos})
 
 LowCPU2:Cheat("Checkbox"," Enable Boost FPS Mode ", function(bool)
     print(bool)

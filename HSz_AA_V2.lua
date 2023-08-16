@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-4_5"
+local version = "15.5.0-5"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3053,6 +3053,12 @@ LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode", function(bool)
     FPSBOOST()
 end,{enabled = Settings.fpsboos})
 
+LowCPU2:Cheat("Checkbox"," Enable Boost FPS Mode ", function(bool)
+    print(bool)
+    Settings.fpsboost = bool
+    saveSettings()
+end,{enabled = Settings.fpsboost })
+
 LowCPU2:Cheat("Button","Activate Boost FPS Mode ", function()
     FPSBOOST()
 end)
@@ -6071,6 +6077,7 @@ end))
 -----------------------------------------------------
 
 function FPSBOOST()
+    if Settings.fpsboost then
     _G.Settings = {
         Players = {
             ["Ignore Me"] = true, -- Ignore your Character
@@ -6399,6 +6406,7 @@ function FPSBOOST()
         end
     end
     warn("FPS Booster Loaded!")
+end
 end
 
 if Settings.fpsboost then

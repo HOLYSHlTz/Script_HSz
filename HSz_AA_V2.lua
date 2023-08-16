@@ -3046,10 +3046,11 @@ task.spawn(function()
     end
 end)
 
-LowCPU2:Cheat("Checkbox"," Enable Boost FPS Mode ", function(bool)
+LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode ", function(bool)
     print(bool)
     Settings.fpsboost = bool
     saveSettings()
+    FPSBOOST()
 end,{enabled = Settings.fpsboost })
 
 LowCPU2:Cheat("Button","Activate Boost FPS Mode ", function()

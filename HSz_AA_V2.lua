@@ -767,9 +767,9 @@ local OtherSec2 = ETC:Sector("")
 local Summer = Window:Category("🦸🏽 Event & Skin ")
 local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
 local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
-local SummerSkin = Summer:Sector("💸 Auto Sell Summer Skin 💸")
+local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
 local SummerSkin0 = Summer:Sector("")
-local SummerEgg = Summer:Sector("🥚 Auto Open Summer Egg 🥚")
+local SummerEgg = Summer:Sector("🥚 Auto Open Events Egg 🥚")
 
 -------------
 ---sponsorfix---
@@ -3062,7 +3062,10 @@ end
 ---------------------------------------------
 local function LAGGYconfig()
 
-    LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
+LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
+
+local l__ReplicatedStorage__1 = game:GetService("ReplicatedStorage");
+local l__Bindable__9 = l__ReplicatedStorage__1.endpoints:WaitForChild("server_to_client");
 
     --test New Lag
 LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
@@ -3071,6 +3074,14 @@ LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
 	saveSettings()
 end,{enabled = Settings.EnableLag})
 
+game:GetService('RunService').Stepped:connect(function()
+	if Settings.EnableLag then
+		pcall(function()
+			game.Players.LocalPlayer.Character.Humanoid:ChangeState(21)
+            l__Bindable__9.start_vote_wave_skip:Fire(v, false);
+		end)		
+	end
+end)
 task.spawn(function()
 	while task.wait() do
         local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
@@ -3082,17 +3093,14 @@ task.spawn(function()
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
     
     local function getmaxvalue(val)
-       --local mainvalueifonetable = 499999
        local mainvalueifonetable = tonumber(Settings.lagimpact or 499999)
        if type(val) ~= "number" then
            return nil
        end
-       --local calculateperfectval = (mainvalueifonetable/(val+2))
        local calculateperfectval = (mainvalueifonetable/(val+2))
        return calculateperfectval
 end
      
-    --local function bomb(tableincrease, tries)
 function bomb(tableincrease, tries)
     local maintable = {}
     local spammedtable = {}
@@ -3113,15 +3121,13 @@ function bomb(tableincrease, tries)
     if calculatemax then
          maximum = calculatemax
          else
-         maximum = 999999
-         --maximum = 499999
+         maximum = 4999999
     end
      
     for i = 1, maximum do
          table.insert(maintable, spammedtable)
     end
      
-    --tries = tonumber(Settings.mix or 1.5)
     for i = 1, tries do
          game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
          
@@ -3129,16 +3135,12 @@ function bomb(tableincrease, tries)
 end
     
     tableincrease = tonumber(Settings.max or 22)
-    --tries = tonumber(Settings.mix or 1.5)
 
     if Settings.EnableLag then
-        --bomb(tableincrease, tonumber(Settings.mix))
         bomb(tonumber(Settings.max), tonumber(Settings.mix))
     elseif not Settings.EnableLag then
         bomb(tableincrease, 0)
     end
-    --bomb(tableincrease, tries)
-    --repeat task.wait() until not Settings.EnableLag
             end
         end
     end

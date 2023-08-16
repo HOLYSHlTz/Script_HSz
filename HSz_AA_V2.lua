@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-5.1"
+local version = "15.5.0-5"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -6070,7 +6070,6 @@ end))
 -----------------------------------------------------
 
 function FPSBOOST()
-    if Settings.fpsboost then
     _G.Settings = {
         Players = {
             ["Ignore Me"] = true, -- Ignore your Character
@@ -6400,7 +6399,7 @@ function FPSBOOST()
     end
     warn("FPS Booster Loaded!")
 end
-end
+
 
 if Settings.fpsboost then
     FPSBOOST()

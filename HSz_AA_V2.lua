@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-7.2"
+local version = "15.5.0-7.3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3406,7 +3406,7 @@ function SnipeMerchant()
                     }
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
-                wait(0.1)
+               
                 
                 if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
                     -- Create Table New Skinb
@@ -3549,8 +3549,8 @@ function SnipeMerchant()
                                 }
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason) .. " | "  ..tostring(SummerSkinTable[v['item_id']].rarity))
-                            wait(0.1)
+                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason))
+                            --wait(0.1)
                         end
                     end
                 end

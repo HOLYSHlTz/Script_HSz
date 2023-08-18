@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-6"
+local version = "15.5.0-7"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -1657,6 +1657,11 @@ local function DeleteMapSec()
         warn("Return to Lobby")
         Teleport()
         --TPReturner()
+    end)
+
+    DelMapConfig2:Cheat("Button", "Rejoin Server", function()
+        warn("Rejoin Server")
+        Rejoine()
     end)
 
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
@@ -5113,6 +5118,16 @@ function Teleport()
        end)
    end
 end
+
+function Rejoine()
+    while wait() do
+        pcall(function()
+            game:GetService("TeleportService"):Teleport(8304191830, game:GetService("Players").LocalPlayer)
+        end)
+    end
+ end
+
+
 
 -------------------------------------------
 -------------------------------------------

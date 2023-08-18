@@ -1,5 +1,5 @@
 --updatefix
-local version = "15.5.0-7.3"
+local version = "15.5.0-7.4"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5144,7 +5144,7 @@ coroutine.resume(coroutine.create(function()
                 task.wait(1.1)
 
             cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-            if Settings.AutoPickPortal and cata == "Portals"  then
+            if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
                 local DataPortalReplay = GetPlayerPortalUse(level)
                 local args = {
                     [1] = "replay",

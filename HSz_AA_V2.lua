@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1"
+local version = "16.0.0-1.1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5147,7 +5147,7 @@ coroutine.resume(coroutine.create(function()
                 repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
                 pcall(function() webhook() end)
                 print("Wait next or leave")
-                task.wait(1.1)
+                task.wait(1.5)
 
             cata = Settings.WorldCategory; level = Settings.SelectedLevel;
             if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
@@ -5163,16 +5163,14 @@ coroutine.resume(coroutine.create(function()
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
                 warn("Pick Portal Replay...") 
-            elseif Settings.AutoNext then
-                local args = { [1] = "next_story" }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                local args = { [1] = "next_story" }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                    print("Next Story...")
             elseif Settings.AutoReplay then
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                     print("Replay...")  
+            elseif Settings.AutoNext then
+                local a2 = {[1] = "next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a2))
+                local a2 = {[1] = "next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a2))
+                    print("Next Story...")
             elseif Settings.AutoContinue then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 

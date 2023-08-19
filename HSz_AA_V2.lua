@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1.1"
+local version = "16.0.0-1.2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5163,15 +5163,15 @@ coroutine.resume(coroutine.create(function()
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
                 warn("Pick Portal Replay...") 
-            elseif Settings.AutoReplay then
+            elseif Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                     print("Replay...")  
-            elseif Settings.AutoNext then
+            elseif Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoReplay and not Settings.AutoPickPortal then
                 local a2 = {[1] = "next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a2))
                 local a2 = {[1] = "next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a2))
                     print("Next Story...")
-            elseif Settings.AutoContinue then
+            elseif Settings.AutoContinue and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoPickPortal then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 
                     print("Next Room infint Castle...")              

@@ -1012,7 +1012,7 @@ local function WorldSec()
         if Settings.WorldCategory == "Story Worlds" then
             storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
             "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
-            "Hero City","Puppet Island","Virtual Dungeon","Windhym"}
+            "Hero City","Puppet Island","Virtual Dungeon","Windhym","Undead Tomb"}
         elseif Settings.WorldCategory == "Legend Stages" then
             storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)"}
         elseif Settings.WorldCategory == "Raid Worlds" then

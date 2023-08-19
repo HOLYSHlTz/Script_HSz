@@ -8785,7 +8785,7 @@ end
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("berserk_daily")
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("overlord_daily")
         warm("Auto grab Daily quest")
         wait(15)
     end
@@ -8804,6 +8804,7 @@ function autoDailyMission()
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_mha_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_jojo_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_opm_daily")
+
         warm("Auto grab Daily Mission")
         wait(15)
     end

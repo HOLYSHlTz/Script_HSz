@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1.2"
+local version = "16.0.0-1.3"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -334,7 +334,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. ' ' ..MapDiff.. " 🗺️\nMap Id : "..name.. " 🗺️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..tostring(MapDiff).. " 🗺️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {

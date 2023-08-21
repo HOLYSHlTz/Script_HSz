@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-2.1"
+local version = "16.0.0-2.1b"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -178,10 +178,11 @@ function webhook()
         for i,v in pairs(get_inventory_items_unique_items()) do
             if string.find(v['item_id'],"portal") then
                 --if v['item_id'] == Settings.SelectedSellPortals then
+                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
 
                     PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
 
-                --end
+                end
             end
         end
         ---------------------------------

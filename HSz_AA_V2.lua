@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-2"
+local version = "16.0.0-2.1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -174,6 +174,17 @@ function webhook()
         _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
 
         ---------------------------------
+        --portaldiff test
+        for i,v in pairs(get_inventory_items_unique_items()) do
+            if string.find(v['item_id'],"portal") then
+                if v['item_id'] == Settings.SelectedSellPortals then
+
+                    PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
+
+                end
+            end
+        end
+        ---------------------------------
         GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
         name = GetLevelData.id or GetLevelData.world or GetLevelData.map
         world = GetLevelData.name
@@ -184,9 +195,8 @@ function webhook()
         MapsNameTEST = v100.name or GetLevelData.name
         --Difficulty
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
-        if MapDiff2 == nil then MapDiff2 = " ไม่มี Difficulty " end
-        if MapDiff2 == "" then MapDiff2 = " ไม่มี Difficulty " end
-        if GetLevelData.name == "Summer Hunt" then MapDiff2 = " Portals ไม่มี Difficulty " end
+        MapDiff3 = MapDiff2 or PortalsDiff
+        if GetLevelData.name == "Summer Hunt" then MapDiff3 = PortalsDiff end
         -------------------------------
 
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
@@ -339,7 +349,7 @@ function webhook()
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..MapDiff2.. " 🗺️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..tostring(MapDiff3).. " 🗺️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {

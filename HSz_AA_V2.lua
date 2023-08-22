@@ -8746,7 +8746,16 @@ end
 -- Start of Check Connection
 function checkInterNet()
     warn("Auto Reconnect Enable")
+    warn("Auto Anti-AFK Enable")
     while task.wait(5) do
+        local vu = game:GetService("VirtualUser")
+        game:GetService("Players").LocalPlayer.Idled:connect(function()
+            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            wait(0.5)
+            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            wait(0.5)
+            vu:CaptureController()vu:ClickButton2(Vector2.new())
+        end)
         game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
             if a.Name == 'ErrorPrompt' then
                 task.wait(30)
@@ -8756,7 +8765,6 @@ function checkInterNet()
             end)
         end
     end
-
 -- End of Check Connection
 
 --placeany
@@ -8768,6 +8776,7 @@ function placeAny()
     task.spawn(function()
         while task.wait() do
             placement_service.can_place = true
+
         end
     end)
 end
@@ -8775,9 +8784,10 @@ end
 function placeunittwin() 
     if game.Workspace:WaitForChild("_UNITS") then
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v.Name:FindFirstChild("_hitbox") then
-            v:Destroy() end
+        --if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
+            if v.Name == "_hitbox" then v:Remove() end
+
+            --end
         end
     end
 end
@@ -8801,18 +8811,18 @@ if Settings.redeemc then
     Reedemcode()
 end
 
-
+--AntiAFK
 pcall(function()
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(function()
         vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(1)
+        wait(0.5)
         vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(0.5)
+        vu:CaptureController()vu:ClickButton2(Vector2.new())
     end)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-        wait(1)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
-    warn("HSz Anti-AFK Loaded สำเร็จ!!!")
 end)
 
 pcall(function()

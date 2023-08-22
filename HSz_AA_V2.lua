@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1e"
+local version = "16.0.0-1f"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5187,8 +5187,14 @@ coroutine.resume(coroutine.create(function()
                 warn("Pick Portal Replay...")
             cata = Settings.WorldCategory; 
             elseif Settings.AutoNext and cata == "Story Worlds" or cata == "Legend Stages" or cata == "Raid Worlds" or cata == "Dungeon" or cata == "Portals" or cata == "ประตูลับ" then
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                local args = {
+                    [1] = "next_story"
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                local args = {
+                    [1] = "next_story"
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
                 warn("Next Story...")
             cata = Settings.WorldCategory; 
             elseif Settings.AutoReplay and cata == "Story Worlds" or cata == "Legend Stages" or cata == "Raid Worlds" or cata == "Dungeon" or cata == "Portals" or cata == "ประตูลับ" then

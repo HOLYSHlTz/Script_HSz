@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1b"
+local version = "16.0.0-1c"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -4735,7 +4735,6 @@ end
 function autoabilityerwin()
     --if Settings.EnableBufferwinLoop then
 
-    while task.wait(2.5) do
         --repeat task.wait() until game:IsLoaded()
         --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
@@ -4748,7 +4747,7 @@ function autoabilityerwin()
             ['erwin_halloween'] = 16.4,
         }
         _G.Stop = false
-        while wait() do
+        while task.wait() do
           if _G.Stop then
             break
           end
@@ -4772,7 +4771,7 @@ function autoabilityerwin()
             game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[4])
             warn("Use Skill " ..erwin1[1].Name .." 4 " )
             wait(Delay[erwin1[1].Name])
-          end
+          --end
         end
 
     end
@@ -4786,7 +4785,6 @@ end]]
 function autoabilitywendy()
     --if Settings.EnableBuffwendyLoop then
 
-    while task.wait(2.5) do
         --repeat task.wait() until game:IsLoaded()
         --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
@@ -4797,7 +4795,7 @@ function autoabilitywendy()
             ['wendy:shiny'] = 16.4,
         }
         _G.Stop = false
-        while wait() do
+        while task.wait() do
             if _G.Stop then
                 break
             end
@@ -4821,7 +4819,7 @@ function autoabilitywendy()
                 game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[4])
                 warn("Use Skill " ..wendy1[1].Name .." 4 " )
                 wait(Delay[wendy1[1].Name])
-            end
+            --end
         end
 
     end
@@ -4835,7 +4833,6 @@ end]]
 function autoabilityleafa()
     --if Settings.EnableBuffleafaLoop then
 
-    while task.wait(2.5) do
         --repeat task.wait() until game:IsLoaded()
         --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
@@ -4846,7 +4843,7 @@ function autoabilityleafa()
             ['leafa:shiny'] = 16.4,
         }
         _G.Stop = false
-        while wait() do
+        while task.wait() do
           if _G.Stop then
             break
           end
@@ -4870,7 +4867,7 @@ function autoabilityleafa()
             game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[4])
             warn("Use Skill " ..leafa1[1].Name .." 4 " )
             wait(Delay[leafa1[1].Name])
-          end
+          --end
         end
 
     end

@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1a"
+local version = "16.0.0-1b"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3818,7 +3818,6 @@ function others()
     OtherSec:Cheat("Checkbox","Auto Check Internet", function(bool)
         Settings.AutoReConnect = bool
         saveSettings()
-        --checkInterNet()
     end,{enabled = Settings.AutoReConnect})
 
     OtherSec3:Cheat("Checkbox","Hide Name Player", function(bool)
@@ -8782,7 +8781,7 @@ function checkInterNet()
         end)
         game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
             if a.Name == 'ErrorPrompt' then
-                task.wait(30)
+                task.wait(60)
                 warn("Trying to Reconnect")
                 TPReturner()
                 end

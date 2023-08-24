@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1f"
+local version = "16.0.0-2a"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -4530,6 +4530,22 @@ function autoabilityfunc()
                                 end
                             end
 
+                            if v._stats.id.Value == "stain_evolved" then
+                                if v._stats.state.Value == "attack" then
+                                    wait(1)
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill stain")
+                                end
+                            end
+
+                            if v._stats.id.Value == "aunz_evolved" then
+                                if v._stats.state.Value == "attack" then
+                                    wait(10)
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill Ainz")
+                                end
+                            end
+
 
                         end
                     end
@@ -8876,9 +8892,9 @@ elseif game.PlaceId ~= 8304191830 and Settings.EnableBuffwendyLoop then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     autoabilitywendy()
 elseif game.PlaceId == 8304191830 and Settings.EnableBuffleafaLoop then
-    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    repeat task.wait(0.1) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
     autoabilityleafa()
 elseif game.PlaceId ~= 8304191830 and Settings.EnableBuffleafaLoop then
-    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    repeat task.wait(0.1) until Workspace:WaitForChild("_terrain")
     autoabilityleafa()
 end

@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1e"
+local version = "16.0.0-1f"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -4717,12 +4717,11 @@ end
 -- Start  Auto Buff 100 Function
 --Erwin
 function autoabilityerwin()
-    if Settings.EnableBufferwinLoop then
+    --if Settings.EnableBufferwinLoop then
 
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
+
+        --repeat task.wait() until game:IsLoaded()
+        --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsE = {'erwin','erwin:shiny','erwin_school','erwin_halloween'}
@@ -4757,24 +4756,22 @@ function autoabilityerwin()
             game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[4])
             warn("Use Skill " ..erwin1[1].Name .." 4 " )
             wait(Delay[erwin1[1].Name])
-          end
+          --end
         end
 
     end
 end
 
-if Settings.EnableBufferwinLoop then
+--[[if Settings.EnableBufferwinLoop then
     autoabilityerwin()
-end
+end]]
 
 --Wendy
 function autoabilitywendy()
-    if Settings.EnableBuffwendyLoop then
+    --if Settings.EnableBuffwendyLoop then
 
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
+        --repeat task.wait() until game:IsLoaded()
+        --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsW = {'wendy','wendy:shiny'}
@@ -4807,24 +4804,22 @@ function autoabilitywendy()
                 game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[4])
                 warn("Use Skill " ..wendy1[1].Name .." 4 " )
                 wait(Delay[wendy1[1].Name])
-            end
+            --end
         end
 
     end
 end
 
-if Settings.EnableBuffwendyLoop then
+--[[if Settings.EnableBuffwendyLoop then
     autoabilitywendy()
-end
+end]]
 
 --Leafa
 function autoabilityleafa()
-    if Settings.EnableBuffleafaLoop then
+    --if Settings.EnableBuffleafaLoop then
 
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
+        --repeat task.wait() until game:IsLoaded()
+        --repeat task.wait() until Workspace:WaitForChild("_terrain")
         local LocalPlayer = game.Players.LocalPlayer
         local LPlayer = game.Players.LocalPlayer.Name
         local UnitsL = {'leafa','leafa:shiny'}
@@ -4857,15 +4852,15 @@ function autoabilityleafa()
             game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[4])
             warn("Use Skill " ..leafa1[1].Name .." 4 " )
             wait(Delay[leafa1[1].Name])
-          end
+          --end
         end
 
     end
 end
 
-if Settings.EnableBuffleafaLoop then
+--[[if Settings.EnableBuffleafaLoop then
     autoabilityleafa()
-end
+end]]
 
 -- End  Auto Buff 100 Function
 -----------------------------------------------------------
@@ -8868,4 +8863,22 @@ if game.PlaceId == 8304191830 and Settings.AutoReConnect then
 elseif game.PlaceId ~= 8304191830 and Settings.AutoReConnect then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     checkInterNet()
+elseif game.PlaceId == 8304191830 and Settings.EnableBufferwinLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    autoabilityerwin()
+elseif game.PlaceId ~= 8304191830 and Settings.EnableBufferwinLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    autoabilityerwin()
+elseif game.PlaceId == 8304191830 and Settings.EnableBuffwendyLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    autoabilitywendy()
+elseif game.PlaceId ~= 8304191830 and Settings.EnableBuffwendyLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    autoabilitywendy()
+elseif game.PlaceId == 8304191830 and Settings.EnableBuffleafaLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
+    autoabilityleafa()
+elseif game.PlaceId ~= 8304191830 and Settings.EnableBuffleafaLoop then
+    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
+    autoabilityleafa()
 end

@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-2a"
+local version = "16.0.0-1a"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -4538,7 +4538,7 @@ function autoabilityfunc()
                                 end
                             end
 
-                            if v._stats.id.Value == "aunz_evolved" then
+                            if v._stats.id.Value == "ainz_evolved" then
                                 if v._stats.state.Value == "attack" then
                                     wait(10)
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)

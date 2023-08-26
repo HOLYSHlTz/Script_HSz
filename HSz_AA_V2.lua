@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1b"
+local version = "16.0.0-1c"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -197,7 +197,8 @@ function webhook()
         --Difficulty
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff3 = MapDiff2
-        if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
+        --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
+        if poratltierS ~= " Not a Portal " then MapDiff3 = " Hard " end
         -------------------------------
 
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text

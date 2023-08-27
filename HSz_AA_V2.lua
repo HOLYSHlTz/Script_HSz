@@ -199,6 +199,7 @@ function webhook()
         MapDiff3 = MapDiff2
         --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
         if poratltierS ~= " Not a Portal " then MapDiff3 = " Hard " end
+        if poratltierS == " Not a Portal " then MapDiff3 = MapDiff2 end
         -------------------------------
 
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text

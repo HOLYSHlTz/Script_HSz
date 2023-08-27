@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1c"
+local version = "16.0.0-1a"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5187,20 +5187,10 @@ coroutine.resume(coroutine.create(function()
                 warn("Wait next or leave")
                 task.wait(1.5)
 
-            cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-            if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
-                local DataPortalReplay = GetPlayerPortalUse(level)
-                local args = {
-                    [1] = "replay",
-                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                local args = {
-                    [1] = "replay",
-                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                warn("Pick Portal Replay...") 
+            if Settings.AutoReplay then
+                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                warn("Replay...")
             elseif Settings.AutoNext then
                 local args = {
                     [1] = "next_story"
@@ -5213,14 +5203,24 @@ coroutine.resume(coroutine.create(function()
                 local a={[1]="nextstory"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="nextstory"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Next Story...")
-            elseif Settings.AutoReplay then
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Replay...")
             elseif Settings.AutoContinue then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 
-                warn("Next Room infint Castle...")              
+                warn("Next Room infint Castle...")    
+                cata = Settings.WorldCategory; level = Settings.SelectedLevel;
+            elseif Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
+                local DataPortalReplay = GetPlayerPortalUse(level)
+                local args = {
+                    [1] = "replay",
+                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                local args = {
+                    [1] = "replay",
+                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                warn("Pick Portal Replay...")           
             elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
                    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
                 

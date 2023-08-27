@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1h"
+local version = "16.0.0-1k"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5211,11 +5211,15 @@ coroutine.resume(coroutine.create(function()
             elseif Settings.AutoNext and cata ~= "ประตูลับ" then
                 local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Next Story...")
+                warn("Next Story Check 1...")
                 wait(1)
                 local a={[1]="Next Level"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="Next Level"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Next Story 2...")
+                warn("Next Story Check 2...")
+                wait(1)
+                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                warn("Next Story Check 3...")
                 --Auto Next Inf Castle
             elseif Settings.AutoContinue and cata ~= "ประตูลับ" then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))

@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1a"
+local version = "16.0.0-1h"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5203,32 +5203,26 @@ coroutine.resume(coroutine.create(function()
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
                 warn("Pick Portal Replay...")  
                 --Auto Replay
-            elseif Settings.AutoReplay then
+            elseif Settings.AutoReplay and cata ~= "ประตูลับ" then
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Replay...")
                 --Auto next Story
-            elseif Settings.AutoNext then
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+            elseif Settings.AutoNext and cata ~= "ประตูลับ" then
+                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Next Story...")
                 wait(1)
-                local args = {
-                    [1] = "next_story"
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                local args = {
-                    [1] = "next_story"
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
+                local a={[1]="Next Level"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                local a={[1]="Next Level"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Next Story 2...")
                 --Auto Next Inf Castle
-            elseif Settings.AutoContinue then
+            elseif Settings.AutoContinue and cata ~= "ประตูลับ" then
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
                 local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 
                 warn("Next Room infint Castle...")          
                 --Auto Leave    
-            elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
+            elseif Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal and cata ~= "ประตูลับ" then
                    game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
                     Teleport()
                     warn("Returning to lobby...")

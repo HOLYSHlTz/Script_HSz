@@ -1,5 +1,5 @@
 --updatefix
-local version = "16.0.0-1c"
+local version = "16.0.0-1x"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -5779,6 +5779,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U1_sellW >= current_wave and U1_amm < U1_TAmm then
             print("placing u1.."..U1_name)
             PlacePos(map, U1_name, U1_uuid,"UP1")
+            wait(0.5)
+            PlacePos(map, U1_name, U1_uuid,"UP1")
         end
         if U1_TAmm > 0 then
             print("Target Priority u1.."..U1_name)
@@ -5791,6 +5793,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U1_upgW <= current_wave and U1_sellW >= current_wave then
             print("upgrading u1.."..U1_name)
             upgradeunit1(U1_name)
+            wait(0.5)
+            upgradeunit1(U1_name)
         end
     end
 --end
@@ -5799,6 +5803,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     if U2_wv <= current_wave and U2_amm <= U2_TAmm then
         if U2_sellW >= current_wave and U2_amm < U2_TAmm then
             print("placing u2.."..U2_name)
+            PlacePos(map, U2_name, U2_uuid,"UP2")
+            wait(0.5)
             PlacePos(map, U2_name, U2_uuid,"UP2")
         end
         if U2_TAmm > 0 then
@@ -5812,6 +5818,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U2_upgW <= current_wave and U2_sellW >= current_wave then
             print("upgrading u2.."..U2_name)
             upgradeunit2(U2_name)
+            wait(0.5)
+            upgradeunit2(U2_name)
         end
     end
 --end
@@ -5821,6 +5829,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
 		    print("placing u3.."..U3_name)
 		    PlacePos(map, U3_name, U3_uuid,"UP3")
+            wait(0.5)
+            PlacePos(map, U3_name, U3_uuid,"UP3")
         end
         if U3_TAmm > 0 then
             print("Target Priority u3.."..U3_name)
@@ -5833,6 +5843,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U3_upgW <= current_wave and U3_sellW >= current_wave then
             print("upgrading u3.."..U3_name)
             upgradeunit3(U3_name)
+            wait(0.5)
+            upgradeunit3(U3_name)
         end
     end
 --end
@@ -5842,6 +5854,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
 		    print("placing u4.."..U4_name)
 		    PlacePos(map, U4_name, U4_uuid,"UP4")
+            wait(0.5)
+            PlacePos(map, U4_name, U4_uuid,"UP4")
         end
         if U4_TAmm > 0 then
             print("Target Priority u4.."..U4_name)
@@ -5854,6 +5868,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U4_upgW <= current_wave and U4_sellW >= current_wave then
             print("upgrading u4.."..U4_name)
             upgradeunit4(U4_name)
+            wait(0.5)
+            upgradeunit4(U4_name)
         end
     end
 --end
@@ -5863,6 +5879,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
 		    print("placing u5.."..U5_name)
 		    PlacePos(map, U5_name, U5_uuid,"UP5")
+            wait(0.5)
+            PlacePos(map, U5_name, U5_uuid,"UP5")
         end
         if U5_TAmm > 0 then
             print("Target Priority u5.."..U5_name)
@@ -5875,6 +5893,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U5_upgW <= current_wave and U5_sellW >= current_wave then
             print("upgrading u5.."..U5_name)
             upgradeunit5(U5_name)
+            wait(0.5)
+            upgradeunit5(U5_name)
         end
     end
 --end
@@ -5884,6 +5904,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
 		    print("placing u6.."..U6_name)
 		    PlacePos(map, U6_name, U6_uuid,"UP6")
+            wait(0.5)
+            PlacePos(map, U6_name, U6_uuid,"UP6")
         end
         if U6_TAmm > 0 then
             print("Target Priority u6.."..U6_name)
@@ -5895,6 +5917,8 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 	    end
         if U6_upgW <= current_wave and U6_sellW >= current_wave then
             print("upgrading u6.."..U6_name)
+            upgradeunit6(U6_name)
+            wait(0.5)
             upgradeunit6(U6_name)
             end
         end
@@ -6003,7 +6027,7 @@ end
 ------------------------------------------------------------------------------------------
 --updatefix fixmap
 coroutine.resume(coroutine.create(function()
-    while task.wait(0.5) do
+    while task.wait(0.1) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
             warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
@@ -6072,7 +6096,7 @@ coroutine.resume(coroutine.create(function()
 end))
 
 coroutine.resume(coroutine.create(function()
-    while task.wait(0.5) do
+    while task.wait(0.1) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
             warn("ปิด ฟังชั่น ตั้งค่า Unit")
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")

@@ -3267,7 +3267,7 @@ end)
         print("LAG Lv.:", Value)
         Settings.lagimpact = tonumber(Value)
         saveSettings()
-    end, {min = 0, max = 4999999, suffix = "", default = Settings.lagimpact })
+    end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
     --LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
 
 

@@ -195,11 +195,13 @@ function webhook()
         local v100 = Maps[Loader.LevelData.map]
         MapsNameTEST = v100.name or GetLevelData.name
         --Difficulty
+        MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff3 = MapDiff2
         --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
         if poratltierS ~= nil or poratltierS ~= " Not a Portal " then MapDiff3 = " Hard " end
         if poratltierS == nil or poratltierS == " Not a Portal " then MapDiff3 = MapDiff2 end
+        if poratltierS == nil or poratltierS == " Not a Portal " then MapDiff3 = MapDiff end
         -------------------------------
 
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
@@ -3265,7 +3267,7 @@ end)
         print("LAG Lv.:", Value)
         Settings.lagimpact = tonumber(Value)
         saveSettings()
-    end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
+    end, {min = 0, max = 4999999, suffix = "", default = Settings.lagimpact })
     --LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
 
 
@@ -3289,7 +3291,7 @@ end)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
-    end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
+    end, {min = 0, max = 10, suffix = "", default = Settings.delag })
     --LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
 
     LG1:Cheat("Label","  Lag At Wave = จะ Lag เมื่อถึง Wave ")
@@ -3975,26 +3977,6 @@ local function checkReward()
     end
 end
 
---[[getgenv().door = "_lobbytemplate316"
-local function startChallenge()
-    if game.PlaceId == 8304191830 then
-        local cpos = plr.Character.HumanoidRootPart.CFrame
-        if Settings.AutoChallenge and Settings.AutoFarm  and checkReward() == true then
-
-            for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
-                if v.Name == "Owner" and v.Value == nil then
-                    --print(v.Parent.Name.." "..v.Parent:GetFullName())
-                    local args = {  [1] = tostring(v.Parent.Name) }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-                    Settings.chdoor = v.Parent.Name
-                    break
-                end
-            end
-            task.wait()
-            plr.Character.HumanoidRootPart.CFrame = cpos
-        end
-    end
-end]]
 ----------------------------------------
 getgenv().door = "_lobbytemplate316"
 local function startChallenge()
@@ -4006,11 +3988,11 @@ local function startChallenge()
             for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
                 if v.Name == "Owner" and v.Value == nil then
                     --print(v.Parent.Name.." "..v.Parent:GetFullName())
-                    local args = {  [1] = tostring(v.Parent.Name) }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-                    Settings.chdoor = v.Parent.Name
-                    break
-                end
+                        local args = {  [1] = tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                        Settings.chdoor = v.Parent.Name
+                        break
+                    end
                 end
             end
             task.wait()

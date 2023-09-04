@@ -177,7 +177,6 @@ function webhook()
         --portaldiff test
         for i,v in pairs(get_inventory_items_unique_items()) do
             if string.find(v['item_id'],"portal") then
-                --if v['item_id'] == Settings.SelectedSellPortals then
                 if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
 
                     PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
@@ -193,7 +192,7 @@ function webhook()
         local Loader = require(game.ReplicatedStorage.src.Loader)
         local Maps = Loader.load_data(script, "Maps")
         local v100 = Maps[Loader.LevelData.map]
-        MapsNameTEST = v100.name or GetLevelData.name
+        MapsNameTEST = v100.name
         --Difficulty
         MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
@@ -1260,7 +1259,28 @@ local function WorldSec()
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
     "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge3})
-    
+
+    Settings.SelectedPortalsName1 = Settings.SelectedPortalsName1 or "None"
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedPortalsName1 = value
+        saveSettings()
+    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName1})
+
+    Settings.SelectedPortalsName2 = Settings.SelectedPortalsName2 or "None"
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedPortalsName2 = value
+        saveSettings()
+    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName2})
+
+    Settings.SelectedPortalsName3 = Settings.SelectedPortalsName3 or "None"
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedPortalsName3 = value
+        saveSettings()
+    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName3})
+
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
         Settings.isFriendOnly = bool
@@ -3644,7 +3664,7 @@ function SnipeMerchant()
             if Settings.AutoSellSskin then
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"_skin") then
-                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity 
+                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity1 
                         or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity2 
                         or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity3
                         and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
@@ -4004,6 +4024,7 @@ local function startChallenge()
 end
 ---------------------------------------------
 --test fixportal
+
 function getBorosPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -4141,6 +4162,25 @@ function GetPlayerPortal()
 end
 
 function GetPlayerPortalUse(level)
+
+    ---------------------------------
+    --New Mapname
+    --[[local Loader = require(game.ReplicatedStorage.src.Loader)
+    local Maps = Loader.load_data(script, "Maps")
+    local v100 = Maps[Loader.LevelData.map]
+    MapsNameTEST2 = v100.name]]
+    -------------------------
+    for i,v in pairs(get_inventory_items_unique_items()) do
+        if string.find(v['item_id'],"portal") then
+            if v['item_id'] == PortalsNameN then
+
+                
+
+            end
+        end
+    end
+    -------------------------
+
     local PortalName,PortalUUID,PortalPlayer
     -- Aline fixportal
     if level == "portal_boros_g" then
@@ -4188,22 +4228,72 @@ function GetPlayerPortalUse(level)
     ------------------------------
     -- [[ Portal Event Portal ]] --
 
-
     elseif level == "portal_summer" then
             for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
                 Settings.SelectedTier = i
             local PortalEvent = GetPortals("portal_summer")
             for i,v in pairs(PortalEvent) do
+
+                --SettingPortalsName1
+                if Settings.SelectedPortalsName1 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName1 = "namek_infinite" end 
+                if Settings.SelectedPortalsName1 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName1 = "aot_infinite" end 
+                if Settings.SelectedPortalsName1 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName1 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName1 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName1 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName1 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName1 = "opm_infinite" end 
+                if Settings.SelectedPortalsName1 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName1 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName1 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName1 = "7ds_infinite" end 
+                --SettingPortalsName2
+                if Settings.SelectedPortalsName2 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName2 = "namek_infinite" end 
+                if Settings.SelectedPortalsName2 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName2 = "aot_infinite" end 
+                if Settings.SelectedPortalsName2 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName2 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName2 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName2 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName2 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName2 = "opm_infinite" end 
+                if Settings.SelectedPortalsName2 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName2 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName2 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName2 = "7ds_infinite" end 
+                --SettingPortalsName3
+                if Settings.SelectedPortalsName3 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName3 = "namek_infinite" end 
+                if Settings.SelectedPortalsName3 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName3 = "aot_infinite" end 
+                if Settings.SelectedPortalsName3 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName3 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName3 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName3 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName3 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName3 = "opm_infinite" end 
+                if Settings.SelectedPortalsName3 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName3 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName3 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName3 = "7ds_infinite" end 
+
+                if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1
+                or v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName2
+                or v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName3 then
                 if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
                 if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
                 and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
                 and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
-                    PortalEventUse = v
 
+                    PortalEventUse = v
                     PortalName = "Summer farming"
                     PortalUUID = PortalEventUse["uuid"]
                     PortalPlayer = GetPlayerPortal()
                     break
+                    end
                 end
             end
         end

@@ -192,7 +192,7 @@ function webhook()
         local Loader = require(game.ReplicatedStorage.src.Loader)
         local Maps = Loader.load_data(script, "Maps")
         local v100 = Maps[Loader.LevelData.map]
-        MapsNameTEST = v100.name
+        MapsNameTEST = v100.name or GetLevelData.name
         --Difficulty
         MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
@@ -1202,17 +1202,6 @@ local function WorldSec()
         end
     end
 
-    --[[Table_Tier = {}
-    for i = 0,15 do
-        table.insert(Table_Tier,i)
-    end
-
-    Settings.SelectedTier = Settings.SelectedTier or 0
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก Tier Portal <=",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedTier = value
-        saveSettings()
-    end, {options = Table_Tier, default = Settings.SelectedTier})]]
 
     Table_Tier2 = {}
     for i = 0,15 do

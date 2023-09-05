@@ -833,6 +833,12 @@ local function UnitSec()
             if DataUnits[v.unit_id] and v.equipped_slot then
                 Settings.SelectedUnits["U"..tostring(v.equipped_slot)] = tostring(DataUnits[v.unit_id].id) .. " #" .. tostring(v.uuid)
                 print("U"..tostring(v.equipped_slot).." "..tostring(DataUnits[v.unit_id].id).." #" .. tostring(v.uuid))
+                local StarterGui = game:GetService("StarterGui")
+                    StarterGui:SetCore("SendNotification", {
+                        Title = "กำลังใส่ Unit",
+                        Text = "U"..tostring(v.equipped_slot).." : "..tostring(DataUnits[v.unit_id].name),
+                        Duration = 10
+                    })
             end
         end
         saveSettings()
@@ -1751,6 +1757,12 @@ local function UNITAOEAA()
                 if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
                     if v._stats.takedown_count.Value >= 1 then
                     warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
+                    local StarterGui = game:GetService("StarterGui")
+                    StarterGui:SetCore("SendNotification", {
+                        Title = "Kill & Take Down",
+                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value),
+                        Duration = 10
+                    })
                 end
             end
         end

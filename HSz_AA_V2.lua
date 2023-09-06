@@ -1,11 +1,11 @@
-function SAVEUPD()
+--[[function SAVEUPD()
     UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
     writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
     btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
     writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
     btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
     writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
-end
+end]]
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -14,7 +14,13 @@ if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
-    SAVEUPD()
+    --SAVEUPD()
+    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
+    writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
+    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
+    writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
+    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
+    writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else
@@ -1181,6 +1187,17 @@ local function WorldSec()
         end
     end
 
+    ---------------------
+    local GeneralMap3 = {}
+    local Data_Worlds_Name3 = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
+        GeneralMap3[Worlds[v].name] = v
+        Data_Worlds_Name3[i] = Worlds[v].name
+    end
+-------------------
+
 
     local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 ระดับความยาก",function(value)
         print(value, " Selected")
@@ -1190,13 +1207,13 @@ local function WorldSec()
         options = {}, default = Settings.Difficulty
     })
     getgenv().updatedifficulty = function()
-        selectdiff:ClearDrop(); level = Settings.SelectedLevel; cata = Settings.WorldCategory; local diff;
+        selectdiff:ClearDrop(); level = Settings.SelectedLevel; cata = Settings.WorldCategory; local diff; local levellist;
         if level == "namek_infinite" or level == "aot_infinite" or level == "demonslayer_infinite" 
         or level == "naruto_infinite" or level == "marineford_infinite" or level == "tokyoghoul_infinite" or level == "hueco_infinite" 
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
         or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
         or level == "sao_infinite" or level == "berserk_infinite" or level == "overlord_infinite" 
-        or level == "dressrosa_infinite" or level == GeneralMap[Settings.SelectedWorld] .. "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+        or level == "dressrosa_infinite" or level == "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             --fixmap
             diff = {"Hard"}
         elseif cata == "Portals" or cata == "Dungeon" or cata == "ประตูลับ" then

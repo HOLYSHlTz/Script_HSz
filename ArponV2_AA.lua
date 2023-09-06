@@ -1675,7 +1675,7 @@ end
 local function DELMAPNEW()
 
     DELMAP:Cheat("Checkbox"," Delete Map ", function(bool)
-		print(Settings.deletemap2)
+		print(bool)
         Settings.deletemap2 = bool
         saveSettings()
     end,{enabled = Settings.deletemap2})

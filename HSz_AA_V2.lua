@@ -1051,6 +1051,16 @@ local function WorldSec()
         default = Settings.WorldCategory
     })
 
+    ---------
+    local GeneralMap = {}
+    local Data_Worlds_Name = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
+        GeneralMap[Worlds[v].name] = v
+        Data_Worlds_Name[i] = Worlds[v].name
+    end
+---------
     local selectworld = SelectWorld:Cheat("Dropdown", "🌏 เลือก World",function(value)
         print(value)
         Settings.SelectedWorld = value
@@ -1059,13 +1069,10 @@ local function WorldSec()
         saveSettings()
     end, {options = { }, default = Settings.SelectedWorld })
 --fixmap
-
     getgenv().updateworld = function()
         selectworld:ClearDrop() local storylist;
         if Settings.WorldCategory == "Story Worlds" then
-            storylist = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
-            "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom","Cape Canaveral", "Alien Spaceship","Fabled Kingdom",
-            "Hero City","Puppet Island","Virtual Dungeon","Windhym","Undead Tomb"}
+            storylist = Data_Worlds_Name
         elseif Settings.WorldCategory == "Legend Stages" then
             storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)",
             "Undead Tomb (Legend)"}
@@ -1084,8 +1091,16 @@ local function WorldSec()
             selectworld:AddOption(storylist[i])
         end
     end
-
-
+---------------------
+    local GeneralMap2 = {}
+    local Data_Worlds_Name2 = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
+        GeneralMap2[Worlds[v].name] = v
+        Data_Worlds_Name2[i] = Worlds[v].name
+    end
+-------------------
     local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก ด่าน",function(value)
         print(value)
         Settings.SelectedLevel = value
@@ -1094,47 +1109,8 @@ local function WorldSec()
     end, {options = { }, default = Settings.SelectedLevel})
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
-        ---///Story Worlds\\\---
-        if level == "Planet Namak" then
-            levellist = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3", "namek_level_4", "namek_level_5", "namek_level_6"}
-        elseif level == "Shiganshinu District" then
-            levellist = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4","aot_level_5", "aot_level_6"}
-        elseif level == "Snowy Town" then
-            levellist = {"demonslayer_infinite", "demonslayer_level_1", "demonslayer_level_2", "demonslayer_level_3", "demonslayer_level_4", "demonslayer_level_5","demonslayer_level_6"}
-        elseif level == "Hidden Sand Village" then
-            levellist =  {"naruto_infinite", "naruto_level_1", "naruto_level_2", "naruto_level_3","naruto_level_4", "naruto_level_5", "naruto_level_6"}
-        elseif level == "Marine's Ford" then
-            levellist = {"marineford_infinite","marineford_level_1","marineford_level_2","marineford_level_3","marineford_level_4","marineford_level_5","marineford_level_6"}
-        elseif level == "Ghoul City" then
-            levellist = {"tokyoghoul_infinite","tokyoghoul_level_1","tokyoghoul_level_2","tokyoghoul_level_3","tokyoghoul_level_4","tokyoghoul_level_5","tokyoghoul_level_6"}
-        elseif level == "Hollow World" then
-            levellist = {"hueco_infinite","hueco_level_1","hueco_level_2","hueco_level_3","hueco_level_4","hueco_level_5","hueco_level_6"}
-        elseif level == "Ant Kingdom" then
-            levellist = {"hxhant_infinite","hxhant_level_1","hxhant_level_2","hxhant_level_3","hxhant_level_4","hxhant_level_5","hxhant_level_6"}
-        elseif level == "Magic Town" then
-            levellist =  {"magnolia_infinite","magnolia_level_1","magnolia_level_2","magnolia_level_3","magnolia_level_4","magnolia_level_5","magnolia_level_6"}
-        elseif level == "Cursed Academy" then
-            levellist = {"jjk_infinite","jjk_level_1","jjk_level_2","jjk_level_3", "jjk_level_4","jjk_level_5","jjk_level_6"}
-        elseif level == "Clover Kingdom" then
-            levellist = {"clover_infinite","clover_level_1","clover_level_2","clover_level_3","clover_level_4","clover_level_5","clover_level_6"}
-        elseif level == "Cape Canaveral" then
-            levellist = {"jojo_infinite","jojo_level_1","jojo_level_2","jojo_level_3","jojo_level_4","jojo_level_5","jojo_level_6",}
-        elseif level == "Alien Spaceship" then
-            levellist = {"opm_infinite","opm_level_1","opm_level_2","opm_level_3","opm_level_4","opm_level_5","opm_level_6",}
-        elseif level == "Fabled Kingdom" then
-            levellist = {"7ds_infinite","7ds_level_1","7ds_level_2","7ds_level_3","7ds_level_4","7ds_level_5","7ds_level_6",}
-        elseif level == "Hero City" then
-            levellist = {"mha_infinite","mha_level_1","mha_level_2","mha_level_3","mha_level_4","mha_level_5","mha_level_6",}
-        elseif level == "Puppet Island" then
-            levellist = {"dressrosa_infinite","dressrosa_level_1","dressrosa_level_2","dressrosa_level_3","dressrosa_level_4","dressrosa_level_5","dressrosa_level_6",}
-        elseif level == "Virtual Dungeon" then
-            levellist = {"sao_infinite","sao_level_1","sao_level_2","sao_level_3","sao_level_4","sao_level_5","sao_level_6",}
-        elseif level == "Windhym" then
-            levellist = {"berserk_infinite","berserk_level_1","berserk_level_2","berserk_level_3","berserk_level_4","berserk_level_5","berserk_level_6",}
-        elseif level == "Undead Tomb" then
-            levellist = {"overlord_infinite","overlord_level_1","overlord_level_2","overlord_level_3","overlord_level_4","overlord_level_5","overlord_level_6",}
         --///Legend Stages\\\---
-        elseif level == "Clover Kingdom (Elf Invasion)" then
+        if level == "Clover Kingdom (Elf Invasion)" then
             levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
         elseif level == "Hollow Invasion" then
             levellist = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
@@ -1194,12 +1170,19 @@ local function WorldSec()
             levellist = {"portal_item__femto"}
         elseif level == "ประตูลับ Summer" then
             levellist = {"portal_poseidon"}
+            --///Story Mode\\\---
+        elseif level == Settings.SelectedWorld then
+            levellist = {GeneralMap[Settings.SelectedWorld] .. "_infinite",GeneralMap[Settings.SelectedWorld] .. "_level_1",GeneralMap[Settings.SelectedWorld] .. "_level_2",GeneralMap[Settings.SelectedWorld] .. "_level_3",
+            GeneralMap[Settings.SelectedWorld] .. "_level_4",GeneralMap[Settings.SelectedWorld] .. "_level_5",GeneralMap[Settings.SelectedWorld] .. "_level_6"}
+
+
         end
 
         for i = 1, #levellist do
             selectlevel:AddOption(levellist[i])
         end
     end
+
 
     local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 ระดับความยาก",function(value)
         print(value, " Selected")

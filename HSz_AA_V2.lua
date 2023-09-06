@@ -2469,7 +2469,7 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
     local world = v100.terrain_preset
     local world2 = v100.id
     local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-    local name = GetLevelData.name
+    local Mapname = GetLevelData.name
         
 
     if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
@@ -2477,14 +2477,14 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
         --fixmm
         if world == "karakura" and world2 == "csm_city" then world = "csm_city" end
         if world == "karakura" and world2 ~= "csm_city" then world = "karakura" end
-        if name == "Infinity Castle" and world2 == "csm_city" then world = "csm_city" end
-        if name == "Infinity Castle" and world2 ~= "csm_city" then world = "karakura" end
+        if Mapname == "Infinity Castle" and world2 == "csm_city" then world = "csm_city" end
+        if Mapname == "Infinity Castle" and world2 ~= "csm_city" then world = "karakura" end
         if map == "aot_raid" then map = "aot" end
         if map == "naruto_desert_night" then map = "naruto_desert" end
         if map == "west_city" then map = "west_city_frieza" end
         if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
         if map == "hage_night" then map = "hage" end
-        if name == "Infinity Castle" then world = world2 end
+        if Mapname == "Infinity Castle" then world = world2 end
 
         updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
 
@@ -5456,23 +5456,23 @@ function PlacePos(map,name,_uuid,unit)
         local map = v100.terrain_preset
         local map2 = v100.id
         local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-        local name = GetLevelData.name
+        local Mapname = GetLevelData.name
 
         --fixmm
         if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
         if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-        if name == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-        if name == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
+        if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
+        if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
         if map == "aot_raid" then map = "aot" end
         if map == "naruto_desert_night" then map = "naruto_desert" end
         if map == "west_city" then map = "west_city_frieza" end
         if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
         if map == "hage_night" then map = "hage" end
-        if name == "Infinity Castle" then map = map2 end
+        if Mapname == "Infinity Castle" then map = map2 end
         local pos = Settings[map][unit]
 
   
-        if name ~= "metal_knight_evolved" then
+        if name ~= "metal_knight_evolved" and name ~= "metal_knight_drone" then
             local i = math.random(1,6)
             if i == 1 then
                     local args = {
@@ -5517,12 +5517,12 @@ function PlacePos(map,name,_uuid,unit)
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 return
             end
-        elseif name == "metal_knight_evolved" then
+        elseif name == "metal_knight_evolved" and name == "metal_knight_drone" then
             local i = math.random(1,6)
             if i == 1 then
                 task.spawn(function()
                     --place units 0
-                    warn("p1")
+                    warn("Metal Knight Place")
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
@@ -5533,7 +5533,7 @@ function PlacePos(map,name,_uuid,unit)
             elseif i == 2 then
                 task.spawn(function()
                     --place units 1
-                    task.wait(0.5)
+                    task.wait(2)
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y2"], pos["z"]) )
@@ -5544,10 +5544,21 @@ function PlacePos(map,name,_uuid,unit)
             elseif i == 3 then
                 task.spawn(function()
                     --place units 2
-                    task.wait(1)
+                    task.wait(3)
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
+                    }
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
+                end)
+                return
+            elseif i == 4 then
+                task.spawn(function()
+                    --place units 1
+                    task.wait(2)
+                    local args = {
+                        [1] = _uuid,
+                        [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y4"], pos["z"] + z) )
                     }
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 end)
@@ -6061,19 +6072,19 @@ function PlaceUnits(map)
                     local map = v100.terrain_preset
                     local map2 = v100.id
                     local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-                    local name = GetLevelData.name
+                    local Mapname = GetLevelData.name
 
                     --fixmm
                     if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                     if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                    if name == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                    if name == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
+                    if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
+                    if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
                     if map == "aot_raid" then map = "aot" end
                     if map == "naruto_desert_night" then map = "naruto_desert" end
                     if map == "west_city" then map = "west_city_frieza" end
                     if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                     if map == "hage_night" then map = "hage" end
-                    if name == "Infinity Castle" then map = map2 end
+                    if Mapname == "Infinity Castle" then map = map2 end
                     local unitinfo_ = unitinfo:split(" #")
                     local pos = Settings[map]["UP" .. i]
 
@@ -6179,21 +6190,21 @@ coroutine.resume(coroutine.create(function()
             local map = v100.terrain_preset
             local map2 = v100.id
             local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-            local name = GetLevelData.name
+            local Mapname = GetLevelData.name
 
             --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                 if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                if name == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                if name == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
+                if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
+                if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
                 if map == "aot_raid" then map = "aot" end
                 if map == "naruto_desert_night" then map = "naruto_desert" end
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
-                if name == "Infinity Castle" then map = map2 end
+                if Mapname == "Infinity Castle" then map = map2 end
 
                 PlaceUnitsTEST(map)
 
@@ -6216,21 +6227,21 @@ coroutine.resume(coroutine.create(function()
             local map = v100.terrain_preset
             local map2 = v100.id
             local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-            local name = GetLevelData.name
+            local Mapname = GetLevelData.name
             
             --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                 if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                if name == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                if name == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
+                if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
+                if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
                 if map == "aot_raid" then map = "aot" end
                 if map == "naruto_desert_night" then map = "naruto_desert" end
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
-                if name == "Infinity Castle" then map = map2 end
+                if Mapname == "Infinity Castle" then map = map2 end
 
                 PlaceUnits(map)
 

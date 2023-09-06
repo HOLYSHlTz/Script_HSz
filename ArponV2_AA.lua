@@ -6636,6 +6636,7 @@ end
 
 --End of function mute Error
 
+warn("Update Check ...!!!")
 warn("Arpon Anti-AFK Loaded!!!")
 warn("Arpon Hider Name Loaded!!!")
 warn("Arpon AA v2 Loaded!!!")

@@ -1,12 +1,3 @@
---[[function SAVEUPD()
-    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
-    writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
-    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-    writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
-    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-    writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
-end]]
-
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -3042,6 +3033,7 @@ local function LowCPUModeT()
     getgenv().isrbxactive2 = newcclosure(isrbxactive2)
     --End fix isrbxactive
     
+    
     LowCPU2:Cheat("Checkbox","Enable FPS Cap ", function(bool)
         print(bool)
         Settings.lowCpuMode2 = bool
@@ -5314,8 +5306,25 @@ coroutine.resume(coroutine.create(function()
     end  
 end))
 
+--New Fix isrbxactive
+local IS_ROBLOX_ACTIVE3 = false
+local UIS = game:GetService("UserInputService")
+UIS.WindowFocused:Connect(function()
+    IS_ROBLOX_ACTIVE3 = true
+end)
+UIS.WindowFocusReleased:Connect(function()
+    IS_ROBLOX_ACTIVE3 = false
+end)
+function isrbxactive3()
+    return IS_ROBLOX_ACTIVE3
+end
+getgenv().isrbxactive3 = newcclosure(isrbxactive3)
+--End fix isrbxactive
+
 function PlacePos(map,name,_uuid,unit)
     if Settings.AutoFarm and not getgenv().disableatuofarm then
+        isrbxactive3(true)
+        
         x = getgenv().posX; z = getgenv().posZ
             print(map)
         local Loader = require(game.ReplicatedStorage.src.Loader)
@@ -5900,9 +5909,25 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
 
 --fix sell and place spam
 
+--New Fix isrbxactive
+local IS_ROBLOX_ACTIVE4 = false
+local UIS = game:GetService("UserInputService")
+UIS.WindowFocused:Connect(function()
+    IS_ROBLOX_ACTIVE4 = true
+end)
+UIS.WindowFocusReleased:Connect(function()
+    IS_ROBLOX_ACTIVE4 = false
+end)
+function isrbxactive4()
+    return IS_ROBLOX_ACTIVE4
+end
+getgenv().isrbxactive4 = newcclosure(isrbxactive4)
+--End fix isrbxactive
+
 function PlaceUnits(map)
     pcall(function()
         if Settings.AutoFarm and not getgenv().disableatuofarm then
+            isrbxactive4(true)
             x = getgenv().posX; z = getgenv().posZ
             print(map)
             for i = 1, 6 do
@@ -6019,7 +6044,7 @@ end
 ------------------------------------------------------------------------------------------
 --updatefix fixmap
 coroutine.resume(coroutine.create(function()
-    while task.wait() do
+    while task.wait(0.1) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
             warn("Enable Unit Config")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
@@ -6033,7 +6058,7 @@ coroutine.resume(coroutine.create(function()
             local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
             local name = GetLevelData.name
 
-            if game.Workspace:FindFirstChild("_map") then
+            --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
@@ -6049,13 +6074,13 @@ coroutine.resume(coroutine.create(function()
 
                 PlaceUnitsTEST(map)
 
-            end
+            --end
         end
     end
 end))
 
 coroutine.resume(coroutine.create(function()
-    while task.wait() do
+    while task.wait(0.1) do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
             warn("Disable Unit Config")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
@@ -6070,7 +6095,7 @@ coroutine.resume(coroutine.create(function()
             local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
             local name = GetLevelData.name
             
-            if game.Workspace:FindFirstChild("_map") then
+            --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
@@ -6086,7 +6111,7 @@ coroutine.resume(coroutine.create(function()
 
                 PlaceUnits(map)
 
-            end
+            --end
         end
     end
 end))

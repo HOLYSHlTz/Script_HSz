@@ -7,10 +7,6 @@ function SAVEUPD()
     writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
 end
 
-if game.PlaceId == 8304191830 then
-    SAVEUPD()
-end
-
 UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
 local version = tostring(UPDUI2)
 --local version = "16.0.0-1xx"
@@ -20,6 +16,9 @@ repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
+    SAVEUPD()
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else
@@ -2307,7 +2306,7 @@ local function credits()
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
     end)    
-    UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [+]ตั้งค่าตามนี้นะอยากปิดอันไหน[+] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
+    UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [=+]ตั้งค่าตามนี้นะอยากปิดอันไหน[+=] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5

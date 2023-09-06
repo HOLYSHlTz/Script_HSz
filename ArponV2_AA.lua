@@ -1,11 +1,11 @@
-function SAVEUPD()
+--[[function SAVEUPD()
     UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
     writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
     btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
     writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
     btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
     writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
-end
+end]]
 
 
 ---// Loading Section \\---
@@ -15,7 +15,13 @@ if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
-    SAVEUPD()
+    --SAVEUPD()
+    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
+    writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
+    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
+    writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
+    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
+    writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else
@@ -1195,7 +1201,7 @@ local function WorldSec()
         or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
         or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
         or level == "sao_infinite" or level == "berserk_infinite" or level == "overlord_infinite" 
-        or level == "dressrosa_infinite" or level == GeneralMap[Settings.SelectedWorld] .. "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+        or level == "dressrosa_infinite" or level == "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
             diff = {"Hard"}
         elseif cata == "Portals" or cata == "Dungeon" or cata == "Secret Portals"  then
             diff = {"Default"}

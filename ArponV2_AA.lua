@@ -5348,7 +5348,7 @@ function PlacePos(map,name,_uuid,unit)
         if Mapname == "Infinity Castle" then map = map2 end
         local pos = Settings[map][unit]
 
-        if name ~= "metal_knight_evolved" and name ~= "metal_knight_drone" then
+        if name ~= "metal_knight_evolved" then
             local i = math.random(1,6)
             if i == 1 then
                     local args = {
@@ -5393,7 +5393,7 @@ function PlacePos(map,name,_uuid,unit)
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 return
             end
-        elseif name == "metal_knight_evolved" and name == "metal_knight_drone" then
+        elseif name == "metal_knight_evolved" then
             local i = math.random(1,6)
             if i == 1 then
                 task.spawn(function()
@@ -5424,17 +5424,6 @@ function PlacePos(map,name,_uuid,unit)
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
-                    }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                end)
-                return
-            elseif i == 4 then
-                task.spawn(function()
-                    --place units 1
-                    task.wait(2)
-                    local args = {
-                        [1] = _uuid,
-                        [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y4"], pos["z"] + z) )
                     }
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
                 end)

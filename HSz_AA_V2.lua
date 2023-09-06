@@ -5459,7 +5459,7 @@ function PlacePos(map,name,_uuid,unit)
         if map == "west_city" then map = "west_city_frieza" end
         if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
         if map == "hage_night" then map = "hage" end
-        if name == "Infinity Castle" then world = world2 end
+        if name == "Infinity Castle" then map = map2 end
         local pos = Settings[map][unit]
 
   
@@ -6049,7 +6049,7 @@ function PlaceUnits(map)
                     if map == "west_city" then map = "west_city_frieza" end
                     if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                     if map == "hage_night" then map = "hage" end
-                    if name == "Infinity Castle" then world = world2 end
+                    if name == "Infinity Castle" then map = map2 end
                     local unitinfo_ = unitinfo:split(" #")
                     local pos = Settings[map]["UP" .. i]
 
@@ -6168,7 +6168,7 @@ coroutine.resume(coroutine.create(function()
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
-                if name == "Infinity Castle" then world = world2 end
+                if name == "Infinity Castle" then map = map2 end
 
                 PlaceUnitsTEST(map)
 
@@ -6205,7 +6205,7 @@ coroutine.resume(coroutine.create(function()
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
-                if name == "Infinity Castle" then world = world2 end
+                if name == "Infinity Castle" then map = map2 end
 
                 PlaceUnits(map)
 

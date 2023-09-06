@@ -1674,12 +1674,11 @@ end
 ----------------------------------------------
 local function DELMAPNEW()
 
-    DELMAP:Cheat("Checkbox","🗺️ Delete Map 🗺️ ", function(bool)
-        print(bool)
-        Settings.deletemap = bool
+    DELMAP:Cheat("Checkbox"," Delete Map ", function(bool)
+		print(Settings.deletemap2)
+        Settings.deletemap2 = bool
         saveSettings()
-        warn("Enable Delete map")
-    end,{enabled = Settings.deletemap})
+    end,{enabled = Settings.deletemap2})
 
     DELMAP:Cheat("Checkbox"," Place Anywhere ", function(bool)
         print(bool)

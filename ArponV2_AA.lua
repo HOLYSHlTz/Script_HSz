@@ -7,9 +7,6 @@ function SAVEUPD()
     writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
 end
 
-UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
-local version = tostring(UPDUI2)
---local version = "16.0.0-1xx"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -26,6 +23,11 @@ else
     game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
     repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
 end
+
+
+UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
+local version = tostring(UPDUI2)
+--local version = "16.0.0-1xx"
 
 ------------------------------
 local a = 'V2_Anime_Adventures' -- 

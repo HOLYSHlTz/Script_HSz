@@ -7,7 +7,6 @@ function SAVEUPD()
     writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
 end
 
-
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
@@ -24,13 +23,11 @@ else
     repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
 end
 
-
 UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
 local version = tostring(UPDUI2)
 --local version = "16.0.0-1xx"
-
 ------------------------------
-local a = 'V2_Anime_Adventures' -- 
+local a = 'HSz_Anime_Adventures' -- ชื่อโฟเดอร์
 local b = game:GetService('Players').LocalPlayer.Name .. '_AnimeAdventures.json' 
 Settings = {}
 function saveSettings()
@@ -139,6 +136,7 @@ end
 if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
     SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
 end
+
 ----------------Map & ID Map
 local function GetCurrentLevelId()
     if game.Workspace._MAP_CONFIG then
@@ -183,20 +181,19 @@ function webhook()
         if game.PlaceId ~= 8304191830 then
         levelname = game:GetService("Workspace"):FindFirstChild("_MAP_CONFIG"):FindFirstChild("GetLevelData"):InvokeServer()["name"]
         result = ResultHolder.Title.Text else levelname, result = "nil","nil" end
-        if result == "VICTORY" then result = "VICTORY" end
-        if result == "DEFEAT" then result = "DEFEAT" end
+        if result == "VICTORY" then result = "ชนะ" end
+        if result == "DEFEAT" then result = "แพ้" end
         _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
 
         ---------------------------------
         --portaldiff test
         for i,v in pairs(get_inventory_items_unique_items()) do
             if string.find(v['item_id'],"portal") then
-                --if v['item_id'] == Settings.SelectedSellPortals then
-                --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
+                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
 
                     PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
 
-                --end
+                end
             end
         end
         ---------------------------------
@@ -209,6 +206,7 @@ function webhook()
         local v100 = Maps[Loader.LevelData.map]
         MapsNameTEST = v100.name or GetLevelData.name
         --Difficulty
+        MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff3 = MapDiff2
         --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
@@ -218,13 +216,11 @@ function webhook()
         if poratChallengeS ~= nil or poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
         if poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
         -------------------------------
-    
+
         cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
         ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
         btp = plr.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V").Text
         btp2 = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.Title.Text
-        btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Main.Rewards.Frame.Pages.Home.Amount.Text
-        btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
         btplv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_LV.txt"))
         local btplv3 = tostring(btplv2)
         btpAlllv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_AllLV.txt"))
@@ -234,20 +230,20 @@ function webhook()
         ttime = ctime:split(": ")
         if waves ~= nil and ttime[2] == "22:55" then ttime[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
         gold = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GoldReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
-        if gold == "+99999" then gold = "+0" end	    
+        if gold == "+99999" then gold = "+0" end	 
         gems = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GemReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         if gems == "+99999" then gems = "+0" end	 
 
         if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
         end
-        
+        ----------
+
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         xp = xpx:split(" ")
         if xp[1] == "+99999" then xp[1] = "+0" end
         trophy = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("TrophyReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         if trophy == "+99999" then trophy = "+0" end	 
-        
         totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
         totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
 
@@ -273,14 +269,12 @@ function webhook()
         if poratChallengeS == "godspeed_enemies" then poratChallengeS = "Godspeed Enemies" end
         if poratChallengeS == "flying_enemies" then poratChallengeS = "Flying Enemies" end
         if poratChallengeS == "mini_range" then poratChallengeS = "Mini-Range" end
-        
-
         --------------------------------------------------------------------
 
         local TextDropLabel = ""
         local CountAmount = 1
         for i,v in pairs(get_inventory_items()) do
-        Table_All_Items_New_data[i]['Count'] = v
+            Table_All_Items_New_data[i]['Count'] = v
         end
         for i,v in pairs(get_inventory_items_unique_items()) do
             if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
@@ -315,29 +309,29 @@ function webhook()
                 CountAmount = CountAmount + 1
             end
         end
+
         for i,v in pairs(Table_All_Items_New_data) do
             if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-            --if v['Count'] > 0 and (v['Count'] == Table_All_Items_Old_data[i]['Count']) > 0 then
                 if v['Count Shiny'] and v['Count'] then
                 elseif string.find(i,"portal") or string.find(i,"disc") then
                     Count_Portal_list = Count_Portal_list + 1
-                if string.gsub(i, "%D", "") == "" then
+                    if string.gsub(i, "%D", "") == "" then
                         TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                else
+                    else
                         TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
                     end
                     CountAmount = CountAmount + 1
-                else
-                    TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                    CountAmount = CountAmount + 1
+                    else
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
+                        CountAmount = CountAmount + 1
                 end
             end
         end
-    --end
 
         if TextDropLabel == "" then
             TextDropLabel = "Not Have Items Drops"
         end
+
 
         local data = {
             ["content"] = "",
@@ -346,13 +340,13 @@ function webhook()
             ["embeds"] = {
                 {
                     ["author"] = {
-                        ["name"] = "Anime Adventures |  Results V2 ✔️",
+                        ["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
                     ["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
                     },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nExecutors : 🎮 "..exec.." 🎮 ",
+                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
                     ['footer'] = {
@@ -363,17 +357,17 @@ function webhook()
                         {
                             ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
                             ["value"] = "```ini\n"
-                                        ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nBTP Lv : "
-                                        ..tostring(btplv3).. " [ "..tostring(btpAlllv3).." ] 🎟️\nnCurrent Gold : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
+                                        ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text).. " ✨\nBTP Lv : "
+                                        ..tostring(btplv3).. " [ "..tostring(btpAlllv3).." ] 🎟️\nGold รวม : "
+                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
+                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
+                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
                                         ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                         },
                         {
                             ["name"] ="Results :",
-                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..tostring(MapDiff3).. " 🎚️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nResults : "..result.. " ⚔️\nWave End : " ..tostring(waves[2]).." 🌊\nTime : " ..tostring(ttime[2]).." ⌛\nAll Kill Count : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG Deal : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..tostring(MapDiff3).. " 🎚️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
                             ["inline"] = true
                         },
                         {
@@ -406,96 +400,96 @@ end
 
 function BabyWebhook()
     if Settings.BabyWebhookEnabled then
-	local url = Settings.BabyWebhookUrl
-    print("webhook baby?")
-    if url == "" then
-        warn("BabyWebhook Url is empty!")
-        return
-    end 
+        local url = Settings.BabyWebhookUrl
+        print("webhook baby?")
+        if url == "" then
+            warn("BabyWebhook Url is empty!")
+            return
+        end 
 		
-    local Time = os.date('!*t', OSTime);
-    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-    local exec = tostring(identifyexecutor())
-    --BTP lv.
-    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-    --next ammo level
-    nextlvbtp = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-   --room
-    rankroom = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.FurthestRoom.V.V.Text
-    if rankroom == "10" then rankroom = "Inf Castle Load Not Yet" end
-    --Rank title 
-    ranktitle = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.RankTitle.V.V.Text
-    if ranktitle == "Grandmaster" then ranktitle = "Inf Castle Load Not Yet" end
-    --rank %
-    rankper = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.Ranking.V.V.Text
-    if rankper == "10%" then rankper = "Inf Castle Load Not Yet" end
-    --Current Rank
-    crt = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentRank.Ranking.V.Text
-    if crt == "10%" then crt = "Tournament Load Not Yet" end
-    --Current Prize%
-    cpp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.V.Text
-    if cpp == "10%" then cpp = "Tournament Load Not Yet" end
-    --Current Prize
-    cp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.Prize.Text
-    if cp == "0% ~ 49.99%" then cp = "Tournament Load Not Yet" end
-    --Current Place#
-    cpr = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Place.Text
-    if cpr == "#123456" then cpr = "Tournament Load Not Yet" end
-    --Dmg or kill 
-    cdk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Amount.Text
-    if cdk == "123456789000000" then cdk = "Tournament Load Not Yet" end
-    --Bracket
-    cubk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.LevelSelect.InfoFrame.ScoreInfo.Bracket.V.Text
-    if cubk == "N" then cubk = "Tournament Load Not Yet" end
+        local Time = os.date('!*t', OSTime);
+	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+        local exec = tostring(identifyexecutor())
+        --BTP lv.
+        btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
+        --next ammo level
+        nextlvbtp = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
+       --room
+        rankroom = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.FurthestRoom.V.V.Text
+        if rankroom == "10" then rankroom = "Inf Castle Load Not Yet" end
+        --Rank title 
+        ranktitle = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.RankTitle.V.V.Text
+        if ranktitle == "Grandmaster" then ranktitle = "Inf Castle Load Not Yet" end
+        --rank %
+        rankper = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.Ranking.V.V.Text
+        if rankper == "10%" then rankper = "Inf Castle Load Not Yet" end
+        --Current Rank
+        crt = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentRank.Ranking.V.Text
+        if crt == "10%" then crt = "Tournament Load Not Yet" end
+        --Current Prize%
+        cpp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.V.Text
+        if cpp == "10%" then cpp = "Tournament Load Not Yet" end
+        --Current Prize
+        cp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.Prize.Text
+        if cp == "0% ~ 49.99%" then cp = "Tournament Load Not Yet" end
+        --Current Place#
+        cpr = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Place.Text
+        if cpr == "#123456" then cpr = "Tournament Load Not Yet" end
+        --Dmg or kill 
+        cdk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Amount.Text
+        if cdk == "123456789000000" then cdk = "Tournament Load Not Yet" end
+        --Bracket
+        cubk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.LevelSelect.InfoFrame.ScoreInfo.Bracket.V.Text
+        if cubk == "N" then cubk = "Tournament Load Not Yet" end
 
 		local data = {
             ["content"] = "",
-                ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = " Current BTP & Inf Castle & Tournament Results ✔️",
-                            ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+            ["username"] = "Anime Adventures V2",
+            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["embeds"] = {
+                {
+                    ["author"] = {
+                        ["name"] = " Current BTP & Inf Castle & Tournament Results ✔️",
+                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+                    },
+                    ["thumbnail"] = {
+                        ['url'] = thumbnails_avatar.data[1].imageUrl,
+                    },
+                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
+                    ["color"] = 110335,
+                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                    ["fields"] = {
+                        {
+                            ["name"] ="Current Battle Pass Results 🔋 ",
+                            ["value"] = "```ini\nCurrent BTP Lv. : "..btplv.."  🔋\nNEED TO NEXT : "..nextlvbtp.. "  🔋```",
                         },
-                        ["thumbnail"] = {
-                            ['url'] = thumbnails_avatar.data[1].imageUrl,
+                        {
+                            ["name"] ="Current Tournament Results 🏆",
+                            ["value"] = "```ini\nYour Bracket: : "..cubk.."  🏆\nCurrent Rank : ["..cpr.." - "..crt.."]  🏆\nDMG or Kill : "..cdk.. "  🏆\nCurrent Prize : "..cpp.. "  🏆\nReward Prize : "  ..cp..  "  🏆```",
                         },
-                        ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                        ["color"] = 110335,
-                        ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                        ["fields"] = {
-                            {
-                                ["name"] ="Current Battle Pass Results 🔋 ",
-                                ["value"] = "```ini\nCurrent BTP Lv. : "..btplv.."  🔋\nNEED TO NEXT : "..nextlvbtp.. "  🔋```",
-                            },
-                            {
-                                ["name"] ="Current Tournament Results 🏆",
-                                ["value"] = "```ini\nYour Bracket: : "..cubk.."  🏆\nCurrent Rank : ["..cpr.." - "..crt.."]  🏆\nDMG or Kill : "..cdk.. "  🏆\nCurrent Prize : "..cpp.. "  🏆\nReward Prize : "  ..cp..  "  🏆```",
-                            },
-                            {
-                                ["name"] ="Current Infinity Castle Results  🚪",
-                                ["value"] = "```ini\nCurrent Room : "..rankroom.."  🚪\nCurrent Rank : "..ranktitle.. "  📊\nCurrent Percent : "  ..rankper..  "  🏅```",
-                            }
+                        {
+                            ["name"] ="Current Infinity Castle Results  🚪",
+                            ["value"] = "```ini\nCurrent Room : "..rankroom.."  🚪\nCurrent Rank : "..ranktitle.. "  📊\nCurrent Percent : "  ..rankper..  "  🏅```",
                         }
                     }
                 }
             }
-        
+        }
     
-            local xd = game:GetService("HttpService"):JSONEncode(data)
-    
-            local headers = {["content-type"] = "application/json"}
-            request = http_request or request or HttpPost or syn.request or http.request
-            local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-            warn("Sending infcastle webhook notification...")
-            request(sex)
-        end
+
+        local xd = game:GetService("HttpService"):JSONEncode(data)
+
+        local headers = {["content-type"] = "application/json"}
+        request = http_request or request or HttpPost or syn.request or http.request
+        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
+        warn("Sending infcastle webhook notification...")
+        request(sex)
+    end
 end
 
 function SnipeShopNew()
-        if Settings.snipeWebhookEnabled then
-    pcall(function() 
+    if Settings.snipeWebhookEnabled then
+        pcall(function() 
             SpecialSummonSniperWebhook()
             StandardSummonSniperWebhook()
             ShopSniperWebhook()
@@ -505,12 +499,12 @@ end
 --special
 function SpecialSummonSniperWebhook()
     if Settings.snipeWebhookEnabled then
-	local url = Settings.SnipeWebhookUrl
-    print("webhook Special banner?")
-    if url == "" then
-        warn("SnipeWebhook Url is empty!")
-        return
-    end 
+	    local url = Settings.SnipeWebhookUrl
+        print("webhook Special banner?")
+        if url == "" then
+            warn("SnipeWebhook Url is empty!")
+            return
+        end 
 		
         local Time = os.date('!*t', OSTime);
 
@@ -533,62 +527,60 @@ function SpecialSummonSniperWebhook()
 
 		local data = {
             ["content"] = "",
-                ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = " Special Banner ",
-                            ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+            ["username"] = "Anime Adventures V2",
+            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["embeds"] = {
+                {
+                    ["author"] = {
+                        ["name"] = " Special Banner ",
+                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+                    },
+                    ["thumbnail"] = {
+                        ['url'] = thumbnails_avatar.data[1].imageUrl,
+                    },
+                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
+                    ["color"] = 110335,
+                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                    ["fields"] = {
+                        {
+                            ["name"] = "```" .. units[1].name.Text .. "```",
+                            ["value"] = "```(" .. units[1].Rarity.Text .. ") [Featured]```",
+                            ["inline"] = true
                         },
-                        ["thumbnail"] = {
-                            ['url'] = thumbnails_avatar.data[1].imageUrl,
+                        {
+                            ["name"] = "```" .. units[2].name.Text .. "```",
+                            ["value"] = "```(" .. units[2].Rarity.Text .. ")```",
+                            ["inline"] = true
                         },
-                        ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                        ["color"] = 110335,
-                        ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                        ["fields"] = {
-                            {
-                                ["name"] = "```" .. units[1].name.Text .. "```",
-                                ["value"] = "```(" .. units[1].Rarity.Text .. ") [Featured]```",
-                                ["inline"] = true
-                            },
-                            {
-                                ["name"] = "```" .. units[2].name.Text .. "```",
-                                ["value"] = "```(" .. units[2].Rarity.Text .. ")```",
-                                ["inline"] = true
-                            },
-                            {
-                                ["name"] = "```" .. units[3].name.Text .. "```",
-                                ["value"] = "```(" .. units[3].Rarity.Text .. ")```",
-                                ["inline"] = true
-                            }
+                        {
+                            ["name"] = "```" .. units[3].name.Text .. "```",
+                            ["value"] = "```(" .. units[3].Rarity.Text .. ")```",
+                            ["inline"] = true
                         }
                     }
                 }
             }
-        
-    
-            local xd = game:GetService("HttpService"):JSONEncode(data)
-    
-            local headers = {["content-type"] = "application/json"}
-            request = http_request or request or HttpPost or syn.request or http.request
-            local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-            warn("Sending special banner webhook notification...")
-            request(sex)
-        end
+        }
+
+        local xd = game:GetService("HttpService"):JSONEncode(data)
+        local headers = {["content-type"] = "application/json"}
+        request = http_request or request or HttpPost or syn.request or http.request
+        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
+        warn("Sending special banner webhook notification...")
+        request(sex)
+    end
 end
 
 --Standar
 function StandardSummonSniperWebhook()
     if Settings.snipeWebhookEnabled then
-	local url = Settings.SnipeWebhookUrl
-    print("webhook Standard Banner?")
-    if url == "" then
-        warn("Webhook Url is empty!")
-        return
-    end 
-		
+        local url = Settings.SnipeWebhookUrl
+        print("webhook Standard Banner?")
+        if url == "" then
+            warn("Webhook Url is empty!")
+            return
+        end 
+            
         local Time = os.date('!*t', OSTime);
 
 	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
@@ -605,36 +597,34 @@ function StandardSummonSniperWebhook()
         }
 
         
-            U1 = units[1].petimage.WorldModel:GetChildren()[1].Name
-            U2 = units[2].petimage.WorldModel:GetChildren()[1].Name
-            U3 = units[3].petimage.WorldModel:GetChildren()[1].Name
-            U4 = units[4].petimage.WorldModel:GetChildren()[1].Name
-            U5 = units[5].petimage.WorldModel:GetChildren()[1].Name
-            U6 = units[6].petimage.WorldModel:GetChildren()[1].Name
-        
+        U1 = units[1].petimage.WorldModel:GetChildren()[1].Name
+        U2 = units[2].petimage.WorldModel:GetChildren()[1].Name
+        U3 = units[3].petimage.WorldModel:GetChildren()[1].Name
+        U4 = units[4].petimage.WorldModel:GetChildren()[1].Name
+        U5 = units[5].petimage.WorldModel:GetChildren()[1].Name
+        U6 = units[6].petimage.WorldModel:GetChildren()[1].Name
 
 		local data = {
             ["content"] = "",
-                ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = " Standard Banner ",
-                            ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                        },
-                        ["thumbnail"] = {
-                            ['url'] = thumbnails_avatar.data[1].imageUrl,
-                        },
-                        ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                        ["color"] = 110335,
-                        ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                        ["fields"] = {
-
-                        }
-				    }
+            ["username"] = "Anime Adventures V2",
+            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["embeds"] = {
+                {
+                    ["author"] = {
+                        ["name"] = " Standard Banner ",
+                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+                    },
+                    ["thumbnail"] = {
+                        ['url'] = thumbnails_avatar.data[1].imageUrl,
+                    },
+                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
+                    ["color"] = 110335,
+                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                    ["fields"] = {
+                    }
 			    }
 		    }
+	    }
 
         for i, unit in pairs(units) do
             unit_stats = {
@@ -645,16 +635,16 @@ function StandardSummonSniperWebhook()
             table.insert(data["embeds"][1]["fields"], unit_stats)
         end
         
-    
-            local xd = game:GetService("HttpService"):JSONEncode(data)
-    
-            local headers = {["content-type"] = "application/json"}
-            request = http_request or request or HttpPost or syn.request or http.request
-            local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-            warn("Sending Standard banner webhook notification...")
-            request(sex)
-        end
+
+        local xd = game:GetService("HttpService"):JSONEncode(data)
+
+        local headers = {["content-type"] = "application/json"}
+        request = http_request or request or HttpPost or syn.request or http.request
+        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
+        warn("Sending Standard banner webhook notification...")
+        request(sex)
     end
+end
 
 --Bulma's Shop webhook
 
@@ -681,26 +671,26 @@ function ShopSniperWebhook()
 
 		local data = {
             ["content"] = "",
-                ["username"] = "Anime Adventures V2",
-                ["avatar_url"] = "https://tr.rbxcdn.com/5c9e29b3953ec061286e76f08f1718b3/150/150/Image/Png",
-                ["embeds"] = {
-                    {
-                        ["author"] = {
-                            ["name"] = " Bulma's Shop ",
-                            ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                        },
-                        ["thumbnail"] = {
-                            ['url'] = thumbnails_avatar.data[1].imageUrl,
-                        },
-                        ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                        ["color"] = 110335,
-                        ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                        ["fields"] = {
+            ["username"] = "Anime Adventures V2",
+            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["embeds"] = {
+                {
+                    ["author"] = {
+                        ["name"] = " Bulma's Shop ",
+                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+                    },
+                    ["thumbnail"] = {
+                        ['url'] = thumbnails_avatar.data[1].imageUrl,
+                    },
+                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
+                    ["color"] = 110335,
+                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                    ["fields"] = {
 
-                        }
-				    }
+                    }
 			    }
 		    }
+		}
 
 		
 		print("exechere4")
@@ -735,13 +725,13 @@ function ShopSniperWebhook()
 
 		local xd = game:GetService("HttpService"):JSONEncode(data)
     
-            local headers = {["content-type"] = "application/json"}
-            request = http_request or request or HttpPost or syn.request or http.request
-            local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-            warn("Sending Snipe Bulma's Shop webhook notification...")
-            request(sex)
-        end
+        local headers = {["content-type"] = "application/json"}
+        request = http_request or request or HttpPost or syn.request or http.request
+        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
+        warn("Sending Snipe Bulma's Shop webhook notification...")
+        request(sex)
     end
+end
 ------------------------------\
 --[[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
     game.Players.LocalPlayer.PlayerGui["FinityUI"]:Destroy()
@@ -752,28 +742,28 @@ if game.CoreGui:FindFirstChild("FinityUI") then
 end
 
 local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
-local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ArponAG/Scripts/main/finitylibTEST"))()
---local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/ArponAG/Scripts/main/finitylib"))()
+local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_Main.lua"))()
+--local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
-local Window = Uilib.new(true, "[Arpon_V2] Anime Adventures "..version.." - "..exec)
+local Window = Uilib.new(true, "[HSz_v2] Anime Adventures "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.P)
 
-local Home = Window:Category("🏠 Home")
-local Developers = Home:Sector("Anime Adventures")
+local Home = Window:Category("🏠 หน้าแรก")
+local Developers = Home:Sector("HSz Anime Adventures")
 local asdasd = Home:Sector(" ")
-local UIUPDT = Home:Sector("⚙️ Challenge Config ⚙️")
+local UIUPDT = Home:Sector("⚙️ Fix UPDATE "..version.." ⚙️")
 
 
 local Farm = Window:Category("🤖 Auto Farm")
-local SelectUnits = Farm:Sector("🧙‍ Select Units")
-local SelectWorld = Farm:Sector("🌏 Select World")
-local UnitPosition = Farm:Sector("🧙 Select Unit Position")
-local castleconfig = Farm:Sector("🏯 Infinity Castle 🏯")
-local AutoFarmConfig = Farm:Sector("⚙️ Auto Farm Config")
-local ChallengeConfig = Farm:Sector("⌛ Challenge Config")
+local SelectUnits = Farm:Sector("🧙‍ เลือก Units")
+local SelectWorld = Farm:Sector("🌏 เลือก World")
+local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
+local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
+local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
+local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
 
 
-local UC = Window:Category("🧙 Unit Config")
+local UC = Window:Category("🧙 ตั้งค่า Unit")
 local NDY = UC:Sector("Beta Unit Config ")
 local NDY2 = UC:Sector(" ")
 local emptyxx = UC:Sector(" ")
@@ -799,32 +789,40 @@ local UnitAOE1 = UA:Sector("Check Unit ")
 
 local LG = Window:Category("🛠️ Misc [BETA]")
 local LowCPU2 = LG:Sector("Low CPU Mode")
-local LowCPU3 = LG:Sector("")
+local LowCPU3 = LG:Sector(" ")
 local LG1 = LG:Sector("Beta LAGGY Config ")
 local DELMAP = LG:Sector("🗺️ New Function 🗺️")
 local DELMAP1 = LG:Sector(" ")
 local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
-local OtherSec1 = LG:Sector("")
+local OtherSec1 = LG:Sector(" ")
 local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
-local DelMapConfig = LG:Sector("")
+local DelMapConfig = LG:Sector(" ")
 local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
-local DelMapConfig3 = LG:Sector("")
+local DelMapConfig3 = LG:Sector(" ")
 
 
 local ETC = Window:Category("🌐 Discord & Shop")
-local AutoSummonSec = ETC:Sector("💸 Auto Summon Units 💸")
-local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto Snipe Bulma 🏪")
+local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
+local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
 local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec2 = ETC:Sector("")
 
 local Summer = Window:Category("🦸🏽 Event & Skin ")
 local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
-local SellPortals = Summer:Sector("🌀 Sell Portals 🌀")
+local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
 local SummerSkin0 = Summer:Sector("")
 local SummerEgg = Summer:Sector("🥚 Auto Open Events Egg 🥚")
 
-
+-------------
+---sponsorfix---
+-------------
+local sponsor = Window:Category("🌟 Sponsor ของเรา ")
+local discord = sponsor:Sector(" Discord 🌟 StarBux 🌟 Store ")
+local facebook = sponsor:Sector(" 👑ร้าน 🌟 StarBux 🌟 ")
+local kaigem = sponsor:Sector("🐣 ชื้อ ID ไก่เพชร 🐣")
+local farmgem = sponsor:Sector("💎 บริการฟาร์มเพชร 💎")
+local starbux = sponsor:Sector("💎 ROBUX กลุ่ม 💎")
 ----------------------------------------------
 ---------------- Units Selection -------------
 ----------------------------------------------
@@ -840,7 +838,7 @@ if Settings.SelectedUnits == nil then
     saveSettings()
 end
 local function UnitSec()
-    --#region Select Units Tab
+    --#region เลือก Units Tab
     local Units = {}
     
     function Check()
@@ -851,7 +849,7 @@ local function UnitSec()
                 print("U"..tostring(v.equipped_slot).." "..tostring(DataUnits[v.unit_id].id).." #" .. tostring(v.uuid))
                 local StarterGui = game:GetService("StarterGui")
                     StarterGui:SetCore("SendNotification", {
-                        Title = "Equip Unit",
+                        Title = "กำลังใส่ Unit",
                         Text = "U"..tostring(v.equipped_slot).." : "..tostring(DataUnits[v.unit_id].name),
                         Duration = 10
                     })
@@ -893,7 +891,7 @@ local function UnitSec()
         LoadUnits()
     end
     GetUnits()
-    SelectUnits:Cheat("Button", "🧙 Select Units", function() --Selects Currently Equipped Units!
+    SelectUnits:Cheat("Button", "🧙 ใส่ทีมที่เลือก", function() --Selects Currently Equipped Units!
         Settings.SelectedUnits = {
             U1 = "nil",
             U2 = "nil",
@@ -909,25 +907,25 @@ local function UnitSec()
         local args = { [1] = string }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.switch_team_loadout:InvokeServer(unpack(args))
     end
-    local a = SelectUnits:Cheat("Dropdown", "🧙 Select Team",function(preset)
+    local a = SelectUnits:Cheat("Dropdown", "🧙 เลือกทีม",function(preset)
         Settings.SelectedPreset = preset
         print(preset)
         saveSettings()
     end, { 
-        options = { "Team 1", "Team 2", "Team 3", "Team 4","Team 5" }, 
+        options = { "ทีม 1", "ทีม 2", "ทีม 3", "ทีม 4","ทีม 5" }, 
         default = Settings.SelectedPreset
     })
-    SelectUnits:Cheat("Button", "⌛ Switch Team", function() --loads preset
+    SelectUnits:Cheat("Button", "⌛ เปลี่ยนทีม", function() --loads preset
         preset = Settings.SelectedPreset
-        if preset == "Team 1" then
+        if preset == "ทีม 1" then
             switchteam("1")
-        elseif preset == "Team 2" then
+        elseif preset == "ทีม 2" then
             switchteam("2")
-        elseif preset == "Team 3" then
+        elseif preset == "ทีม 3" then
             switchteam("3")
-        elseif preset == "Team 4" then
+        elseif preset == "ทีม 4" then
             switchteam("4")
-        elseif preset == "Team 5" then
+        elseif preset == "ทีม 5" then
             switchteam("5")
         end
         print(preset)
@@ -935,7 +933,7 @@ local function UnitSec()
     end)
 end
 
-SelectUnits:Cheat("Checkbox","🦸 Auto Save Unit ", function(bool)
+SelectUnits:Cheat("Checkbox","🦸 Auto Save Unit เวลาเปลี่ยนตัว  ", function(bool)
     warn("Auto Save Unit set to " .. tostring(bool))
     Settings.AutoSaveUnit = bool
     saveSettings()
@@ -1032,7 +1030,7 @@ end
 ------------------ World Section -------------updatefix
 ----------------------------------------------
 local function WorldSec()
-    SelectWorld:Cheat("Dropdown", "🔱 Select Category",function(value)
+    SelectWorld:Cheat("Dropdown", "🔱 เลือกโหมด",function(value)
         print(value)
         Settings.WorldCategory = value
         getgenv().updateworld()
@@ -1046,10 +1044,11 @@ local function WorldSec()
             "Raid Worlds",
             "Portals",
             "Dungeon",
-            "Secret Portals"
+            "ประตูลับ"
         },
         default = Settings.WorldCategory
     })
+
     ---------
     local GeneralMap = {}
     local Data_Worlds_Name = {}
@@ -1060,7 +1059,7 @@ local function WorldSec()
         Data_Worlds_Name[i] = Worlds[v].name
     end
 ---------
-    local selectworld = SelectWorld:Cheat("Dropdown", "🌏 Select World",function(value)
+    local selectworld = SelectWorld:Cheat("Dropdown", "🌏 เลือก World",function(value)
         print(value)
         Settings.SelectedWorld = value
         getgenv().updatelevel()
@@ -1081,16 +1080,16 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","Summer Events"}
         elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"Cursed Womb","Crused Parade","Anniversary Island"}    
-        elseif Settings.WorldCategory == "Secret Portals" then
-            storylist = {"Dressrosa Secret Portals","The Eclipse Secret","Summer Secret"} 
+            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
+        elseif Settings.WorldCategory == "ประตูลับ" then
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ Summer"}
         end
-    
+
         for i = 1, #storylist do
             selectworld:AddOption(storylist[i])
         end
     end
-    ---------------------
+---------------------
     local GeneralMap2 = {}
     local Data_Worlds_Name2 = {}
     Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
@@ -1100,7 +1099,7 @@ local function WorldSec()
         Data_Worlds_Name2[i] = Worlds[v].name
     end
 -------------------
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Select Level",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก ด่าน",function(value)
         print(value)
         Settings.SelectedLevel = value
         getgenv().updatedifficulty()
@@ -1156,32 +1155,34 @@ local function WorldSec()
         elseif level == "Summer Events" then
             levellist = {"portal_summer"}
         ---///Dungeon\\\---    updatefix
-        elseif level == "Cursed Womb" then
+        elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
-        elseif level == "Crused Parade" then
-            levellist = {"jjk_raid"}     
+        elseif level == "ดันเกะโท Crused Parade" then
+            levellist = {"jjk_raid"}   
         elseif level == "Anniversary Island" then
             levellist = {"namek_anniversary"}  
-            --///Secret Portals\\\---   
-        elseif level == "Dressrosa Secret Portals" then
+            --///ประตูลับ\\\---   
+        elseif level == "ประตูลับ Dofamingo" then
             levellist = {"portal_item__doflamingo"}
-        elseif level == "The Eclipse Secret" then
+        elseif level == "ประตูลับ The Eclipse" then
             levellist = {"portal_item__femto"}
-        elseif level == "Summer Secret" then
+        elseif level == "ประตูลับ Summer" then
             levellist = {"portal_poseidon"}
-                --///Story Mode\\\---
+            --///Story Mode\\\---
         elseif level == Settings.SelectedWorld then
             levellist = {GeneralMap[Settings.SelectedWorld] .. "_infinite",GeneralMap[Settings.SelectedWorld] .. "_level_1",GeneralMap[Settings.SelectedWorld] .. "_level_2",GeneralMap[Settings.SelectedWorld] .. "_level_3",
             GeneralMap[Settings.SelectedWorld] .. "_level_4",GeneralMap[Settings.SelectedWorld] .. "_level_5",GeneralMap[Settings.SelectedWorld] .. "_level_6"}
-        end
 
+
+        end
 
         for i = 1, #levellist do
             selectlevel:AddOption(levellist[i])
         end
     end
-    --fixmap
-    local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 Difficulty",function(value)
+
+
+    local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 ระดับความยาก",function(value)
         print(value, " Selected")
         Settings.Difficulty = value
         saveSettings()
@@ -1196,8 +1197,9 @@ local function WorldSec()
         or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
         or level == "sao_infinite" or level == "berserk_infinite" or level == "overlord_infinite" 
         or level == "dressrosa_infinite" or level == GeneralMap[Settings.SelectedWorld] .. "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
+            --fixmap
             diff = {"Hard"}
-        elseif cata == "Portals" or cata == "Dungeon" or cata == "Secret Portals"  then
+        elseif cata == "Portals" or cata == "Dungeon" or cata == "ประตูลับ" then
             diff = {"Default"}
         else
             diff = {"Normal", "Hard"}
@@ -1213,7 +1215,7 @@ local function WorldSec()
         table.insert(Table_Tier2,i)
     end
     Settings.SelectedTier1 = Settings.SelectedTier1 or 0
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier more than >",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier มากกว่า >",function(value)
         warn("Change to : "..value)
         Settings.SelectedTier1 = value
         saveSettings()
@@ -1224,22 +1226,22 @@ local function WorldSec()
         table.insert(Table_Tier3,i)
     end
     Settings.SelectedTier2 = Settings.SelectedTier2 or 15
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier less <",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier น้อยกว่า <",function(value)
         warn("Change to : "..value)
         Settings.SelectedTier2 = value
         saveSettings()
     end, {options = Table_Tier3, default = Settings.SelectedTier2})
 
-    
     Settings.SelectedChallenge = Settings.SelectedChallenge or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Din't use Challenge",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
+        warn("Change to : "..value)
         Settings.SelectedChallenge = value
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
     "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge})
 
     Settings.SelectedChallenge2 = Settings.SelectedChallenge2 or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Din't use Challenge ",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
         warn("Change to : "..value)
         Settings.SelectedChallenge2 = value
         saveSettings()
@@ -1247,7 +1249,7 @@ local function WorldSec()
     "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge2})
 
     Settings.SelectedChallenge3 = Settings.SelectedChallenge3 or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Din't use Challenge ",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
         warn("Change to : "..value)
         Settings.SelectedChallenge3 = value
         saveSettings()
@@ -1255,26 +1257,25 @@ local function WorldSec()
     "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge3})
 
     Settings.SelectedPortalsName1 = Settings.SelectedPortalsName1 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 Din't Use Map ",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName1 = value
         saveSettings()
     end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName1})
 
     Settings.SelectedPortalsName2 = Settings.SelectedPortalsName2 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 Din't Use Map ",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName2 = value
         saveSettings()
     end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName2})
 
     Settings.SelectedPortalsName3 = Settings.SelectedPortalsName3 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 Din't Use Map ",function(value)
+    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName3 = value
         saveSettings()
     end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName3})
-
 
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
@@ -1289,92 +1290,92 @@ end
 
 local function AutoFarmSec()
 
-    AutoFarmConfig:Cheat("Checkbox","🌾 Auto Start  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Start เริ่มทำงาน  ", function(bool)
         print(bool)
         Settings.autostart = bool
         saveSettings()
     end,{enabled = Settings.autostart })
 
-    AutoFarmConfig:Cheat("Checkbox","👨‍🌾 Auto Place unit  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Farm วางตัว  ", function(bool)
         print(bool)
         Settings.AutoFarm = bool
         saveSettings()
     end,{enabled = Settings.AutoFarm })
 
-    AutoFarmConfig:Cheat("Checkbox","🏃 Auto Replay ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Replay เล่นซ้ำ ", function(bool)
         print(bool)
         Settings.AutoReplay = bool
         saveSettings()
     end,{enabled = Settings.AutoReplay})
-    AutoFarmConfig:Cheat("Checkbox","🏃 Auto Pick Portal [Replay] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Pick Portal เล่นซ้ำ ", function(bool)
         print(bool)
         Settings.AutoPickPortal = bool
         saveSettings()
     end,{enabled = Settings.AutoPickPortal})
-    AutoFarmConfig:Cheat("Checkbox","🏃 Auto Next Story  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Next Story  ", function(bool)
         print(bool)
         Settings.AutoNext = bool
         saveSettings()
     end,{enabled = Settings.AutoNext})
 
-    AutoFarmConfig:Cheat("Checkbox","🏃 Auto Leave  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Leave ออก ", function(bool)
         print(bool)
         Settings.AutoLeave = bool
         saveSettings()
     end,{enabled = Settings.AutoLeave})
 
-    AutoFarmConfig:Cheat("Checkbox","⭐️ Auto Upgrade Units  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto Upgrade Units อัปตัว  ", function(bool)
         print(bool)
         Settings.AutoUpgrade = bool
         saveSettings()
     end,{enabled = Settings.AutoUpgrade})
     
-    AutoFarmConfig:Cheat("Checkbox","🔥 Auto Abilities [When Attack] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [เมื่อโจมตี] ", function(bool)
         print(bool)
         Settings.AutoAbilities = bool
         saveSettings()
     end,{enabled = Settings.AutoAbilities})
 
-    AutoFarmConfig:Cheat("Checkbox","🔥 Auto Abilities [Global Cooldown] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [Global Cooldown] ", function(bool)
         print(bool)
         Settings.AutoGCDAbilities = bool
         saveSettings()
     end,{enabled = Settings.AutoGCDAbilities})
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto Buff 100% [Erwin] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Erwin] ", function(bool)
         print(bool)
         Settings.EnableBufferwinLoop = bool
         autoabilityerwin()
         saveSettings()
     end,{enabled = Settings.EnableBufferwinLoop})
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto Buff 100% [Wendy] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Wendy] ", function(bool)
         print(bool)
         Settings.EnableBuffwendyLoop = bool
         autoabilitywendy()
         saveSettings()
     end,{enabled = Settings.EnableBuffwendyLoop})
 
-    AutoFarmConfig:Cheat("Checkbox"," Auto Buff 100% [Leafa] ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Leafa] ", function(bool)
         print(bool)
         Settings.EnableBuffleafaLoop = bool
         autoabilityleafa()
         saveSettings()
     end,{enabled = Settings.EnableBuffleafaLoop})
 
-    AutoFarmConfig:Cheat("Checkbox","⭐️ Sell Units At Wave ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," ขายตัว เมื่อถึง Wave ", function(bool)
         print(bool)
         Settings.AutoSell = bool
         saveSettings()
     end,{enabled = Settings.AutoSell})
 
-    AutoFarmConfig:Cheat("Checkbox","⭐️ Leave At Wave  ", function(bool)
+    AutoFarmConfig:Cheat("Checkbox"," ออก เมื่อถึง Wave  ", function(bool)
         print(bool)
         Settings.autoQuit = bool
         saveSettings()
     end,{enabled = Settings.autoQuit})
 
-    AutoFarmConfig:Cheat("Textbox", " Sell or Leave at Wave ", function(Value)
+    AutoFarmConfig:Cheat("Textbox", " ใส่จำนวน Wave", function(Value)
         Value = tonumber(Value)
         Settings.AutoSellWave = Value
         saveSettings()
@@ -1392,13 +1393,13 @@ local function MoreFarmSec()
         saveSettings()
     end, { options = {"Normal","Hard"}, default = Settings.SelectedDiffInf})
 
-    castleconfig:Cheat("Checkbox","🏰️ Auto Infinity Castle   ", function(bool)
+    castleconfig:Cheat("Checkbox","🏯 Auto Infinity Castle  ", function(bool)
         print(bool)
         Settings.AutoInfinityCastle = bool
         saveSettings()
     end,{enabled = Settings.AutoInfinityCastle})
 
-    castleconfig:Cheat("Checkbox","🏯 Auto Next Level inf castle  ", function(bool)
+    castleconfig:Cheat("Checkbox","🏯 Auto Next Level หอคอย ชั้นต่อไป  ", function(bool)
         print(bool)
         Settings.AutoContinue = bool
         saveSettings()
@@ -1624,28 +1625,28 @@ end
 local function ChallengeSec()
 
     Settings.SelectedReward = Settings.SelectedReward or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🥇 Select Reward 1",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 1",function(value)
         print(value)
         Settings.SelectedReward = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward})
 
     Settings.SelectedReward2 = Settings.SelectedReward2 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🥇 Select Reward 2",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 2",function(value)
         print(value)
         Settings.SelectedReward2 = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward2})
 
     Settings.SelectedReward3 = Settings.SelectedReward3 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🥇 Select Reward 3",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 3",function(value)
         print(value)
         Settings.SelectedReward3 = value
         saveSettings()
     end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward3})
 
     Settings.SelectedReward4 = Settings.SelectedReward4 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🥇 Select Reward 4",function(value)
+    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 4",function(value)
         print(value)
         Settings.SelectedReward4 = value
         saveSettings()
@@ -1657,25 +1658,19 @@ local function ChallengeSec()
         saveSettings()
     end, {enabled =Settings.AutoChallenge})
 
-    --[[ChallengeConfig:Cheat("Checkbox","🏆 Farm Any Rewards  ", function(bool)
-        print(bool)
-       Settings.AutoChallengeAll = bool
-        saveSettings()
-    end,{enabled =Settings.AutoChallengeAll})]]
 end
 ----------------------------------------------
 ----------- Delete Map Config ---------------- 
 ----------------------------------------------
 local function DELMAPNEW()
 
-    DELMAP:Cheat("Checkbox","🗺️ Delete Map 🗺️ ", function(bool)
-        print(bool)
-        Settings.deletemap = bool
+    DELMAP:Cheat("Checkbox"," Delete Map ", function(bool)
+		print(Settings.deletemap2)
+        Settings.deletemap2 = bool
         saveSettings()
-        warn("Enable Delete map")
-    end,{enabled = Settings.deletemap})
+    end,{enabled = Settings.deletemap2})
 
-    DELMAP:Cheat("Checkbox"," Place Anywhere ", function(bool)
+    DELMAP:Cheat("Checkbox"," Place Spawn วางได้ทุกจุด", function(bool)
         print(bool)
         Settings.placeany = bool
         saveSettings()
@@ -1683,12 +1678,12 @@ local function DELMAPNEW()
         placeunittwin()
     end,{enabled = Settings.placeany})
 
-    DELMAP:Cheat("Button","Activate Place Anywhere ", function()
+    DELMAP:Cheat("Button","Activate Place Spawn ", function()
         placeAny()
         placeunittwin()
     end)
 
-    DELMAP:Cheat("Checkbox"," Delete Hill [Can't place Hill unit]", function(bool)
+    DELMAP:Cheat("Checkbox"," Delete Hill [ลบที่วางตัวแอร์//วางตัวแอร์ไม่ได้]", function(bool)
 		print(Settings.deletehill)
         Settings.deletehill = bool
         saveSettings()
@@ -1698,6 +1693,7 @@ local function DELMAPNEW()
     DELMAP:Cheat("Button","Activate Delete Hill ", function()
         DelHill()
     end)
+
 
 end
 
@@ -1717,6 +1713,11 @@ local function DeleteMapSec()
         --TPReturner()
     end)
 
+    DelMapConfig2:Cheat("Button", "Rejoin Server", function()
+        warn("Rejoin Server")
+        Rejoine()
+    end)
+
     DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
         print(Settings.autoDailyquest)
         Settings.autoDailyquest = bool
@@ -1730,6 +1731,13 @@ local function DeleteMapSec()
         saveSettings()
         autoDailyMission()
     end,{enabled = Settings.autoDailyMission})
+
+    DelMapConfig2:Cheat("Checkbox","Auto Join Portals ", function(bool)
+        print(Settings.autoJoinPortals)
+        Settings.autoJoinPortals = bool
+        saveSettings()
+        autoJoinportals()
+    end,{enabled = Settings.autoJoinPortals})
 
     DelMapConfig2:Cheat("Label","")  
 
@@ -1758,6 +1766,8 @@ local function UNITAOEAA()
     end
 end)
 
+
+
     UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
         print(bool)
         Settings.blackhole = bool
@@ -1772,6 +1782,7 @@ end)
                 local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
                 local player = game.Players.LocalPlayer.Name
                 local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
                 local distanceTable = {}
             
                 local function getDistance(toCheck)
@@ -1784,6 +1795,7 @@ end)
                                     table.insert(distanceTable, tonumber(distance))
                                     table.sort(distanceTable)
                                     if tonumber(distance) == distanceTable[1] then
+
                                         enemy = v.HumanoidRootPart.CFrame *
                                             CFrame.new(0, 0, -2)
                                     end
@@ -1795,10 +1807,12 @@ end)
                 end
                     
         local function followEnemyU1()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
                 if Unit:getChildren()[1] then
                     for i, v in pairs(Unit:getChildren()) do
                         if v:WaitForChild("_stats"):FindFirstChild("player") then
@@ -1806,13 +1820,10 @@ end)
                                 local success, err = pcall(function()
                                     if tostring(v._stats.player.Value) == player then
                                         if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE1].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
 
                                             v.HumanoidRootPart.CFrame = getDistance("enemyName")
                                             v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
+
 
                                         end
                                     end
@@ -1862,7 +1873,7 @@ end)
                 end
                     
         local function followEnemyU2()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -1928,7 +1939,7 @@ end)
                 end
                     
         local function followEnemyU3()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -1994,7 +2005,7 @@ end)
                 end
                     
         local function followEnemyU4()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -2060,7 +2071,7 @@ end)
                 end
                     
         local function followEnemyU5()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -2126,7 +2137,7 @@ end)
         end
                         
         local function followEnemyU6()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -2188,7 +2199,7 @@ end)
         end
                         
         local function followEnemyU7()
-            --Settings.unitAOE = "Select Units"
+            --Settings.unitAOE = "เลือก Units"
             local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
             local player = game.Players.LocalPlayer.Name
             local Unit = game.Workspace._UNITS
@@ -2220,6 +2231,8 @@ end)
         end)
 
 end
+
+
 --- Fetch Units from Equipped List
 if Settings.SelectedUnits ~= nil then
     local names = {}
@@ -2231,47 +2244,48 @@ if Settings.SelectedUnits ~= nil then
     --- Check Slot Unit to Dropdown 
     --Unit1
     for i = 1, 1 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE1 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE1 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE1 or nil})
     end
     --Unit2
     for i = 2, 2 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE2 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE2 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE2 or nil})
     end
     --Unit3
     for i = 3, 3 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE3 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE3 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE3 or nil})
     end
     --Unit4
     for i = 4, 4 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE4 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE4 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE4 or nil})
     end
     --Unit5
     for i = 5, 5 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE5 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE5 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE5 or nil})
     end
     --Unit6
     for i = 6, 6 do
-        Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
             Settings.UnitAOE6 = value
             saveSettings()
-        end, { options = { "Off", names[i] }, default = Settings.UnitAOE6 or nil})
+        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
     end
     --- End Check Unit
+
     Settings.UnitAOE7 = Settings.UnitAOE7 or "femto"
     UnitAOE:Cheat("Dropdown", " Select Griffin Name ",function(value)
         warn("Change to : "..value)
@@ -2279,25 +2293,75 @@ if Settings.SelectedUnits ~= nil then
         saveSettings()
     end, { options = {"None","femto_egg","griffith_reincarnation","femto"}, default =Settings.UnitAOE7})
 
-
 end
 ----------------------------------------------
 ------------------ credits -------------------
 ----------------------------------------------
 local function credits()
 
-    Developers:Cheat("Label","📝 Scripted by: Arpon AG#6612 & Forever4D#0001 & HOLYSHz#3819 ")    
-    Developers:Cheat("Label","📝 Also thanks to Trapstar#7845, bytenode#9646 for the help!")    
-    Developers:Cheat("Label","📐 UI By: detourious @ v3rmillion.net")    
-    Developers:Cheat("Label","🔧 To toggle the script press \" P \"")   
-    Developers:Cheat("Button","🔗 Discord Invite", function()
-        setclipboard("https://discord.gg/CQJ4Wfvefk")
-    end)     
-    UIUPDT:Cheat("Label"," \n \n \n \n \n \n \n \n \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
+    Developers:Cheat("Label","📜 Scripted by: Negative & HOLYSHz ")       
+    --Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
+    Developers:Cheat("Label","⚒️ กด \"P\" เพื่อ เปิด - ปิด เมนู")   
+    Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
+        setclipboard("https://discord.gg/6V8nzm5ZYB")
+    end)    
+    UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [=+]ตั้งค่าตามนี้นะอยากปิดอันไหน[+=] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
 end
 getgenv().posX = 1.5
 getgenv().posZ = 1.5
+----------------------------------------------
+------------------ sponsorfix ----------------
+----------------------------------------------
+local function sponsor()
 
+    discord:Cheat("Label","Discord สำหรับสั่งชื้อ GamePass และ สอบถามต่าง ๆ ") 
+    discord:Cheat("Button","🔥 Copy Discord Link   ", function()
+        setclipboard("https://discord.gg/6V8nzm5ZYB")
+        end)
+
+    --facebook
+    facebook:Cheat("Label","✅ ร้านเปิดบริการเวลา 12:00 - 22:00 ทุกวัน ") 
+    facebook:Cheat("Label","✅ ไม่ต้องใช้ ID - PASS ") 
+    facebook:Cheat("Label","✅ รับของผ่านเซิร์ฟ วี จ่ายปุ๊บรับเลย ") 
+    facebook:Cheat("Label","✅ Anime Adventures , Blox Fruits , BedWars , Anime Dimension , 9ล9 ") 
+    facebook:Cheat("Button","🔥 Copy Facebook Link   ", function()
+        setclipboard("https://www.facebook.com/StarBux.Store/")
+        end)    
+
+    --kaigem
+    kaigem:Cheat("Label","🐣 ไก่ 40,000 เพชร  ราคา 250 บาท") 
+    kaigem:Cheat("Label","🐣 ไก่ 60,000 เพชร  ราคา 375 บาท") 
+    kaigem:Cheat("Label","🐣 ไก่ 100,000 เพชร ราคา 699 บาท") 
+    kaigem:Cheat("Label","💳 บัตรเติม ROBUX 10$ ราคา 279 บาท") 
+    kaigem:Cheat("Label","💳 จะได้รับ ROBUX 1000 และพรีเมี่ยม 1เดือน  ") 
+    kaigem:Cheat("Button","🔥 Copy ไก่เพชร Link  ", function()
+        setclipboard("https://starbuxstore.com/categories/clduzowwu0033jxn22a9llwis")
+        end)
+
+    --farmgem
+    farmgem:Cheat("Label","✅ ต้องใช้ ID - PASS") 
+    farmgem:Cheat("Label","✅ ต้องปิด 2FA ก่อนทุกครั้ง") 
+    farmgem:Cheat("Label","💎 20,000 เพชร (ใช้เวลา 3วัน) ราคา 125 บาท") 
+    farmgem:Cheat("Label","💎 30,000 เพชร (ใช้เวลา 4วัน) ราคา 185 บาท") 
+    farmgem:Cheat("Label","💎 40,000 เพชร (ใช้เวลา 5วัน) ราคา 249 บาท") 
+    farmgem:Cheat("Label","💎 50,000 เพชร (ใช้เวลา 6วัน) ราคา 309 บาท") 
+    farmgem:Cheat("Button","🔥 Copy ฟาร์มเพชร Link  ", function()
+        setclipboard("https://starbuxstore.com/categories/clduzowt00000jxn2aaruqdjr")   
+    end) 
+
+    --ROBUXGroup
+    starbux:Cheat("Label","👑ร้าน 🌟 STARBUX 🌟 ") 
+    starbux:Cheat("Label","🛒 กำลังจะเปิดขาย ROBUX แบบกลุ่ม [ROBLOX]🛒") 
+    starbux:Cheat("Label","ROBUX กลุ่ม ใครสนใจเข้ากลุ่มไว้เลยนะ") 
+    starbux:Cheat("Label","เรทราคาติดตามได้จากกลุ่มเลย") 
+    starbux:Cheat("Label","💎 40,000 เพชร (ใช้เวลา 5วัน) ราคา 249 บาท") 
+    starbux:Cheat("Label","💎 50,000 เพชร (ใช้เวลา 6วัน) ราคา 309 บาท") 
+    starbux:Cheat("Button","🔥 Copy กลุ่มชื้อ ROBUX Link  ", function()
+        setclipboard("https://www.roblox.com/groups/16807082/STARBUX-STORE#!/about")   
+    end) 
+    
+    
+    end    
 ----------------------------------------------
 ---------------- Unit Config -----------------
 ----------------------------------------------
@@ -2674,30 +2738,33 @@ function MouseClick2(UnitPos)
 		mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
 	end
 end
+
+--------------------------------END SAVEPOSTEST
 local function UnitPosSec()
     
-    UnitPosition:Cheat("Button", " Unit 1 Position", function()
+    
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 1", function()
         MouseClick2("UP1")
     end)
-    UnitPosition:Cheat("Button", " Unit 2 Position", function()
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 2", function()
         MouseClick2("UP2")
     end)
-    UnitPosition:Cheat("Button", " Unit 3 Position", function()
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 3 ", function()
         MouseClick2("UP3")
     end)
-    UnitPosition:Cheat("Button", " Unit 4 Position", function()
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 4 ", function()
         MouseClick2("UP4")
     end)
-    UnitPosition:Cheat("Button", " Unit 5 Position", function()
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 5 ", function()
         MouseClick2("UP5")
     end)
-    UnitPosition:Cheat("Button", " Unit 6 Position", function()
+    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 6 ", function()
         MouseClick2("UP6")
     end)
 end
 local function unitconfig()
 
-    NDY:Cheat("Checkbox"," Enable Unit Config  ", function(bool)
+    NDY:Cheat("Checkbox"," เปิด Unit Config  ", function(bool)
         print(bool)
         Settings.unitconfig = bool
         saveSettings()
@@ -2708,7 +2775,7 @@ local function unitconfig()
     end)
 
     --//UNIT 1
-    
+
     Settings.U1_Priority = Settings.U1_Priority or "first"
     Unit1:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
@@ -2717,42 +2784,42 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U1_Priority})
 
     Settings.U1_Wave = Settings.U1_Wave or 1
-    Unit1:Cheat("Textbox", "Place from wave", function(Value)
+    Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U1_Wave})
 
     Settings.U1_TotalAmmount = Settings.U1_TotalAmmount or 6
-    Unit1:Cheat("Textbox", "Total Units", function(Value)
+    Unit1:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U1_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U1_TotalAmmount})
 
-
     Settings.U1_UpgWave = Settings.U1_UpgWave or 1
-    Unit1:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit1:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U1_UpgWave})
 
     Settings.U1_UpgCap = Settings.U1_UpgCap or 9
-    Unit1:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U1_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U1_UpgCap})
 
     Settings.U1_SellWave = Settings.U1_SellWave or 999
-    Unit1:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit1:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U1_SellWave = Value
         saveSettings()
     end, {placeholder = Settings.U1_SellWave}) 
     
     --//UNIT 2
+
     Settings.U2_Priority = Settings.U2_Priority or "first"
     Unit2:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
@@ -2761,41 +2828,42 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U2_Priority})
 
     Settings.U2_Wave = Settings.U2_Wave or 1
-    Unit2:Cheat("Textbox", "Place from wave", function(Value)
+    Unit2:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U2_Wave})
 
     Settings.U2_TotalAmmount = Settings.U2_TotalAmmount or 6
-    Unit2:Cheat("Textbox", "Total Units", function(Value)
+    Unit2:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U2_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U2_TotalAmmount})
 
     Settings.U2_UpgWave = Settings.U2_UpgWave or 1
-    Unit2:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit2:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U2_UpgWave})
 
     Settings.U2_UpgCap = Settings.U2_UpgCap or 9
-    Unit2:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U2_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U2_UpgCap})
 
     Settings.U2_SellWave = Settings.U2_SellWave or 999
-    Unit2:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit2:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U2_SellWave = Value
         saveSettings()
     end, {placeholder = Settings.U2_SellWave}) 
     
     --//UNIT 3
+
     Settings.U3_Priority = Settings.U3_Priority or "first"
     Unit3:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
@@ -2804,41 +2872,42 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U3_Priority})
 
     Settings.U3_Wave = Settings.U3_Wave or 1
-    Unit3:Cheat("Textbox", "Place from wave", function(Value)
+    Unit3:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U3_Wave})
 
     Settings.U3_TotalAmmount = Settings.U3_TotalAmmount or 6
-    Unit3:Cheat("Textbox", "Total Units", function(Value)
+    Unit3:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U3_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U3_TotalAmmount})
 
     Settings.U3_UpgWave = Settings.U3_UpgWave or 1
-    Unit3:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U3_UpgWave})
 
     Settings.U3_UpgCap = Settings.U3_UpgCap or 9
-    Unit3:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U3_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U3_UpgCap})
 
     Settings.U3_SellWave = Settings.U3_SellWave or 999
-    Unit3:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U3_SellWave = Value
         saveSettings()
-    end, {placeholder = Settings.U3_SellWave})  
+    end, {placeholder = Settings.U3_SellWave}) 
 
     --//UNIT 4
+
     Settings.U4_Priority = Settings.U4_Priority or "first"
     Unit4:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
@@ -2847,41 +2916,42 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U4_Priority})
 
     Settings.U4_Wave = Settings.U4_Wave or 1
-    Unit4:Cheat("Textbox", "Place from wave", function(Value)
+    Unit4:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U4_Wave})
 
     Settings.U4_TotalAmmount = Settings.U4_TotalAmmount or 6
-    Unit4:Cheat("Textbox", "Total Units", function(Value)
+    Unit4:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U4_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U4_TotalAmmount})
 
     Settings.U4_UpgWave = Settings.U4_UpgWave or 1
-    Unit4:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U4_UpgWave})
 
     Settings.U4_UpgCap = Settings.U4_UpgCap or 9
-    Unit4:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U4_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U4_UpgCap})
 
     Settings.U4_SellWave = Settings.U4_SellWave or 999
-    Unit4:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U4_SellWave = Value
         saveSettings()
-    end, {placeholder = Settings.U4_SellWave})   
+    end, {placeholder = Settings.U4_SellWave})  
     
     --//UNIT 5
+
     Settings.U5_Priority = Settings.U5_Priority or "first"
     Unit5:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
@@ -2890,42 +2960,43 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U5_Priority})
 
     Settings.U5_Wave = Settings.U5_Wave or 1
-    Unit5:Cheat("Textbox", "Place from wave", function(Value)
+    Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U5_Wave})
 
     Settings.U5_TotalAmmount = Settings.U5_TotalAmmount or 6
-    Unit5:Cheat("Textbox", "Total Units", function(Value)
+    Unit5:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U5_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U5_TotalAmmount})
 
     Settings.U5_UpgWave = Settings.U5_UpgWave or 1
-    Unit5:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U5_UpgWave})
 
     Settings.U5_UpgCap = Settings.U5_UpgCap or 9
-    Unit5:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U5_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U5_UpgCap})
 
     Settings.U5_SellWave = Settings.U5_SellWave or 999
-    Unit5:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U5_SellWave = Value
         saveSettings()
-    end, {placeholder = Settings.U5_SellWave})  
+    end, {placeholder = Settings.U5_SellWave}) 
 
     --//UNIT 6
-    Settings.U6_Priority = Settings.U6_Priority or "first"
+
+        Settings.U6_Priority = Settings.U6_Priority or "first"
     Unit6:Cheat("Dropdown", "Target Priority ",function(value)
         warn("Change to : "..value)
         Settings.U6_Priority = value
@@ -2933,149 +3004,153 @@ local function unitconfig()
     end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U6_Priority})
 
     Settings.U6_Wave = Settings.U6_Wave or 1
-    Unit6:Cheat("Textbox", "Place from wave", function(Value)
+    Unit6:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_Wave = Value
         saveSettings()
     end, {placeholder = Settings.U6_Wave})
 
     Settings.U6_TotalAmmount = Settings.U6_TotalAmmount or 6
-    Unit6:Cheat("Textbox", "Total Units", function(Value)
+    Unit6:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
         Value = tonumber(Value)
         Settings.U6_TotalAmmount = Value
         saveSettings()
     end, {placeholder = Settings.U6_TotalAmmount})
 
     Settings.U6_UpgWave = Settings.U6_UpgWave or 1
-    Unit6:Cheat("Textbox", "Upgrade from wave", function(Value)
+    Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgWave = Value
         saveSettings()
     end, {placeholder = Settings.U6_UpgWave})
 
     Settings.U6_UpgCap = Settings.U6_UpgCap or 9
-    Unit6:Cheat("Textbox", "Upgrade Cap", function(Value)
+    Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
         Value = tonumber(Value)
         Settings.U6_UpgCap = Value
         saveSettings()
     end, {placeholder = Settings.U6_UpgCap})
 
     Settings.U6_SellWave = Settings.U6_SellWave or 999
-    Unit6:Cheat("Textbox", "Auto Sell at wave", function(Value)
+    Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
         Value = tonumber(Value)
         Settings.U6_SellWave = Value
         saveSettings()
-    end, {placeholder = Settings.U6_SellWave})   
+    end, {placeholder = Settings.U6_SellWave}) 
+    
 end
+
 
 ---------------------------------------------
 -------------- LOWW CPU Config --------------
 ---------------------------------------------
 local function LowCPUModeT()
 
-    --New Fix isrbxactive
-    local IS_ROBLOX_ACTIVE = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE = false
-    end)
-    function isrbxactive()
-        return IS_ROBLOX_ACTIVE
-    end
-    getgenv().isrbxactive = newcclosure(isrbxactive)
-    --End fix isrbxactive
-    
-    --Start_FPS_Cap
-    FPS_CAP = {}
-    for i = 1,60 do
-        table.insert(FPS_CAP,i)
-    end
-    Settings.FPSCAPNum = Settings.FPSCAPNum or 15
-    LowCPU2:Cheat("Dropdown", "🎚️ Select FPS Cap ",function(value)
-        warn("Change to : "..value)
-        Settings.FPSCAPNum = value
-        saveSettings()
-    end, {options = FPS_CAP, default = Settings.FPSCAPNum})
-    
-    
-    LowCPU2:Cheat("Checkbox","Enable Low CPU Mode ", function(bool)
-        print(bool)
-        Settings.lowCpuMode = bool
-        saveSettings()
-    end,{enabled = Settings.lowCpuMode})
-    
-    task.spawn(function()
-        while task.wait() do
-            if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuMode then
-                setfpscap(tonumber(Settings.FPSCAPNum))
-                game:GetService("RunService"):Set3dRenderingEnabled(false)
-                isrbxactive(true)
-            else
-                setfpscap(240)
-                game:GetService("RunService"):Set3dRenderingEnabled(true)
-                isrbxactive(false)
-            end
-        end
-    end)
-    
-    
-    --New Fix isrbxactive
-    local IS_ROBLOX_ACTIVE2 = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE2 = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE2 = false
-    end)
-    function isrbxactive2()
-        return IS_ROBLOX_ACTIVE2
-    end
-    getgenv().isrbxactive2 = newcclosure(isrbxactive2)
-    --End fix isrbxactive
-    
-    LowCPU2:Cheat("Checkbox","Enable FPS Cap ", function(bool)
-        print(bool)
-        Settings.lowCpuMode2 = bool
-        saveSettings()
-    end,{enabled = Settings.lowCpuMode2})
-    
-    task.spawn(function()
-        while task.wait() do
-            if Settings.lowCpuMode2 then
-                setfpscap(tonumber(Settings.FPSCAPNum))
-                isrbxactive2(true)
-            --else
-               -- setfpscap(240)
-                --isrbxactive2(true)
-            end
-        end
-    end)
-    --End_FPS_Cap
-    
-    LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode ", function(bool)
-        print(bool)
-        Settings.fpsboost = bool
-        saveSettings()
-        FPSBOOST()
-    end,{enabled = Settings.fpsboost })
-    
-    LowCPU2:Cheat("Button","Activate Boost FPS Mode ", function()
-        FPSBOOST()
-    end)
-    
-    
-    end
+--New Fix isrbxactive
+local IS_ROBLOX_ACTIVE = false
+local UIS = game:GetService("UserInputService")
+UIS.WindowFocused:Connect(function()
+    IS_ROBLOX_ACTIVE = true
+end)
+UIS.WindowFocusReleased:Connect(function()
+    IS_ROBLOX_ACTIVE = false
+end)
+function isrbxactive()
+    return IS_ROBLOX_ACTIVE
+end
+getgenv().isrbxactive = newcclosure(isrbxactive)
+--End fix isrbxactive
 
+--Start_FPS_Cap
+FPS_CAP = {}
+for i = 1,60 do
+    table.insert(FPS_CAP,i)
+end
+Settings.FPSCAPNum = Settings.FPSCAPNum or 15
+LowCPU2:Cheat("Dropdown", "🎚️ เลือก FPS Cap ",function(value)
+    warn("Change to : "..value)
+    Settings.FPSCAPNum = value
+    saveSettings()
+end, {options = FPS_CAP, default = Settings.FPSCAPNum})
+
+
+LowCPU2:Cheat("Checkbox","Enable Low CPU Mode ", function(bool)
+	print(bool)
+	Settings.lowCpuMode = bool
+	saveSettings()
+end,{enabled = Settings.lowCpuMode})
+
+task.spawn(function()
+	while task.wait() do
+        if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuMode then
+            setfpscap(tonumber(Settings.FPSCAPNum))
+            game:GetService("RunService"):Set3dRenderingEnabled(false)
+            isrbxactive(true)
+        else
+            setfpscap(240)
+            game:GetService("RunService"):Set3dRenderingEnabled(true)
+            isrbxactive(false)
+        end
+    end
+end)
+
+
+--New Fix isrbxactive
+local IS_ROBLOX_ACTIVE2 = false
+local UIS = game:GetService("UserInputService")
+UIS.WindowFocused:Connect(function()
+    IS_ROBLOX_ACTIVE2 = true
+end)
+UIS.WindowFocusReleased:Connect(function()
+    IS_ROBLOX_ACTIVE2 = false
+end)
+function isrbxactive2()
+    return IS_ROBLOX_ACTIVE2
+end
+getgenv().isrbxactive2 = newcclosure(isrbxactive2)
+--End fix isrbxactive
+
+LowCPU2:Cheat("Checkbox","Enable FPS Cap ", function(bool)
+	print(bool)
+	Settings.lowCpuMode2 = bool
+	saveSettings()
+end,{enabled = Settings.lowCpuMode2})
+
+task.spawn(function()
+	while task.wait() do
+        if Settings.lowCpuMode2 then
+            setfpscap(tonumber(Settings.FPSCAPNum))
+            isrbxactive2(true)
+        --else
+           -- setfpscap(240)
+            --isrbxactive2(true)
+        end
+    end
+end)
+--End_FPS_Cap
+
+LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode ", function(bool)
+    print(bool)
+    Settings.fpsboost = bool
+    saveSettings()
+    FPSBOOST()
+end,{enabled = Settings.fpsboost })
+
+LowCPU2:Cheat("Button","Activate Boost FPS Mode ", function()
+    FPSBOOST()
+end)
+
+
+end
 ---------------------------------------------
 -------------- LAGGY Config -----------------
 ---------------------------------------------
-
 local function LAGGYconfig()
-    LG1:Cheat("Label"," Is a BETA Version // Enjoy ")
+
+LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
+
+local l__ReplicatedStorage__1 = game:GetService("ReplicatedStorage");
+local l__Bindable__9 = l__ReplicatedStorage__1.endpoints:WaitForChild("server_to_client");
 
     --test New Lag
 LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
@@ -3084,24 +3159,33 @@ LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
 	saveSettings()
 end,{enabled = Settings.EnableLag})
 
+game:GetService('RunService').Stepped:connect(function()
+	if Settings.EnableLag then
+		pcall(function()
+			game.Players.LocalPlayer.Character.Humanoid:ChangeState(21)
+            l__Bindable__9.start_vote_wave_skip:Fire(v, false);
+		end)		
+	end
+end)
 task.spawn(function()
 	while task.wait() do
         local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
 		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
+            
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
+
     game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
+    
     local function getmaxvalue(val)
-       --local mainvalueifonetable = 499999
        local mainvalueifonetable = tonumber(Settings.lagimpact or 499999)
        if type(val) ~= "number" then
            return nil
        end
        local calculateperfectval = (mainvalueifonetable/(val+2))
        return calculateperfectval
-    end
+end
      
-    --local function bomb(tableincrease, tries)
 function bomb(tableincrease, tries)
     local maintable = {}
     local spammedtable = {}
@@ -3122,36 +3206,34 @@ function bomb(tableincrease, tries)
     if calculatemax then
          maximum = calculatemax
          else
-         maximum = 999999
+         maximum = 4999999
     end
      
     for i = 1, maximum do
          table.insert(maintable, spammedtable)
     end
      
-    --tries = tonumber(Settings.mix or 1.5)
     for i = 1, tries do
          game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
+         
     end
 end
     
     tableincrease = tonumber(Settings.max or 22)
-    --tries = tonumber(Settings.mix or 1.5)
 
     if Settings.EnableLag then
-        --bomb(tableincrease, tonumber(Settings.mix))
         bomb(tonumber(Settings.max), tonumber(Settings.mix))
     elseif not Settings.EnableLag then
         bomb(tableincrease, 0)
     end
-    --bomb(tableincrease, tries)
-    --repeat task.wait() until not Settings.EnableLag
             end
         end
     end
 end)
 
-    LG1:Cheat("Textbox", " Lag At Wave ", function(Value)
+
+
+    LG1:Cheat("Textbox", " Lag เมื่อถึง Wave ", function(Value)
         Value = tonumber(Value)
         Settings.LagatWave = Value
         saveSettings()
@@ -3186,17 +3268,15 @@ end)
         print("Delay.:", Value)
         Settings.delag = tonumber(Value)
         saveSettings()
-    end, {min = 0.1, max = 10, suffix = "", default = Settings.delag })
+    end, {min = 0, max = 10, suffix = "", default = Settings.delag })
     --LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
 
-    LG1:Cheat("Label"," How to LAG Setting")
-    LG1:Cheat("Label"," Def-Setting")
-    LG1:Cheat("Label"," IMPACT(S) = 499k, Threads = 22")
-    LG1:Cheat("Label"," LAG Lv. = 1, Delay = 1")
-    LG1:Cheat("Label"," Fast-LAG")
-    LG1:Cheat("Label"," IMPACT(S) = 499k, Threads = 22")
-    LG1:Cheat("Label"," LAG Lv. = 1, Delay = 0.2")
-
+    LG1:Cheat("Label","  Lag At Wave = จะ Lag เมื่อถึง Wave ")
+    LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
+    LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
+    LG1:Cheat("Label","  Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
+    LG1:Cheat("Label","  การตั้งค่าพิ้นฐาน : threads = 250, tries = 1, Delay = 1.5 ")
+    LG1:Cheat("Label","  การตั้งค่าแบบเร็ว : threads = 10, tries = 1.5, Delay = 1.5 ")
 
 end
 ----------------------------------------------
@@ -3211,11 +3291,11 @@ function SummonUnits(banner, method)
     wait(1.5)
 end
 function AutoSummon()
-    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "🧙 Select Banner 🧙",function(value)
+    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "🧙 เลือก Banner 🧙",function(value)
         getgenv().SelectedBanner = value
     end, { options = {"Special", "Standard"}})
 
-    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "💸 Select Method 💸",function(value)
+    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "💸 เลือกของที่ใช้ 💸",function(value)
         getgenv().SelectedMethod = value
     end, { options = {"ticket", "gems", "gems10"}})
 
@@ -3234,7 +3314,7 @@ function snipefunc(item)
     if item =="Any StarFruits" then
         if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
             for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
+                if v.Name:match("StarFruit") or v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
                     buymerchant(v.Name)
                     print(v.Name)
                 end   
@@ -3281,21 +3361,21 @@ function snipefunc(item)
     end
 end
 function SnipeMerchant()
-    AutoSnipeMerchantSec:Cheat("Dropdown", "Select Star Fruit ",function(value)
+    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Star Fruit ที่จะชื้อ",function(value)
         Settings.ASM_SelectedFruit = value
         saveSettings()
     end, { options = {"None","StarFruit","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitsRainbow"}, default =Settings.ASM_SelectedFruit})
    
-    AutoSnipeMerchantSec:Cheat("Dropdown", "Select Other Items",function(value)
+    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedOtherItems = value
         saveSettings()
     end, { options = {"None","Any Items","LuckPotion","star_remnant","summon_ticket"}, default =Settings.ASM_SelectedOtherItems})
     
-    AutoSnipeMerchantSec:Cheat("Dropdown", "Select Evo Items ",function(value)
+    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Evo Items ที่จะชื้อ",function(value)
         Settings.ASM_SelectedEvoItems = value
         saveSettings()
     end, { options = {"None"}, default =Settings.ASM_SelectedEvoItems})
-    AutoSnipeMerchantSec:Cheat("Checkbox","Enable Auto Snipe", function(bool)
+    AutoSnipeMerchantSec:Cheat("Checkbox","เปิดชื้อของ Auto", function(bool)
         Settings.AutoSnipeMerchant = bool
         saveSettings()
     end,{enabled = Settings.AutoSnipeMerchant })
@@ -3303,17 +3383,17 @@ function SnipeMerchant()
     -----------------------------------------------------------------------------
     --AutoBuySummer
 
-    SummerItem:Cheat("Dropdown", "Select Item Summer",function(pornname)
+    SummerItem:Cheat("Dropdown", "เลือก Item Summer",function(pornname)
         getgenv().portalnameC = pornname
         saveSettings()
     end, { options = {"summer_portal_item_contract","capsule_summer"}, default = getgenv().portalnameC})
 
-    SummerItem:Cheat("Dropdown", "Select Total Item",function(value)
+    SummerItem:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
         Settings.SummerNum = value
         saveSettings()
     end, { options = {"1","10","100"}, default = getgenv().SummerNum})
 
-    SummerItem:Cheat("Button","Buy Item [One Time]", function(bool)
+    SummerItem:Cheat("Button","ชื้อ Summer Item [ครั้งเดียว]", function(bool)
         local args = {
             [1] = getgenv().portalnameC,
             [2] = "event",
@@ -3324,7 +3404,7 @@ function SnipeMerchant()
         warn("Buy Summer Portal !!!")
     end)
 
-    SummerItem:Cheat("Checkbox","Auto Buy Item [Many time]", function(bool)
+    SummerItem:Cheat("Checkbox","Auto Buy Item Summer [มันจะชื้อรัวมาก]", function(bool)
         print(bool)
         Settings.AutoBuySummer = bool
         saveSettings()
@@ -3346,182 +3426,183 @@ function SnipeMerchant()
 
     ----------------------------------------------------------------
     --Auto Open Egg
--- Script generated by SimpleSpy - credits to exx#9394
 
-Settings.SelecteStars = Settings.SelecteStars or "capsule_summer"
-SummerEgg:Cheat("Dropdown", "Select Capsule Star",function(value)
-    Settings.SelecteStars = value
-    saveSettings()
-end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
+    Settings.SelecteStars = Settings.SelecteStars or "capsule_summer"
+    SummerEgg:Cheat("Dropdown", "เลือก ไข่ Star",function(value)
+        Settings.SelecteStars = value
+        saveSettings()
+    end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
 
-SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [1 ea]", function(bool)
-    print(bool)
-    Settings.AutoOpenSummer1 = bool
-    saveSettings()
-end,{enabled = Settings.AutoOpenSummer1})
+    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [1 ea]", function(bool)
+        print(bool)
+        Settings.AutoOpenSummer1 = bool
+        saveSettings()
+    end,{enabled = Settings.AutoOpenSummer1})
 
-SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [10 ea]", function(bool)
-    print(bool)
-    Settings.AutoOpenSummer10 = bool
-    saveSettings()
-end,{enabled = Settings.AutoOpenSummer10})
+    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [10 ea]", function(bool)
+        print(bool)
+        Settings.AutoOpenSummer10 = bool
+        saveSettings()
+    end,{enabled = Settings.AutoOpenSummer10})
 
-SummerEgg:Cheat("Checkbox","Webhook Skin", function(bool)
-    print(bool)
-    Settings.SendWebhookSkin = bool
-    saveSettings()
-end,{enabled = Settings.SendWebhookSkin})
-SummerEgg:Cheat("Textbox", "Send Webhook Skin", function(Value)
-    Settings.WebhookUrlSkin = Value
-    saveSettings()
-end, {placeholder = Settings.WebhookUrlSkin})
+    SummerEgg:Cheat("Checkbox","Webhook Skin", function(bool)
+        print(bool)
+        Settings.SendWebhookSkin = bool
+        saveSettings()
+    end,{enabled = Settings.SendWebhookSkin})
+    SummerEgg:Cheat("Textbox", "Send Webhook Skin", function(Value)
+        Settings.WebhookUrlSkin = Value
+        saveSettings()
+    end, {placeholder = Settings.WebhookUrlSkin})
 
--- สร้าง Table ของ สกิน
-local SummerSkinTable,TableSeason,WebhookSkin = {},{},{}
-for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-    Remove_Items_Text = string.gsub(v.Name,"Items_","")
-    Remove_Skins_Text = string.gsub(Remove_Items_Text,"Skins","")
-    table.insert(TableSeason,Remove_Skins_Text)
-    
-    for i,v in pairs(require(v)) do
-        WebhookSkin[i] = 0
-        SummerSkinTable[i] = v
-    end
-end
--- Add Skin In Inventory
-for i,v in pairs(get_inventory_items_unique_items()) do
-    if string.find(v['item_id'],"_skin") then
-        WebhookSkin[v['item_id']] = WebhookSkin[v['item_id']] + 1
-    end
-end
-
-task.spawn(function()
-    while task.wait() do
-        if Settings.AutoOpenSummer1 or Settings.AutoOpenSummer10 then
-            local args = {
-                --[1] = "capsule_summer",
-                [1] = Settings.SelecteStars,
-                [2] = {
-                    --["use10"] = Settings.AutoOpenSummer1 == false and Settings.AutoOpenSummer10 == true
-                    ["use10"] = Settings.AutoOpenSummer1 and false or Settings.AutoOpenSummer10 and true
-                }
-            }
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
-            if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
-                -- Create Table New Skinb
-                local WebhookSkinNew,TextWebhook = {},""
-                for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-                    for i,v in pairs(require(v)) do
-                        WebhookSkinNew[i] = 0
-                    end
-                end
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"_skin") then
-                        WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
-                    end
-                end
-
-                -- Create Text Output
-                SentSkin = false
-                for SkinName,Count_OldSkin in pairs(WebhookSkin) do
-                    if WebhookSkinNew[SkinName] > Count_OldSkin then
-                        local Name = SummerSkinTable[SkinName]['name']:split(" ")
-                        TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
-                        SentSkin = true
-                    end 
-                end
-
-                CountPortal_list = 0
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-                        CountPortal_list = CountPortal_list + 1
-                    end
-                end
+    -- สร้าง Table ของ สกิน
+    local SummerSkinTable,TableSeason,WebhookSkin = {},{},{}
+    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
+        Remove_Items_Text = string.gsub(v.Name,"Items_","")
+        Remove_Skins_Text = string.gsub(Remove_Items_Text,"Skins","")
+        table.insert(TableSeason,Remove_Skins_Text)
         
-                local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-                local Time = os.date('!*t', OSTime);
-                local exec = tostring(identifyexecutor())
+        for i,v in pairs(require(v)) do
+            WebhookSkin[i] = 0
+            SummerSkinTable[i] = v
+        end
+    end
+    -- Add Skin In Inventory
+    for i,v in pairs(get_inventory_items_unique_items()) do
+        if string.find(v['item_id'],"_skin") then
+            WebhookSkin[v['item_id']] = WebhookSkin[v['item_id']] + 1
+        end
+    end
 
-                local data = {
-                    ["content"] = "",
-                    ["username"] = "Anime Adventures V2",
-                    ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-                    ["embeds"] = {
-                        {
-                            ["author"] = {
-                                ["name"] = "Anime Adventures | Skin ✔️",
-                                ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                            },
-                            ["thumbnail"] = {
-                                ['url'] = thumbnails_avatar.data[1].imageUrl,
-                            },
-                            ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nExecutors : 🎮 "..exec.." 🎮 ",
-                            ["color"] = 110335,
-                            ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                            ['footer'] = {
-                                ['text'] = "// Made by Negative & HOLYSHz", 
-                                ['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
-                            },
-                            ["fields"] = {
-                                {
-                                    ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                                    ["value"] = "```ini\n"
-                                                ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nCurrent Gold : "
-                                                ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
-                                                ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
-                                                ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                                ..tostring(CountPortal_list) .." 🌀\nCurrent Summer Pearls : "
-                                                ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoOpenSummer1 or Settings.AutoOpenSummer10 then
+                local args = {
+                    --[1] = "capsule_summer",
+                    [1] = Settings.SelecteStars,
+                    [2] = {
+                        --["use10"] = Settings.AutoOpenSummer1 == false and Settings.AutoOpenSummer10 == true
+                        ["use10"] = Settings.AutoOpenSummer1 and false or Settings.AutoOpenSummer10 and true
+                    }
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
+               
+                
+                if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
+                    -- Create Table New Skinb
+                    local WebhookSkinNew,TextWebhook = {},""
+                    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
+                        for i,v in pairs(require(v)) do
+                            WebhookSkinNew[i] = 0
+                        end
+                    end
+                    for i,v in pairs(get_inventory_items_unique_items()) do
+                        if string.find(v['item_id'],"_skin") then
+                            WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
+                        end
+                    end
+
+                    -- Create Text Output
+                    SentSkin = false
+                    for SkinName,Count_OldSkin in pairs(WebhookSkin) do
+                        if WebhookSkinNew[SkinName] > Count_OldSkin then
+                            local Name = SummerSkinTable[SkinName]['name']:split(" ")
+                            TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
+                            SentSkin = true
+                        end 
+                    end
+
+                    CountPortal_list = 0
+                    for i,v in pairs(get_inventory_items_unique_items()) do
+                        if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                            CountPortal_list = CountPortal_list + 1
+                        end
+                    end
+            
+                    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+                    local Time = os.date('!*t', OSTime);
+                    local exec = tostring(identifyexecutor())
+
+                    local data = {
+                        ["content"] = "",
+                        ["username"] = "Anime Adventures V2",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+                        ["embeds"] = {
+                            {
+                                ["author"] = {
+                                    ["name"] = "Anime Adventures | แจ้งเตือน V2 ✔️",
+                                    ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                                 },
-                                {
-                                    ["name"] ="Skins Drop :",
-                                    ["value"] = "```ini\n" .. TextWebhook .. "```",
-                                    ["inline"] = false 
+                                ["thumbnail"] = {
+                                    ['url'] = thumbnails_avatar.data[1].imageUrl,
+                                },
+                                ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
+                                ["color"] = 110335,
+                                ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
+                                ['footer'] = {
+                                    ['text'] = "// Made by Negative & HOLYSHz", 
+                                    ['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
+                                },
+                                ["fields"] = {
+                                    {
+                                        ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
+                                        ["value"] = "```ini\n"
+                                                    ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
+                                                    ..tostring(CountPortal_list) .." 🌀\nSummer Pearls : "
+                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                    },
+                                    {
+                                        ["name"] ="Skins Drop :",
+                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
+                                        ["inline"] = false 
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                
-                local porn = game:GetService("HttpService"):JSONEncode(data)
-                local headers = {["content-type"] = "application/json"}
-                local request = http_request or request or HttpPost or syn.request or http.request
-                local sex = {Url = Settings.WebhookUrlSkin, Body = porn, Method = "POST", Headers = headers}
-                if SentSkin then
-                    warn("Sending webhook notification...")
-                    request(sex)
+                    
+                    local porn = game:GetService("HttpService"):JSONEncode(data)
+                    local headers = {["content-type"] = "application/json"}
+                    local request = http_request or request or HttpPost or syn.request or http.request
+                    local sex = {Url = Settings.WebhookUrlSkin, Body = porn, Method = "POST", Headers = headers}
+                    if SentSkin then
+                        warn("Sending webhook notification...")
+                        request(sex)
+                    end
                 end
             end
         end
-    end
-end)
+    end)
 
     ----------------------------------------------------------------sellskin
     --Auto Sell Summer Skin
 
     Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
-    SummerSkin:Cheat("Dropdown","🎚️ Select Season", function(bool)
+    SummerSkin:Cheat("Dropdown","เลือก Season", function(bool)
         print(bool)
         Settings.SelectedSellSeason = bool
         saveSettings()
     end,{options = TableSeason, default = Settings.SelectedSellSeason})
 
     Settings.SelectedSellRarity1 = Settings.SelectedSellRarity1 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ Select Rarity 1",function(value)
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 1",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellRarity1 = value
         saveSettings()
     end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity1})
 
     Settings.SelectedSellRarity2 = Settings.SelectedSellRarity2 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ Select Rarity 2",function(value)
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 2",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellRarity2 = value
         saveSettings()
     end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity2})
 
     Settings.SelectedSellRarity3 = Settings.SelectedSellRarity3 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ Select Rarity 3",function(value)
+    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 3",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellRarity3 = value
         saveSettings()
@@ -3548,8 +3629,8 @@ end)
                                 }
                             }
                             game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason) .. " | "  ..tostring(Settings.SelectedSellRarity))
-                            wait(0.1)
+                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason))
+                            --wait(0.1)
                         end
                     end
                 end
@@ -3576,17 +3657,17 @@ function Webhooksec()
         saveSettings()
     end, {placeholder = Settings.SnipeWebhookUrl})
 
-    WebhookSec:Cheat("Checkbox","Enable Webhook", function(bool)
+    WebhookSec:Cheat("Checkbox","เปิดใช้ Webhook", function(bool)
         Settings.WebhookEnabled = bool
         saveSettings()
     end,{enabled = Settings.WebhookEnabled})
 
-    WebhookSec:Cheat("Checkbox","Enable Baby Webhook [BTP,Castle,Tour]", function(bool)
+    WebhookSec:Cheat("Checkbox","เปิดใช้ Baby Webhook [BTP,Castle,Tour]", function(bool)
         Settings.BabyWebhookEnabled = bool
         saveSettings()
     end,{enabled = Settings.BabyWebhookEnabled})
 
-    WebhookSec:Cheat("Checkbox","Enable Snipe Webhook [Banner & Shop]", function(bool)
+    WebhookSec:Cheat("Checkbox","เปิดใช้ Snipe Webhook [Banner & Shop]", function(bool)
         Settings.snipeWebhookEnabled = bool
         saveSettings()
     end,{enabled = Settings.snipeWebhookEnabled})
@@ -3598,7 +3679,6 @@ function Webhooksec()
 end
 
 function Webhooksec2()
-
     WebhookSec:Cheat("Button", "Test Baby&Shop Webhook", function()
         print(Settings.WebhookUrl)
         BabyWebhook()
@@ -3612,7 +3692,7 @@ end
 function Sellportals()
 
     Settings.SelectedSellPortals = Settings.SelectedSellPortals or "portal_summer"
-    SellPortals:Cheat("Dropdown", "🎚️ Select Portal",function(value)
+    SellPortals:Cheat("Dropdown", "🎚️ เลือก Portal",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellPortals = value
         saveSettings()
@@ -3625,7 +3705,7 @@ function Sellportals()
     end
 
     Settings.SelectedSellTier = Settings.SelectedSellTier or 0
-    SellPortals:Cheat("Dropdown", "🎚️ Select Tier Portal ",function(value)
+    SellPortals:Cheat("Dropdown", "🎚️ เลือก Tier Portal ",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellTier = value
         saveSettings()
@@ -3633,14 +3713,14 @@ function Sellportals()
 
 
     Settings.SelectedSellChallenge = Settings.SelectedSellChallenge or "double_cost"
-    SellPortals:Cheat("Dropdown", "🎚️ Select Challenge",function(value)
+    SellPortals:Cheat("Dropdown", "🎚️ เลือก Challenge",function(value)
         warn("Change to : "..value)
         Settings.SelectedSellChallenge = value
         saveSettings()
     end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies","godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedSellChallenge})
 
 
-    SellPortals:Cheat("Checkbox","Auto Sell <= [Select Tier & Challenge] ", function(bool)
+    SellPortals:Cheat("Checkbox","Auto Sell  <= [เลือก Tier & Challenge]", function(bool)
         print(bool)
         Settings.AutoSellPortals = bool
         saveSettings()
@@ -3650,7 +3730,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
                         if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
                             if v["_unique_item_data"]["_unique_portal_data"]["challenge"] == Settings.SelectedSellChallenge then
@@ -3662,6 +3742,8 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 --warn("Sell Selecte Protals")
                                 warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
+                                
                                 wait(0.1)
                             end
                             end
@@ -3672,8 +3754,8 @@ function Sellportals()
         end
     end)
 
-    SellPortals:Cheat("Label"," ")   
-    SellPortals:Cheat("Checkbox","Auto Sell == [Select Tier]", function(bool)
+    SellPortals:Cheat("Label"," ")    
+    SellPortals:Cheat("Checkbox","Auto Sell Portal == [เลือก Tier]", function(bool)
         print(bool)
         Settings.AutoSellNRPortals = bool
         saveSettings()
@@ -3683,7 +3765,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellNRPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
 
                         if v['item_id'] == Settings.SelectedSellPortals then
                         if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
@@ -3695,6 +3777,8 @@ function Sellportals()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
                                 --warn("Sell Selecte Protals")
                                 warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
+                               
                                 wait(0.1)
                             end
                         end
@@ -3704,8 +3788,8 @@ function Sellportals()
         end
     end)
 
-    SellPortals:Cheat("Label"," ")   
-    SellPortals:Cheat("Checkbox","Auto Sell All [All Tier & Challenge]", function(bool)
+    SellPortals:Cheat("Label"," ")  
+    SellPortals:Cheat("Checkbox","Auto Sell All Portal [ทุกประตู]", function(bool)
         print(bool)
         Settings.AutoSellAllPortals = bool
         saveSettings()
@@ -3715,7 +3799,7 @@ function Sellportals()
         while task.wait() do
             if Settings.AutoSellAllPortals then
                 for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
+                    if string.find(v['item_id'],"portal") then
 
                         if v['item_id'] == Settings.SelectedSellPortals then
                         --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
@@ -3725,9 +3809,10 @@ function Sellportals()
                                     }
                                 }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                --warn("Sell Selecte Protals")
-                                warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
-                                wait(0.1)
+                               --warn("Sell Selecte Protals")
+                               warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
+                               --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
+                               wait(0.1)
                             --end
                         end
                     end
@@ -3737,7 +3822,8 @@ function Sellportals()
     end)
 
 end
-    
+
+
 ----------------------------------------------
 ------------------ Others --------------------
 ----------------------------------------------
@@ -3745,11 +3831,11 @@ function autoload()
     pcall(function()
         local exec = tostring(identifyexecutor())
         if exec == "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
+            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
+            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
+            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         end
     end)
 end
@@ -3759,7 +3845,7 @@ if Settings.AutoLoadScript then
 end
 
 function autoload2()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()
 end
 
 if Settings.refarmc then
@@ -3777,6 +3863,12 @@ function others()
         saveSettings()
         autoload()
     end,{enabled = Settings.AutoLoadScript})
+
+    OtherSec:Cheat("Checkbox","Auto Check Internet", function(bool)
+        Settings.AutoReConnect = bool
+        saveSettings()
+    end,{enabled = Settings.AutoReConnect})
+
     OtherSec3:Cheat("Checkbox","Hide Name Player", function(bool)
         Settings.hidenamep = bool
         saveSettings()
@@ -3785,11 +3877,12 @@ function others()
 end
 
 
+
 ----------------------------------------------
 ------------ /\/\/\/\/\/\/\/\/\ --------------
 ----------------------------------------------
 if game.PlaceId == 8304191830 then
-    UnitPosition:Cheat("Label","Not available in game lobby!!!")    
+    UnitPosition:Cheat("Label","ไม่สามารถใช้ได้ใน lobby!!!")    
     UnitSec()
     WorldSec()
     AutoFarmSec()
@@ -3800,6 +3893,7 @@ if game.PlaceId == 8304191830 then
     LowCPUModeT()
     LAGGYconfig()
     credits()
+    sponsor()
     AutoSummon()
     SnipeMerchant()
     Webhooksec()
@@ -3809,8 +3903,8 @@ if game.PlaceId == 8304191830 then
     DELMAPNEW()
     UNITAOEAA()
 else
-    SelectUnits:Cheat("Label","Only available in game Lobby!!!")    
-    AutoSummonSec:Cheat("Label","Only available in game Lobby!!!")
+    SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
+    AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
     WorldSec()
     AutoFarmSec()
     MoreFarmSec()
@@ -3820,6 +3914,7 @@ else
     unitconfig()
     LowCPUModeT()
     LAGGYconfig()
+    sponsor()
     credits()
     SnipeMerchant()
     Webhooksec()
@@ -3828,7 +3923,7 @@ else
     DELMAPNEW()
     UNITAOEAA()
     WebhookSec:Cheat("Label","")
-    WebhookSec:Cheat("Label","Test Baby & Shop Webhook Only available in game Lobby!!!")
+    WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
 end
 ----------------------------------------------
 ------------ /\/\/\/\/\/\/\/\/\ --------------
@@ -3859,25 +3954,6 @@ local function checkReward()
     end
 end
 
-------------------------------------------------
---[[local function startChallenge()
-    if game.PlaceId == 8304191830 then
-        local cpos = plr.Character.HumanoidRootPart.CFrame
-        if Settings.AutoChallenge and Settings.AutoFarm  and checkReward() == true then
-            for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
-                if v.Name == "Owner" and v.Value == nil then
-                    --print(v.Parent.Name.." "..v.Parent:GetFullName())
-                    local args = {  [1] = tostring(v.Parent.Name) }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-                    Settings.chdoor = v.Parent.Name
-                    break
-                end
-            end
-            task.wait()
-            plr.Character.HumanoidRootPart.CFrame = cpos
-        end
-    end
-end]]
 ----------------------------------------
 getgenv().door = "_lobbytemplate316"
 local function startChallenge()
@@ -3889,11 +3965,11 @@ local function startChallenge()
             for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
                 if v.Name == "Owner" and v.Value == nil then
                     --print(v.Parent.Name.." "..v.Parent:GetFullName())
-                    local args = {  [1] = tostring(v.Parent.Name) }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-                    Settings.chdoor = v.Parent.Name
-                    break
-                end
+                        local args = {  [1] = tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+                        Settings.chdoor = v.Parent.Name
+                        break
+                    end
                 end
             end
             task.wait()
@@ -3901,8 +3977,9 @@ local function startChallenge()
         end
     end
 end
-----------------------------------
+---------------------------------------------
 --test fixportal
+
 function getBorosPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -3964,27 +4041,7 @@ function getSummerPortals()
     return portals
 end
 
---Secret Portals
-
-function getSecretDoflamingo()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__doflamingo" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getSecretEclipse()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__femto" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
+--ประตูลับ
 
 function getPoseidonPortals()
     local portals = {}
@@ -3996,7 +4053,28 @@ function getPoseidonPortals()
     return portals
 end
 
---End 
+function getSecretDoflamingo()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__doflamingo" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
+
+function getSecretEclipse()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__femto" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
+--End
 
 function GetPortals(id)
     local reg = getreg() 
@@ -4038,11 +4116,28 @@ function GetPlayerPortal()
     return PlayerPortal
 end
 
---fixportal
-
 function GetPlayerPortalUse(level)
+
+    ---------------------------------
+    --New Mapname
+    --[[local Loader = require(game.ReplicatedStorage.src.Loader)
+    local Maps = Loader.load_data(script, "Maps")
+    local v100 = Maps[Loader.LevelData.map]
+    MapsNameTEST2 = v100.name]]
+    -------------------------
+    for i,v in pairs(get_inventory_items_unique_items()) do
+        if string.find(v['item_id'],"portal") then
+            if v['item_id'] == PortalsNameN then
+
+                
+
+            end
+        end
+    end
+    -------------------------
+
     local PortalName,PortalUUID,PortalPlayer
-    -- Aline 
+    -- Aline fixportal
     if level == "portal_boros_g" then
         PortalName = "Aline farming"
         PortalUUID = GetPortals("portal_boros_g")[1]["uuid"]
@@ -4062,20 +4157,20 @@ function GetPlayerPortalUse(level)
         PortalName = "7ds farming"
         PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
-    --Berserk 		
+        --Berserk 		
     elseif level == "portal_item__eclipse" then
         PortalName = "Berserk farming"
         PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
-    --Secret Portals
+        --ประตูลับ
     elseif level == "portal_item__doflamingo" then
-        PortalName = "Dofamingo Secret Portals farming"
+        PortalName = "Dofamingo Secret Portal farming"
         PortalUUID = GetPortals("portal_item__doflamingo")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
     elseif level == "portal_item__femto" then
-        PortalName = "The Eclipse Secret Portals farming"
+        PortalName = "The Eclipse Secret Portal farming"
         PortalUUID = GetPortals("portal_item__femto")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
@@ -4083,79 +4178,81 @@ function GetPlayerPortalUse(level)
         PortalName = "Summer Secret Portal farming"
         PortalUUID = GetPortals("portal_poseidon")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
+
+        
     ------------------------------
     -- [[ Portal Event Portal ]] --
 
     elseif level == "portal_summer" then
-        for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
-            Settings.SelectedTier = i
-        local PortalEvent = GetPortals("portal_summer")
-        for i,v in pairs(PortalEvent) do
+            for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
+                Settings.SelectedTier = i
+            local PortalEvent = GetPortals("portal_summer")
+            for i,v in pairs(PortalEvent) do
 
-            --SettingPortalsName1
-            if Settings.SelectedPortalsName1 == "Planet Namak (Summer)" then
-                Settings.SelectedPortalsName1 = "namek_infinite" end 
-            if Settings.SelectedPortalsName1 == "Shiganshinu District (Summer)" then
-                Settings.SelectedPortalsName1 = "aot_infinite" end 
-            if Settings.SelectedPortalsName1 == "Ant Kingdom (Summer)" then
-                Settings.SelectedPortalsName1 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName1 == "Cursed Academy (Summer)" then
-                Settings.SelectedPortalsName1 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName1 == "Alien Spaceship (Underwater)" then
-                Settings.SelectedPortalsName1 = "opm_infinite" end 
-            if Settings.SelectedPortalsName1 == "Puppet Island (Summer)" then
-                Settings.SelectedPortalsName1 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName1 == "Fabled Kingdom (Summer)" then
-                Settings.SelectedPortalsName1 = "7ds_infinite" end 
-            --SettingPortalsName2
-            if Settings.SelectedPortalsName2 == "Planet Namak (Summer)" then
-                Settings.SelectedPortalsName2 = "namek_infinite" end 
-            if Settings.SelectedPortalsName2 == "Shiganshinu District (Summer)" then
-                Settings.SelectedPortalsName2 = "aot_infinite" end 
-            if Settings.SelectedPortalsName2 == "Ant Kingdom (Summer)" then
-                Settings.SelectedPortalsName2 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName2 == "Cursed Academy (Summer)" then
-                Settings.SelectedPortalsName2 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName2 == "Alien Spaceship (Underwater)" then
-                Settings.SelectedPortalsName2 = "opm_infinite" end 
-            if Settings.SelectedPortalsName2 == "Puppet Island (Summer)" then
-                Settings.SelectedPortalsName2 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName2 == "Fabled Kingdom (Summer)" then
-                Settings.SelectedPortalsName2 = "7ds_infinite" end 
-            --SettingPortalsName3
-            if Settings.SelectedPortalsName3 == "Planet Namak (Summer)" then
-                Settings.SelectedPortalsName3 = "namek_infinite" end 
-            if Settings.SelectedPortalsName3 == "Shiganshinu District (Summer)" then
-                Settings.SelectedPortalsName3 = "aot_infinite" end 
-            if Settings.SelectedPortalsName3 == "Ant Kingdom (Summer)" then
-                Settings.SelectedPortalsName3 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName3 == "Cursed Academy (Summer)" then
-                Settings.SelectedPortalsName3 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName3 == "Alien Spaceship (Underwater)" then
-                Settings.SelectedPortalsName3 = "opm_infinite" end 
-            if Settings.SelectedPortalsName3 == "Puppet Island (Summer)" then
-                Settings.SelectedPortalsName3 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName3 == "Fabled Kingdom (Summer)" then
-                Settings.SelectedPortalsName3 = "7ds_infinite" end 
+                --SettingPortalsName1
+                if Settings.SelectedPortalsName1 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName1 = "namek_infinite" end 
+                if Settings.SelectedPortalsName1 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName1 = "aot_infinite" end 
+                if Settings.SelectedPortalsName1 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName1 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName1 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName1 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName1 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName1 = "opm_infinite" end 
+                if Settings.SelectedPortalsName1 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName1 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName1 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName1 = "7ds_infinite" end 
+                --SettingPortalsName2
+                if Settings.SelectedPortalsName2 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName2 = "namek_infinite" end 
+                if Settings.SelectedPortalsName2 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName2 = "aot_infinite" end 
+                if Settings.SelectedPortalsName2 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName2 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName2 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName2 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName2 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName2 = "opm_infinite" end 
+                if Settings.SelectedPortalsName2 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName2 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName2 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName2 = "7ds_infinite" end 
+                --SettingPortalsName3
+                if Settings.SelectedPortalsName3 == "Planet Namak (Summer)" then
+                    Settings.SelectedPortalsName3 = "namek_infinite" end 
+                if Settings.SelectedPortalsName3 == "Shiganshinu District (Summer)" then
+                    Settings.SelectedPortalsName3 = "aot_infinite" end 
+                if Settings.SelectedPortalsName3 == "Ant Kingdom (Summer)" then
+                    Settings.SelectedPortalsName3 = "hxhant_infinite" end 
+                if Settings.SelectedPortalsName3 == "Cursed Academy (Summer)" then
+                    Settings.SelectedPortalsName3 = "jjk_infinite" end 
+                if Settings.SelectedPortalsName3 == "Alien Spaceship (Underwater)" then
+                    Settings.SelectedPortalsName3 = "opm_infinite" end 
+                if Settings.SelectedPortalsName3 == "Puppet Island (Summer)" then
+                    Settings.SelectedPortalsName3 = "dressrosa_infinite" end 
+                if Settings.SelectedPortalsName3 == "Fabled Kingdom (Summer)" then
+                    Settings.SelectedPortalsName3 = "7ds_infinite" end 
 
-            if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1
-            and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName2
-            and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName3 then
-            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
-            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
-            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
-            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
+                if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1
+                and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName2
+                and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName3 then
+                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
+                if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
+                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
+                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
 
-                PortalEventUse = v
-                PortalName = "Summer farming"
-                PortalUUID = PortalEventUse["uuid"]
-                PortalPlayer = GetPlayerPortal()
-                break
+                    PortalEventUse = v
+                    PortalName = "Summer farming"
+                    PortalUUID = PortalEventUse["uuid"]
+                    PortalPlayer = GetPlayerPortal()
+                    break
+                    end
                 end
             end
         end
     end
-end
 
 
 end
@@ -4186,6 +4283,7 @@ function StartPortal(input)
         end
     end
 end
+
 
 
 Settings.teleporting = true
@@ -4292,6 +4390,7 @@ local function startfarming()
             end       
         elseif cata == "Portals" then
             StartPortal(level)
+
         elseif cata == "Dungeon" then
             if level == "jjk_finger" then --_lobbytemplate_event221
             getgenv().door = "_lobbytemplate_event221"
@@ -4349,7 +4448,7 @@ local function startfarming()
                 warn("DUNGEONS jjk_finger farming")
                 task.wait(1)
             end
-                --ดันเกะโท
+        --ดันเกะโท
         elseif cata == "Dungeon" then
             if level == "jjk_raid" then
                 getgenv().door = "_lobbytemplate_event22"
@@ -4407,7 +4506,7 @@ local function startfarming()
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
                 end
-                    --Events Annivesary
+            --Events Annivesary
         elseif cata == "Dungeon" then
             if level == "namek_anniversary" then
                 getgenv().door = "_lobbytemplate_event323"
@@ -4466,6 +4565,7 @@ local function startfarming()
                     task.wait(1)
                 end
             end
+
 
                 end
             end
@@ -4543,7 +4643,7 @@ function autoabilityfunc()
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Ainz")
                                 end
-                            end                     
+                            end
 
                         end
                     end
@@ -4561,81 +4661,82 @@ function autoabilityfunc()
     end
 end
 -- End  Auto Abilities Function
+    
 
     -- Start of Auto Global Cooldown Abilities Function
-    getgenv().autoGCDabilityerr = false
-    function autoabilityGCDfunc()
-        local player = game.Players.LocalPlayer.Name
-        if Settings.AutoGCDAbilities then
-            repeat task.wait() until Workspace:WaitForChild("_UNITS")
-            local success, errGCD = pcall(function()
-                for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-                    if v:FindFirstChild("_stats") then
+getgenv().autoGCDabilityerr = false
+function autoabilityGCDfunc()
+    local player = game.Players.LocalPlayer.Name
+    if Settings.AutoGCDAbilities then
+        repeat task.wait() until Workspace:WaitForChild("_UNITS")
+        local success, errGCD = pcall(function()
+            for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
+                if v:FindFirstChild("_stats") then
+                    
+                    -- Look for Threat then execute Puchi Skill
+                    if v._stats:FindFirstChild("threat") then
+                        if v._stats.threat.Value > 0 then
+                            UsePuchiSkill()
+                            UseErenSkill()
+                            UseDioOHSkill()
+                        end
                         
-                        -- Look for Threat then execute Puchi Skill
-                        if v._stats:FindFirstChild("threat") then
-                            if v._stats.threat.Value > 0 then
-                                UsePuchiSkill()
-                                UseErenSkill()
-                                UseDioOHSkill()
-                            end
-                            
-                        -- Search Player Units
-                        elseif v._stats:FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-    
-    
-                                if v._stats.id.Value ~= "pucci_heaven" then
-                                    if v._stats.state.Value ~= "attack" then
-                                        if v._stats.active_attack.Value ~= "nil" then
-                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    end
-                                end
-                            end
-    
-                            if v._stats.id.Value ~= "erwin" then
-                                    if v._stats.state.Value ~= "attack" then
-                                        if v._stats.active_attack.Value ~= "nil" then
-                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    end
-                                end
-                            end
-    
-                            if v._stats.id.Value ~= "wendy" then
-                                    if v._stats.state.Value ~= "attack" then
-                                        if v._stats.active_attack.Value ~= "nil" then
-                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    end
-                                end
-                            end
-    
-                            if v._stats.id.Value ~= "leafa" then
-                                    if v._stats.state.Value ~= "attack" then
-                                        if v._stats.active_attack.Value ~= "nil" then
-                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    end
-                                end
-                            end
-    
-                            if v._stats.id.Value ~= "eren_final" then
-                                    if v._stats.state.Value ~= "attack" then
-                                        if v._stats.active_attack.Value ~= "nil" then
-                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    end
-                                end
-                            end
-    
-                            if v._stats.id.Value == "homura_evolved" then
+                    -- Search Player Units
+    				elseif v._stats:FindFirstChild("player") then
+    					if tostring(v._stats.player.Value) == player then
+
+
+                            if v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.state.Value ~= "attack" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 end
                             end
-                            
+                        end
+
+                        if v._stats.id.Value ~= "erwin" then
+                                if v._stats.state.Value ~= "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
                             end
+                        end
+
+                        if v._stats.id.Value ~= "wendy" then
+                                if v._stats.state.Value ~= "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
+                            end
+                        end
+
+                        if v._stats.id.Value ~= "leafa" then
+                                if v._stats.state.Value ~= "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
+                            end
+                        end
+
+                        if v._stats.id.Value ~= "eren_final" then
+                                if v._stats.state.Value ~= "attack" then
+                                    if v._stats.active_attack.Value ~= "nil" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                end
+                            end
+                        end
+
+                        if v._stats.id.Value == "homura_evolved" then
+                            if v._stats.state.Value ~= "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                            end
+                        end
+                        
                         end
                     end
                 end
-            end)
+            end
+        end)
         
         if errGCD then
             warn("Can't use Ability")
@@ -4645,7 +4746,8 @@ end
     end
 end
     -- End of Auto Global Cooldown Abilities Function
-    
+
+
 -- Start  Puchi Skill Function
 function UsePuchiSkill()
     local player = game.Players.LocalPlayer.Name
@@ -4919,7 +5021,6 @@ if Settings.EnableBuffleafaLoop then
     autoabilityleafa()
 end
 
-
 -- End  Auto Buff 100 Function
 -----------------------------------------------------------
 
@@ -5054,7 +5155,7 @@ coroutine.resume(coroutine.create(function()
                 getgenv().autoabilityerr = false
             end
         end
-
+        
         if Settings.AutoGCDAbilities then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
@@ -5067,7 +5168,7 @@ coroutine.resume(coroutine.create(function()
                 getgenv().autoGCDabilityerr = false
             end
         end
-        
+
         if Settings.AutoUpgrade and not Settings.unitconfig then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
@@ -5142,7 +5243,7 @@ function TPReturner()
    if foundAnything == "" then
        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
    else
-       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
    end
    local ID = ""
    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
@@ -5201,6 +5302,16 @@ function Teleport()
    end
 end
 
+function Rejoine()
+    while wait() do
+        pcall(function()
+            game:GetService("TeleportService"):Teleport(8304191830, game:GetService("Players").LocalPlayer)
+        end)
+    end
+ end
+
+
+
 -------------------------------------------
 -------------------------------------------
 coroutine.resume(coroutine.create(function()
@@ -5215,7 +5326,7 @@ coroutine.resume(coroutine.create(function()
                 task.wait(1.5)
 
             cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-            if Settings.AutoPickPortal and cata == "Portals" or cata == "Secret Portals" then
+            if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
                 local DataPortalReplay = GetPlayerPortalUse(level)
                 local args = {
                     [1] = "replay",
@@ -5274,7 +5385,7 @@ coroutine.resume(coroutine.create(function()
                     Teleport()
                     warn("Returning to lobby...")
                 end
-                
+
             end
         end)
     end)
@@ -5334,6 +5445,7 @@ function PlacePos(map,name,_uuid,unit)
         if name == "Infinity Castle" then world = world2 end
         local pos = Settings[map][unit]
 
+  
         if name ~= "metal_knight_evolved" then
             local i = math.random(1,6)
             if i == 1 then
@@ -5395,7 +5507,7 @@ function PlacePos(map,name,_uuid,unit)
             elseif i == 2 then
                 task.spawn(function()
                     --place units 1
-                    task.wait(2)
+                    task.wait(0.5)
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y2"], pos["z"]) )
@@ -5406,7 +5518,7 @@ function PlacePos(map,name,_uuid,unit)
             elseif i == 3 then
                 task.spawn(function()
                     --place units 2
-                    task.wait(3)
+                    task.wait(1)
                     local args = {
                         [1] = _uuid,
                         [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
@@ -5892,7 +6004,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     end
 --end
 
-
 --fix sell and place spam
 
 function PlaceUnits(map)
@@ -5925,7 +6036,7 @@ function PlaceUnits(map)
                     local unitinfo_ = unitinfo:split(" #")
                     local pos = Settings[map]["UP" .. i]
 
-                    print(" World "..map.." attemp to place "..unitinfo_[1])
+                    print(" ด่าน "..map.." กำลังวางหรืออัพตัว "..unitinfo_[1])
     
                     if unitinfo_[1] ~= "metal_knight_evolved" then
     
@@ -6012,11 +6123,11 @@ end
 
 ------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------
---updatefix fixmap
+--updatefix
 coroutine.resume(coroutine.create(function()
     while task.wait() do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("Enable Unit Config")
+            warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
 
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
@@ -6052,7 +6163,7 @@ end))
 coroutine.resume(coroutine.create(function()
     while task.wait() do
         if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("Disable Unit Config")
+            warn("ปิด ฟังชั่น ตั้งค่า Unit")
             repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
 
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
@@ -6085,7 +6196,6 @@ coroutine.resume(coroutine.create(function()
         end
     end
 end))
-
 -----------------------------------------------------
 --------------------FPS BOOST-----------------------
 -----------------------------------------------------
@@ -6128,12 +6238,8 @@ function FPSBOOST()
         _G.ConsoleLogs = false -- Set to true if you want console logs (mainly for debugging)
     end
     
-    
-    
     if not game:IsLoaded() then
-        repeat
-            task.wait()
-        until game:IsLoaded()
+        repeat task.wait() until game:IsLoaded()
     end
     if not _G.Settings then
         _G.Settings = {
@@ -6425,10 +6531,10 @@ function FPSBOOST()
     warn("FPS Booster Loaded!")
 end
 
+
 if Settings.fpsboost then
     FPSBOOST()
 end
-
 -----------------------------------------------------
 --------------------DELETE MAP-----------------------
 -----------------------------------------------------
@@ -6488,6 +6594,8 @@ coroutine.resume(coroutine.create(function()
 end))
 ---------------------------------------------------------------------------------------
 
+-- end
+
 --hide name
 function hidename()
 task.spawn(function()  -- Hides name for yters (not sure if its Fe)
@@ -6504,13 +6612,12 @@ if Settings.hidenamep then
     hidename()
 end
 
-
-
 --Auto Grab Daily Quest --updatefix
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
         game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("overlord_daily")
+        warm("Auto grab Daily quest")
         wait(15)
     end
 end
@@ -6528,6 +6635,8 @@ function autoDailyMission()
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_mha_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_jojo_daily")
         game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_opm_daily")
+
+        warm("Auto grab Daily Mission")
         wait(15)
     end
 end
@@ -6558,6 +6667,8 @@ function checkInterNet()
             end)
         end
     end
+
+
 -- End of Check Connection
 
 --placeany
@@ -6569,6 +6680,7 @@ function placeAny()
     task.spawn(function()
         while task.wait() do
             placement_service.can_place = true
+
         end
     end)
 end
@@ -6576,22 +6688,23 @@ end
 function placeunittwin() 
     if game.Workspace:WaitForChild("_UNITS") then
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v.Name:FindFirstChild("_hitbox") then
-            v:Destroy() end
-            end
+        --if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
+            if v.Name == "_hitbox" then v:Remove() end
+
+            --end
         end
     end
+end
     
-    if Settings.placeany then
-        placeAny()
-        placeunittwin() 
-    end
+if Settings.placeany then
+    placeAny()
+    placeunittwin() 
+end
 
 --ReedemCode updatefix
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","OVERLORD","SupperTierMagicSoon",
+    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
     "NEWCODE0819"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
@@ -6602,15 +6715,17 @@ if Settings.redeemc then
     Reedemcode()
 end
 
+--AntiAFK
 pcall(function()
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(function()
         vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(1)
+        wait(0.5)
         vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(0.5)
+        vu:CaptureController()vu:ClickButton2(Vector2.new())
     end)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-        wait(1)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
 end)
 
@@ -6618,7 +6733,7 @@ pcall(function()
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false
-    warn("TEST Display Error Hider!!!")
+    warn("Display Error Hider!!!")
 end)
 
 --start function mute Error
@@ -6628,26 +6743,23 @@ if game.PlaceId ~= 8304191830 then
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
 end
-
 --disms
 if game.PlaceId == 8304191830 then
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
     game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
     game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
 end
-
 --End of function mute Error
 
-warn("Update Check ...!!!")
-warn("Arpon Anti-AFK Loaded!!!")
-warn("Arpon Hider Name Loaded!!!")
-warn("Arpon AA v2 Loaded!!!")
-warn("All Loaded !!!")
-
-if game.PlaceId == 8304191830 then
+if game.PlaceId == 8304191830 and Settings.AutoReConnect then
     repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
     checkInterNet()
-elseif game.PlaceId ~= 8304191830 then
+elseif game.PlaceId ~= 8304191830 and Settings.AutoReConnect then
     repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
     checkInterNet()
 end
+
+warn("Update Check ...!!!")
+warn("HSz Hider Name Loaded สำเร็จ!!!")
+warn("HSz AA v2 Loaded สำเร็จ!!!")
+warn("All Loaded !!!")

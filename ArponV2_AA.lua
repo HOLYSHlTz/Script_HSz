@@ -1,10 +1,10 @@
 if game.PlaceId == 8304191830 then
     UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
-    writefile(game:GetService('Players').LocalPlayer.Name .. 'UPD_name.json', game:GetService('HttpService'):JSONEncode(UPDUI))
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'UPD_name.txt', game:GetService('HttpService'):JSONEncode(UPDUI))
     btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.json', game:GetService('HttpService'):JSONEncode(btplv))
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.txt', game:GetService('HttpService'):JSONEncode(btplv))
     btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_AllLV.json', game:GetService('HttpService'):JSONEncode(btpAlllv))
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_AllLV.txt', game:GetService('HttpService'):JSONEncode(btpAlllv))
 end
 
 ---// Loading Section \\---
@@ -21,7 +21,7 @@ else
 end
 
 --Version_UI
-UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.json"))
+UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
 local version = tostring(UPDUI2)
 --local version = "16.0.0-1xx"
 ------------------------------

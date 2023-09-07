@@ -1,18 +1,17 @@
+if game.PlaceId == 8304191830 then
+    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'UPD_name.json', game:GetService('HttpService'):JSONEncode(UPDUI))
+    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.json', game:GetService('HttpService'):JSONEncode(btplv))
+    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
+    writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_AllLV.json', game:GetService('HttpService'):JSONEncode(btpAlllv))
+end
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
-    --SAVEUPD()
-    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
-    writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
-    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-    writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
-    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-    writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else
@@ -21,11 +20,10 @@ else
     repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
 end
 
-
+--Version_UI
 UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
 local version = tostring(UPDUI2)
 --local version = "16.0.0-1xx"
-
 ------------------------------
 local a = 'V2_Anime_Adventures' -- 
 local b = game:GetService('Players').LocalPlayer.Name .. '_AnimeAdventures.json' 

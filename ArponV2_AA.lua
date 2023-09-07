@@ -4288,9 +4288,9 @@ local function startfarming()
         elseif cata == "Portals" then
             StartPortal(level)
         elseif cata == "Dungeon" then
-            if level == "jjk_finger" then --_lobbytemplate_event221
-            getgenv().door = "_lobbytemplate_event221"
-            local string_1 = "_lobbytemplate_event221";
+            if level == "jjk_finger" then --_lobbytemplate_event222
+            getgenv().door = "_lobbytemplate_event222"
+            local string_1 = "_lobbytemplate_event222";
             local table_1 = {
                 ["selected_key"] = "key_jjk_finger" --key_jjk_finger
             };
@@ -4347,8 +4347,8 @@ local function startfarming()
                 --ดันเกะโท
         elseif cata == "Dungeon" then
             if level == "jjk_raid" then
-                getgenv().door = "_lobbytemplate_event22"
-                local string_1 = "_lobbytemplate_event22";
+                getgenv().door = "_lobbytemplate_event23"
+                local string_1 = "_lobbytemplate_event23";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };

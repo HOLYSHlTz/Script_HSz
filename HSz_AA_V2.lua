@@ -1,17 +1,17 @@
+---// Loading Section \\---
+repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
+    repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("UpdateUI"):FindFirstChild("Main"):FindFirstChild("Top"):FindFirstChild("Title")
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
+    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
     UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
     writefile(game:GetService('Players').LocalPlayer.Name .. 'UPD_name.txt', game:GetService('HttpService'):JSONEncode(UPDUI))
     btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
     writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.txt', game:GetService('HttpService'):JSONEncode(btplv))
     btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
     writefile(game:GetService('Players').LocalPlayer.Name .. 'BTP_AllLV.txt', game:GetService('HttpService'):JSONEncode(btpAlllv))
-end
-
----// Loading Section \\---
-repeat  task.wait() until game:IsLoaded()
-if game.PlaceId == 8304191830 then
-    repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
     repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else

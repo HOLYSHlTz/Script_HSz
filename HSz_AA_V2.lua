@@ -5397,6 +5397,7 @@ coroutine.resume(coroutine.create(function()
                     Teleport()
                     warn("Returning to lobby...")
                 end
+            end
 
             end
         end)

@@ -220,7 +220,7 @@ function webhook()
         btp2 = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.Title.Text
         btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Main.Rewards.Frame.Pages.Home.Amount.Text
         btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-        btplv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_LV.txt"))
+        btplv2 = game:GetService('HttpService'):JSONDecode(readfile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.txt'))
         local btplv3 = tostring(btplv2)
         btpAlllv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_AllLV.txt"))
         local btpAlllv3 = tostring(btpAlllv2)

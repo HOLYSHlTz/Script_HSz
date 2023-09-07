@@ -919,17 +919,21 @@ local function UnitSec()
         preset = Settings.SelectedPreset
         if preset == "ทีม 1" then
             switchteam("1")
+            GetUnits()
         elseif preset == "ทีม 2" then
             switchteam("2")
+            GetUnits()
         elseif preset == "ทีม 3" then
             switchteam("3")
+            GetUnits()
         elseif preset == "ทีม 4" then
             switchteam("4")
+            GetUnits()
         elseif preset == "ทีม 5" then
             switchteam("5")
+            GetUnits()
         end
         print(preset)
-        GetUnits()
     end)
 end
 

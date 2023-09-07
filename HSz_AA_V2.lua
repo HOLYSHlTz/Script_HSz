@@ -21,7 +21,7 @@ else
 end
 
 --Version_UI
-UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
+UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.json"))
 local version = tostring(UPDUI2)
 --local version = "16.0.0-1xx"
 ------------------------------

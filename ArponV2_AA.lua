@@ -1254,21 +1254,21 @@ local function WorldSec()
         warn("Change to : "..value)
         Settings.SelectedPortalsName1 = value
         saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName1})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName1})
 
     Settings.SelectedPortalsName2 = Settings.SelectedPortalsName2 or "None"
     local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 Din't Use Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName2 = value
         saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName2})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName2})
 
     Settings.SelectedPortalsName3 = Settings.SelectedPortalsName3 or "None"
     local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 Din't Use Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName3 = value
         saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName3})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName3})
 
 
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
@@ -2396,17 +2396,17 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
     if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
 
         --fixmm
-        if map == "jjk_raid" then map = "jjk" end
-        if map == "jjk_finger" then map = "jjk" end
+        if world == "jjk_raid" then world = "jjk" end
+        if world == "jjk_finger" then world = "jjk" end
         if world == "karakura" and world2 == "csm_city" then world = "csm_city" end
         if world == "karakura" and world2 ~= "csm_city" then world = "karakura" end
         if Mapname == "Infinity Castle" and world2 == "csm_city" then world = "csm_city" end
         if Mapname == "Infinity Castle" and world2 ~= "csm_city" then world = "karakura" end
-        if map == "aot_raid" then map = "aot" end
-        if map == "naruto_desert_night" then map = "naruto_desert" end
-        if map == "west_city" then map = "west_city_frieza" end
-        if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-        if map == "hage_night" then map = "hage" end
+        if world == "aot_raid" then world = "aot" end
+        if world == "naruto_desert_night" then world = "naruto_desert" end
+        if world == "west_city" then world = "west_city_frieza" end
+        if world == "uchiha_hideout" then world = "uchiha_hideout_final" end
+        if world == "hage_night" then world = "hage" end
         if Mapname == "Infinity Castle" then world = world2 end
 
         updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
@@ -4090,49 +4090,49 @@ function GetPlayerPortalUse(level)
         for i,v in pairs(PortalEvent) do
 
             --SettingPortalsName1
-            if Settings.SelectedPortalsName1 == "Planet Namak (Summer)" then
+            if Settings.SelectedPortalsName1 == "Planet Namak" then
                 Settings.SelectedPortalsName1 = "namek_infinite" end 
-            if Settings.SelectedPortalsName1 == "Shiganshinu District (Summer)" then
+            if Settings.SelectedPortalsName1 == "Shiganshinu District" then
                 Settings.SelectedPortalsName1 = "aot_infinite" end 
-            if Settings.SelectedPortalsName1 == "Ant Kingdom (Summer)" then
+            if Settings.SelectedPortalsName1 == "Ant Kingdom" then
                 Settings.SelectedPortalsName1 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName1 == "Cursed Academy (Summer)" then
+            if Settings.SelectedPortalsName1 == "Cursed Academy" then
                 Settings.SelectedPortalsName1 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName1 == "Alien Spaceship (Underwater)" then
+            if Settings.SelectedPortalsName1 == "Alien Spaceship" then
                 Settings.SelectedPortalsName1 = "opm_infinite" end 
-            if Settings.SelectedPortalsName1 == "Puppet Island (Summer)" then
+            if Settings.SelectedPortalsName1 == "Puppet Island" then
                 Settings.SelectedPortalsName1 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName1 == "Fabled Kingdom (Summer)" then
+            if Settings.SelectedPortalsName1 == "Fabled Kingdom" then
                 Settings.SelectedPortalsName1 = "7ds_infinite" end 
             --SettingPortalsName2
-            if Settings.SelectedPortalsName2 == "Planet Namak (Summer)" then
+            if Settings.SelectedPortalsName2 == "Planet Namak" then
                 Settings.SelectedPortalsName2 = "namek_infinite" end 
-            if Settings.SelectedPortalsName2 == "Shiganshinu District (Summer)" then
+            if Settings.SelectedPortalsName2 == "Shiganshinu District" then
                 Settings.SelectedPortalsName2 = "aot_infinite" end 
-            if Settings.SelectedPortalsName2 == "Ant Kingdom (Summer)" then
+            if Settings.SelectedPortalsName2 == "Ant Kingdom" then
                 Settings.SelectedPortalsName2 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName2 == "Cursed Academy (Summer)" then
+            if Settings.SelectedPortalsName2 == "Cursed Academy" then
                 Settings.SelectedPortalsName2 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName2 == "Alien Spaceship (Underwater)" then
+            if Settings.SelectedPortalsName2 == "Alien Spaceship" then
                 Settings.SelectedPortalsName2 = "opm_infinite" end 
-            if Settings.SelectedPortalsName2 == "Puppet Island (Summer)" then
+            if Settings.SelectedPortalsName2 == "Puppet Island" then
                 Settings.SelectedPortalsName2 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName2 == "Fabled Kingdom (Summer)" then
+            if Settings.SelectedPortalsName2 == "Fabled Kingdom" then
                 Settings.SelectedPortalsName2 = "7ds_infinite" end 
             --SettingPortalsName3
-            if Settings.SelectedPortalsName3 == "Planet Namak (Summer)" then
+            if Settings.SelectedPortalsName3 == "Planet Namak" then
                 Settings.SelectedPortalsName3 = "namek_infinite" end 
-            if Settings.SelectedPortalsName3 == "Shiganshinu District (Summer)" then
+            if Settings.SelectedPortalsName3 == "Shiganshinu District" then
                 Settings.SelectedPortalsName3 = "aot_infinite" end 
-            if Settings.SelectedPortalsName3 == "Ant Kingdom (Summer)" then
+            if Settings.SelectedPortalsName3 == "Ant Kingdom" then
                 Settings.SelectedPortalsName3 = "hxhant_infinite" end 
-            if Settings.SelectedPortalsName3 == "Cursed Academy (Summer)" then
+            if Settings.SelectedPortalsName3 == "Cursed Academy" then
                 Settings.SelectedPortalsName3 = "jjk_infinite" end 
-            if Settings.SelectedPortalsName3 == "Alien Spaceship (Underwater)" then
+            if Settings.SelectedPortalsName3 == "Alien Spaceship" then
                 Settings.SelectedPortalsName3 = "opm_infinite" end 
-            if Settings.SelectedPortalsName3 == "Puppet Island (Summer)" then
+            if Settings.SelectedPortalsName3 == "Puppet Island" then
                 Settings.SelectedPortalsName3 = "dressrosa_infinite" end 
-            if Settings.SelectedPortalsName3 == "Fabled Kingdom (Summer)" then
+            if Settings.SelectedPortalsName3 == "Fabled Kingdom" then
                 Settings.SelectedPortalsName3 = "7ds_infinite" end 
 
             if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1

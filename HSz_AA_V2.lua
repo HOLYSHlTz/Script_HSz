@@ -5339,7 +5339,7 @@ coroutine.resume(coroutine.create(function()
                 task.wait(1.5)
 
             cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-            if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
+            if Settings.AutoPickPortal and cata == "Portals" or cata == "Secret Portals" then
                 local DataPortalReplay = GetPlayerPortalUse(level)
                 local args = {
                     [1] = "replay",
@@ -5384,7 +5384,7 @@ coroutine.resume(coroutine.create(function()
                 local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Next Story...")
-            --end
+            end
 
             --elseif Settings.AutoContinue then
             if Settings.AutoContinue then
@@ -5397,8 +5397,7 @@ coroutine.resume(coroutine.create(function()
                     warn("Returning to lobby...")
                     Teleport()
                 end
-            end
-
+                
             end
         end)
     end)

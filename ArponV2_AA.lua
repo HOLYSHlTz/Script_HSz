@@ -222,8 +222,10 @@ function webhook()
         btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
         btplv2 = game:GetService('HttpService'):JSONDecode(readfile(game:GetService('Players').LocalPlayer.Name .. 'BTP_LV.txt'))
         local btplv3 = tostring(btplv2)
+        if btplv3 == " 99 " then btplv3 = " 50 " end
         btpAlllv2 = game:GetService('HttpService'):JSONDecode(readfile(game:GetService('Players').LocalPlayer.Name .. 'BTP_AllLV.txt'))
         local btpAlllv3 = tostring(btpAlllv2)
+        if btpAlllv3 == " 100000/100000 " then btpAlllv3 = " Max " end
         waves = cwaves:split(": ")
         if waves ~= nil and waves[2] == "999" then waves[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
         ttime = ctime:split(": ")

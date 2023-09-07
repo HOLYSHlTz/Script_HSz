@@ -2475,6 +2475,7 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
     if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
 
         --fixmm
+        if map == "jjk_raid" then map = "jjk" end
         if map == "jjk_finger" then map = "jjk" end
         if world == "karakura" and world2 == "csm_city" then world = "csm_city" end
         if world == "karakura" and world2 ~= "csm_city" then world = "karakura" end
@@ -5460,6 +5461,7 @@ function PlacePos(map,name,_uuid,unit)
         local Mapname = GetLevelData.name
 
         --fixmm
+        if map == "jjk_raid" then map = "jjk" end
         if map == "jjk_finger" then map = "jjk" end
         if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
         if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
@@ -6066,6 +6068,7 @@ function PlaceUnits(map)
                     local Mapname = GetLevelData.name
 
                     --fixmm
+                    if map == "jjk_raid" then map = "jjk" end
                     if map == "jjk_finger" then map = "jjk" end
                     if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                     if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
@@ -6187,6 +6190,7 @@ coroutine.resume(coroutine.create(function()
             --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
+                if map == "jjk_raid" then map = "jjk" end
                 if map == "jjk_finger" then map = "jjk" end
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                 if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
@@ -6225,6 +6229,7 @@ coroutine.resume(coroutine.create(function()
             --if game.Workspace:FindFirstChild("_map") then
 
                 --fixmm
+                if map == "jjk_raid" then map = "jjk" end
                 if map == "jjk_finger" then map = "jjk" end
                 if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
                 if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end

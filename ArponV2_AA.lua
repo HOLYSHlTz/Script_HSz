@@ -5269,10 +5269,8 @@ coroutine.resume(coroutine.create(function()
             end
 
             if Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
-                    pcall(function() Teleport() end)
-                        wait(5)
-                    pcall(function() Teleport() end)
                     warn("Returning to lobby...")
+                    Teleport()
                 end
                 
             end

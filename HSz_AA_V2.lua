@@ -1,4 +1,4 @@
----// Loading Section \\---
+---// Loading Section \\
 repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -4402,8 +4402,8 @@ local function startfarming()
 
         elseif cata == "Dungeon" then
             if level == "jjk_finger" then --_lobbytemplate_event221
-            getgenv().door = "_lobbytemplate_event221"
-            local string_1 = "_lobbytemplate_event221";
+            getgenv().door = "_lobbytemplate_event222"
+            local string_1 = "_lobbytemplate_event222";
             local table_1 = {
                 ["selected_key"] = "key_jjk_finger" --key_jjk_finger
             };
@@ -4460,8 +4460,8 @@ local function startfarming()
         --ดันเกะโท
         elseif cata == "Dungeon" then
             if level == "jjk_raid" then
-                getgenv().door = "_lobbytemplate_event22"
-                local string_1 = "_lobbytemplate_event22";
+                getgenv().door = "_lobbytemplate_event23"
+                local string_1 = "_lobbytemplate_event23";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };

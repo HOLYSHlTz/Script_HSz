@@ -5382,7 +5382,7 @@ coroutine.resume(coroutine.create(function()
                 local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
                 warn("Next Story...")
-            end
+            --end
 
             --elseif Settings.AutoContinue then
             if Settings.AutoContinue then

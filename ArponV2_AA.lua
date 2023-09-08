@@ -1030,7 +1030,7 @@ end
 
 -- End of Auto Save Unit Function
 ----------------------------------------------
------------------- World Section -------------updatefix
+------------------ World Section -------------
 ----------------------------------------------
 local function WorldSec()
     SelectWorld:Cheat("Dropdown", "🔱 Select Category",function(value)
@@ -1052,6 +1052,7 @@ local function WorldSec()
         default = Settings.WorldCategory
     })
     ---------
+    --Story
     local GeneralMap = {}
     local Data_Worlds_Name = {}
     Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
@@ -1059,6 +1060,24 @@ local function WorldSec()
     for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
         GeneralMap[Worlds[v].name] = v
         Data_Worlds_Name[i] = Worlds[v].name
+    end
+    --Legendstage
+    local GeneralMapLS = {}
+    local Data_Legend_Name = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['LEGEND_WORLD_ORDER']) do
+        GeneralMapLS[Worlds[v].name] = v
+        Data_Legend_Name[i] = Worlds[v].name
+    end
+    --Raid
+    local GeneralMapR = {}
+    local Data_Raid_Name = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['RAID_WORLD_ORDER']) do
+        GeneralMapR[Worlds[v].name] = v
+        Data_Raid_Name[i] = Worlds[v].name
     end
 ---------
     local selectworld = SelectWorld:Cheat("Dropdown", "🌏 Select World",function(value)
@@ -1074,11 +1093,9 @@ local function WorldSec()
         if Settings.WorldCategory == "Story Worlds" then
             storylist = Data_Worlds_Name
         elseif Settings.WorldCategory == "Legend Stages" then
-            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)",
-            "Undead Tomb (Legend)"}
+            storylist = Data_Legend_Name
         elseif Settings.WorldCategory == "Raid Worlds" then
-            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", 
-            "Hero City (Hero Slayer)", "Marine's Ford (Buddha)"}
+            storylist = Data_Raid_Name
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","Summer Events"}
         elseif Settings.WorldCategory == "Dungeon" then
@@ -1086,12 +1103,13 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Secret Portals" then
             storylist = {"Dressrosa Secret Portals","The Eclipse Secret","Summer Secret"} 
         end
-    
+    --updatefix
         for i = 1, #storylist do
             selectworld:AddOption(storylist[i])
         end
     end
-    ---------------------
+---------------------
+    --Story2
     local GeneralMap2 = {}
     local Data_Worlds_Name2 = {}
     Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
@@ -1099,6 +1117,24 @@ local function WorldSec()
     for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
         GeneralMap2[Worlds[v].name] = v
         Data_Worlds_Name2[i] = Worlds[v].name
+    end
+    --Legendstage2
+    local GeneralMapLS2 = {}
+    local Data_Legend_Name2 = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['LEGEND_WORLD_ORDER']) do
+        GeneralMapLS2[Worlds[v].name] = v
+        Data_Legend_Name2[i] = Worlds[v].name
+    end
+    --Raid
+    local GeneralMapR2 = {}
+    local Data_Raid_Name2 = {}
+    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
+    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
+    for i,v in pairs(WorldLevelOrder['RAID_WORLD_ORDER']) do
+        GeneralMapR2[Worlds[v].name] = v
+        Data_Raid_Name2[i] = Worlds[v].name
     end
 -------------------
     local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Select Level",function(value)
@@ -1109,41 +1145,33 @@ local function WorldSec()
     end, {options = { }, default = Settings.SelectedLevel})
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
-        --///Legend Stages\\\---
-        if level == "Clover Kingdom (Elf Invasion)" then
-            levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
-        elseif level == "Hollow Invasion" then
-            levellist = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
-        elseif level == "Cape Canaveral (Legend)" then
-            levellist = {"jojo_legend_1","jojo_legend_2","jojo_legend_3"}
-        elseif level == "Fabled Kingdom (Legend)" then
-            levellist = {"7ds_legend_1","7ds_legend_2","7ds_legend_3"}
-        elseif level == "Hero City (Midnight)" then
-            levellist = {"mha_legend_1","mha_legend_2","mha_legend_3","mha_legend_4","mha_legend_5","mha_legend_6"}
-        elseif level == "Virtual Dungeon (Bosses)" then
-            levellist = {"sao_legend_1","sao_legend_2","sao_legend_3"}
-        elseif level == "Undead Tomb (Legend)" then
-            levellist = {"overlord_legend_1","overlord_legend_2","overlord_legend_3"}
-        --///Raids\\\---
-        elseif level == "Storm Hideout" then
-            levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"} 
-        elseif level == "West City" then
-            levellist = {"west_city_raid"}
-        elseif level == "Infinity Train" then
-            levellist = {"demonslayer_raid_1"}
-        elseif level == "Shiganshinu District - Raid" then
-            levellist = {"aot_raid_1"}
-        elseif level == "Hiddel Sand Village - Raid" then
-            levellist = {"naruto_raid_1"}
-        elseif level == "Freezo's Invasion" then
-            levellist = {"west_city_frieza_level_1","west_city_frieza_level_2","west_city_frieza_level_3","west_city_frieza_level_4","west_city_frieza_level_5"}
-        elseif level == "Entertainment District" then
-            levellist = {"entertainment_district_level_1","entertainment_district_level_2","entertainment_district_level_3","entertainment_district_level_4","entertainment_district_level_5"}
-        elseif level == "Hero City (Hero Slayer)" then
-            levellist = {"mha_stain"}
-        elseif level == "Marine's Ford (Buddha)" then
-            levellist = {"marineford_sengoku"}
-        --///Portals\\\---
+        --///Story Mode\\\---
+        if Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
+            levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
+            GeneralMap2[Settings.SelectedWorld] .. "_level_4",GeneralMap2[Settings.SelectedWorld] .. "_level_5",GeneralMap2[Settings.SelectedWorld] .. "_level_6"}
+        --///Legend_Stage\\\---
+        elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
+            GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
+        --///Raid\\\---
+        --Raid_Fix_Update
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "Marine's Ford (Buddha)" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hero City (Hero Slayer)" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "Shiganshinu District" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hidden Sand Village" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "Infinity Train" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        elseif Settings.WorldCategory == "Raid Worlds" and level == "West City" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        --Raid_Auto_Update
+        elseif Settings.WorldCategory == "Raid Worlds" and level == Settings.SelectedWorld then
+            levellist = {GeneralMapR2[Settings.SelectedWorld],GeneralMapR2[Settings.SelectedWorld] .. "_level_1",GeneralMapR2[Settings.SelectedWorld] .. "_level_2",GeneralMapR2[Settings.SelectedWorld] .. "_level_3",
+            GeneralMapR2[Settings.SelectedWorld] .. "_level_4",GeneralMapR2[Settings.SelectedWorld] .. "_level_5"}
+        --///Portals\\\---updatefix
         elseif level == "Alien Portals" then
             levellist = {"portal_boros_g"}
         elseif level == "Demon Portals" then
@@ -1156,7 +1184,7 @@ local function WorldSec()
             levellist = {"portal_item__eclipse"}
         elseif level == "Summer Events" then
             levellist = {"portal_summer"}
-        ---///Dungeon\\\---    updatefix
+        ---///Dungeon\\\---    
         elseif level == "Cursed Womb" then
             levellist = {"jjk_finger"}    
         elseif level == "Crused Parade" then
@@ -1170,10 +1198,6 @@ local function WorldSec()
             levellist = {"portal_item__femto"}
         elseif level == "Summer Secret" then
             levellist = {"portal_poseidon"}
-                --///Story Mode\\\---
-        elseif level == Settings.SelectedWorld then
-            levellist = {GeneralMap[Settings.SelectedWorld] .. "_infinite",GeneralMap[Settings.SelectedWorld] .. "_level_1",GeneralMap[Settings.SelectedWorld] .. "_level_2",GeneralMap[Settings.SelectedWorld] .. "_level_3",
-            GeneralMap[Settings.SelectedWorld] .. "_level_4",GeneralMap[Settings.SelectedWorld] .. "_level_5",GeneralMap[Settings.SelectedWorld] .. "_level_6"}
         end
 
 

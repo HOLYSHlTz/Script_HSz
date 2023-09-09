@@ -216,6 +216,8 @@ function webhook()
         MapDiff3 = MapDiff2
         --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
         if poratltierS ~= nil or poratltierS ~= " Not have Tier " then MapDiff3 = " Hard " end
+        if world == "Infinity Castle" then MapDiff3 = MapDiff2 end
+        if world == "Infinity Castle" then MapDiff3 = MapDiff end
         if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff2 end
         if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff end
         if poratChallengeS ~= nil or poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
@@ -3893,14 +3895,21 @@ function autoload()
             syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
             queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
-        elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
         end
     end)
 end
 
 if Settings.AutoLoadScript then
     autoload()
+end
+
+if Settings.AutoLoadScript == true then
+    local exec = tostring(identifyexecutor())
+    if exec == "Synapse X" then
+        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
+    else
+        queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
+    end
 end
 
 function autoload2()

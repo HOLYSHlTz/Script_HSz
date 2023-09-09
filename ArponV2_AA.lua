@@ -1146,35 +1146,35 @@ local function WorldSec()
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
         --///Portals\\\---updatefix
-        if cata == "Portals" and level == "Alien Portals" then
+        if level == "Alien Portals" then
             levellist = {"portal_boros_g"}
-        elseif cata == "Portals" and level == "Demon Portals" then
+        elseif level == "Demon Portals" then
             levellist = {"april_portal_item"}
-        elseif cata == "Portals" and level == "Zeldris Portals" then
+        elseif level == "Zeldris Portals" then
             levellist = {"portal_zeldris"}    
-        elseif cata == "Portals" and level == "Dressrosa Portals" then
+        elseif level == "Dressrosa Portals" then
             levellist = {"portal_item__dressrosa"}
-        elseif cata == "Portals" and level == "The Eclipse" then
+        elseif level == "The Eclipse" then
             levellist = {"portal_item__eclipse"}
-        elseif cata == "Portals" and level == "Summer Events" then
+        elseif level == "Summer Events" then
             levellist = {"portal_summer"}
         ---///Dungeon\\\---    
-        elseif cata == "Dungeon" and level == "Cursed Womb" then
+        elseif level == "Cursed Womb" then
             levellist = {"jjk_finger"}    
-        elseif cata == "Dungeon" and level == "Crused Parade" then
+        elseif level == "Crused Parade" then
             levellist = {"jjk_raid"}     
-        elseif cata == "Dungeon" and level == "Anniversary Island" then
+        elseif level == "Anniversary Island" then
             levellist = {"namek_anniversary"}  
             --///Secret Portals\\\---   
-        elseif cata == "Secret Portals" and level == "Dressrosa Secret Portals" then
+        elseif level == "Dressrosa Secret Portals" then
             levellist = {"portal_item__doflamingo"}
-        elseif cata == "Secret Portals" and level == "The Eclipse Secret" then
+        elseif level == "The Eclipse Secret" then
             levellist = {"portal_item__femto"}
-        elseif cata == "Secret Portals" and level == "Summer Secret" then
+        elseif level == "Summer Secret" then
             levellist = {"portal_poseidon"}
 
         --///Story Mode\\\---
-        elseif cata == "Story Worlds" and level == Settings.SelectedWorld then
+        elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
             levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
             GeneralMap2[Settings.SelectedWorld] .. "_level_4",GeneralMap2[Settings.SelectedWorld] .. "_level_5",GeneralMap2[Settings.SelectedWorld] .. "_level_6"}
 

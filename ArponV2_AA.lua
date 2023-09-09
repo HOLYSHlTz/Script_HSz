@@ -4705,23 +4705,26 @@ function UsePuchiSkill()
 			if v._stats:FindFirstChild("player") then
 				if tostring(v._stats.player.Value) == player then
 					if v._stats.id.Value == "pucci_heaven" then
-					    if v._stats.state.Value == "attack" then
+					    if v._stats.state.Value ~= "attack" then
 					    
 					        -- Check Infinite
 						    if GLD()._gamemode == "infinite" then
 						        if GetWaveNumber() % 10 == 0 then
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Puchi")
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
 					            if GetWaveNumber() == 15 or 20 then
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Puchi")
 						        end
 						    -- Check Story or Infinite Tower
 					        elseif GLD()._gamemode == "story" or "infinite_tower" then
 					            if GetWaveNumber() == 15 then
+                                    wait(10)
 					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Puchi")
 					            end
@@ -4749,18 +4752,21 @@ function UseErenSkill()
 					        -- Check Infinite 
 						    if GLD()._gamemode == "infinite" then
 						        if GetWaveNumber() % 10 == 0 then
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Eren")
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
 					            if GetWaveNumber() == 15 or 20 then
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Eren")
 						        end
 						    -- Check Story or Infinite Tower
 					        elseif GLD()._gamemode == "story" or "infinite_tower" then
 					            if GetWaveNumber() == 15 then
+                                    wait(10)
 					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Eren")
 					            end
@@ -4783,26 +4789,26 @@ function UseDioOHSkill()
 			if v._stats:FindFirstChild("player") then
 				if tostring(v._stats.player.Value) == player then
 					if v._stats.id.Value == "dio_heaven" then       
-					    if v._stats.state.Value == "attack" then
+					    if v._stats.state.Value ~= "attack" then
 					    
 					        -- Check Infinite 
 						    if GLD()._gamemode == "infinite" then
 						        if GetWaveNumber() % 10 == 0 then
-                                    wait(5)
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Dio heaven")
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
 					            if GetWaveNumber() == 15 or 20 then
-                                    wait(5)
+                                    wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Dio heaven")
 						        end
 						    -- Check Story or Infinite Tower
 					        elseif GLD()._gamemode == "story" or "infinite_tower" then
 					            if GetWaveNumber() == 15 then
-                                    wait(5)
+                                    wait(10)
 					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Dio heaven")
 					            end

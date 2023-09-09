@@ -4352,8 +4352,9 @@ function MainModule()
 		autoMacroTab:CreateButton({
 			Name = "Confirm Selection",
 			Callback = function()
-				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
-				warn(tostring(getgenv().selectedMacroFile):gsub("\\", [[/]]))
+				--getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
+				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile)
+				warn(tostring(getgenv().selectedMacroFile))
 				updatejson()
 			end})
 

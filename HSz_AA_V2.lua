@@ -336,7 +336,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -445,7 +445,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -528,7 +528,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -607,7 +607,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -672,7 +672,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -1031,7 +1031,7 @@ end
 
 -- End of Auto Save Unit Function
 ----------------------------------------------
------------------- World Section -------------updatefix
+------------------ World Section -------------
 ----------------------------------------------
 local function WorldSec()
     SelectWorld:Cheat("Dropdown", "🔱 เลือกโหมด",function(value)
@@ -1105,7 +1105,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "ประตูลับ" then
             storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ Summer"}
         end
-
+--updatefix
         for i = 1, #storylist do
             selectworld:AddOption(storylist[i])
         end
@@ -1147,34 +1147,8 @@ local function WorldSec()
     end, {options = { }, default = Settings.SelectedLevel})
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
-            --///Story Mode\\\---
-        if Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
-            levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
-            GeneralMap2[Settings.SelectedWorld] .. "_level_4",GeneralMap2[Settings.SelectedWorld] .. "_level_5",GeneralMap2[Settings.SelectedWorld] .. "_level_6"}
-        --///Legend_Stage\\\---
-        elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then
-            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
-            GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
-        --///Raid\\\---
-        --Raid_Fix_Update
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Marine's Ford (Buddha)" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hero City (Hero Slayer)" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Shiganshinu District" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hidden Sand Village" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Infinity Train" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "West City" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        --Raid_Auto_Update
-        elseif Settings.WorldCategory == "Raid Worlds" and level == Settings.SelectedWorld then
-            levellist = {GeneralMapR2[Settings.SelectedWorld],GeneralMapR2[Settings.SelectedWorld] .. "_level_1",GeneralMapR2[Settings.SelectedWorld] .. "_level_2",GeneralMapR2[Settings.SelectedWorld] .. "_level_3",
-            GeneralMapR2[Settings.SelectedWorld] .. "_level_4",GeneralMapR2[Settings.SelectedWorld] .. "_level_5"}
-            --///Portals\\\---
-        elseif level == "Alien Portals" then
+        --///Portals\\\--- updatefix
+        if level == "Alien Portals" then
             levellist = {"portal_boros_g"}
         elseif level == "Demon Portals" then
             levellist = {"april_portal_item"}
@@ -1186,7 +1160,7 @@ local function WorldSec()
             levellist = {"portal_item__eclipse"}
         elseif level == "Summer Events" then
             levellist = {"portal_summer"}
-        ---///Dungeon\\\---    updatefix
+        ---///Dungeon\\\---   
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
         elseif level == "ดันเกะโท Crused Parade" then
@@ -1200,8 +1174,36 @@ local function WorldSec()
             levellist = {"portal_item__femto"}
         elseif level == "ประตูลับ Summer" then
             levellist = {"portal_poseidon"}
+            --///Story Mode\\\---
+        elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
+            levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
+            GeneralMap2[Settings.SelectedWorld] .. "_level_4",GeneralMap2[Settings.SelectedWorld] .. "_level_5",GeneralMap2[Settings.SelectedWorld] .. "_level_6"}
 
+        --///Legend_Stage\\\---
+        --LD_6
+        elseif Settings.WorldCategory == "Legend Stages" and level == "Hollow Invasion" or level == "Hero City (Midnight)" then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
+            GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
+        --LD_3
+        elseif Settings.WorldCategory == "Legend Stages" and level == "Clover Kingdom (Elf Invasion)" or level == "Cape Canaveral" or level == "Fabled Kingdom (Ten Commandments)"or 
+        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",}
+        --LD_NEW
+        elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
+            GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
 
+        --///Raid\\\--- 
+        --Raid_1
+        elseif cata == "Raid Worlds" and level == "Marine's Ford (Buddha)" or level == "Hero City (Hero Slayer)" or level == "Shiganshinu District" or level == "Hidden Sand Village" or 
+        level == "Infinity Train" or level == "West City" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld]}
+        --Raid_5
+        elseif cata == "Raid Worlds" and level ~= "Marine's Ford (Buddha)" or level ~= "Hero City (Hero Slayer)" or level ~= "Shiganshinu District" or level ~= "Hidden Sand Village" or 
+        level ~= "Infinity Train" or level ~= "West City" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld] .. "_level_1",GeneralMapR2[Settings.SelectedWorld] .. "_level_2",GeneralMapR2[Settings.SelectedWorld] .. "_level_3",
+            GeneralMapR2[Settings.SelectedWorld] .. "_level_4",GeneralMapR2[Settings.SelectedWorld] .. "_level_5",GeneralMapR2[Settings.SelectedWorld]}
+                
         end
 
         for i = 1, #levellist do
@@ -3558,7 +3560,7 @@ function SnipeMerchant()
                     local data = {
                         ["content"] = "",
                         ["username"] = "Anime Adventures V2",
-                        ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
                         ["embeds"] = {
                             {
                                 ["author"] = {
@@ -6777,7 +6779,7 @@ end
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819"}
+    "NEWCODE0819","MORIOH"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

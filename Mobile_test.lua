@@ -5596,7 +5596,8 @@ function MainModule()
 			coroutine.resume(coroutine.create(function()
 				getgenv().lockAutoFunctions = true
 				if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
-					decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+					--decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+					decodedFile = game:GetService('HttpService'):JSONDecode(readfile(tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])))
 					getgenv().macroUnitPositions = {}
 					instructionIncrement = 1
 					

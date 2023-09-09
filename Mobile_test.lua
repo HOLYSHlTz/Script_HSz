@@ -6233,7 +6233,7 @@ else
         autofarm = false,
         autofarmic = false,
         autoStart = false,
-        autoloadtp = true,
+        autoloadtp = false,
         autoUpgrade = false,
         autocontinue = false,
         difficulty = "nil",

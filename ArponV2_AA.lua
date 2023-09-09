@@ -339,7 +339,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -1145,59 +1145,65 @@ local function WorldSec()
     end, {options = { }, default = Settings.SelectedLevel})
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
+        --///Portals\\\---updatefix
+        if cata == "Portals" and level == "Alien Portals" then
+            levellist = {"portal_boros_g"}
+        elseif cata == "Portals" and level == "Demon Portals" then
+            levellist = {"april_portal_item"}
+        elseif cata == "Portals" and level == "Zeldris Portals" then
+            levellist = {"portal_zeldris"}    
+        elseif cata == "Portals" and level == "Dressrosa Portals" then
+            levellist = {"portal_item__dressrosa"}
+        elseif cata == "Portals" and level == "The Eclipse" then
+            levellist = {"portal_item__eclipse"}
+        elseif cata == "Portals" and level == "Summer Events" then
+            levellist = {"portal_summer"}
+        ---///Dungeon\\\---    
+        elseif cata == "Dungeon" and level == "Cursed Womb" then
+            levellist = {"jjk_finger"}    
+        elseif cata == "Dungeon" and level == "Crused Parade" then
+            levellist = {"jjk_raid"}     
+        elseif cata == "Dungeon" and level == "Anniversary Island" then
+            levellist = {"namek_anniversary"}  
+            --///Secret Portals\\\---   
+        elseif cata == "Secret Portals" and level == "Dressrosa Secret Portals" then
+            levellist = {"portal_item__doflamingo"}
+        elseif cata == "Secret Portals" and level == "The Eclipse Secret" then
+            levellist = {"portal_item__femto"}
+        elseif cata == "Secret Portals" and level == "Summer Secret" then
+            levellist = {"portal_poseidon"}
+
         --///Story Mode\\\---
-        if Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
+        elseif cata == "Story Worlds" and level == Settings.SelectedWorld then
             levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
             GeneralMap2[Settings.SelectedWorld] .. "_level_4",GeneralMap2[Settings.SelectedWorld] .. "_level_5",GeneralMap2[Settings.SelectedWorld] .. "_level_6"}
+
         --///Legend_Stage\\\---
+        --LD_6
+        elseif Settings.WorldCategory == "Legend Stages" and level == "Hollow Invasion" or level == "Hero City (Midnight)" then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
+            GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
+        --LD_3
+        elseif Settings.WorldCategory == "Legend Stages" and level == "Clover Kingdom (Elf Invasion)" or level == "Cape Canaveral" or level == "Fabled Kingdom (Ten Commandments)"or 
+        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" then
+            levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",}
+        --LD_NEW
         elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then
             levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",
             GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
-        --///Raid\\\---
-        --Raid_Fix_Update
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Marine's Ford (Buddha)" then
+
+        --///Raid\\\--- 
+        --Raid_1
+        elseif cata == "Raid Worlds" and level == "Marine's Ford (Buddha)" or level == "Hero City (Hero Slayer)" or level == "Shiganshinu District" or level == "Hidden Sand Village" or 
+        level == "Infinity Train" or level == "West City" then
             levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hero City (Hero Slayer)" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Shiganshinu District" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Hidden Sand Village" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "Infinity Train" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        elseif Settings.WorldCategory == "Raid Worlds" and level == "West City" then
-            levellist = {GeneralMapR2[Settings.SelectedWorld]}
-        --Raid_Auto_Update
-        elseif Settings.WorldCategory == "Raid Worlds" and level == Settings.SelectedWorld then
-            levellist = {GeneralMapR2[Settings.SelectedWorld],GeneralMapR2[Settings.SelectedWorld] .. "_level_1",GeneralMapR2[Settings.SelectedWorld] .. "_level_2",GeneralMapR2[Settings.SelectedWorld] .. "_level_3",
-            GeneralMapR2[Settings.SelectedWorld] .. "_level_4",GeneralMapR2[Settings.SelectedWorld] .. "_level_5"}
-        --///Portals\\\---updatefix
-        elseif level == "Alien Portals" then
-            levellist = {"portal_boros_g"}
-        elseif level == "Demon Portals" then
-            levellist = {"april_portal_item"}
-        elseif level == "Zeldris Portals" then
-            levellist = {"portal_zeldris"}    
-        elseif level == "Dressrosa Portals" then
-            levellist = {"portal_item__dressrosa"}
-        elseif level == "The Eclipse" then
-            levellist = {"portal_item__eclipse"}
-        elseif level == "Summer Events" then
-            levellist = {"portal_summer"}
-        ---///Dungeon\\\---    
-        elseif level == "Cursed Womb" then
-            levellist = {"jjk_finger"}    
-        elseif level == "Crused Parade" then
-            levellist = {"jjk_raid"}     
-        elseif level == "Anniversary Island" then
-            levellist = {"namek_anniversary"}  
-            --///Secret Portals\\\---   
-        elseif level == "Dressrosa Secret Portals" then
-            levellist = {"portal_item__doflamingo"}
-        elseif level == "The Eclipse Secret" then
-            levellist = {"portal_item__femto"}
-        elseif level == "Summer Secret" then
-            levellist = {"portal_poseidon"}
+        --Raid_5
+        elseif cata == "Raid Worlds" and level ~= "Marine's Ford (Buddha)" or level ~= "Hero City (Hero Slayer)" or level ~= "Shiganshinu District" or level ~= "Hidden Sand Village" or 
+        level ~= "Infinity Train" or level ~= "West City" then
+            levellist = {GeneralMapR2[Settings.SelectedWorld] .. "_level_1",GeneralMapR2[Settings.SelectedWorld] .. "_level_2",GeneralMapR2[Settings.SelectedWorld] .. "_level_3",
+            GeneralMapR2[Settings.SelectedWorld] .. "_level_4",GeneralMapR2[Settings.SelectedWorld] .. "_level_5",GeneralMapR2[Settings.SelectedWorld]}
+            
+    
         end
 
 
@@ -1731,7 +1737,6 @@ end
 local function DeleteMapSec()
 
     DelMapConfig2:Cheat("Button", "Redeem All Code", function()
-        print(Settings.redeemc)
         Reedemcode()
     end)
 
@@ -3472,7 +3477,7 @@ task.spawn(function()
                 local data = {
                     ["content"] = "",
                     ["username"] = "Anime Adventures V2",
-                    ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
+                    ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
                     ["embeds"] = {
                         {
                             ["author"] = {
@@ -6659,7 +6664,7 @@ function placeunittwin()
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819"}
+    "NEWCODE0819","MORIOH"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

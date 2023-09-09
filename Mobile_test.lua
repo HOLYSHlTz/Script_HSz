@@ -2475,7 +2475,7 @@ end
 ---############### ACTUAL CODE ################---starcode
 ---############################################---
 
-local scriptVersion = "_HSz_1"
+local scriptVersion = "_HSz_1a"
 
 if not isfolder("AAMacros" .. scriptVersion) then
 	makefolder("AAMacros" .. scriptVersion)
@@ -2880,7 +2880,8 @@ local function writeMacroToFile(filename)
 	GameFinished:GetPropertyChangedSignal("Value"):Connect(function()
 		print("Changed", GameFinished.Value == true)
 		if GameFinished.Value == true then
-			writefile("AAMacros" .. scriptVersion .. "\\" .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])".json", game:GetService("HttpService"):JSONEncode(getgenv().newMacroFile)) 
+			--writefile("AAMacros" .. scriptVersion .. "\\" .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])".json", game:GetService("HttpService"):JSONEncode(getgenv().newMacroFile)) 
+			writefile("AAMacros" .. scriptVersion .. "\\" .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y%m%d-%H%M%S')).."-"..game.Players.LocalPlayer.Name..".json", game:GetService("HttpService"):JSONEncode(getgenv().newMacroFile)) 
 		end
 	end)
 end

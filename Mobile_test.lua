@@ -4349,6 +4349,7 @@ function MainModule()
 			Name = "Confirm Selection",
 			Callback = function()
 				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
+				warn(tostring(getgenv().selectedMacroFile):gsub("\\", [[/]]))
 				updatejson()
 			end})
 

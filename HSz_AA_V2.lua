@@ -5,7 +5,7 @@ if game.PlaceId == 8304191830 then
                     StarterGui:SetCore("SendNotification", {
                         Title = "HOLYSHz Notify",
                         Text = "Wait Game is Loaded 10(s)...!!!",
-                        Duration = 10
+                        Duration = 8
                     })
     wait(10)
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
@@ -3213,6 +3213,24 @@ task.spawn(function()
         local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
 		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
             
+            --New Fix isrbxactive
+        local IS_ROBLOX_ACTIVE3 = false
+        local UIS = game:GetService("UserInputService")
+        UIS.WindowFocused:Connect(function()
+            IS_ROBLOX_ACTIVE3 = true
+        end)
+        UIS.WindowFocusReleased:Connect(function()
+            IS_ROBLOX_ACTIVE3 = false
+        end)
+        function isrbxactive3()
+            return IS_ROBLOX_ACTIVE3
+        end
+        getgenv().isrbxactive3 = newcclosure(isrbxactive3)
+
+        setfpscap(2)
+        isrbxactive3(true)
+        --End fix isrbxactive
+
     delaylag = tonumber(Settings.delag or 1.5)
     while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
 

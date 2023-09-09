@@ -4710,9 +4710,9 @@ function autoabilityGCDfunc()
                     -- Look for Threat then execute Puchi Skill
                     if v._stats:FindFirstChild("threat") then
                         if v._stats.threat.Value > 0 then
-                            UsePuchiSkill()
-                            UseErenSkill()
-                            UseDioOHSkill()
+                            --UsePuchiSkill()
+                            --UseErenSkill()
+                            --UseDioOHSkill()
                         end
                         
                     -- Search Player Units
@@ -4765,7 +4765,25 @@ function autoabilityGCDfunc()
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                             end
                         end
-                        
+
+                        if v._stats.id.Value == "pucci_heaven" then
+                            if v._stats.state.Value ~= "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                            end
+                        end
+
+                        if v._stats.id.Value == "eren_final" then
+                            if v._stats.state.Value ~= "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                            end
+                        end
+
+                        if v._stats.id.Value == "dio_heaven" then
+                            if v._stats.state.Value ~= "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                            end
+                        end
+
                         end
                     end
                 end

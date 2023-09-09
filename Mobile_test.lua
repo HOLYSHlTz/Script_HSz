@@ -5657,12 +5657,14 @@ function MainModule()
 										task.spawn(function()
 											game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 											instructionIncrement += 1
+											print("Place Unit"  ..unitInfo[1] )
 											print("Place Unit"  ..unitInfo[2] )
 											task.wait(2)
 										end)
 									else
 										game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 										instructionIncrement += 1
+										print("Place Unit"  ..unitInfo[1] )
 										print("Place Unit"  ..unitInfo[2] )
 									end
 								end

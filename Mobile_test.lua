@@ -2740,7 +2740,7 @@ local function writeMacroToFile(filename)
 						['cframe'] = arguments[2].X .. ", " .. arguments[2].Y .. ", " .. arguments[2].Z .. ", 1, 0, -0, -0, 1, -0, 0, 0, 1"
 					}
 					instructionIncrement += 1
-					print("Place Unit"  ..unitID )
+					print("Place Unit : "  ..unitID )
 				end
 
 				if tostring(remote) == "upgrade_unit_ingame" then
@@ -2804,6 +2804,7 @@ local function writeMacroToFile(filename)
 												['pos'] = hitboxPosition.X .. ", " .. hitboxPosition.Y .. ", " .. hitboxPosition.Z
 											}
 						instructionIncrement += 1
+						print("Upgrade Unit : "  ..unitID )
 					end
 				end
 
@@ -2863,6 +2864,7 @@ local function writeMacroToFile(filename)
 											['pos'] = hitboxPosition.X .. ", " .. hitboxPosition.Y .. ", " .. hitboxPosition.Z .. ", 1, 0, -0, -0, 1, -0, 0, 0, 1"
 										}
 					instructionIncrement += 1
+					print("Sell Unit : "  ..unitID )
 				end
 			end
 
@@ -5658,15 +5660,15 @@ function MainModule()
 										task.spawn(function()
 											game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 											instructionIncrement += 1
-											print("Place Unit"  ..unitInfo[1] )
-											print("Place Unit"  ..unitInfo[2] )
+											print("Place Unit : "  ..unitInfo[1] )
+											print("Place Unit : "  ..unitInfo[2] )
 											task.wait(2)
 										end)
 									else
 										game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 										instructionIncrement += 1
-										print("Place Unit"  ..unitInfo[1] )
-										print("Place Unit"  ..unitInfo[2] )
+										print("Place Unit : "  ..unitInfo[1] )
+										print("Place Unit : "  ..unitInfo[2] )
 									end
 								end
 							end
@@ -5684,6 +5686,8 @@ function MainModule()
 								end
 							end
 							instructionIncrement += 1
+							print("Upgrade Unit : "  ..unitInfo[1] )
+							print("Upgrade Unit : "  ..unitInfo[2] )
 						end
 					
 						if decodedFile[tostring(instructionIncrement)]['type'] == 'sell_unit_ingame' then
@@ -5695,6 +5699,8 @@ function MainModule()
 								end
 							end
 							instructionIncrement += 1
+							print("Sell Unit : "  ..unitInfo[1] )
+							print("Sell Unit : "  ..unitInfo[2] )
 						end
 					until decodedFile[tostring(instructionIncrement)] == nil	
 				end

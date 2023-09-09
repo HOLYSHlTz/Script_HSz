@@ -211,10 +211,13 @@ function webhook()
         local v100 = Maps[Loader.LevelData.map]
         MapsNameTEST = v100.name or GetLevelData.name
         --Difficulty
+        MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff3 = MapDiff2
         --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
         if poratltierS ~= nil or poratltierS ~= " Not have Tier " then MapDiff3 = " Hard " end
+        if world == "Infinity Castle" then MapDiff3 = MapDiff2 end
+        if world == "Infinity Castle" then MapDiff3 = MapDiff end
         if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff2 end
         if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff end
         if poratChallengeS ~= nil or poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
@@ -3805,14 +3808,21 @@ function autoload()
             syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
         elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
             queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
-        elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
         end
     end)
 end
 
 if Settings.AutoLoadScript then
     autoload()
+end
+
+if Settings.AutoLoadScript == true then
+    local exec = tostring(identifyexecutor())
+    if exec == "Synapse X" then
+        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
+    else
+        queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/ArponAG/Scripts/main/AnimeAdventures_v2__Beta.lua'))()")
+    end
 end
 
 function autoload2()

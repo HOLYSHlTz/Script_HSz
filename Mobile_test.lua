@@ -2879,7 +2879,7 @@ local function writeMacroToFile(filename)
 	GameFinished:GetPropertyChangedSignal("Value"):Connect(function()
 		print("Changed", GameFinished.Value == true)
 		if GameFinished.Value == true then
-			writefile("AAMacros" .. scriptVersion .. "\\" .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y%m%d-%H%M%S')).."-"..game.Players.LocalPlayer.Name..".json", game:GetService("HttpService"):JSONEncode(getgenv().newMacroFile)) 
+			writefile("AAMacros" .. scriptVersion .. "\\" .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])".json", game:GetService("HttpService"):JSONEncode(getgenv().newMacroFile)) 
 		end
 	end)
 end
@@ -5596,8 +5596,8 @@ function MainModule()
 			coroutine.resume(coroutine.create(function()
 				getgenv().lockAutoFunctions = true
 				if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
-					--decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
-					decodedFile = game:GetService('HttpService'):JSONDecode(readfile(tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])))
+					decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+					--decodedFile = game:GetService('HttpService'):JSONDecode(readfile(tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])))
 					getgenv().macroUnitPositions = {}
 					instructionIncrement = 1
 					
@@ -5698,13 +5698,13 @@ function MainModule()
 		if getgenv().recordingMacro then
 			getgenv().lockAutoFunctions = true
 			updatejson()
-			writeMacroToFile(tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y%m%d-%H%M%S')).."-"..game.Players.LocalPlayer.Name..".json")
+			writeMacroToFile(tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])".json")
 			RayfieldLib:Notify({
-				Title = "Recording macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y-%m-%d-%H:%M:%S'))..".json",
+				Title = "Recording macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])".json",
 				Content = "Starting Recording",
 				Duration = 6.5
 			})
-			autoMacroTab:CreateLabel("Recording Macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["map"]).."-"..tostring(os.date('%Y-%m-%d %H:%M:%S'))..".json")
+			autoMacroTab:CreateLabel("Recording Macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["map"])".json")
 		end
 		
         game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false

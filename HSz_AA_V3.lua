@@ -1,695 +1,3438 @@
+--[[
 
----// Loading Section \\---
-repeat  task.wait() until game:IsLoaded()
+Rayfield Interface Suite
+by Sirius
+
+shlex | Designing + Programming
+iRay  | Programming
+
+]]
+
+-- DO NOT MODIFY UNLESS YOU KNOW WHAT YOU ARE DOING - Defrag
+
+local Release = "Beta 7R"
+local NotificationDuration = 6.5
+local RayfieldFolder = "Rayfield"
+local ConfigurationFolder = RayfieldFolder.."/Configurations"
+local ConfigurationExtension = ".rfld"
+
+local RayfieldLibrary = {
+	Flags = {},
+	Theme = {
+		Default = {
+			TextFont = "Default", -- Default will use the various font faces used across Rayfield
+			TextColor = Color3.fromRGB(240, 240, 240),
+			
+			Background = Color3.fromRGB(25, 25, 25),
+			Topbar = Color3.fromRGB(34, 34, 34),
+			Shadow = Color3.fromRGB(20, 20, 20),
+			
+			NotificationBackground = Color3.fromRGB(20, 20, 20),
+			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
+			
+			TabBackground = Color3.fromRGB(80, 80, 80),
+			TabStroke = Color3.fromRGB(85, 85, 85),
+			TabBackgroundSelected = Color3.fromRGB(210, 210, 210),
+			TabTextColor = Color3.fromRGB(240, 240, 240),
+			SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
+			
+			ElementBackground = Color3.fromRGB(35, 35, 35),
+			ElementBackgroundHover = Color3.fromRGB(40, 40, 40),
+			SecondaryElementBackground = Color3.fromRGB(25, 25, 25), -- For labels and paragraphs
+			ElementStroke = Color3.fromRGB(50, 50, 50),
+			SecondaryElementStroke = Color3.fromRGB(40, 40, 40), -- For labels and paragraphs
+			
+			SliderBackground = Color3.fromRGB(43, 105, 159),
+			SliderProgress = Color3.fromRGB(43, 105, 159),
+			SliderStroke = Color3.fromRGB(48, 119, 177),
+			
+			ToggleBackground = Color3.fromRGB(30, 30, 30),
+			ToggleEnabled = Color3.fromRGB(0, 146, 214),
+			ToggleDisabled = Color3.fromRGB(100, 100, 100),
+			ToggleEnabledStroke = Color3.fromRGB(0, 170, 255),
+			ToggleDisabledStroke = Color3.fromRGB(125, 125, 125),
+			ToggleEnabledOuterStroke = Color3.fromRGB(100, 100, 100),
+			ToggleDisabledOuterStroke = Color3.fromRGB(65, 65, 65),
+			
+			InputBackground = Color3.fromRGB(30, 30, 30),
+			InputStroke = Color3.fromRGB(65, 65, 65),
+			PlaceholderColor = Color3.fromRGB(178, 178, 178)
+		},
+		Light = {
+			TextFont = "Gotham", -- Default will use the various font faces used across Rayfield
+			TextColor = Color3.fromRGB(50, 50, 50), -- i need to make all text 240, 240, 240 and base gray on transparency not color to do this
+			
+			Background = Color3.fromRGB(255, 255, 255),
+			Topbar = Color3.fromRGB(217, 217, 217),
+			Shadow = Color3.fromRGB(223, 223, 223),
+
+			NotificationBackground = Color3.fromRGB(20, 20, 20),
+			NotificationActionsBackground = Color3.fromRGB(230, 230, 230),
+
+			TabBackground = Color3.fromRGB(220, 220, 220),
+			TabStroke = Color3.fromRGB(112, 112, 112),
+			TabBackgroundSelected = Color3.fromRGB(0, 142, 208),
+			TabTextColor = Color3.fromRGB(240, 240, 240),
+			SelectedTabTextColor = Color3.fromRGB(50, 50, 50),
+		
+			ElementBackground = Color3.fromRGB(198, 198, 198),
+			ElementBackgroundHover = Color3.fromRGB(230, 230, 230),
+			SecondaryElementBackground = Color3.fromRGB(136, 136, 136), -- For labels and paragraphs
+			ElementStroke = Color3.fromRGB(180, 199, 97),
+			SecondaryElementStroke = Color3.fromRGB(40, 40, 40), -- For labels and paragraphs
+
+			SliderBackground = Color3.fromRGB(31, 159, 71),
+			SliderProgress = Color3.fromRGB(31, 159, 71),
+			SliderStroke = Color3.fromRGB(42, 216, 94),
+
+			ToggleBackground = Color3.fromRGB(170, 203, 60),
+			ToggleEnabled = Color3.fromRGB(32, 214, 29),
+			ToggleDisabled = Color3.fromRGB(100, 22, 23),
+			ToggleEnabledStroke = Color3.fromRGB(17, 255, 0),
+			ToggleDisabledStroke = Color3.fromRGB(65, 8, 8),
+			ToggleEnabledOuterStroke = Color3.fromRGB(0, 170, 0),
+			ToggleDisabledOuterStroke = Color3.fromRGB(170, 0, 0),
+
+			InputBackground = Color3.fromRGB(31, 159, 71),
+			InputStroke = Color3.fromRGB(19, 65, 31),
+			PlaceholderColor = Color3.fromRGB(178, 178, 178)
+		}
+	}
+}
+
+-- Services
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local HttpService = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local CoreGui = game:GetService("CoreGui")
+
+-- Interface Management
+local Rayfield = game:GetObjects("rbxassetid://10804731440")[1]
+
+if gethui then
+	Rayfield.Parent = gethui()
+elseif syn.protect_gui then 
+	syn.protect_gui(Rayfield)
+	Rayfield.Parent = CoreGui
+elseif CoreGui:FindFirstChild("RobloxGui") then
+	Rayfield.Parent = CoreGui:FindFirstChild("RobloxGui")
+else
+	Rayfield.Parent = CoreGui
+end
+
+if gethui then
+	for _, Interface in ipairs(gethui():GetChildren()) do
+		if Interface.Name == Rayfield.Name and Interface ~= Rayfield then
+			Interface.Enabled = false
+			Interface.Name = "Rayfield-Old"
+		end
+	end
+else
+	for _, Interface in ipairs(CoreGui:GetChildren()) do
+		if Interface.Name == Rayfield.Name and Interface ~= Rayfield then
+			Interface.Enabled = false
+			Interface.Name = "Rayfield-Old"
+		end
+	end
+end
+
+-- Object Variables
+
+local Camera = workspace.CurrentCamera
+local Main = Rayfield.Main
+local Topbar = Main.Topbar
+local Elements = Main.Elements
+local LoadingFrame = Main.LoadingFrame
+local TabList = Main.TabList
+
+Rayfield.DisplayOrder = 100
+LoadingFrame.Version.Text = Release
+
+
+-- Variables
+
+local request = (syn and syn.request) or (http and http.request) or http_request
+local CFileName = nil
+local CEnabled = false
+local Minimised = false
+local Hidden = false
+local Debounce = false
+local Notifications = Rayfield.Notifications
+
+local SelectedTheme = RayfieldLibrary.Theme.Default
+
+function ChangeTheme(ThemeName)
+	SelectedTheme = RayfieldLibrary.Theme[ThemeName]
+	for _, obj in ipairs(Rayfield:GetDescendants()) do
+		if obj.ClassName == "TextLabel" or obj.ClassName == "TextBox" or obj.ClassName == "TextButton" then
+			if SelectedTheme.TextFont ~= "Default" then 
+				obj.TextColor3 = SelectedTheme.TextColor
+				obj.Font = SelectedTheme.TextFont
+			end
+		end
+	end
+	
+	Rayfield.Main.BackgroundColor3 = SelectedTheme.Background
+	Rayfield.Main.Topbar.BackgroundColor3 = SelectedTheme.Topbar
+	Rayfield.Main.Topbar.CornerRepair.BackgroundColor3 = SelectedTheme.Topbar
+	Rayfield.Main.Shadow.Image.ImageColor3 = SelectedTheme.Shadow
+	
+	Rayfield.Main.Topbar.ChangeSize.ImageColor3 = SelectedTheme.TextColor
+	Rayfield.Main.Topbar.Hide.ImageColor3 = SelectedTheme.TextColor
+	Rayfield.Main.Topbar.Theme.ImageColor3 = SelectedTheme.TextColor
+	
+	for _, TabPage in ipairs(Elements:GetChildren()) do
+		for _, Element in ipairs(TabPage:GetChildren()) do
+			if Element.ClassName == "Frame" and Element.Name ~= "Placeholder" and Element.Name ~= "SectionSpacing" and Element.Name ~= "SectionTitle"  then
+				Element.BackgroundColor3 = SelectedTheme.ElementBackground
+				Element.UIStroke.Color = SelectedTheme.ElementStroke
+			end
+		end
+	end
+	
+end
+
+local function AddDraggingFunctionality(DragPoint, Main)
+	pcall(function()
+		local Dragging, DragInput, MousePos, FramePos = false
+		DragPoint.InputBegan:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseButton1 then
+				Dragging = true
+				MousePos = Input.Position
+				FramePos = Main.Position
+
+				Input.Changed:Connect(function()
+					if Input.UserInputState == Enum.UserInputState.End then
+						Dragging = false
+					end
+				end)
+			end
+		end)
+		DragPoint.InputChanged:Connect(function(Input)
+			if Input.UserInputType == Enum.UserInputType.MouseMovement then
+				DragInput = Input
+			end
+		end)
+		UserInputService.InputChanged:Connect(function(Input)
+			if Input == DragInput and Dragging then
+				local Delta = Input.Position - MousePos
+				TweenService:Create(Main, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Position  = UDim2.new(FramePos.X.Scale,FramePos.X.Offset + Delta.X, FramePos.Y.Scale, FramePos.Y.Offset + Delta.Y)}):Play()
+			end
+		end)
+	end)
+end   
+
+local function PackColor(Color)
+	return {R = Color.R * 255, G = Color.G * 255, B = Color.B * 255}
+end    
+
+local function UnpackColor(Color)
+	return Color3.fromRGB(Color.R, Color.G, Color.B)
+end
+
+local function LoadConfiguration(Configuration)
+	local Data = HttpService:JSONDecode(Configuration)
+	table.foreach(Data, function(FlagName, FlagValue)
+		if RayfieldLibrary.Flags[FlagName] then
+			spawn(function() 
+				if RayfieldLibrary.Flags[FlagName].Type == "ColorPicker" then
+					RayfieldLibrary.Flags[FlagName]:Set(UnpackColor(FlagValue))
+				else
+					if RayfieldLibrary.Flags[FlagName].CurrentValue or RayfieldLibrary.Flags[FlagName].CurrentKeybind or RayfieldLibrary.Flags[FlagName].CurrentOption or RayfieldLibrary.Flags[FlagName].Color ~= FlagValue then RayfieldLibrary.Flags[FlagName]:Set(FlagValue) end
+				end    
+			end)
+		else
+			RayfieldLibrary:Notify({Title = "Flag Error", Content = "Rayfield was unable to find '"..FlagName.. "'' in the current script"})
+		end
+	end)
+end
+
+local function SaveConfiguration()
+	if not CEnabled then return end
+	local Data = {}
+	for i,v in pairs(RayfieldLibrary.Flags) do
+		if v.Type == "ColorPicker" then
+			Data[i] = PackColor(v.Color)
+		else
+			Data[i] = v.CurrentValue or v.CurrentKeybind or v.CurrentOption or v.Color
+		end
+	end	
+	writefile(ConfigurationFolder .. "\\" .. CFileName .. ConfigurationExtension, tostring(HttpService:JSONEncode(Data)))
+end
+
+local neon = (function() -- Open sourced neon module
+	local module = {}
+
+	do
+		local function IsNotNaN(x)
+			return x == x
+		end
+		local continued = IsNotNaN(Camera:ScreenPointToRay(0,0).Origin.x)
+		while not continued do
+			RunService.RenderStepped:wait()
+			continued = IsNotNaN(Camera:ScreenPointToRay(0,0).Origin.x)
+		end
+	end
+	local RootParent = Camera
+	if getgenv().SecureMode == nil then
+		RootParent = Camera
+	else
+		if not getgenv().SecureMode then
+			RootParent = Camera
+		else 
+			RootParent = nil
+		end
+	end
+
+
+	local binds = {}
+	local root = Instance.new('Folder', RootParent)
+	root.Name = 'neon'
+
+
+	local GenUid; do
+		local id = 0
+		function GenUid()
+			id = id + 1
+			return 'neon::'..tostring(id)
+		end
+	end
+
+	local DrawQuad; do
+		local acos, max, pi, sqrt = math.acos, math.max, math.pi, math.sqrt
+		local sz = 0.2
+
+		function DrawTriangle(v1, v2, v3, p0, p1)
+			local s1 = (v1 - v2).magnitude
+			local s2 = (v2 - v3).magnitude
+			local s3 = (v3 - v1).magnitude
+			local smax = max(s1, s2, s3)
+			local A, B, C
+			if s1 == smax then
+				A, B, C = v1, v2, v3
+			elseif s2 == smax then
+				A, B, C = v2, v3, v1
+			elseif s3 == smax then
+				A, B, C = v3, v1, v2
+			end
+
+			local para = ( (B-A).x*(C-A).x + (B-A).y*(C-A).y + (B-A).z*(C-A).z ) / (A-B).magnitude
+			local perp = sqrt((C-A).magnitude^2 - para*para)
+			local dif_para = (A - B).magnitude - para
+
+			local st = CFrame.new(B, A)
+			local za = CFrame.Angles(pi/2,0,0)
+
+			local cf0 = st
+
+			local Top_Look = (cf0 * za).lookVector
+			local Mid_Point = A + CFrame.new(A, B).LookVector * para
+			local Needed_Look = CFrame.new(Mid_Point, C).LookVector
+			local dot = Top_Look.x*Needed_Look.x + Top_Look.y*Needed_Look.y + Top_Look.z*Needed_Look.z
+
+			local ac = CFrame.Angles(0, 0, acos(dot))
+
+			cf0 = cf0 * ac
+			if ((cf0 * za).lookVector - Needed_Look).magnitude > 0.01 then
+				cf0 = cf0 * CFrame.Angles(0, 0, -2*acos(dot))
+			end
+			cf0 = cf0 * CFrame.new(0, perp/2, -(dif_para + para/2))
+
+			local cf1 = st * ac * CFrame.Angles(0, pi, 0)
+			if ((cf1 * za).lookVector - Needed_Look).magnitude > 0.01 then
+				cf1 = cf1 * CFrame.Angles(0, 0, 2*acos(dot))
+			end
+			cf1 = cf1 * CFrame.new(0, perp/2, dif_para/2)
+
+			if not p0 then
+				p0 = Instance.new('Part')
+				p0.FormFactor = 'Custom'
+				p0.TopSurface = 0
+				p0.BottomSurface = 0
+				p0.Anchored = true
+				p0.CanCollide = false
+				p0.Material = 'Glass'
+				p0.Size = Vector3.new(sz, sz, sz)
+				local mesh = Instance.new('SpecialMesh', p0)
+				mesh.MeshType = 2
+				mesh.Name = 'WedgeMesh'
+			end
+			p0.WedgeMesh.Scale = Vector3.new(0, perp/sz, para/sz)
+			p0.CFrame = cf0
+
+			if not p1 then
+				p1 = p0:clone()
+			end
+			p1.WedgeMesh.Scale = Vector3.new(0, perp/sz, dif_para/sz)
+			p1.CFrame = cf1
+
+			return p0, p1
+		end
+
+		function DrawQuad(v1, v2, v3, v4, parts)
+			parts[1], parts[2] = DrawTriangle(v1, v2, v3, parts[1], parts[2])
+			parts[3], parts[4] = DrawTriangle(v3, v2, v4, parts[3], parts[4])
+		end
+	end
+
+	function module:BindFrame(frame, properties)
+		if RootParent == nil then return end
+		if binds[frame] then
+			return binds[frame].parts
+		end
+
+		local uid = GenUid()
+		local parts = {}
+		local f = Instance.new('Folder', root)
+		f.Name = frame.Name
+
+		local parents = {}
+		do
+			local function add(child)
+				if child:IsA'GuiObject' then
+					parents[#parents + 1] = child
+					add(child.Parent)
+				end
+			end
+			add(frame)
+		end
+
+		local function UpdateOrientation(fetchProps)
+			local zIndex = 1 - 0.05*frame.ZIndex
+			local tl, br = frame.AbsolutePosition, frame.AbsolutePosition + frame.AbsoluteSize
+			local tr, bl = Vector2.new(br.x, tl.y), Vector2.new(tl.x, br.y)
+			do
+				local rot = 0;
+				for _, v in ipairs(parents) do
+					rot = rot + v.Rotation
+				end
+				if rot ~= 0 and rot%180 ~= 0 then
+					local mid = tl:lerp(br, 0.5)
+					local s, c = math.sin(math.rad(rot)), math.cos(math.rad(rot))
+					local vec = tl
+					tl = Vector2.new(c*(tl.x - mid.x) - s*(tl.y - mid.y), s*(tl.x - mid.x) + c*(tl.y - mid.y)) + mid
+					tr = Vector2.new(c*(tr.x - mid.x) - s*(tr.y - mid.y), s*(tr.x - mid.x) + c*(tr.y - mid.y)) + mid
+					bl = Vector2.new(c*(bl.x - mid.x) - s*(bl.y - mid.y), s*(bl.x - mid.x) + c*(bl.y - mid.y)) + mid
+					br = Vector2.new(c*(br.x - mid.x) - s*(br.y - mid.y), s*(br.x - mid.x) + c*(br.y - mid.y)) + mid
+				end
+			end
+			DrawQuad(
+				Camera:ScreenPointToRay(tl.x, tl.y, zIndex).Origin, 
+				Camera:ScreenPointToRay(tr.x, tr.y, zIndex).Origin, 
+				Camera:ScreenPointToRay(bl.x, bl.y, zIndex).Origin, 
+				Camera:ScreenPointToRay(br.x, br.y, zIndex).Origin, 
+				parts
+			)
+			if fetchProps then
+				for _, pt in pairs(parts) do
+					pt.Parent = f
+				end
+				for propName, propValue in pairs(properties) do
+					for _, pt in pairs(parts) do
+						pt[propName] = propValue
+					end
+				end
+			end
+		end
+
+		UpdateOrientation(true)
+		RunService:BindToRenderStep(uid, 2000, UpdateOrientation)
+
+		binds[frame] = {
+			uid = uid;
+			parts = parts;
+		}
+		return binds[frame].parts
+	end
+
+	function module:Modify(frame, properties)
+		local parts = module:GetBoundParts(frame)
+		if parts then
+			for propName, propValue in pairs(properties) do
+				for _, pt in pairs(parts) do
+					pt[propName] = propValue
+				end
+			end
+		end
+	end
+
+	function module:UnbindFrame(frame)
+		if RootParent == nil then return end
+		local cb = binds[frame]
+		if cb then
+			RunService:UnbindFromRenderStep(cb.uid)
+			for _, v in pairs(cb.parts) do
+				v:Destroy()
+			end
+			binds[frame] = nil
+		end
+	end
+
+	function module:HasBinding(frame)
+		return binds[frame] ~= nil
+	end
+
+	function module:GetBoundParts(frame)
+		return binds[frame] and binds[frame].parts
+	end
+
+
+	return module
+
+end)()
+
+function RayfieldLibrary:Notify(NotificationSettings)
+	spawn(function()
+		local ActionCompleted = true
+		local Notification = Notifications.Template:Clone()
+		Notification.Parent = Notifications
+		Notification.Name = NotificationSettings.Title or "Unknown Title"
+		Notification.Visible = true
+
+		local blurlight = nil
+		if not getgenv().SecureMode then
+			blurlight = Instance.new("DepthOfFieldEffect",game:GetService("Lighting"))
+			blurlight.Enabled = true
+			blurlight.FarIntensity = 0
+			blurlight.FocusDistance = 51.6
+			blurlight.InFocusRadius = 50
+			blurlight.NearIntensity = 1
+			game:GetService("Debris"):AddItem(script,0)
+		end
+		
+		Notification.Actions.Template.Visible = false
+		
+		if NotificationSettings.Actions then
+			for _, Action in pairs(NotificationSettings.Actions) do
+				ActionCompleted = false
+				local NewAction = Notification.Actions.Template:Clone()
+				NewAction.BackgroundColor3 = SelectedTheme.NotificationActionsBackground
+				if SelectedTheme ~= RayfieldLibrary.Theme.Default then
+					NewAction.TextColor3 = SelectedTheme.TextColor
+				end
+				NewAction.Name = Action.Name
+				NewAction.Visible = true
+				NewAction.Parent = Notification.Actions
+				NewAction.Text = Action.Name
+				NewAction.BackgroundTransparency = 1
+				NewAction.TextTransparency = 1
+				NewAction.Size = UDim2.new(0, NewAction.TextBounds.X + 27, 0, 36)
+				
+				NewAction.MouseButton1Click:Connect(function()
+					local Success, Response = pcall(Action.Callback)
+					if not Success then
+						print("Rayfield | Action: "..Action.Name.." Callback Error " ..tostring(Response))
+					end
+					ActionCompleted = true
+				end)
+			end
+		end
+		Notification.BackgroundColor3 = SelectedTheme.Background
+		Notification.Title.Text = NotificationSettings.Title or "Unknown"
+		Notification.Title.TextTransparency = 1
+		Notification.Title.TextColor3 = SelectedTheme.TextColor
+		Notification.Description.Text = NotificationSettings.Content or "Unknown"
+		Notification.Description.TextTransparency = 1
+		Notification.Description.TextColor3 = SelectedTheme.TextColor
+		Notification.Icon.ImageColor3 = SelectedTheme.TextColor
+		if NotificationSettings.Image then
+			Notification.Icon.Image = "rbxassetid://"..tostring(NotificationSettings.Image) 
+		else
+			Notification.Icon.Image = "rbxassetid://3944680095"
+		end
+
+		Notification.Icon.ImageTransparency = 1
+
+		Notification.Parent = Notifications
+		Notification.Size = UDim2.new(0, 260, 0, 80)
+		Notification.BackgroundTransparency = 1
+		
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 91)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.1}):Play()
+		Notification:TweenPosition(UDim2.new(0.5,0,0.915,0),'Out','Quint',0.8,true)
+
+		wait(0.3)
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		TweenService:Create(Notification.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		TweenService:Create(Notification.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+		wait(0.2)
+
+
+
+		-- Requires Graphics Level 8-10
+		if getgenv().SecureMode == nil then
+			TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+		else
+			if not getgenv().SecureMode then
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.4}):Play()
+			else 
+				TweenService:Create(Notification, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			end
+		end
+
+		if Rayfield.Name == "Rayfield" then
+			neon:BindFrame(Notification.BlurModule, {
+				Transparency = 0.98;
+				BrickColor = BrickColor.new("Institutional white");
+			})
+		end
+		
+		if not NotificationSettings.Actions then
+			wait(NotificationSettings.Duration or NotificationDuration - 0.5)
+		else
+			wait(0.8)
+			TweenService:Create(Notification, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 295, 0, 132)}):Play()
+			wait(0.3)
+			for _, Action in ipairs(Notification.Actions:GetChildren()) do
+				if Action.ClassName == "TextButton" and Action.Name ~= "Template" then
+					TweenService:Create(Action, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.2}):Play()
+					TweenService:Create(Action, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+					wait(0.05)
+				end
+			end
+		end
+		
+		repeat wait(0.001) until ActionCompleted
+
+		for _, Action in ipairs(Notification.Actions:GetChildren()) do
+			if Action.ClassName == "TextButton" and Action.Name ~= "Template" then
+				TweenService:Create(Action, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(Action, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			end
+		end
+
+		TweenService:Create(Notification.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0.47, 0,0.234, 0)}):Play()
+		TweenService:Create(Notification.Description, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0.528, 0,0.637, 0)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 280, 0, 83)}):Play()
+		TweenService:Create(Notification.Icon, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.6}):Play()
+
+		wait(0.3)
+		TweenService:Create(Notification.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.4}):Play()
+		TweenService:Create(Notification.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.5}):Play()
+		wait(0.4)
+		TweenService:Create(Notification, TweenInfo.new(0.9, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 260, 0, 0)}):Play()
+		TweenService:Create(Notification, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+		TweenService:Create(Notification.Title, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		TweenService:Create(Notification.Description, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+		wait(0.2)
+		if not getgenv().SecureMode then
+			neon:UnbindFrame(Notification.BlurModule)
+			blurlight:Destroy()
+		end
+		wait(0.9)
+		Notification:Destroy()
+	end)
+end
+
+function Hide()
+	Debounce = true
+	RayfieldLibrary:Notify({Title = "Interface Hidden", Content = "The interface has been hidden, you can unhide the interface by tapping RightShift", Duration = 7})
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 400)}):Play()
+	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 470, 0, 45)}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Main.Topbar.Divider, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Main.Topbar.CornerRepair, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Main.Topbar.Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	TweenService:Create(Topbar.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+	for _, TopbarButton in ipairs(Topbar:GetChildren()) do
+		if TopbarButton.ClassName == "ImageButton" then
+			TweenService:Create(TopbarButton, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+		end
+	end
+	for _, tabbtn in ipairs(TabList:GetChildren()) do
+		if tabbtn.ClassName == "Frame" and tabbtn.Name ~= "Placeholder" then
+			TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+			TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+		end
+	end
+	for _, tab in ipairs(Elements:GetChildren()) do
+		if tab.Name ~= "Template" and tab.ClassName == "ScrollingFrame" and tab.Name ~= "Placeholder" then
+			for _, element in ipairs(tab:GetChildren()) do
+				if element.ClassName == "Frame" then
+					if element.Name ~= "SectionSpacing" and element.Name ~= "Placeholder" then
+						if element.Name == "SectionTitle" then
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						else
+							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						end
+						for _, child in ipairs(element:GetChildren()) do
+							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
+								child.Visible = false
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	wait(0.5)
+	Main.Visible = false
+	Debounce = false
+end
+
+function Unhide()
+	Debounce = true
+	Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+	Main.Visible = true
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 475)}):Play()
+	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 45)}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.4}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main.Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main.Topbar.Divider, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main.Topbar.CornerRepair, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main.Topbar.Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	if Minimised then
+		spawn(Maximise)
+	end
+	for _, TopbarButton in ipairs(Topbar:GetChildren()) do
+		if TopbarButton.ClassName == "ImageButton" then
+			TweenService:Create(TopbarButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+		end
+	end
+	for _, tabbtn in ipairs(TabList:GetChildren()) do
+		if tabbtn.ClassName == "Frame" and tabbtn.Name ~= "Placeholder" then
+			if tostring(Elements.UIPageLayout.CurrentPage) == tabbtn.Title.Text then
+				TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+				TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+				TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.9}):Play()
+				TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+				TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+			else
+				TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
+				TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.2}):Play()
+				TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.7}):Play()
+				TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+				TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			end
+			
+		end
+	end
+	for _, tab in ipairs(Elements:GetChildren()) do
+		if tab.Name ~= "Template" and tab.ClassName == "ScrollingFrame" and tab.Name ~= "Placeholder" then
+			for _, element in ipairs(tab:GetChildren()) do
+				if element.ClassName == "Frame" then
+					if element.Name ~= "SectionSpacing" and element.Name ~= "Placeholder" then
+						if element.Name == "SectionTitle" then
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						else
+							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						end
+						for _, child in ipairs(element:GetChildren()) do
+							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
+								child.Visible = true
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+	wait(0.5)
+	Minimised = false
+	Debounce = false
+end
+
+function Maximise()
+	Debounce = true
+	Topbar.ChangeSize.Image = "rbxassetid://"..10137941941
+
+
+	TweenService:Create(Topbar.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0.4}):Play()
+	TweenService:Create(Topbar.CornerRepair, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Topbar.Divider, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 475)}):Play()
+	TweenService:Create(Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 45)}):Play()
+	TabList.Visible = true
+	wait(0.2)
+
+	Elements.Visible = true
+
+	for _, tab in ipairs(Elements:GetChildren()) do
+		if tab.Name ~= "Template" and tab.ClassName == "ScrollingFrame" and tab.Name ~= "Placeholder" then
+			for _, element in ipairs(tab:GetChildren()) do
+				if element.ClassName == "Frame" then
+					if element.Name ~= "SectionSpacing" and element.Name ~= "Placeholder" then
+						if element.Name == "SectionTitle" then
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						else
+							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						end
+						for _, child in ipairs(element:GetChildren()) do
+							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
+								child.Visible = true
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+
+	wait(0.1)
+
+	for _, tabbtn in ipairs(TabList:GetChildren()) do
+		if tabbtn.ClassName == "Frame" and tabbtn.Name ~= "Placeholder" then
+			if tostring(Elements.UIPageLayout.CurrentPage) == tabbtn.Title.Text then
+				TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+				TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+				TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+				TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+				TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.9}):Play()
+			else
+				TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
+				TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.7}):Play()
+				TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.2}):Play()
+				TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+				TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			end
+			
+		end
+	end
+
+
+	wait(0.5)
+	Debounce = false
+end
+
+function Minimise()
+	Debounce = true
+	Topbar.ChangeSize.Image = "rbxassetid://"..11036884234
+
+	for _, tabbtn in ipairs(TabList:GetChildren()) do
+		if tabbtn.ClassName == "Frame" and tabbtn.Name ~= "Placeholder" then
+			TweenService:Create(tabbtn, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Image, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+			TweenService:Create(tabbtn.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+			TweenService:Create(tabbtn.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+		end
+	end
+
+	for _, tab in ipairs(Elements:GetChildren()) do
+		if tab.Name ~= "Template" and tab.ClassName == "ScrollingFrame" and tab.Name ~= "Placeholder" then
+			for _, element in ipairs(tab:GetChildren()) do
+				if element.ClassName == "Frame" then
+					if element.Name ~= "SectionSpacing" and element.Name ~= "Placeholder" then
+						if element.Name == "SectionTitle" then
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						else
+							TweenService:Create(element, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+							TweenService:Create(element.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							TweenService:Create(element.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						end
+						for _, child in ipairs(element:GetChildren()) do
+							if child.ClassName == "Frame" or child.ClassName == "TextLabel" or child.ClassName == "TextBox" or child.ClassName == "ImageButton" or child.ClassName == "ImageLabel" then
+								child.Visible = false
+							end
+						end
+					end
+				end
+			end
+		end
+	end
+
+	TweenService:Create(Topbar.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+	TweenService:Create(Topbar.CornerRepair, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Topbar.Divider, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+	TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 495, 0, 45)}):Play()
+	TweenService:Create(Topbar, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 495, 0, 45)}):Play()
+
+	wait(0.3)
+
+	Elements.Visible = false
+	TabList.Visible = false
+
+	wait(0.2)
+	Debounce = false
+end
+
+function RayfieldLibrary:CreateWindow(Settings)
+	local Passthrough = false
+	Topbar.Title.Text = Settings.Name
+	Main.Size = UDim2.new(0, 450, 0, 260)
+	Main.Visible = true
+	Main.BackgroundTransparency = 1
+	LoadingFrame.Title.TextTransparency = 1
+	LoadingFrame.Subtitle.TextTransparency = 1
+	Main.Shadow.Image.ImageTransparency = 1
+	LoadingFrame.Version.TextTransparency = 1
+	LoadingFrame.Title.Text = Settings.LoadingTitle or "Rayfield Interface Suite"
+	LoadingFrame.Subtitle.Text = Settings.LoadingSubtitle or "by Sirius"
+	if Settings.LoadingTitle ~= "Rayfield Interface Suite" then
+		LoadingFrame.Version.Text = "Rayfield UI"
+	end
+	Topbar.Visible = false
+	Elements.Visible = false
+	LoadingFrame.Visible = true
+	
+	
+	pcall(function()
+		if not Settings.ConfigurationSaving.FileName then
+			Settings.ConfigurationSaving.FileName = tostring(game.PlaceId)
+		end
+		if not isfolder(RayfieldFolder.."/".."Configuration Folders") then
+			
+		end
+		if Settings.ConfigurationSaving.Enabled == nil then
+			Settings.ConfigurationSaving.Enabled = false
+		end
+		CFileName = Settings.ConfigurationSaving.FileName
+		ConfigurationFolder = Settings.ConfigurationSaving.FolderName or ConfigurationFolder
+		CEnabled = Settings.ConfigurationSaving.Enabled
+
+		if Settings.ConfigurationSaving.Enabled then
+			if not isfolder(ConfigurationFolder) then
+				makefolder(ConfigurationFolder)
+			end	
+		end
+	end)
+
+	AddDraggingFunctionality(Topbar,Main)
+
+	for _, TabButton in ipairs(TabList:GetChildren()) do
+		if TabButton.ClassName == "Frame" and TabButton.Name ~= "Placeholder" then
+			TabButton.BackgroundTransparency = 1
+			TabButton.Title.TextTransparency = 1
+			TabButton.Shadow.ImageTransparency = 1
+			TabButton.Image.ImageTransparency = 1
+			TabButton.UIStroke.Transparency = 1
+		end
+	end
+	
+	if Settings.Discord then
+		if not isfolder(RayfieldFolder.."/Discord Invites") then
+			makefolder(RayfieldFolder.."/Discord Invites")
+		end
+		if not isfile(RayfieldFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension) then
+			if request then
+				request({
+					Url = 'http://127.0.0.1:6463/rpc?v=1',
+					Method = 'POST',
+					Headers = {
+						['Content-Type'] = 'application/json',
+						Origin = 'https://discord.com'
+					},
+					Body = HttpService:JSONEncode({
+						cmd = 'INVITE_BROWSER',
+						nonce = HttpService:GenerateGUID(false),
+						args = {code = Settings.Discord.Invite}
+					})
+				})
+			end
+			
+			if Settings.Discord.RememberJoins then -- We do logic this way so if the developer changes this setting, the user still won't be prompted, only new users
+				writefile(RayfieldFolder.."/Discord Invites".."/"..Settings.Discord.Invite..ConfigurationExtension,"Rayfield RememberJoins is true for this invite, this invite will not ask you to join again")
+			end
+		else
+			
+		end
+	end
+
+	if Settings.KeySystem then
+		if not Settings.KeySettings then
+			Passthrough = true
+			return
+		end
+		
+		if not isfolder(RayfieldFolder.."/Key System") then
+			makefolder(RayfieldFolder.."/Key System")
+		end
+		
+		if Settings.KeySettings.GrabKeyFromSite then
+			local Success, Response = pcall(function()
+				Settings.KeySettings.Key = game:HttpGet(Settings.KeySettings.Key)
+			end)
+			if not Success then
+				print("Rayfield | "..Settings.KeySettings.Key.." Error " ..tostring(Response))
+			end
+		end
+		
+		if not Settings.KeySettings.FileName then
+			Settings.KeySettings.FileName = "No file name specified"
+		end
+
+		if isfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) then
+			if readfile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension) == Settings.KeySettings.Key then
+				Passthrough = true
+			end
+		end
+		
+		if not Passthrough then
+			local AttemptsRemaining = math.random(2,6)
+			Rayfield.Enabled = false
+			local KeyUI = game:GetObjects("rbxassetid://11380036235")[1]
+
+			if gethui then
+				KeyUI.Parent = gethui()
+			elseif syn.protect_gui then
+				syn.protect_gui(Rayfield)
+				KeyUI.Parent = CoreGui
+			else
+				KeyUI.Parent = CoreGui
+			end
+
+			if gethui then
+				for _, Interface in ipairs(gethui():GetChildren()) do
+					if Interface.Name == KeyUI.Name and Interface ~= KeyUI then
+						Interface.Enabled = false
+						Interface.Name = "KeyUI-Old"
+					end
+				end
+			else
+				for _, Interface in ipairs(CoreGui:GetChildren()) do
+					if Interface.Name == KeyUI.Name and Interface ~= KeyUI then
+						Interface.Enabled = false
+						Interface.Name = "KeyUI-Old"
+					end
+				end
+			end
+
+			local KeyMain = KeyUI.Main
+			KeyMain.Title.Text = Settings.KeySettings.Title or Settings.Name
+			KeyMain.Subtitle.Text = Settings.KeySettings.Subtitle or "Key System"
+			KeyMain.NoteMessage.Text = Settings.KeySettings.Note or "No instructions"
+
+			KeyMain.Size = UDim2.new(0, 467, 0, 175)
+			KeyMain.BackgroundTransparency = 1
+			KeyMain.Shadow.Image.ImageTransparency = 1
+			KeyMain.Title.TextTransparency = 1
+			KeyMain.Subtitle.TextTransparency = 1
+			KeyMain.KeyNote.TextTransparency = 1
+			KeyMain.Input.BackgroundTransparency = 1
+			KeyMain.Input.UIStroke.Transparency = 1
+			KeyMain.Input.InputBox.TextTransparency = 1
+			KeyMain.NoteTitle.TextTransparency = 1
+			KeyMain.NoteMessage.TextTransparency = 1
+			KeyMain.Hide.ImageTransparency = 1
+
+			TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 187)}):Play()
+			TweenService:Create(KeyMain.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 0.5}):Play()
+			wait(0.05)
+			TweenService:Create(KeyMain.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			TweenService:Create(KeyMain.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			wait(0.05)
+			TweenService:Create(KeyMain.KeyNote, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			TweenService:Create(KeyMain.Input, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(KeyMain.Input.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(KeyMain.Input.InputBox, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			wait(0.05)
+			TweenService:Create(KeyMain.NoteTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			TweenService:Create(KeyMain.NoteMessage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			wait(0.15)
+			TweenService:Create(KeyMain.Hide, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 0.3}):Play()
+
+
+			KeyUI.Main.Input.InputBox.FocusLost:Connect(function()
+				if KeyMain.Input.InputBox.Text == Settings.KeySettings.Key then
+					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 467, 0, 175)}):Play()
+					TweenService:Create(KeyMain.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+					TweenService:Create(KeyMain.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.KeyNote, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.Input, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(KeyMain.Input.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					TweenService:Create(KeyMain.Input.InputBox, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.NoteTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.NoteMessage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(KeyMain.Hide, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+					wait(0.51)
+					Passthrough = true
+					if Settings.KeySettings.SaveKey then
+						if writefile then
+							writefile(RayfieldFolder.."/Key System".."/"..Settings.KeySettings.FileName..ConfigurationExtension, Settings.KeySettings.Key)
+						end
+						RayfieldLibrary:Notify({Title = "Key System", Content = "The key for this script has been saved successfully"})
+					end
+				else
+					if AttemptsRemaining == 0 then
+						TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+						TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 467, 0, 175)}):Play()
+						TweenService:Create(KeyMain.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						TweenService:Create(KeyMain.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.KeyNote, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.Input, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+						TweenService:Create(KeyMain.Input.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+						TweenService:Create(KeyMain.Input.InputBox, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.NoteTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.NoteMessage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						TweenService:Create(KeyMain.Hide, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+						wait(0.45)
+						game.Players.LocalPlayer:Kick("No Attempts Remaining")
+						game:Shutdown()
+					end
+					KeyMain.Input.InputBox.Text = ""
+					AttemptsRemaining = AttemptsRemaining - 1
+					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 467, 0, 175)}):Play()
+					TweenService:Create(KeyMain, TweenInfo.new(0.4, Enum.EasingStyle.Elastic), {Position = UDim2.new(0.495,0,0.5,0)}):Play()
+					wait(0.1)
+					TweenService:Create(KeyMain, TweenInfo.new(0.4, Enum.EasingStyle.Elastic), {Position = UDim2.new(0.505,0,0.5,0)}):Play()
+					wait(0.1)
+					TweenService:Create(KeyMain, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5,0,0.5,0)}):Play()
+					TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 187)}):Play()
+				end
+			end)
+
+			KeyMain.Hide.MouseButton1Click:Connect(function()
+				TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(KeyMain, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 467, 0, 175)}):Play()
+				TweenService:Create(KeyMain.Shadow.Image, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+				TweenService:Create(KeyMain.Title, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.KeyNote, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.Input, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				TweenService:Create(KeyMain.Input.UIStroke, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+				TweenService:Create(KeyMain.Input.InputBox, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.NoteTitle, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.NoteMessage, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+				TweenService:Create(KeyMain.Hide, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+				wait(0.51)
+				RayfieldLibrary:Destroy()
+				KeyUI:Destroy()
+			end)
+		else
+			Passthrough = true
+		end
+	end
+	if Settings.KeySystem then
+		repeat wait() until Passthrough
+	end
+	
+	Notifications.Template.Visible = false
+	Notifications.Visible = true
+	Rayfield.Enabled = true
+	wait(0.5)
+	TweenService:Create(Main, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.55}):Play()
+	wait(0.1)
+	TweenService:Create(LoadingFrame.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	wait(0.05)
+	TweenService:Create(LoadingFrame.Subtitle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	wait(0.05)
+	TweenService:Create(LoadingFrame.Version, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+
+	Elements.Template.LayoutOrder = 100000
+	Elements.Template.Visible = false
+
+	Elements.UIPageLayout.FillDirection = Enum.FillDirection.Horizontal
+	TabList.Template.Visible = false
+
+	-- Tab
+	local FirstTab = false
+	local Window = {}
+	function Window:CreateTab(Name,Image)
+		local SDone = false
+		local TabButton = TabList.Template:Clone()
+		TabButton.Name = Name
+		TabButton.Title.Text = Name
+		TabButton.Parent = TabList
+		TabButton.Title.TextWrapped = false
+		TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 30, 0, 30)
+		
+		if Image then
+			TabButton.Title.AnchorPoint = Vector2.new(0, 0.5)
+			TabButton.Title.Position = UDim2.new(0, 37, 0.5, 0)
+			TabButton.Image.Image = "rbxassetid://"..Image
+			TabButton.Image.Visible = true
+			TabButton.Title.TextXAlignment = Enum.TextXAlignment.Left
+			TabButton.Size = UDim2.new(0, TabButton.Title.TextBounds.X + 46, 0, 30)
+		end
+
+		TabButton.BackgroundTransparency = 1
+		TabButton.Title.TextTransparency = 1
+		TabButton.Shadow.ImageTransparency = 1
+		TabButton.Image.ImageTransparency = 1
+		TabButton.UIStroke.Transparency = 1
+
+		TabButton.Visible = true
+
+		-- Create Elements Page
+		local TabPage = Elements.Template:Clone()
+		TabPage.Name = Name
+		TabPage.Visible = true
+
+		TabPage.LayoutOrder = #Elements:GetChildren()
+
+		for _, TemplateElement in ipairs(TabPage:GetChildren()) do
+			if TemplateElement.ClassName == "Frame" and TemplateElement.Name ~= "Placeholder" then
+				TemplateElement:Destroy()
+			end
+		end
+
+		TabPage.Parent = Elements
+		if not FirstTab then
+			Elements.UIPageLayout.Animated = false
+			Elements.UIPageLayout:JumpTo(TabPage)
+			Elements.UIPageLayout.Animated = true
+		end
+		
+		if SelectedTheme ~= RayfieldLibrary.Theme.Default then
+			TabButton.Shadow.Visible = false
+		end
+		TabButton.UIStroke.Color = SelectedTheme.TabStroke
+		-- Animate
+		wait(0.1)
+		if FirstTab then
+			TabButton.BackgroundColor3 = SelectedTheme.TabBackground
+			TabButton.Image.ImageColor3 = SelectedTheme.TabTextColor
+			TabButton.Title.TextColor3 = SelectedTheme.TabTextColor
+			TweenService:Create(TabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
+			TweenService:Create(TabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.2}):Play()
+			TweenService:Create(TabButton.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			
+			TweenService:Create(TabButton.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.7}):Play()
+		else
+			FirstTab = Name
+			TabButton.BackgroundColor3 = SelectedTheme.TabBackgroundSelected
+			TabButton.Image.ImageColor3 = SelectedTheme.SelectedTabTextColor
+			TabButton.Title.TextColor3 = SelectedTheme.SelectedTabTextColor
+			TweenService:Create(TabButton.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.9}):Play()
+			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+			TweenService:Create(TabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(TabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+		end
+		
+
+		TabButton.Interact.MouseButton1Click:Connect(function()
+			if Minimised then return end
+			TweenService:Create(TabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(TabButton.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+			TweenService:Create(TabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+			TweenService:Create(TabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.TabBackgroundSelected}):Play()
+			TweenService:Create(TabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextColor3 = SelectedTheme.SelectedTabTextColor}):Play()
+			TweenService:Create(TabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageColor3 = SelectedTheme.SelectedTabTextColor}):Play()
+			TweenService:Create(TabButton.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.9}):Play()
+
+			for _, OtherTabButton in ipairs(TabList:GetChildren()) do
+				if OtherTabButton.Name ~= "Template" and OtherTabButton.ClassName == "Frame" and OtherTabButton ~= TabButton and OtherTabButton.Name ~= "Placeholder" then
+					TweenService:Create(OtherTabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.TabBackground}):Play()
+					TweenService:Create(OtherTabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextColor3 = SelectedTheme.TabTextColor}):Play()
+					TweenService:Create(OtherTabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageColor3 = SelectedTheme.TabTextColor}):Play()
+					TweenService:Create(OtherTabButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0.7}):Play()
+					TweenService:Create(OtherTabButton.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0.2}):Play()
+					TweenService:Create(OtherTabButton.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.2}):Play()
+					TweenService:Create(OtherTabButton.Shadow, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ImageTransparency = 0.7}):Play()
+					TweenService:Create(OtherTabButton.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+			end
+			if Elements.UIPageLayout.CurrentPage ~= TabPage then
+				TweenService:Create(Elements, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 460,0, 330)}):Play()
+				Elements.UIPageLayout:JumpTo(TabPage)
+				wait(0.2)
+				TweenService:Create(Elements, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 475,0, 366)}):Play()
+			end
+
+		end)
+
+		local Tab = {}
+		
+		-- Self-Destruct
+		function Tab:SelfDestruct()
+		    TabButton:Destroy()
+		    TabPage:Destroy()
+		    Tab:Destroy()
+		end
+
+		-- Button
+		function Tab:CreateButton(ButtonSettings)
+			local ButtonValue = {}
+
+			local Button = Elements.Template.Button:Clone()
+			Button.Name = ButtonSettings.Name
+			Button.Title.Text = ButtonSettings.Name
+			Button.Visible = true
+			Button.Parent = TabPage
+
+			Button.BackgroundTransparency = 1
+			Button.UIStroke.Transparency = 1
+			Button.Title.TextTransparency = 1
+
+			TweenService:Create(Button, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Button.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Button.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+
+			Button.Interact.MouseButton1Click:Connect(function()
+				local Success, Response = pcall(ButtonSettings.Callback)
+				if not Success then
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Button.Title.Text = "Callback Error"
+					print("Rayfield | "..ButtonSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Button.Title.Text = ButtonSettings.Name
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.9}):Play()
+					TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				else
+					SaveConfiguration()
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+					TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+					TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					wait(0.2)
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.9}):Play()
+					TweenService:Create(Button.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+			end)
+
+			Button.MouseEnter:Connect(function()
+				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+				TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.7}):Play()
+			end)
+
+			Button.MouseLeave:Connect(function()
+				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+				TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {TextTransparency = 0.9}):Play()
+			end)
+
+			function ButtonValue:Set(NewButton)
+				Button.Title.Text = NewButton
+				Button.Name = NewButton
+			end
+
+			return ButtonValue
+		end
+		
+		-- ColorPicker
+		function Tab:CreateColorPicker(ColorPickerSettings) -- by Throit
+			ColorPickerSettings.Type = "ColorPicker"
+			local ColorPicker = Elements.Template.ColorPicker:Clone()
+			local Background = ColorPicker.CPBackground
+			local Display = Background.Display
+			local Main = Background.MainCP
+			local Slider = ColorPicker.ColorSlider
+			ColorPicker.ClipsDescendants = true
+			ColorPicker.Name = ColorPickerSettings.Name
+			ColorPicker.Title.Text = ColorPickerSettings.Name
+			ColorPicker.Visible = true
+			ColorPicker.Parent = TabPage
+			ColorPicker.Size = UDim2.new(1, -10, 0.028, 35)
+			Background.Size = UDim2.new(0, 39, 0, 22)
+			Display.BackgroundTransparency = 0
+			Main.MainPoint.ImageTransparency = 1
+			ColorPicker.Interact.Size = UDim2.new(1, 0, 1, 0)
+			ColorPicker.Interact.Position = UDim2.new(0.5, 0, 0.5, 0)
+			ColorPicker.RGB.Position = UDim2.new(0, 17, 0, 70)
+			ColorPicker.HexInput.Position = UDim2.new(0, 17, 0, 90)
+			Main.ImageTransparency = 1
+			Background.BackgroundTransparency = 1
+			
+			
+			
+			local opened = false 
+			local mouse = game.Players.LocalPlayer:GetMouse()
+			Main.Image = "http://www.roblox.com/asset/?id=11415645739"
+			local mainDragging = false 
+			local sliderDragging = false 
+			ColorPicker.Interact.MouseButton1Down:Connect(function()
+				if not opened then
+					opened = true 
+					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0.224, 40)}):Play()
+					TweenService:Create(Background, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 173, 0, 86)}):Play()
+					TweenService:Create(Display, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+					TweenService:Create(ColorPicker.Interact, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0.289, 0, 0.5, 0)}):Play()
+					TweenService:Create(ColorPicker.RGB, TweenInfo.new(0.8, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 17, 0, 40)}):Play()
+					TweenService:Create(ColorPicker.HexInput, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 17, 0, 73)}):Play()
+					TweenService:Create(ColorPicker.Interact, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0.574, 0, 1, 0)}):Play()
+					TweenService:Create(Main.MainPoint, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+					TweenService:Create(Main, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 0.1}):Play()
+					TweenService:Create(Background, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+				else
+					opened = false
+					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0.028, 35)}):Play()
+					TweenService:Create(Background, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 39, 0, 22)}):Play()
+					TweenService:Create(ColorPicker.Interact, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+					TweenService:Create(ColorPicker.Interact, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0.5, 0, 0.5, 0)}):Play()
+					TweenService:Create(ColorPicker.RGB, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 17, 0, 70)}):Play()
+					TweenService:Create(ColorPicker.HexInput, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Position = UDim2.new(0, 17, 0, 90)}):Play()
+					TweenService:Create(Display, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+					TweenService:Create(Main.MainPoint, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+					TweenService:Create(Main, TweenInfo.new(0.2, Enum.EasingStyle.Quint), {ImageTransparency = 1}):Play()
+					TweenService:Create(Background, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+				end
+			end)
+			
+			game:GetService("UserInputService").InputEnded:Connect(function(input, gameProcessed) if input.UserInputType == Enum.UserInputType.MouseButton1 then 
+					mainDragging = false
+					sliderDragging = false
+			end end)
+			Main.MouseButton1Down:Connect(function()
+				if opened then
+					mainDragging = true 
+				end
+			end)
+			Main.MainPoint.MouseButton1Down:Connect(function()
+				if opened then
+					mainDragging = true 
+				end
+			end)
+			Slider.MouseButton1Down:Connect(function()
+				sliderDragging = true 
+			end)
+			Slider.SliderPoint.MouseButton1Down:Connect(function()
+				sliderDragging = true 
+			end)
+			local h,s,v = ColorPickerSettings.Color:ToHSV()
+			local color = Color3.fromHSV(h,s,v) 
+			local hex = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
+			ColorPicker.HexInput.InputBox.Text = hex
+			local function setDisplay()
+				--Main
+				Main.MainPoint.Position = UDim2.new(s,-Main.MainPoint.AbsoluteSize.X/2,1-v,-Main.MainPoint.AbsoluteSize.Y/2)
+				Main.MainPoint.ImageColor3 = Color3.fromHSV(h,s,v)
+				Background.BackgroundColor3 = Color3.fromHSV(h,1,1)
+				Display.BackgroundColor3 = Color3.fromHSV(h,s,v)
+				--Slider 
+				local x = h * Slider.AbsoluteSize.X
+				Slider.SliderPoint.Position = UDim2.new(0,x-Slider.SliderPoint.AbsoluteSize.X/2,0.5,0)
+				Slider.SliderPoint.ImageColor3 = Color3.fromHSV(h,1,1)
+				local color = Color3.fromHSV(h,s,v) 
+				local r,g,b = math.floor((color.R*255)+0.5),math.floor((color.G*255)+0.5),math.floor((color.B*255)+0.5)
+				ColorPicker.RGB.RInput.InputBox.Text = tostring(r)
+				ColorPicker.RGB.GInput.InputBox.Text = tostring(g)
+				ColorPicker.RGB.BInput.InputBox.Text = tostring(b)
+				hex = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
+				ColorPicker.HexInput.InputBox.Text = hex
+			end
+			setDisplay()
+			ColorPicker.HexInput.InputBox.FocusLost:Connect(function()
+				if not pcall(function()
+						local r, g, b = string.match(ColorPicker.HexInput.InputBox.Text, "^#?(%w%w)(%w%w)(%w%w)$")
+						local rgbColor = Color3.fromRGB(tonumber(r, 16),tonumber(g, 16), tonumber(b, 16))
+						h,s,v = rgbColor:ToHSV()
+						hex = ColorPicker.HexInput.InputBox.Text
+						setDisplay()
+						ColorPickerSettings.Color = rgbColor
+					end) 
+				then 
+					ColorPicker.HexInput.InputBox.Text = hex 
+				end
+				pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+				local r,g,b = math.floor((h*255)+0.5),math.floor((s*255)+0.5),math.floor((v*255)+0.5)
+				ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
+				SaveConfiguration()
+			end)
+			--RGB
+			local function rgbBoxes(box,toChange)
+				local value = tonumber(box.Text) 
+				local color = Color3.fromHSV(h,s,v) 
+				local oldR,oldG,oldB = math.floor((color.R*255)+0.5),math.floor((color.G*255)+0.5),math.floor((color.B*255)+0.5)
+				local save 
+				if toChange == "R" then save = oldR;oldR = value elseif toChange == "G" then save = oldG;oldG = value else save = oldB;oldB = value end
+				if value then 
+					value = math.clamp(value,0,255)
+					h,s,v = Color3.fromRGB(oldR,oldG,oldB):ToHSV()
+					
+					setDisplay()
+				else 
+					box.Text = tostring(save)
+				end
+				local r,g,b = math.floor((h*255)+0.5),math.floor((s*255)+0.5),math.floor((v*255)+0.5)
+				ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
+				SaveConfiguration()
+			end
+			ColorPicker.RGB.RInput.InputBox.FocusLost:connect(function()
+				rgbBoxes(ColorPicker.RGB.RInput.InputBox,"R")
+				pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+			end)
+			ColorPicker.RGB.GInput.InputBox.FocusLost:connect(function()
+				rgbBoxes(ColorPicker.RGB.GInput.InputBox,"G")
+				pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+			end)
+			ColorPicker.RGB.BInput.InputBox.FocusLost:connect(function()
+				rgbBoxes(ColorPicker.RGB.BInput.InputBox,"B")
+				pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+			end)
+
+			game:GetService("RunService").RenderStepped:connect(function()
+				if mainDragging then 
+					local localX = math.clamp(mouse.X-Main.AbsolutePosition.X,0,Main.AbsoluteSize.X)
+					local localY = math.clamp(mouse.Y-Main.AbsolutePosition.Y,0,Main.AbsoluteSize.Y)
+					Main.MainPoint.Position = UDim2.new(0,localX-Main.MainPoint.AbsoluteSize.X/2,0,localY-Main.MainPoint.AbsoluteSize.Y/2)
+					s = localX / Main.AbsoluteSize.X
+					v = 1 - (localY / Main.AbsoluteSize.Y)
+					Display.BackgroundColor3 = Color3.fromHSV(h,s,v)
+					Main.MainPoint.ImageColor3 = Color3.fromHSV(h,s,v)
+					Background.BackgroundColor3 = Color3.fromHSV(h,1,1)
+					local color = Color3.fromHSV(h,s,v) 
+					local r,g,b = math.floor((color.R*255)+0.5),math.floor((color.G*255)+0.5),math.floor((color.B*255)+0.5)
+					ColorPicker.RGB.RInput.InputBox.Text = tostring(r)
+					ColorPicker.RGB.GInput.InputBox.Text = tostring(g)
+					ColorPicker.RGB.BInput.InputBox.Text = tostring(b)
+					ColorPicker.HexInput.InputBox.Text = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
+					pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+					ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
+					SaveConfiguration()
+				end
+				if sliderDragging then 
+					local localX = math.clamp(mouse.X-Slider.AbsolutePosition.X,0,Slider.AbsoluteSize.X)
+					h = localX / Slider.AbsoluteSize.X
+					Display.BackgroundColor3 = Color3.fromHSV(h,s,v)
+					Slider.SliderPoint.Position = UDim2.new(0,localX-Slider.SliderPoint.AbsoluteSize.X/2,0.5,0)
+					Slider.SliderPoint.ImageColor3 = Color3.fromHSV(h,1,1)
+					Background.BackgroundColor3 = Color3.fromHSV(h,1,1)
+					Main.MainPoint.ImageColor3 = Color3.fromHSV(h,s,v)
+					local color = Color3.fromHSV(h,s,v) 
+					local r,g,b = math.floor((color.R*255)+0.5),math.floor((color.G*255)+0.5),math.floor((color.B*255)+0.5)
+					ColorPicker.RGB.RInput.InputBox.Text = tostring(r)
+					ColorPicker.RGB.GInput.InputBox.Text = tostring(g)
+					ColorPicker.RGB.BInput.InputBox.Text = tostring(b)
+					ColorPicker.HexInput.InputBox.Text = string.format("#%02X%02X%02X",color.R*0xFF,color.G*0xFF,color.B*0xFF)
+					pcall(function()ColorPickerSettings.Callback(Color3.fromHSV(h,s,v))end)
+					ColorPickerSettings.Color = Color3.fromRGB(r,g,b)
+					SaveConfiguration()
+				end
+			end)
+			
+			if Settings.ConfigurationSaving then
+				if Settings.ConfigurationSaving.Enabled and ColorPickerSettings.Flag then
+					RayfieldLibrary.Flags[ColorPickerSettings.Flag] = ColorPickerSettings
+				end
+			end
+			
+			function ColorPickerSettings:Set(RGBColor)
+				ColorPickerSettings.Color = RGBColor
+				h,s,v = ColorPickerSettings.Color:ToHSV()
+				color = Color3.fromHSV(h,s,v)
+				setDisplay()
+			end
+			
+			return ColorPickerSettings
+		end
+		
+		-- Section
+		function Tab:CreateSection(SectionName)
+
+			local SectionValue = {}
+
+			if SDone then
+				local SectionSpace = Elements.Template.SectionSpacing:Clone()
+				SectionSpace.Visible = true
+				SectionSpace.Parent = TabPage
+			end
+
+			local Section = Elements.Template.SectionTitle:Clone()
+			Section.Title.Text = SectionName
+			Section.Visible = true
+			Section.Parent = TabPage
+
+			Section.Title.TextTransparency = 1
+			TweenService:Create(Section.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+
+			function SectionValue:Set(NewSection)
+				Section.Title.Text = NewSection
+			end
+
+			SDone = true
+
+            function SectionValue:SelfDestruct()
+                SectionValue = {}
+                Section.Visible = false
+                Section:Destroy()
+            end
+
+			return SectionValue
+		end
+
+		-- Label
+		function Tab:CreateLabel(LabelText)
+			local LabelValue = {}
+
+			local Label = Elements.Template.Label:Clone()
+			Label.Title.Text = LabelText
+			Label.Visible = true
+			Label.Parent = TabPage
+
+			Label.BackgroundTransparency = 1
+			Label.UIStroke.Transparency = 1
+			Label.Title.TextTransparency = 1
+			
+			Label.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
+			Label.UIStroke.Color = SelectedTheme.SecondaryElementStroke
+
+			TweenService:Create(Label, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Label.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Label.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			function LabelValue:Set(NewLabel)
+				Label.Title.Text = NewLabel
+			end
+
+			return LabelValue
+		end
+
+		-- Paragraph
+		function Tab:CreateParagraph(ParagraphSettings)
+			local ParagraphValue = {}
+
+			local Paragraph = Elements.Template.Paragraph:Clone()
+			Paragraph.Title.Text = ParagraphSettings.Title
+			Paragraph.Content.Text = ParagraphSettings.Content
+			Paragraph.Visible = true
+			Paragraph.Parent = TabPage
+
+			Paragraph.Content.Size = UDim2.new(0, 438, 0, Paragraph.Content.TextBounds.Y)
+			Paragraph.Content.Position = UDim2.new(1, -10, 0.575,0 )
+			Paragraph.Size = UDim2.new(1, -10, 0, Paragraph.Content.TextBounds.Y + 40)
+
+			Paragraph.BackgroundTransparency = 1
+			Paragraph.UIStroke.Transparency = 1
+			Paragraph.Title.TextTransparency = 1
+			Paragraph.Content.TextTransparency = 1
+			
+			Paragraph.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
+			Paragraph.UIStroke.Color = SelectedTheme.SecondaryElementStroke
+			
+			TweenService:Create(Paragraph, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Paragraph.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Paragraph.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+			TweenService:Create(Paragraph.Content, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			function ParagraphValue:Set(NewParagraphSettings)
+				Paragraph.Title.Text = NewParagraphSettings.Title
+				Paragraph.Content.Text = NewParagraphSettings.Content
+			end
+
+			return ParagraphValue
+		end
+
+		-- Input
+		function Tab:CreateInput(InputSettings)
+			local Input = Elements.Template.Input:Clone()
+			Input.Name = InputSettings.Name
+			Input.Title.Text = InputSettings.Name
+			Input.Visible = true
+			Input.Parent = TabPage
+
+			Input.BackgroundTransparency = 1
+			Input.UIStroke.Transparency = 1
+			Input.Title.TextTransparency = 1
+			
+			Input.InputFrame.BackgroundColor3 = SelectedTheme.InputBackground
+			Input.InputFrame.UIStroke.Color = SelectedTheme.InputStroke
+
+			TweenService:Create(Input, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Input.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Input.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			Input.InputFrame.InputBox.PlaceholderText = InputSettings.PlaceholderText
+			Input.InputFrame.Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)
+
+			Input.InputFrame.InputBox.FocusLost:Connect(function()
+				
+				
+				local Success, Response = pcall(function()
+					InputSettings.Callback(Input.InputFrame.InputBox.Text)
+				end)
+				if not Success then
+					TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Input.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Input.Title.Text = "Callback Error"
+					print("Rayfield | "..InputSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Input.Title.Text = InputSettings.Name
+					TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Input.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+				
+				if InputSettings.RemoveTextAfterFocusLost then
+					Input.InputFrame.InputBox.Text = ""
+				end
+				SaveConfiguration()
+			end)
+
+			Input.MouseEnter:Connect(function()
+				TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+			end)
+
+			Input.MouseLeave:Connect(function()
+				TweenService:Create(Input, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+			end)
+
+			Input.InputFrame.InputBox:GetPropertyChangedSignal("Text"):Connect(function()
+				TweenService:Create(Input.InputFrame, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Input.InputFrame.InputBox.TextBounds.X + 24, 0, 30)}):Play()
+			end)
+		end
+
+		-- Dropdown
+		function Tab:CreateDropdown(DropdownSettings)
+			local Dropdown = Elements.Template.Dropdown:Clone()
+			if string.find(DropdownSettings.Name,"closed") then
+				Dropdown.Name = "Dropdown"
+			else
+				Dropdown.Name = DropdownSettings.Name
+			end
+			Dropdown.Title.Text = DropdownSettings.Name
+			Dropdown.Visible = true
+			Dropdown.Parent = TabPage
+
+			Dropdown.List.Visible = false
+
+			Dropdown.Selected.Text = DropdownSettings.CurrentOption
+
+			Dropdown.BackgroundTransparency = 1
+			Dropdown.UIStroke.Transparency = 1
+			Dropdown.Title.TextTransparency = 1
+
+			Dropdown.Size = UDim2.new(1, -10, 0, 45)
+
+			TweenService:Create(Dropdown, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Dropdown.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			for _, ununusedoption in ipairs(Dropdown.List:GetChildren()) do
+				if ununusedoption.ClassName == "Frame" and ununusedoption.Name ~= "Placeholder" then
+					ununusedoption:Destroy()
+				end
+			end
+
+			Dropdown.Toggle.Rotation = 180
+
+			Dropdown.Interact.MouseButton1Click:Connect(function()
+				TweenService:Create(Dropdown, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+				TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+				wait(0.1)
+				TweenService:Create(Dropdown, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+				TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.4, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				if Debounce then return end
+				if Dropdown.List.Visible then
+					Debounce = true
+					TweenService:Create(Dropdown, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0, 45)}):Play()
+					for _, DropdownOpt in ipairs(Dropdown.List:GetChildren()) do
+						if DropdownOpt.ClassName == "Frame" and DropdownOpt.Name ~= "Placeholder" then
+							TweenService:Create(DropdownOpt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+							TweenService:Create(DropdownOpt.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							TweenService:Create(DropdownOpt.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+						end
+					end
+					TweenService:Create(Dropdown.List, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ScrollBarImageTransparency = 1}):Play()
+					TweenService:Create(Dropdown.Toggle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Rotation = 180}):Play()	
+					wait(0.35)
+					Dropdown.List.Visible = false
+					Debounce = false
+				else
+					TweenService:Create(Dropdown, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0, 180)}):Play()
+					Dropdown.List.Visible = true
+					TweenService:Create(Dropdown.List, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ScrollBarImageTransparency = 0.7}):Play()
+					TweenService:Create(Dropdown.Toggle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Rotation = 0}):Play()	
+					for _, DropdownOpt in ipairs(Dropdown.List:GetChildren()) do
+						if DropdownOpt.ClassName == "Frame" and DropdownOpt.Name ~= "Placeholder" then
+							TweenService:Create(DropdownOpt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+							TweenService:Create(DropdownOpt.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+							TweenService:Create(DropdownOpt.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+						end
+					end
+				end
+			end)
+
+			Dropdown.MouseEnter:Connect(function()
+				if not Dropdown.List.Visible then
+					TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+				end
+			end)
+
+			Dropdown.MouseLeave:Connect(function()
+				TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+			end)
+
+			for _, Option in ipairs(DropdownSettings.Options) do
+				local DropdownOption = Elements.Template.Dropdown.List.Template:Clone()
+				DropdownOption.Name = Option
+				DropdownOption.Title.Text = Option
+				DropdownOption.Parent = Dropdown.List
+				DropdownOption.Visible = true
+
+				if DropdownSettings.CurrentOption == Option then
+					DropdownOption.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+				end
+
+				DropdownOption.BackgroundTransparency = 1
+				DropdownOption.UIStroke.Transparency = 1
+				DropdownOption.Title.TextTransparency = 1
+
+				DropdownOption.Interact.ZIndex = 50
+				DropdownOption.Interact.MouseButton1Click:Connect(function()
+					if Dropdown.Selected.Text ~= Option then
+						Dropdown.Selected.Text = Option
+						
+						local Success, Response = pcall(function()
+							DropdownSettings.Callback(Option)
+						end)
+						if not Success then
+							TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+							TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							Dropdown.Title.Text = "Callback Error"
+							print("Rayfield | "..DropdownSettings.Name.." Callback Error " ..tostring(Response))
+							wait(0.5)
+							Dropdown.Title.Text = DropdownSettings.Name
+							TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+							TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						end
+						DropdownSettings.CurrentOption = Option
+						for _, droption in ipairs(Dropdown.List:GetChildren()) do
+							if droption.ClassName == "Frame" and droption.Name ~= "Placeholder" and droption.Name ~= DropdownSettings.CurrentOption then
+								TweenService:Create(droption, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+							end
+						end
+						TweenService:Create(DropdownOption.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+						TweenService:Create(DropdownOption, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
+						Debounce = true
+						wait(0.2)
+						TweenService:Create(DropdownOption.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						wait(0.1)
+						TweenService:Create(Dropdown, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0, 45)}):Play()
+						for _, DropdownOpt in ipairs(Dropdown.List:GetChildren()) do
+							if DropdownOpt.ClassName == "Frame" and DropdownOpt.Name ~= "Placeholder" then
+								TweenService:Create(DropdownOpt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+								TweenService:Create(DropdownOpt.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+								TweenService:Create(DropdownOpt.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+							end
+						end
+						TweenService:Create(Dropdown.List, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ScrollBarImageTransparency = 1}):Play()
+						TweenService:Create(Dropdown.Toggle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Rotation = 180}):Play()	
+						wait(0.35)
+						Dropdown.List.Visible = false
+						Debounce = false	
+						SaveConfiguration()
+					end
+				end)
+			end
+
+
+			function DropdownSettings:Set(NewOption)
+				Dropdown.Selected.Text = NewOption
+				DropdownSettings.CurrentOption = NewOption
+				local Success, Response = pcall(function()
+					DropdownSettings.Callback(NewOption)
+				end)
+				if not Success then
+					TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Dropdown.Title.Text = "Callback Error"
+					print("Rayfield | "..DropdownSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Dropdown.Title.Text = DropdownSettings.Name
+					TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+
+				for _, droption in ipairs(Dropdown.List:GetChildren()) do
+					if droption.Name ~= NewOption then
+						if droption.ClassName == "Frame" and droption.Name ~= "Placeholder" then
+							droption.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+						end
+					else
+						droption.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+					end
+
+				end
+			end
+
+			if Settings.ConfigurationSaving then
+				if Settings.ConfigurationSaving.Enabled and DropdownSettings.Flag then
+					RayfieldLibrary.Flags[DropdownSettings.Flag] = DropdownSettings
+				end
+			end
+
+            
+			function DropdownSettings:Clear() 
+				for _, ununusedoption in ipairs(Dropdown.List:GetChildren()) do
+					if ununusedoption.ClassName == "Frame" then
+						ununusedoption:Destroy()
+					end
+				end
+			end
+
+			function DropdownSettings:Add(Option)
+				local DropdownOption = Elements.Template.Dropdown.List.Template:Clone()
+				DropdownOption.Name = Option
+				DropdownOption.Title.Text = Option
+				DropdownOption.Parent = Dropdown.List
+				DropdownOption.Visible = true
+
+				if DropdownSettings.CurrentOption == Option then
+					DropdownOption.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+				end
+
+				DropdownOption.BackgroundTransparency = 1
+				DropdownOption.UIStroke.Transparency = 1
+				DropdownOption.Title.TextTransparency = 1
+
+				DropdownOption.Interact.ZIndex = 50
+				DropdownOption.Interact.MouseButton1Click:Connect(function()
+					if Dropdown.Selected.Text ~= Option then
+						Dropdown.Selected.Text = Option
+						
+						local Success, Response = pcall(function()
+							DropdownSettings.Callback(Option)
+						end)
+
+						if not Success then
+							TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+							TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							Dropdown.Title.Text = "Callback Error"
+							print("Rayfield | "..DropdownSettings.Name.." Callback Error " ..tostring(Response))
+							wait(0.5)
+							Dropdown.Title.Text = DropdownSettings.Name
+							TweenService:Create(Dropdown, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+							TweenService:Create(Dropdown.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						end
+
+						for _, droption in ipairs(Dropdown.List:GetChildren()) do
+							if droption.ClassName == "Frame" and droption.Name ~= "Placeholder" and droption.Name ~= DropdownSettings.CurrentOption then
+								TweenService:Create(droption, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(30, 30, 30)}):Play()
+							end
+						end
+
+						TweenService:Create(DropdownOption.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+						TweenService:Create(DropdownOption, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
+						Debounce = true
+
+						wait(0.2)
+
+						TweenService:Create(DropdownOption.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						wait(0.1)
+
+						TweenService:Create(Dropdown, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {Size = UDim2.new(1, -10, 0, 45)}):Play()
+
+						for _, DropdownOpt in ipairs(Dropdown.List:GetChildren()) do
+							if DropdownOpt.ClassName == "Frame" and DropdownOpt.Name ~= "Placeholder" then
+								TweenService:Create(DropdownOpt, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {BackgroundTransparency = 1}):Play()
+								TweenService:Create(DropdownOpt.UIStroke, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+								TweenService:Create(DropdownOpt.Title, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+							end
+						end
+
+						TweenService:Create(Dropdown.List, TweenInfo.new(0.3, Enum.EasingStyle.Quint), {ScrollBarImageTransparency = 1}):Play()
+						TweenService:Create(Dropdown.Toggle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Rotation = 180}):Play()	
+
+						wait(0.35)
+
+						Dropdown.List.Visible = false
+						Debounce = false	
+						SaveConfiguration()
+					end
+				end)
+			end
+
+			return DropdownSettings
+		end
+
+		-- Keybind
+		function Tab:CreateKeybind(KeybindSettings)
+			local CheckingForKey = false
+			local Keybind = Elements.Template.Keybind:Clone()
+			Keybind.Name = KeybindSettings.Name
+			Keybind.Title.Text = KeybindSettings.Name
+			Keybind.Visible = true
+			Keybind.Parent = TabPage
+
+			Keybind.BackgroundTransparency = 1
+			Keybind.UIStroke.Transparency = 1
+			Keybind.Title.TextTransparency = 1
+			
+			Keybind.KeybindFrame.BackgroundColor3 = SelectedTheme.InputBackground
+			Keybind.KeybindFrame.UIStroke.Color = SelectedTheme.InputStroke
+
+			TweenService:Create(Keybind, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Keybind.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Keybind.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			Keybind.KeybindFrame.KeybindBox.Text = KeybindSettings.CurrentKeybind
+			Keybind.KeybindFrame.Size = UDim2.new(0, Keybind.KeybindFrame.KeybindBox.TextBounds.X + 24, 0, 30)
+
+			Keybind.KeybindFrame.KeybindBox.Focused:Connect(function()
+				CheckingForKey = true
+				Keybind.KeybindFrame.KeybindBox.Text = ""
+			end)
+			Keybind.KeybindFrame.KeybindBox.FocusLost:Connect(function()
+				CheckingForKey = false
+				if Keybind.KeybindFrame.KeybindBox.Text == nil or "" then
+					Keybind.KeybindFrame.KeybindBox.Text = KeybindSettings.CurrentKeybind
+					SaveConfiguration()
+				end
+			end)
+
+			Keybind.MouseEnter:Connect(function()
+				TweenService:Create(Keybind, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+			end)
+
+			Keybind.MouseLeave:Connect(function()
+				TweenService:Create(Keybind, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+			end)
+
+			UserInputService.InputBegan:Connect(function(input, processed)
+
+				if CheckingForKey then
+					if input.KeyCode ~= Enum.KeyCode.Unknown and input.KeyCode ~= Enum.KeyCode.RightShift then
+						local SplitMessage = string.split(tostring(input.KeyCode), ".")
+						local NewKeyNoEnum = SplitMessage[3]
+						Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeyNoEnum)
+						KeybindSettings.CurrentKeybind = tostring(NewKeyNoEnum)
+						Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
+						SaveConfiguration()
+					end
+				elseif KeybindSettings.CurrentKeybind ~= nil and (input.KeyCode == Enum.KeyCode[KeybindSettings.CurrentKeybind] and not processed) then -- Test
+					local Held = true
+					local Connection
+					Connection = input.Changed:Connect(function(prop)
+						if prop == "UserInputState" then
+							Connection:Disconnect()
+							Held = false
+						end
+					end)
+
+					if not KeybindSettings.HoldToInteract then
+						local Success, Response = pcall(KeybindSettings.Callback)
+						if not Success then
+							TweenService:Create(Keybind, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+							TweenService:Create(Keybind.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+							Keybind.Title.Text = "Callback Error"
+							print("Rayfield | "..KeybindSettings.Name.." Callback Error " ..tostring(Response))
+							wait(0.5)
+							Keybind.Title.Text = KeybindSettings.Name
+							TweenService:Create(Keybind, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+							TweenService:Create(Keybind.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+						end
+					else
+						wait(0.25)
+						if Held then
+							local Loop; Loop = RunService.Stepped:Connect(function()
+								if not Held then
+									KeybindSettings.Callback(false) -- maybe pcall this
+									Loop:Disconnect()
+								else
+									KeybindSettings.Callback(true) -- maybe pcall this
+								end
+							end)	
+						end
+					end
+				end
+			end)
+
+			Keybind.KeybindFrame.KeybindBox:GetPropertyChangedSignal("Text"):Connect(function()
+				TweenService:Create(Keybind.KeybindFrame, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Keybind.KeybindFrame.KeybindBox.TextBounds.X + 24, 0, 30)}):Play()
+			end)
+
+			function KeybindSettings:Set(NewKeybind)
+				Keybind.KeybindFrame.KeybindBox.Text = tostring(NewKeybind)
+				KeybindSettings.CurrentKeybind = tostring(NewKeybind)
+				Keybind.KeybindFrame.KeybindBox:ReleaseFocus()
+				SaveConfiguration()
+			end
+			if Settings.ConfigurationSaving then
+				if Settings.ConfigurationSaving.Enabled and KeybindSettings.Flag then
+					RayfieldLibrary.Flags[KeybindSettings.Flag] = KeybindSettings
+				end
+			end
+			return KeybindSettings
+		end
+
+		-- Toggle
+		function Tab:CreateToggle(ToggleSettings)
+			local ToggleValue = {}
+
+			local Toggle = Elements.Template.Toggle:Clone()
+			Toggle.Name = ToggleSettings.Name
+			Toggle.Title.Text = ToggleSettings.Name
+			Toggle.Visible = true
+			Toggle.Parent = TabPage
+
+			Toggle.BackgroundTransparency = 1
+			Toggle.UIStroke.Transparency = 1
+			Toggle.Title.TextTransparency = 1
+			Toggle.Switch.BackgroundColor3 = SelectedTheme.ToggleBackground
+			
+			if SelectedTheme ~= RayfieldLibrary.Theme.Default then
+				Toggle.Switch.Shadow.Visible = false
+			end
+
+			TweenService:Create(Toggle, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Toggle.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			if not ToggleSettings.CurrentValue then
+				Toggle.Switch.Indicator.Position = UDim2.new(1, -40, 0.5, 0)
+				Toggle.Switch.Indicator.UIStroke.Color = SelectedTheme.ToggleDisabledStroke
+				Toggle.Switch.Indicator.BackgroundColor3 = SelectedTheme.ToggleDisabled
+				Toggle.Switch.UIStroke.Color = SelectedTheme.ToggleDisabledOuterStroke
+			else
+				Toggle.Switch.Indicator.Position = UDim2.new(1, -20, 0.5, 0)
+				Toggle.Switch.Indicator.UIStroke.Color = SelectedTheme.ToggleEnabledStroke
+				Toggle.Switch.Indicator.BackgroundColor3 = SelectedTheme.ToggleEnabled
+				Toggle.Switch.UIStroke.Color = SelectedTheme.ToggleEnabledOuterStroke
+			end
+
+			Toggle.MouseEnter:Connect(function()
+				TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+			end)
+
+			Toggle.MouseLeave:Connect(function()
+				TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+			end)
+
+			Toggle.Interact.MouseButton1Click:Connect(function()
+				if ToggleSettings.CurrentValue then
+					ToggleSettings.CurrentValue = false
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.45, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(1, -40, 0.5, 0)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,12,0,12)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleDisabledStroke}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = SelectedTheme.ToggleDisabled}):Play()
+					TweenService:Create(Toggle.Switch.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleDisabledOuterStroke}):Play()
+					wait(0.05)
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,17,0,17)}):Play()
+					wait(0.15)
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()	
+				else
+					ToggleSettings.CurrentValue = true
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(1, -20, 0.5, 0)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,12,0,12)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleEnabledStroke}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = SelectedTheme.ToggleEnabled}):Play()
+					TweenService:Create(Toggle.Switch.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleEnabledOuterStroke}):Play()
+					wait(0.05)
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.45, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,17,0,17)}):Play()	
+					wait(0.15)
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()		
+				end
+				
+				local Success, Response = pcall(function()
+					ToggleSettings.Callback(ToggleSettings.CurrentValue)
+				end)
+				if not Success then
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Toggle.Title.Text = "Callback Error"
+					print("Rayfield | "..ToggleSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Toggle.Title.Text = ToggleSettings.Name
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+				
+				SaveConfiguration()
+			end)
+
+			function ToggleSettings:Set(NewToggleValue)
+				if NewToggleValue then
+					ToggleSettings.CurrentValue = true
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(1, -20, 0.5, 0)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,12,0,12)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleEnabledStroke}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = SelectedTheme.ToggleEnabled}):Play()
+					TweenService:Create(Toggle.Switch.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Color3.fromRGB(100,100,100)}):Play()
+					wait(0.05)
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.45, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,17,0,17)}):Play()	
+					wait(0.15)
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()	
+				else
+					ToggleSettings.CurrentValue = false
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.45, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(1, -40, 0.5, 0)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,12,0,12)}):Play()
+					TweenService:Create(Toggle.Switch.Indicator.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = SelectedTheme.ToggleDisabledStroke}):Play()
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {BackgroundColor3 = SelectedTheme.ToggleDisabled}):Play()
+					TweenService:Create(Toggle.Switch.UIStroke, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Color = Color3.fromRGB(65,65,65)}):Play()
+					wait(0.05)
+					TweenService:Create(Toggle.Switch.Indicator, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.new(0,17,0,17)}):Play()
+					wait(0.15)
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()	
+				end
+				local Success, Response = pcall(function()
+					ToggleSettings.Callback(ToggleSettings.CurrentValue)
+				end)
+				if not Success then
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Toggle.Title.Text = "Callback Error"
+					print("Rayfield | "..ToggleSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Toggle.Title.Text = ToggleSettings.Name
+					TweenService:Create(Toggle, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Toggle.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+				SaveConfiguration()
+			end
+
+			if Settings.ConfigurationSaving then
+				if Settings.ConfigurationSaving.Enabled and ToggleSettings.Flag then
+					RayfieldLibrary.Flags[ToggleSettings.Flag] = ToggleSettings
+				end
+			end
+
+			return ToggleSettings
+		end
+
+		-- Slider
+		function Tab:CreateSlider(SliderSettings)
+			local Dragging = false
+			local Slider = Elements.Template.Slider:Clone()
+			Slider.Name = SliderSettings.Name
+			Slider.Title.Text = SliderSettings.Name
+			Slider.Visible = true
+			Slider.Parent = TabPage
+
+			Slider.BackgroundTransparency = 1
+			Slider.UIStroke.Transparency = 1
+			Slider.Title.TextTransparency = 1
+			
+			if SelectedTheme ~= RayfieldLibrary.Theme.Default then
+				Slider.Main.Shadow.Visible = false
+			end
+			
+			Slider.Main.BackgroundColor3 = SelectedTheme.SliderBackground
+			Slider.Main.UIStroke.Color = SelectedTheme.SliderStroke
+			Slider.Main.Progress.BackgroundColor3 = SelectedTheme.SliderProgress
+
+			TweenService:Create(Slider, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+			TweenService:Create(Slider.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+			TweenService:Create(Slider.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()	
+
+			Slider.Main.Progress.Size =	UDim2.new(0, Slider.Main.AbsoluteSize.X * ((SliderSettings.CurrentValue + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1])) > 5 and Slider.Main.AbsoluteSize.X * (SliderSettings.CurrentValue / (SliderSettings.Range[2] - SliderSettings.Range[1])) or 5, 1, 0)
+
+			if not SliderSettings.Suffix then
+				Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue)
+			else
+				Slider.Main.Information.Text = tostring(SliderSettings.CurrentValue) .. " " .. SliderSettings.Suffix
+			end
+
+
+			Slider.MouseEnter:Connect(function()
+				TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackgroundHover}):Play()
+			end)
+
+			Slider.MouseLeave:Connect(function()
+				TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+			end)
+			
+			Slider.Main.Interact.InputBegan:Connect(function(Input)
+				if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
+					Dragging = true 
+				end 
+			end)
+			Slider.Main.Interact.InputEnded:Connect(function(Input) 
+				if Input.UserInputType == Enum.UserInputType.MouseButton1 then 
+					Dragging = false 
+				end 
+			end)
+
+			Slider.Main.Interact.MouseButton1Down:Connect(function(X)
+				local Current = Slider.Main.Progress.AbsolutePosition.X + Slider.Main.Progress.AbsoluteSize.X
+				local Start = Current
+				local Location = X
+				local Loop; Loop = RunService.Stepped:Connect(function()
+					if Dragging then
+						Location = UserInputService:GetMouseLocation().X
+						Current = Current + 0.025 * (Location - Start)
+
+						if Location < Slider.Main.AbsolutePosition.X then
+							Location = Slider.Main.AbsolutePosition.X
+						elseif Location > Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X then
+							Location = Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X
+						end
+
+						if Current < Slider.Main.AbsolutePosition.X + 5 then
+							Current = Slider.Main.AbsolutePosition.X + 5
+						elseif Current > Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X then
+							Current = Slider.Main.AbsolutePosition.X + Slider.Main.AbsoluteSize.X
+						end
+
+						if Current <= Location and (Location - Start) < 0 then
+							Start = Location
+						elseif Current >= Location and (Location - Start) > 0 then
+							Start = Location
+						end
+						TweenService:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Current - Slider.Main.AbsolutePosition.X, 1, 0)}):Play()
+						local NewValue = SliderSettings.Range[1] + (Location - Slider.Main.AbsolutePosition.X) / Slider.Main.AbsoluteSize.X * (SliderSettings.Range[2] - SliderSettings.Range[1])
+
+						NewValue = math.floor(NewValue / SliderSettings.Increment + 0.5) * (SliderSettings.Increment * 10000000) / 10000000
+						if not SliderSettings.Suffix then
+							Slider.Main.Information.Text = tostring(NewValue)
+						else
+							Slider.Main.Information.Text = tostring(NewValue) .. " " .. SliderSettings.Suffix
+						end
+
+						if SliderSettings.CurrentValue ~= NewValue then
+							local Success, Response = pcall(function()
+								SliderSettings.Callback(NewValue)
+							end)
+							if not Success then
+								TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+								TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+								Slider.Title.Text = "Callback Error"
+								print("Rayfield | "..SliderSettings.Name.." Callback Error " ..tostring(Response))
+								wait(0.5)
+								Slider.Title.Text = SliderSettings.Name
+								TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+								TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+							end
+							
+							SliderSettings.CurrentValue = NewValue
+							SaveConfiguration()
+						end
+					else
+						TweenService:Create(Slider.Main.Progress, TweenInfo.new(0.3, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Location - Slider.Main.AbsolutePosition.X > 5 and Location - Slider.Main.AbsolutePosition.X or 5, 1, 0)}):Play()
+						Loop:Disconnect()
+					end
+				end)
+			end)
+
+			function SliderSettings:Set(NewVal)
+				TweenService:Create(Slider.Main.Progress, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {Size = UDim2.new(0, Slider.Main.AbsoluteSize.X * ((NewVal + SliderSettings.Range[1]) / (SliderSettings.Range[2] - SliderSettings.Range[1])) > 5 and Slider.Main.AbsoluteSize.X * (NewVal / (SliderSettings.Range[2] - SliderSettings.Range[1])) or 5, 1, 0)}):Play()
+				Slider.Main.Information.Text = tostring(NewVal) .. " " .. SliderSettings.Suffix
+				local Success, Response = pcall(function()
+					SliderSettings.Callback(NewVal)
+				end)
+				if not Success then
+					TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = Color3.fromRGB(85, 0, 0)}):Play()
+					TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 1}):Play()
+					Slider.Title.Text = "Callback Error"
+					print("Rayfield | "..SliderSettings.Name.." Callback Error " ..tostring(Response))
+					wait(0.5)
+					Slider.Title.Text = SliderSettings.Name
+					TweenService:Create(Slider, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {BackgroundColor3 = SelectedTheme.ElementBackground}):Play()
+					TweenService:Create(Slider.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Quint), {Transparency = 0}):Play()
+				end
+				SliderSettings.CurrentValue = NewVal
+				SaveConfiguration()
+			end
+			if Settings.ConfigurationSaving then
+				if Settings.ConfigurationSaving.Enabled and SliderSettings.Flag then
+					RayfieldLibrary.Flags[SliderSettings.Flag] = SliderSettings
+				end
+			end
+			return SliderSettings
+		end
+        
+        function Tab:Clear()
+            for _, Element in ipairs(TabPage:GetChildren()) do
+                if Element.ClassName == "Frame" and Element.Name ~= "Placeholder"  then
+                    Element:Destroy()
+                end
+            end
+        end
+
+		return Tab
+	end
+
+	Elements.Visible = true
+
+	wait(1.2)
+	TweenService:Create(LoadingFrame.Title, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(LoadingFrame.Subtitle, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	TweenService:Create(LoadingFrame.Version, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {TextTransparency = 1}):Play()
+	wait(0.2)
+	TweenService:Create(Main, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {Size = UDim2.new(0, 500, 0, 475)}):Play()
+	TweenService:Create(Main.Shadow.Image, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.4}):Play()
+
+	Topbar.BackgroundTransparency = 1
+	Topbar.Divider.Size = UDim2.new(0, 0, 0, 1)
+	Topbar.CornerRepair.BackgroundTransparency = 1
+	Topbar.Title.TextTransparency = 1
+	Topbar.Theme.ImageTransparency = 1
+	Topbar.ChangeSize.ImageTransparency = 1
+	Topbar.Hide.ImageTransparency = 1
+
+	wait(0.8)
+	Topbar.Visible = true
+	TweenService:Create(Topbar, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	TweenService:Create(Topbar.CornerRepair, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {BackgroundTransparency = 0}):Play()
+	wait(0.1)
+	TweenService:Create(Topbar.Divider, TweenInfo.new(1, Enum.EasingStyle.Quint), {Size = UDim2.new(1, 0, 0, 1)}):Play()
+	wait(0.1)
+	TweenService:Create(Topbar.Title, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {TextTransparency = 0}):Play()
+	wait(0.1)
+	TweenService:Create(Topbar.Theme, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+	wait(0.1)
+	TweenService:Create(Topbar.ChangeSize, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+	wait(0.1)
+	TweenService:Create(Topbar.Hide, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+	wait(0.3)
+	
+	return Window
+end
+
+function RayfieldLibrary:Destroy()
+	Rayfield:Destroy()
+end
+
+Topbar.ChangeSize.MouseButton1Click:Connect(function()
+	if Debounce then return end
+	if Minimised then
+		Minimised = false
+		Maximise()
+	else
+		Minimised = true
+		Minimise()
+	end
+end)
+
+Topbar.Hide.MouseButton1Click:Connect(function()
+	if Debounce then return end
+	if Hidden then
+		Hidden = false
+		Minimised = false
+		Unhide()
+	else
+		Hidden = true
+		Hide()
+	end
+end)
+
+UserInputService.InputBegan:Connect(function(input, processed)
+	if (input.KeyCode == Enum.KeyCode.RightShift and not processed) then
+		if Debounce then return end
+		if Hidden then
+			Hidden = false
+			Unhide()
+		else
+			Hidden = true
+			Hide()
+		end
+	end
+end)
+
+for _, TopbarButton in ipairs(Topbar:GetChildren()) do
+	if TopbarButton.ClassName == "ImageButton" then
+		TopbarButton.MouseEnter:Connect(function()
+			TweenService:Create(TopbarButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0}):Play()
+		end)
+
+		TopbarButton.MouseLeave:Connect(function()
+			TweenService:Create(TopbarButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+		end)
+
+		TopbarButton.MouseButton1Click:Connect(function()
+			TweenService:Create(TopbarButton, TweenInfo.new(0.7, Enum.EasingStyle.Quint), {ImageTransparency = 0.8}):Play()
+		end)
+	end
+end
+
+function RayfieldLibrary:LoadConfiguration()
+	if CEnabled then
+		pcall(function()
+			if isfile(ConfigurationFolder .. "\\" .. CFileName .. ConfigurationExtension) then
+				LoadConfiguration(readfile(ConfigurationFolder .. "\\" .. CFileName .. ConfigurationExtension))
+				RayfieldLibrary:Notify({Title = "Configuration Loaded", Content = "The configuration file for this script has been loaded from a previous session"})
+			end
+		end)
+	end
+end
+
+---end main frame---
+
+---############################################---
+---############### ACTUAL CODE ################---
+---############################################---
+
+local scriptVersion = "HSz"
+
+if not isfolder("AAMacros") then
+	makefolder("AAMacros")
+end
+
+---### Loading Section ###---
+task.wait(2)
+repeat task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V")
-    repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("FurthestRoom"):FindFirstChild("V")
-    --SAVEUPD()
-    UPDUI = tostring(game:GetService("Players").LocalPlayer.PlayerGui.UpdateUI.Main.Top.Title.text)
-    writefile("UPD_name.txt", game:GetService('HttpService'):JSONEncode(UPDUI))
-    btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-    writefile("BTP_LV.txt", game:GetService('HttpService'):JSONEncode(btplv))
-    btpAlllv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-    writefile("BTP_AllLV.txt", game:GetService('HttpService'):JSONEncode(btpAlllv))
-    repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("assets")
-    repeat task.wait() until game.ReplicatedStorage.packages:FindFirstChild("StarterGui")
 else
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
     game:GetService("ReplicatedStorage").endpoints.client_to_server.vote_start:InvokeServer()
     repeat task.wait() until game:GetService("Workspace")["_waves_started"].Value == true
 end
+	
+---### Loading Section End ###---
 
-UPDUI2 = game:GetService('HttpService'):JSONDecode(readfile("UPD_name.txt"))
-local version = tostring(UPDUI2)
---local version = "16.0.0-1xx"
-------------------------------
-local a = 'HSz_Anime_Adventures' -- ชื่อโฟเดอร์
-local b = game:GetService('Players').LocalPlayer.Name .. '_AnimeAdventures.json' 
-Settings = {}
-function saveSettings()
-    local HttpService = game:GetService('HttpService')
-    if not isfolder(a) then
-        makefolder(a)
-    end
-    writefile(a .. '/' .. b, HttpService:JSONEncode(Settings))
-    Settings = ReadSetting()
-    warn("Settings Saved!")
-end
-function ReadSetting()
-    local s, e = pcall(function()
-        local HttpService = game:GetService('HttpService')
-        if not isfolder(a) then
-            makefolder(a)
-        end
-        return HttpService:JSONDecode(readfile(a .. '/' .. b))
-    end)
-    if s then
-        return e
-    else
-        saveSettings()
-        return ReadSetting()
-    end
-end
-Settings = ReadSetting()
-
-    -- Start of Get Level Data of Map [Added by HOLYSHz]
-    function GLD()
-        local list = {}
-        for i,v in pairs(game.Workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()) do
-            list[i] = v
-        end
-        return list
-    end
-
-    if game.PlaceId ~= 8304191830 then
-        GLD()
-    end
-        -- End of Get Level Data of Map
-------------------------------
 local HttpService = game:GetService("HttpService")
 local Workspace = game:GetService("Workspace") 
-local plr = game:GetService("Players").LocalPlayer
+local player = game:GetService("Players").LocalPlayer
 local RunService = game:GetService("RunService")
 local mouse = game.Players.LocalPlayer:GetMouse()
 local UserInputService = game:GetService("UserInputService")
-------------------------------
-------------item drop result
-local v5 = require(game.ReplicatedStorage.src.Loader)
-local ItemInventoryServiceClient = v5.load_client_service(script, "ItemInventoryServiceClient")
-function get_inventory_items_unique_items()
-	return ItemInventoryServiceClient["session"]['inventory']['inventory_profile_data']['unique_items']
-end
-function get_inventory_items()
-	return ItemInventoryServiceClient["session"]["inventory"]['inventory_profile_data']['normal_items']
-end
-function get_Units_Owner()
-	return ItemInventoryServiceClient["session"]["collection"]["collection_profile_data"]['owned_units']
-end
-local Count_Portal_list = 0
-local Table_All_Items_Old_data = {}
-local Table_All_Items_New_data = {}
-for v2, v3 in pairs(game:GetService("ReplicatedStorage").src.Data.Items:GetDescendants()) do
-	if v3:IsA("ModuleScript") then
-		for v4, v5 in pairs(require(v3)) do
-		    Table_All_Items_Old_data[v4] = {}
-			Table_All_Items_Old_data[v4]['Name'] = v5['name']
-		    Table_All_Items_Old_data[v4]['Count'] = 0
-			Table_All_Items_New_data[v4] = {}
-			Table_All_Items_New_data[v4]['Name'] = v5['name']
-			Table_All_Items_New_data[v4]['Count'] = 0
-		end
-	end
-end
-local Data_Units_All_Games = require(game:GetService("ReplicatedStorage").src.Data.Units)
-for i,v in pairs(Data_Units_All_Games) do
-    if v.rarity then
-        Table_All_Items_Old_data[i] = {}
-        Table_All_Items_Old_data[i]['Name'] = v['name']
-        Table_All_Items_Old_data[i]['Count'] = 0
-        Table_All_Items_Old_data[i]['Count Shiny'] = 0
-        Table_All_Items_New_data[i] = {}
-        Table_All_Items_New_data[i]['Name'] = v['name']
-        Table_All_Items_New_data[i]['Count'] = 0
-        Table_All_Items_New_data[i]['Count Shiny'] = 0
+
+getgenv().saveFileName = "Anime-Adventures_"..game.Players.LocalPlayer.Name..".json"
+getgenv().door = "_lobbytemplategreen1"
+getgenv().selectedMacroFile = "nil"
+
+local startTime = os.time(os.date("!*t"))
+local startGems = game.Players.LocalPlayer._stats.gem_amount.Value
+
+function getBorosPortals()
+    local reg = getreg() --> returns Roblox's registry in a table
+
+    for i,v in next, reg do
+        if type(v) == 'function' then --> Checks if the current iteration is a function
+            if getfenv(v).script then --> Checks if the function's environment is in a script
+                --if getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.DropService" or getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.NPCServiceClient" then
+                    for _, v in pairs(debug.getupvalues(v)) do --> Basically a for loop that prints everything, but in one line
+                        if type(v) == 'table' then
+                            if v["session"] then
+                                local portals = {}
+                                for _, item in pairs(v["session"]["inventory"]['inventory_profile_data']['unique_items']) do
+                                  if item["item_id"] == "portal_boros_g" then
+                                    table.insert(portals, item)
+                                  end
+                                end
+                                return portals
+                            end
+                        end
+                    end
+                --end
+            end
+        end
     end
-end
-for i,v in pairs(get_inventory_items()) do
-	Table_All_Items_Old_data[i]['Count'] = v
-end
-for i,v in pairs(get_inventory_items_unique_items()) do
-    if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-        Count_Portal_list = Count_Portal_list + 1
-        Table_All_Items_Old_data[v['item_id']]['Count'] = Table_All_Items_Old_data[v['item_id']]['Count'] + 1
-    end
-end
-for i,v in pairs(get_Units_Owner()) do
-    Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] + 1
-    if v.shiny then
-        Table_All_Items_Old_data[v["unit_id"]]['Count'] = Table_All_Items_Old_data[v["unit_id"]]['Count'] - 1
-        Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
-    end
-end
-if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
-    SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
 end
 
-----------------Map & ID Map
+function tprint (tbl, indent)
+  if not indent then indent = 0 end
+  for k, v in pairs(tbl) do
+    formatting = string.rep("  ", indent) .. k .. ": "
+    if type(v) == "table" then
+      print(formatting)
+      tprint(v, indent+1)
+    elseif type(v) == 'boolean' then
+      print(formatting .. tostring(v))      
+    else
+      print(formatting .. v)
+    end
+  end
+end
+
+function getNormalItems()
+    local reg = getreg() --> returns Roblox's registry in a table
+
+    for i,v in next, reg do
+        if type(v) == 'function' then --> Checks if the current iteration is a function
+            if getfenv(v).script then --> Checks if the function's environment is in a script
+                --if getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.DropService" or getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.NPCServiceClient" then
+                    for _, v in pairs(debug.getupvalues(v)) do --> Basically a for loop that prints everything, but in one line
+                        if type(v) == 'table' then
+                            if v["session"] then
+                                return v["session"]["inventory"]['inventory_profile_data']['normal_items']
+                            end
+                        end
+                    end
+                --end
+            end
+        end
+    end
+end
+
+function getItemChangesNormal(preGameTable, currentTable)
+    local itemChanges = {}
+    
+    for item, amount in pairs(currentTable) do
+        if preGameTable[item] == nil then
+            print(item .. ": +" .. amount)
+            itemChanges[item] = "+" .. amount
+        else
+            if preGameTable[item] > amount then
+                print(item .. ": -" .. preGameTable[item] - amount)
+                itemChanges[item] = "-" .. preGameTable[item] - amount
+            elseif preGameTable[item] < amount then
+                print(item .. "+" .. amount - preGameTable[item])
+                itemChanges[item] = "+" .. amount - preGameTable[item]
+            end
+        end
+        
+    end
+	return itemChanges
+end
+
+function getUniqueItems()
+    local reg = getreg() --> returns Roblox's registry in a table
+
+    for i,v in next, reg do
+        if type(v) == 'function' then --> Checks if the current iteration is a function
+            if getfenv(v).script then --> Checks if the function's environment is in a script
+                --if getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.DropService" or getfenv(v).script:GetFullName() == "ReplicatedStorage.src.client.Services.NPCServiceClient" then
+                    for _, v in pairs(debug.getupvalues(v)) do --> Basically a for loop that prints everything, but in one line
+                        if type(v) == 'table' then
+                            if v["session"] then
+                                return v["session"]["inventory"]['inventory_profile_data']['unique_items']
+                            end
+                        end
+                    end
+                --end
+            end
+        end
+    end
+end
+
+function getItemChangesUnique(preGameTable, postGameTable)
+    local itemAdditions = {}
+    
+    for _, item in pairs(postGameTable) do
+        local currentItemUUID = item['uuid']
+        local currentItemIsNew = true
+        for i, itemToCompare in pairs(preGameTable) do
+            if itemToCompare['uuid'] == currentItemUUID then
+                currentItemIsNew = false
+            end
+        end
+        if currentItemIsNew then
+            print("New Unique Item: " .. item["item_id"])
+            table.insert(itemAdditions, item["item_id"])
+        end
+    end
+
+	return itemAdditions
+end
+
+function shallowCopy(original)
+    local copy = {}
+    for key, value in pairs(original) do
+        copy[key] = value
+    end
+    return copy
+end
+
+repeat
+	local testItemGet = getNormalItems()
+until testItemGet ~= nil
+
+getgenv().startingInventoryNormalItems = shallowCopy(getNormalItems())
+getgenv().startingInventoryUniqueItems = shallowCopy(getUniqueItems())
+
+
+--StartMacro
+local function writeMacroToFile(filename)
+	writefile("AAMacros" .. scriptVersion .. "\\" .. filename, "repeat task.wait() until game:GetService(\"Workspace\")[\"_waves_started\"].Value == true")
+
+	local mt = getrawmetatable(game)
+	local old = mt.__namecall
+	getgenv().timeOfLastCommand = os.clock()
+	getgenv().macroStartTime = os.clock()
+	setreadonly(mt,false)
+
+	local unitPositions = {}
+	local unitToUpgrade
+	local unitToActivate
+	local unitToSell
+	local positionToUpgrade = {}
+	local positionToSell = {}
+	local positionToActivate = {}
+	local expectedWave
+	local expectedMoney
+	local expectedTimeSinceLastCommand
+	local expectedTimeUntilNewCommand
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal expectedWave")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal expectedMoney")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal expectedTimeSinceLastCommand")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal deviation = 0")
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal unitPositions = {}")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal positionToUpgrade = {}")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal positionToSell = {}")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal positionToActivate = {}")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().timeOfLastCommand = os.clock()")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().macroStartTime = os.clock()")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal function getUpgradeCost(unitId, currentUpgrade)")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    return require((game.ReplicatedStorage.src.Data:FindFirstChild(\"Units\", true)))[unitId][\"upgrade\"][currentUpgrade][\"cost\"]")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal function getPlacementCost(unitId)")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    return require((game.ReplicatedStorage.src.Data:FindFirstChild(\"Units\", true)))[unitId][\"cost\"]")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+	local function getUpgradeCost(unitId, currentUpgrade)
+		return require((game.ReplicatedStorage.src.Data:FindFirstChild("Units", true)))[unitId]["upgrade"][currentUpgrade]["cost"]
+	end
+
+	local function getPlacementCost(unitId)
+		return require((game.ReplicatedStorage.src.Data:FindFirstChild("Units", true)))[unitId]["cost"]
+	end
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal function updateUnitPositions()")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    unitPositions = {}")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    ")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    for i, v in ipairs(game.Workspace[\"_UNITS\"]:GetChildren()) do")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        if v:FindFirstChild(\"_stats\") then")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n            if tostring(v[\"_stats\"].player.Value) == game.Players.LocalPlayer.Name and v[\"_stats\"].xp.Value >= 0  and v[\"_stats\"].id.Value ~= \"metal_knight_drone\" and v[\"_stats\"].id.Value ~= \"metal_knight_drone:shiny\" and v[\"_stats\"].id.Value ~= \"aot_generic\" then")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n                table.insert(unitPositions, {v, v._hitbox.CFrame.X, v._hitbox.CFrame.Z})")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n            end")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        end")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    end")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nlocal function printValueDeviations()")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    print(\"Expected Wave:                    \" .. expectedWave .. \"(got \" .. game.Workspace[\"_wave_num\"].Value .. \")\")")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    print(\"Expected Money:                   \" .. expectedMoney .. \"(got \" .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. \")\")")
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    print(\"Expected Time Since Last Command: \" .. expectedTimeSinceLastCommand .. \"(got \" .. tostring(os.clock() - getgenv().timeOfLastCommand) .. \")\")")
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    print(\"Deviation:                        \" .. deviation)")
+
+	appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+
+	mt.__namecall = newcclosure(function(remote,...)
+		local arguments = {...}
+		method = tostring(getnamecallmethod())
+
+		if method == "InvokeServer" or method == "FireServer" then
+			if tostring(remote) == "spawn_unit" then
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n\n--Start Spawn Command")
+
+				--appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (game.Workspace[\"_wave_num\"].Value >= " .. game.Workspace["_wave_num"].Value .." and os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ndeviation = tostring(os.clock() - getgenv().macroStartTime) - " .. tostring(os.clock() - getgenv().macroStartTime))
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedWave = " .. game.Workspace["_wave_num"].Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedMoney = " .. game.Players.LocalPlayer._stats.resource.Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedTimeSinceLastCommand = " .. os.clock() - getgenv().timeOfLastCommand)
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nprintValueDeviations()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nprint(\"Attempting to spawn unit: " .. tostring(arguments[1]) .. "\")")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngame:GetService(\"ReplicatedStorage\").endpoints.client_to_server.spawn_unit:InvokeServer(\"" .. tostring(arguments[1]) .. "\",")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "CFrame.new(" .. tostring(arguments[2].X) .. ", " .. tostring(arguments[2].Y) .. ", " .. tostring(arguments[2].Z) .. ") * CFrame.Angles(0, -0, -0)")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, ")")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nupdateUnitPositions()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().timeOfLastCommand = os.clock()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n--End Spawn Command\n")
+
+				getgenv().timeOfLastCommand = os.clock()
+			end
+
+			if tostring(remote) == "upgrade_unit_ingame" then
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n\n--Start Upgrade Command")
+
+				--appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (game.Workspace[\"_wave_num\"].Value >= " .. game.Workspace["_wave_num"].Value .." and os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ndeviation = tostring(os.clock() - getgenv().macroStartTime) - " .. tostring(os.clock() - getgenv().macroStartTime))
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedWave = " .. game.Workspace["_wave_num"].Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedMoney = " .. game.Players.LocalPlayer._stats.resource.Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedTimeSinceLastCommand = " .. os.clock() - getgenv().timeOfLastCommand)
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nprintValueDeviations()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nupdateUnitPositions()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\npositionToUpgrade = {" .. tostring(arguments[1]._hitbox.CFrame.X) .. ", " .. tostring(arguments[1]._hitbox.CFrame.Z) .. "}")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nfor _, unit in pairs(unitPositions) do")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    if math.abs(unit[2] - positionToUpgrade[1]) <= 0.01 and math.abs(unit[3] - positionToUpgrade[2]) <= 0.01 then")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        if unit[1][\"_stats\"][\"upgrade\"].Value == " .. tostring(arguments[1]["_stats"]["upgrade"].Value) .. " then")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n            print(\"Attempting to upgrade unit: \" .. unit[1][\"Name\"] .. \" from \" .. tostring(unit[1][\"_stats\"][\"upgrade\"].Value) ..  \" to \" .. tostring(unit[1][\"_stats\"][\"upgrade\"].Value + 1))")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        game:GetService(\"ReplicatedStorage\").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(unit[1])")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        end")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    end")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().timeOfLastCommand = os.clock()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n--End Upgrade Command\n")
+
+				getgenv().timeOfLastCommand = os.clock()
+			end
+
+			if tostring(remote) == "sell_unit_ingame" then
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n\n--Start Sell Command")
+				
+				--appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (game.Workspace[\"_wave_num\"].Value >= " .. game.Workspace["_wave_num"].Value .." and os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation)")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ndeviation = tostring(os.clock() - getgenv().macroStartTime) - " .. tostring(os.clock() - getgenv().macroStartTime))            
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedWave = " .. game.Workspace["_wave_num"].Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedMoney = " .. game.Players.LocalPlayer._stats.resource.Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedTimeSinceLastCommand = " .. os.clock() - getgenv().timeOfLastCommand)
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nprintValueDeviations()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nupdateUnitPositions()")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\npositionToSell = {" .. tostring(arguments[1]._hitbox.CFrame.X) .. ", " .. tostring(arguments[1]._hitbox.CFrame.Z) .. "}")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nfor _, unit in pairs(unitPositions) do")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    if math.abs(unit[2] - positionToSell[1]) <= 0.01 and math.abs(unit[3] - positionToSell[2]) <= 0.01 then")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        print(\"Attempting to sell unit: \" .. unit[1][\"Name\"])")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        game:GetService(\"ReplicatedStorage\").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(unit[1])")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    end")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().timeOfLastCommand = os.clock()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n--End Sell Command\n")
+
+				getgenv().timeOfLastCommand = os.clock()
+			end
+
+			if tostring(remote) == "use_active_attack" then
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n\n--Start Active Command")
+
+				--appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (game.Workspace[\"_wave_num\"].Value >= " .. game.Workspace["_wave_num"].Value .." and os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation and game.Players.LocalPlayer._stats.resource.Value >= " .. tostring(game.Players.LocalPlayer._stats.resource.Value) .. ")")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nrepeat task.wait() until (os.clock() - getgenv().macroStartTime >= " .. os.clock() - getgenv().macroStartTime .. " - deviation)")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ndeviation = tostring(os.clock() - getgenv().macroStartTime) - " .. tostring(os.clock() - getgenv().macroStartTime))
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedWave = " .. game.Workspace["_wave_num"].Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedMoney = " .. game.Players.LocalPlayer._stats.resource.Value)
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nexpectedTimeSinceLastCommand = " .. os.clock() - getgenv().timeOfLastCommand)
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+				
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nprintValueDeviations()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nupdateUnitPositions()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\npositionToActivate = {" .. tostring(arguments[1]._hitbox.CFrame.X) .. ", " .. tostring(arguments[1]._hitbox.CFrame.Z) .. "}")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nfor _, unit in pairs(unitPositions) do")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    if math.abs(unit[2] - positionToActivate[1]) <= 0.01 and math.abs(unit[3] - positionToActivate[2]) <= 0.01 then")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        print(\"Attempting to active attack with unit: \" .. unit[1][\"Name\"])")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n        game:GetService(\"ReplicatedStorage\").endpoints.client_to_server.use_active_attack:InvokeServer(unit[1])")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n    end")
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\nend")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\ngetgenv().timeOfLastCommand = os.clock()")
+
+				appendfile("AAMacros" .. scriptVersion .. "\\" .. filename, "\n--End Active Command\n")
+				
+				getgenv().timeOfLastCommand = os.clock()
+			end
+			
+		end
+
+		local true_args = {...}
+		return old(remote,unpack(true_args))
+	end)
+
+	setreadonly(mt,true)
+end
+
+local storyLevels = {
+    ["1"] = {
+		name = "Planet Namak", 
+		map = "namek_cartoon", 
+		levels = {
+			["1"] = {
+				id = "namek_level_1"
+			}, 
+			["2"] = {
+				id = "namek_level_2"
+			}, 
+			["3"] = {
+				id = "namek_level_3"
+			}, 
+			["4"] = {
+				id = "namek_level_4"
+			}, 
+			["5"] = {
+				id = "namek_level_5"
+			}, 
+			["6"] = {
+				id = "namek_level_6"
+			},
+            ["inf"] = {
+				id = "namek_infinite"
+			}
+		}
+	}, 
+	["2"] = {
+		name = "Shiganshinu District", 
+		map = "aot", 
+		levels = {
+			["1"] = {
+				id = "aot_level_1"
+			}, 
+			["2"] = {
+				id = "aot_level_2"
+			}, 
+			["3"] = {
+				id = "aot_level_3"
+			}, 
+			["4"] = {
+				id = "aot_level_4"
+			}, 
+			["5"] = {
+				id = "aot_level_5"
+			}, 
+			["6"] = {
+				id = "aot_level_6"
+			},
+            ["inf"] = {
+				id = "aot_infinite"
+			}
+		}
+	},
+	["3"] = {
+		name = "Snowy Town", 
+		map = "demonslayer", 
+		levels = {
+			["1"] = {
+				id = "demonslayer_level_1"
+			}, 
+			["2"] = {
+				id = "demonslayer_level_2"
+			}, 
+			["3"] = {
+				id = "demonslayer_level_3"
+			}, 
+			["4"] = {
+				id = "demonslayer_level_4"
+			}, 
+			["5"] = {
+				id = "demonslayer_level_5"
+			}, 
+			["6"] = {
+				id = "demonslayer_level_6"
+			},
+            ["inf"] = {
+				id = "demonslayer_infinite"
+			}
+		}
+	}, 
+	["4"] = {
+		name = "Hidden Sand Village", 
+		map = "naruto", 
+		levels = {
+			["1"] = {
+				id = "naruto_level_1"
+			}, 
+			["2"] = {
+				id = "naruto_level_2"
+			}, 
+			["3"] = {
+				id = "naruto_level_3"
+			}, 
+			["4"] = {
+				id = "naruto_level_4"
+			}, 
+			["5"] = {
+				id = "naruto_level_5"
+			}, 
+			["6"] = {
+				id = "naruto_level_6"
+			},
+            ["inf"] = {
+				id = "naruto_infinite"
+			}
+		}
+	},
+    ["5"] = {
+		name = "Marine's Ford", 
+		map = "marineford", 
+		levels = {
+			["1"] = {
+				id = "marineford_level_1"
+			}, 
+			["2"] = {
+				id = "marineford_level_2"
+			}, 
+			["3"] = {
+				id = "marineford_level_3"
+			}, 
+			["4"] = {
+				id = "marineford_level_4"
+			}, 
+			["5"] = {
+				id = "marineford_level_5"
+			}, 
+			["6"] = {
+				id = "marineford_level_6"
+			},
+            ["inf"] = {
+				id = "marineford_infinite"
+			}
+		}
+    },
+	["6"] = {
+		name = "Ghoul City", 
+		map = "tokyo_ghoul", 
+		levels = {
+			["1"] = {
+				id = "tokyoghoul_level_1"
+			}, 
+			["2"] = {
+				id = "tokyoghoul_level_2"
+			}, 
+			["3"] = {
+				id = "tokyoghoul_level_3"
+			}, 
+			["4"] = {
+				id = "tokyoghoul_level_4"
+			}, 
+			["5"] = {
+				id = "tokyoghoul_level_5"
+			}, 
+			["6"] = {
+				id = "tokyoghoul_level_6"
+			},
+            ["inf"] = {
+				id = "tokyoghoul_infinite"
+			}
+		}
+	},
+	["7"] = {
+		name = "Hollow World", 
+		map = "hueco", 
+		levels = {
+			["1"] = {
+				id = "hueco_level_1"
+			}, 
+			["2"] = {
+				id = "hueco_level_2"
+			}, 
+			["3"] = {
+				id = "hueco_level_3"
+			}, 
+			["4"] = {
+				id = "hueco_level_4"
+			}, 
+			["5"] = {
+				id = "hueco_level_5"
+			}, 
+			["6"] = {
+				id = "hueco_level_6"
+			},
+            ["inf"] = {
+				id = "hueco_infinite"
+			}
+		}
+	},
+	["8"] = {
+		name = "Ant Kingdom", 
+		map = "hxhant", 
+		levels = {
+			["1"] = {
+				id = "hxhant_level_1"
+			}, 
+			["2"] = {
+				id = "hxhant_level_2"
+			}, 
+			["3"] = {
+				id = "hxhant_level_3"
+			}, 
+			["4"] = {
+				id = "hxhant_level_4"
+			}, 
+			["5"] = {
+				id = "hxhant_level_5"
+			}, 
+			["6"] = {
+				id = "hxhant_level_6"
+			},
+            ["inf"] = {
+				id = "hxhant_infinite"
+			}
+		}
+	},
+    ["9"] = {
+		name = "Magic Town", 
+		map = "magnolia", 
+		levels = {
+			["1"] = {
+				id = "magnolia_level_1"
+			}, 
+			["2"] = {
+				id = "magnolia_level_2"
+			}, 
+			["3"] = {
+				id = "magnolia_level_3"
+			}, 
+			["4"] = {
+				id = "magnolia_level_4"
+			}, 
+			["5"] = {
+				id = "magnolia_level_5"
+			}, 
+			["6"] = {
+				id = "magnolia_level_6"
+			},
+            ["inf"] = {
+				id = "magnolia_infinite"
+			}
+		}
+	},
+    ["10"] = {
+		name = "Cursed Academy", 
+		map = "jjk", 
+		levels = {
+			["1"] = {
+				id = "jjk_level_1"
+			}, 
+			["2"] = {
+				id = "jjk_level_2"
+			}, 
+			["3"] = {
+				id = "jjk_level_3"
+			}, 
+			["4"] = {
+				id = "jjk_level_4"
+			}, 
+			["5"] = {
+				id = "jjk_level_5"
+			}, 
+			["6"] = {
+				id = "jjk_level_6"
+			},
+            ["inf"] = {
+				id = "jjk_infinite"
+			}
+		}
+	},
+	["11"] = {
+		name = "Clover Kingdom", 
+		map = "hage", 
+		levels = {
+			["1"] = {
+				id = "clover_level_1"
+			}, 
+			["2"] = {
+				id = "clover_level_2"
+			}, 
+			["3"] = {
+				id = "clover_level_3"
+			}, 
+			["4"] = {
+				id = "clover_level_4"
+			}, 
+			["5"] = {
+				id = "clover_level_5"
+			}, 
+			["6"] = {
+				id = "clover_level_6"
+			},
+            ["inf"] = {
+				id = "clover_infinite"
+			}
+		}
+	},
+	["12"] = {
+		name = "Cape Canaveral", 
+		map = "space_center", 
+		levels = {
+			["1"] = {
+				id = "jojo_level_1"
+			}, 
+			["2"] = {
+				id = "jojo_level_2"
+			}, 
+			["3"] = {
+				id = "jojo_level_3"
+			}, 
+			["4"] = {
+				id = "jojo_level_4"
+			}, 
+			["5"] = {
+				id = "jojo_level_5"
+			}, 
+			["6"] = {
+				id = "jojo_level_6"
+			},
+            ["inf"] = {
+				id = "jojo_infinite"
+			}
+		}
+	},
+	["13"] = {
+		name = "Alien Ship", 
+		map = "alien_ship", 
+		levels = {
+			["1"] = {
+				id = "opm_level_1"
+			}, 
+			["2"] = {
+				id = "opm_level_2"
+			}, 
+			["3"] = {
+				id = "opm_level_3"
+			}, 
+			["4"] = {
+				id = "opm_level_4"
+			}, 
+			["5"] = {
+				id = "opm_level_5"
+			}, 
+			["6"] = {
+				id = "opm_level_6"
+			},
+            ["inf"] = {
+				id = "opm_infinite"
+			}
+		}
+	}
+}
+
+local function GetNextLevel(currentLevel)
+    for i, v in pairs(storyLevels) do
+        for j, u in pairs(v.levels) do
+            if currentLevel == u["id"] then
+                if j ~= "6" then --assuming 6 levels per map
+                    return v.levels[tostring(tonumber(j) + 1)]["id"]
+                else
+                    if storyLevels[tostring(i + 1)] then
+                        return storyLevels[tostring(i + 1)]["levels"][tostring(1)]["id"]
+                    else
+                        return currentLevel
+                    end
+                end
+            end
+        end
+    end
+end
+
 local function GetCurrentLevelId()
     if game.Workspace._MAP_CONFIG then
         return game:GetService("Workspace")._MAP_CONFIG.GetLevelData:InvokeServer()["id"]
     end
 end
+
 local function GetCurrentLevelName()
     if game.Workspace._MAP_CONFIG then
         return game:GetService("Workspace")._MAP_CONFIG.GetLevelData:InvokeServer()["name"]
     end
 end
-function comma_value(p1)
-	local value = p1;
-	while true do
-		local value2, value3 = string.gsub(value, "^(-?%d+)(%d%d%d)", "%1,%2");
-		value = value2;
-		if value3 ~= 0 then else
-			break;
-		end;
-	end;
-	return value;
-end;
-----------------endMap & ID Map
-getgenv().item = "-"
-plr.PlayerGui:FindFirstChild("HatchInfo"):FindFirstChild("holder"):FindFirstChild("info1"):FindFirstChild("UnitName").Text = getgenv().item
-function webhook()
-    if Settings.WebhookEnabled then
-        local url = Settings.WebhookUrl
-        print("webhook?")
-        if url == "" then
-            warn("Webhook Url is empty!")
-            return
-        end 
-        
-        local Time = os.date('!*t', OSTime);
-        local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-        local exec = tostring(identifyexecutor())
-        userlevel = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Main"):FindFirstChild("Desc"):FindFirstChild("Level").Text
-        totalgems = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Frame"):FindFirstChild("Resource"):FindFirstChild("Gem"):FindFirstChild("Level").Text
-        
-        ResultHolder = plr.PlayerGui:FindFirstChild("ResultsUI"):FindFirstChild("Holder")
-        if game.PlaceId ~= 8304191830 then
-        levelname = game:GetService("Workspace"):FindFirstChild("_MAP_CONFIG"):FindFirstChild("GetLevelData"):InvokeServer()["name"]
-        result = ResultHolder.Title.Text else levelname, result = "nil","nil" end
-        if result == "VICTORY" then result = "ชนะ" end
-        if result == "DEFEAT" then result = "แพ้" end
-        _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
 
-        ---------------------------------
-        --portaldiff test
-        for i,v in pairs(get_inventory_items_unique_items()) do
-            if string.find(v['item_id'],"portal") then
-                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
+local function Webhook()
+	pcall(function()
+		local url = tostring(getgenv().webUrl) --webhook
+		print("Webhook Check")
+		if url == "" then
+            print("No Webhook URL")
+			return
+		end 
+			
+    	experience = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.XPReward.Main.Amount.Text)
+		gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
+		completedWaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
+		completionTime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
+		waveNumber = completedWaves:split(": ")
+		timeNumber = completionTime:split(": ")
 
-                    PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
+		local data = {
+			["content"] = "",
+			["username"] = "Anime Adventures",
+			["avatar_url"] = "https://tr.rbxcdn.com/e5b5844fb26df605986b94d87384f5fb/150/150/Image/Jpeg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Level Name: " .. GetCurrentLevelName() .. " | Result",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0x00ff00,
 
-                end
-            end
-        end
-        ---------------------------------
-        GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-        name = GetLevelData.id or GetLevelData.world or GetLevelData.map
-        world = GetLevelData.name
-        --New Mapname
-        local Loader = require(game.ReplicatedStorage.src.Loader)
-        local Maps = Loader.load_data(script, "Maps")
-        local v100 = Maps[Loader.LevelData.map]
-        MapsNameTEST = v100.name or GetLevelData.name
-        --Difficulty
-        MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
-        MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
-        MapDiff3 = MapDiff2
-        --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
-        if poratltierS ~= nil or poratltierS ~= " Not have Tier " then MapDiff3 = " Hard " end
-        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff2 end
-        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff end
-        if poratChallengeS ~= nil or poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
-        if poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
-        -------------------------------
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					},
 
-        cwaves = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.WavesCompleted.Text
-        ctime = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Middle.Timer.Text
-        btp = plr.PlayerGui:FindFirstChild("BattlePass"):FindFirstChild("Main"):FindFirstChild("Level"):FindFirstChild("V").Text
-        btp2 = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.Title.Text
-        btplv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_LV.txt"))
-        local btplv3 = tostring(btplv2)
-        btpAlllv2 = game:GetService('HttpService'):JSONDecode(readfile("BTP_AllLV.txt"))
-        local btpAlllv3 = tostring(btpAlllv2)
-        waves = cwaves:split(": ")
-        if waves ~= nil and waves[2] == "999" then waves[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
-        ttime = ctime:split(": ")
-        if waves ~= nil and ttime[2] == "22:55" then ttime[2] = "Use [Auto Leave at Wave] or [Test Webhook]" end	
-        gold = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GoldReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
-        if gold == "+99999" then gold = "+0" end	 
-        gems = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GemReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
-        if gems == "+99999" then gems = "+0" end	 
-
-        if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
-            SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
-        end
-        ----------
-
-        xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
-        xp = xpx:split(" ")
-        if xp[1] == "+99999" then xp[1] = "+0" end
-        trophy = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("TrophyReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
-        if trophy == "+99999" then trophy = "+0" end	 
-        totaltime =  ResultHolder:FindFirstChild("Middle"):FindFirstChild("Timer").Text
-        totalwaves = ResultHolder:FindFirstChild("Middle"):FindFirstChild("WavesCompleted").Text
-
-        ------------------------------------------------
-        --Webhook Tier Challenge
-
-        local v5 = require(game.ReplicatedStorage.src.Loader)
-        local poratltierS = v5.LevelData._portal_depth
-        if poratltierS == nil then poratltierS = " Not have Tier " end
-
-        local v5 = require(game.ReplicatedStorage.src.Loader)
-        local poratChallengeS = v5.LevelData._challenge
-        if poratChallengeS == nil then poratChallengeS = " Not have Challenge " end
-        if poratChallengeS == "double_cost" then poratChallengeS = "High Cost" end
-        if poratChallengeS == "short_range" then poratChallengeS = "Short Range" end
-        if poratChallengeS == "fast_enemies" then poratChallengeS = "Fast Enemies" end
-        if poratChallengeS == "regen_enemies" then poratChallengeS = "Regen Enemies" end
-        if poratChallengeS == "tank_enemies" then poratChallengeS = "Tank Enemies" end
-        if poratChallengeS == "shield_enemies" then poratChallengeS = "Shield Enemies" end
-        if poratChallengeS == "triple_cost" then poratChallengeS = "Triple Cost" end
-        if poratChallengeS == "hyper_regen_enemies" then poratChallengeS = "Hyper-Regen Enemies" end
-        if poratChallengeS == "hyper_shield_enemies" then poratChallengeS = "Steel-Plated Enemies" end
-        if poratChallengeS == "godspeed_enemies" then poratChallengeS = "Godspeed Enemies" end
-        if poratChallengeS == "flying_enemies" then poratChallengeS = "Flying Enemies" end
-        if poratChallengeS == "mini_range" then poratChallengeS = "Mini-Range" end
-        --------------------------------------------------------------------
-
-        local TextDropLabel = ""
-        local CountAmount = 1
-        for i,v in pairs(get_inventory_items()) do
-            Table_All_Items_New_data[i]['Count'] = v
-        end
-        for i,v in pairs(get_inventory_items_unique_items()) do
-            if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-                Table_All_Items_New_data[v['item_id']]['Count'] = Table_All_Items_New_data[v['item_id']]['Count'] + 1
-            end
-        end
-        for i,v in pairs(get_Units_Owner()) do
-            Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] + 1
-            if v.shiny then
-                Table_All_Items_New_data[v["unit_id"]]['Count'] = Table_All_Items_New_data[v["unit_id"]]['Count'] - 1
-            Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_New_data[v["unit_id"]]['Count Shiny'] + 1
-            end
-        end
-        for i,v in pairs(Table_All_Items_New_data) do
-            if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-                if v['Count Shiny'] and v['Count'] then
-                    if v['Count'] > 0 or v['Count Shiny'] > 0 then
-                        if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count'])
-                            if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
-                                TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
-                                CountAmount = CountAmount + 1
-                            else
-                                TextDropLabel = TextDropLabel .. "\n"
-                                CountAmount = CountAmount + 1
-                            end
-                        end
-                    end
-                end
-            elseif v['Count Shiny'] and v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
-                TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
-                CountAmount = CountAmount + 1
-            end
-        end
-
-        for i,v in pairs(Table_All_Items_New_data) do
-            if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-                if v['Count Shiny'] and v['Count'] then
-                elseif string.find(i,"portal") or string.find(i,"disc") then
-                    Count_Portal_list = Count_Portal_list + 1
-                    if string.gsub(i, "%D", "") == "" then
-                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                    else
-                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                    end
-                    CountAmount = CountAmount + 1
-                    else
-                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
-                        CountAmount = CountAmount + 1
-                end
-            end
-        end
-
-        if TextDropLabel == "" then
-            TextDropLabel = "Not Have Items Drops"
-        end
-
-
-        local data = {
-            ["content"] = "",
-            ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-            ["embeds"] = {
-                {
-                    ["author"] = {
-                        ["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
-                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                    },
-                    ["thumbnail"] = {
-                        ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
-                    ["color"] = 110335,
-                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                    ['footer'] = {
-                        ['text'] = "// Made by Negative & HOLYSHz", 
-                        ['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
-                    },
-                    ["fields"] = {
-                        {
-                            ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                            ["value"] = "```ini\n"
-                                        ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text).. " ✨\nBTP Lv : "
-                                        ..tostring(btplv3).. " [ "..tostring(btpAlllv3).." ] 🎟️\nGold รวม : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                        ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
-                        },
-                        {
-                            ["name"] ="Results :",
-                            ["value"] = "```ini\nWorld : "..world.. " 🌏\nMap Name : "..tostring(MapsNameTEST).. " 🗺️\nMap Id : "..name.. " 🗺️\nDifficulty : "..tostring(MapDiff3).. " 🎚️\nPortal Tier : " ..tostring(poratltierS).." 🌀\nChallenge : " ..tostring(poratChallengeS).." 🌀\nผลต่อสู้ : "..result.. " ⚔️\nWave ที่จบ : " ..tostring(waves[2]).." 🌊\nเวลาที่ใช้ : " ..tostring(ttime[2]).." ⌛\nKill ทั้งหมด : " ..tostring(comma_value(game.Players.LocalPlayer._stats.kills.Value)).. " ⚔️\nDMG ที่ทำ : " ..tostring(comma_value(game.Players.LocalPlayer._stats.damage_dealt.Value)).."⚔️```",
+					["fields"] = {
+						{
+							["name"] = "Total Waves:",
+							["value"] = tostring(waveNumber[2]) ..
+								" <:wave:997136622363627530>",
+							["inline"] = true
+						}, {
+							["name"] = "Recieved Gems:",
+							["value"] = gems .. " 💎",
+							["inline"] = true
+						}, {
+                            ["name"] = "Recieved XP:",
+                            ["value"] = experience .. " 🧪",
                             ["inline"] = true
-                        },
-                        {
-                            ["name"] ="Rewards :",
-                            ["value"] = "```ini\n"  
-                                            .. comma_value(gold) .." Gold 💰\n"
-                                            .. comma_value(gems) .." Gems 💎\n+"
-                                            .. comma_value(SummerPearls - SummerPearlsOld) .." Summer Pearls 🦪\n"
-                                            .. comma_value(xp[1]) .." XP 🧪\n"
-                                            .. trophy .." Trophy 🏆```",
-                        },
-                        {
-                            ["name"] ="Items Drop :",
-                            ["value"] = "```ini\n" .. TextDropLabel .. "```",
-                            ["inline"] = false 
+                        }, {
+                            ["name"] = "Total Time:",
+                            ["value"] = tostring(timeNumber[2]) .. " ⏳",
+                            ["inline"] = true
+                        }, {
+                            ["name"] = "Current Gems:",
+                            ["value"] = tostring(game.Players.LocalPlayer._stats.gem_amount.Value).." 💎",
+                            ["inline"] = true
+                        }, {
+                            ["name"] = "Current Level:",
+                            ["value"] = tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text).. " ✨",
+                            ["inline"] = true
                         }
-                    }
-                }
-            }
-        }
-        
-        local porn = game:GetService("HttpService"):JSONEncode(data)
-        local headers = {["content-type"] = "application/json"}
-        local request = http_request or request or HttpPost or syn.request or http.request
-        local sex = {Url = url, Body = porn, Method = "POST", Headers = headers}
-        warn("Sending webhook notification...")
-        request(sex)
-    end
+					}
+				}
+			}
+		}
+
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
+
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+		warn("Sending webhook notification...")
+		request(discordMessageData)
+	end)
 end
 
-function BabyWebhook()
-    if Settings.BabyWebhookEnabled then
-        local url = Settings.BabyWebhookUrl
-        print("webhook baby?")
-        if url == "" then
-            warn("BabyWebhook Url is empty!")
-            return
-        end 
+local function BabyWebhook()
+	pcall(function()
+		local url = tostring(getgenv().webUrl) --webhook
+		print("Wave Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end 
 		
-        local Time = os.date('!*t', OSTime);
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-        local exec = tostring(identifyexecutor())
-        --BTP lv.
-        btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
-        --next ammo level
-        nextlvbtp = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.FurthestRoom.V.Text
-       --room
-        rankroom = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.FurthestRoom.V.V.Text
-        if rankroom == "10" then rankroom = "Inf Castle Load Not Yet" end
-        --Rank title 
-        ranktitle = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.RankTitle.V.V.Text
-        if ranktitle == "Grandmaster" then ranktitle = "Inf Castle Load Not Yet" end
-        --rank %
-        rankper = game:GetService("Players").LocalPlayer.PlayerGui.InfinityCastleRankingUI.Main.Main.Scroll.YourRanking.Ranking.V.V.Text
-        if rankper == "10%" then rankper = "Inf Castle Load Not Yet" end
-        --Current Rank
-        crt = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentRank.Ranking.V.Text
-        if crt == "10%" then crt = "Tournament Load Not Yet" end
-        --Current Prize%
-        cpp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.V.Text
-        if cpp == "10%" then cpp = "Tournament Load Not Yet" end
-        --Current Prize
-        cp = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Ranking.Wrapper.CurrentPrize.Prize.Text
-        if cp == "0% ~ 49.99%" then cp = "Tournament Load Not Yet" end
-        --Current Place#
-        cpr = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Place.Text
-        if cpr == "#123456" then cpr = "Tournament Load Not Yet" end
-        --Dmg or kill 
-        cdk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.Leaderboard.Main.Wrapper.Container.YourRow.Amount.Text
-        if cdk == "123456789000000" then cdk = "Tournament Load Not Yet" end
-        --Bracket
-        cubk = game:GetService("Players").LocalPlayer.PlayerGui.TournamentRankingUI.LevelSelect.InfoFrame.ScoreInfo.Bracket.V.Text
-        if cubk == "N" then cubk = "Tournament Load Not Yet" end
+        current_wave = tostring(game:GetService("Workspace")["_wave_num"].Value)
+    	XP = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.XPReward.Main.Amount.Text)
+		gems = tostring(game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.LevelRewards.ScrollingFrame.GemReward.Main.Amount.Text)
+        
+        timeSinceStart = os.time(os.date("!*t")) - startTime
+        gemsSinceStart = game.Players.LocalPlayer._stats.gem_amount.Value - startGems
 
 		local data = {
-            ["content"] = "",
-            ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-            ["embeds"] = {
-                {
-                    ["author"] = {
-                        ["name"] = " Current BTP & Inf Castle & Tournament Results ✔️",
-                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                    },
-                    ["thumbnail"] = {
-                        ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                    ["color"] = 110335,
-                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                    ["fields"] = {
-                        {
-                            ["name"] ="Current Battle Pass Results 🔋 ",
-                            ["value"] = "```ini\nCurrent BTP Lv. : "..btplv.."  🔋\nNEED TO NEXT : "..nextlvbtp.. "  🔋```",
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Current Level: " .. GetCurrentLevelName() .. " | " .. "Current Wave: " .. current_wave .. " - " .. tostring(game.Players.LocalPlayer.Name),
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0x00FFFF,
+
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					},
+					["fields"] = {
+						{
+                            ["name"] = "Current Gems:",
+                            ["value"] = tostring(game.Players.LocalPlayer._stats.gem_amount.Value).." 💎",
+                            ["inline"] = true
+                        }, {
+                            ["name"] = "Current Level:",
+                            ["value"] = tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text).. " ✨",
+                            ["inline"] = true
                         },
                         {
-                            ["name"] ="Current Tournament Results 🏆",
-                            ["value"] = "```ini\nYour Bracket: : "..cubk.."  🏆\nCurrent Rank : ["..cpr.." - "..crt.."]  🏆\nDMG or Kill : "..cdk.. "  🏆\nCurrent Prize : "..cpp.. "  🏆\nReward Prize : "  ..cp..  "  🏆```",
-                        },
-                        {
-                            ["name"] ="Current Infinity Castle Results  🚪",
-                            ["value"] = "```ini\nCurrent Room : "..rankroom.."  🚪\nCurrent Rank : "..ranktitle.. "  📊\nCurrent Percent : "  ..rankper..  "  🏅```",
+                            ["name"] = "Estimated Gems per Hour:",
+                            ["value"] = tostring(math.floor(gemsSinceStart / ((timeSinceStart + 82) / (60 * 60)))).." 💎",
+                            ["inline"] = true
                         }
-                    }
-                }
-            }
-        }
-    
+					}
+				}
+			}
+		}
 
-        local xd = game:GetService("HttpService"):JSONEncode(data)
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
 
-        local headers = {["content-type"] = "application/json"}
-        request = http_request or request or HttpPost or syn.request or http.request
-        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-        warn("Sending infcastle webhook notification...")
-        request(sex)
-    end
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+		warn("Sending baby webhook notification...")
+		print(request(discordMessageData).Success)
+	end)
 end
 
-function SnipeShopNew()
-    if Settings.snipeWebhookEnabled then
-        pcall(function() 
-            SpecialSummonSniperWebhook()
-            StandardSummonSniperWebhook()
-            ShopSniperWebhook()
-        end)
-    end
-end
---special
-function SpecialSummonSniperWebhook()
-    if Settings.snipeWebhookEnabled then
-	    local url = Settings.SnipeWebhookUrl
-        print("webhook Special banner?")
-        if url == "" then
-            warn("SnipeWebhook Url is empty!")
-            return
-        end 
+local function ShopSniperWebhook(test)
+    test = test or false
+	pcall(function()
+		local url = tostring(getgenv().sniperUrl) --webhook
+		print("Shop Sniper Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end
 		
-        local Time = os.date('!*t', OSTime);
-
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-
-        local exec = tostring(identifyexecutor())
-
-        special_banner = game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.EventClover.Main
-        units = {
-            special_banner["Featured_One"],
-            special_banner["Featured_Two"],
-            special_banner["Featured_Three"]
-        }
-
-        unitNamesForJson = {
-            special_banner["Featured_One"].name.Text,
-            special_banner["Featured_Two"].name.Text,
-            special_banner["Featured_Three"].name.Text
-        }
-
-		local data = {
-            ["content"] = "",
-            ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-            ["embeds"] = {
-                {
-                    ["author"] = {
-                        ["name"] = " Special Banner ",
-                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                    },
-                    ["thumbnail"] = {
-                        ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                    ["color"] = 110335,
-                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                    ["fields"] = {
-                        {
-                            ["name"] = "```" .. units[1].name.Text .. "```",
-                            ["value"] = "```(" .. units[1].Rarity.Text .. ") [Featured]```",
-                            ["inline"] = true
-                        },
-                        {
-                            ["name"] = "```" .. units[2].name.Text .. "```",
-                            ["value"] = "```(" .. units[2].Rarity.Text .. ")```",
-                            ["inline"] = true
-                        },
-                        {
-                            ["name"] = "```" .. units[3].name.Text .. "```",
-                            ["value"] = "```(" .. units[3].Rarity.Text .. ")```",
-                            ["inline"] = true
-                        }
-                    }
-                }
-            }
-        }
-
-        local xd = game:GetService("HttpService"):JSONEncode(data)
-        local headers = {["content-type"] = "application/json"}
-        request = http_request or request or HttpPost or syn.request or http.request
-        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-        warn("Sending special banner webhook notification...")
-        request(sex)
-    end
-end
-
---Standar
-function StandardSummonSniperWebhook()
-    if Settings.snipeWebhookEnabled then
-        local url = Settings.SnipeWebhookUrl
-        print("webhook Standard Banner?")
-        if url == "" then
-            warn("Webhook Url is empty!")
-            return
-        end 
-            
-        local Time = os.date('!*t', OSTime);
-
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-
-        local exec = tostring(identifyexecutor())
-
-        units = {
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["1"].Main,
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["2"].Main,
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["3"].Main,
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["4"].Main,
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["5"].Main,
-            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["6"].Main
-        }
-
-        
-        U1 = units[1].petimage.WorldModel:GetChildren()[1].Name
-        U2 = units[2].petimage.WorldModel:GetChildren()[1].Name
-        U3 = units[3].petimage.WorldModel:GetChildren()[1].Name
-        U4 = units[4].petimage.WorldModel:GetChildren()[1].Name
-        U5 = units[5].petimage.WorldModel:GetChildren()[1].Name
-        U6 = units[6].petimage.WorldModel:GetChildren()[1].Name
-
-		local data = {
-            ["content"] = "",
-            ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-            ["embeds"] = {
-                {
-                    ["author"] = {
-                        ["name"] = " Standard Banner ",
-                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                    },
-                    ["thumbnail"] = {
-                        ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                    ["color"] = 110335,
-                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                    ["fields"] = {
-                    }
-			    }
-		    }
-	    }
-
-        for i, unit in pairs(units) do
-            unit_stats = {
-                ["name"] = "```" .. unit.petimage.WorldModel:GetChildren()[1].Name .."```",
-                ["value"] = "```(" ..unit.Rarity.Text ..")```",
-                ["inline"] = true
-            }
-            table.insert(data["embeds"][1]["fields"], unit_stats)
-        end
-        
-
-        local xd = game:GetService("HttpService"):JSONEncode(data)
-
-        local headers = {["content-type"] = "application/json"}
-        request = http_request or request or HttpPost or syn.request or http.request
-        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-        warn("Sending Standard banner webhook notification...")
-        request(sex)
-    end
-end
-
---Bulma's Shop webhook
-
-function ShopSniperWebhook()
-    if Settings.snipeWebhookEnabled then
-        local url = Settings.SnipeWebhookUrl
-        print("webhook Bulma's webhook?")
-        if url == "" then
-            warn("Webhook Url is empty!")
-            return
-        end 
 		print(game:GetService("ReplicatedStorage").src.client.Services.TravellingMerchantServiceClient)
 
-        local Time = os.date('!*t', OSTime);
-
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-
-        local exec = tostring(identifyexecutor())
-
         shop_items = require(game:GetService("ReplicatedStorage").src.client.Services["TravellingMerchantServiceClient"]).SELLING_ITEMS
-        shop_item_ids = {}
+        local shop_item_ids = {}
         
         print("exechere9")
 
 		local data = {
-            ["content"] = "",
-            ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-            ["embeds"] = {
-                {
-                    ["author"] = {
-                        ["name"] = " Bulma's Shop ",
-                        ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                    },
-                    ["thumbnail"] = {
-                        ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
-                    ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
-                    ["color"] = 110335,
-                    ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                    ["fields"] = {
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Bulma's Shop",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0x00FFFF,
 
-                    }
-			    }
-		    }
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					},
+					["fields"] = {}
+				}
+			}
 		}
-
 		
 		print("exechere4")
 		
@@ -697,20 +3440,20 @@ function ShopSniperWebhook()
             table.insert(shop_item_ids, item["id"])
             if item["gem_cost"] then
                 table.insert(data["embeds"][1]["fields"], {
-                    ["name"] = "```" .. item["id"].."```",
-                    ["value"] = "```" .. item["gem_cost"] .. " 💎```",
+                    ["name"] = item["id"],
+                    ["value"] = item["gem_cost"] .. " 💎",
                     ["inline"] = true
                 })
             else
                 table.insert(data["embeds"][1]["fields"], {
-                    ["name"] = "```" .. item["id"].. " ```",
-                    ["value"] = "```" .. item["gold_cost"] .. " 💰```",
+                    ["name"] = item["id"],
+                    ["value"] = item["gold_cost"] .. " 🪙",
                     ["inline"] = true
                 })
             end
 		end
     
-        --print(dump(data["embeds"][1]["fields"]))
+        print(dump(data["embeds"][1]["fields"]))
 
         if not game:GetService("Workspace")["travelling_merchant"]["is_open"].Value then
             table.insert(data["embeds"][1]["fields"], {
@@ -720,4525 +3463,3122 @@ function ShopSniperWebhook()
                 })
         end
         print("exec1")
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
 
-		local xd = game:GetService("HttpService"):JSONEncode(data)
-    
-        local headers = {["content-type"] = "application/json"}
-        request = http_request or request or HttpPost or syn.request or http.request
-        local sex = {Url = url, Body = xd, Method = "POST", Headers = headers}
-        warn("Sending Snipe Bulma's Shop webhook notification...")
-        request(sex)
-    end
-end
-------------------------------\
---[[if game.Players.LocalPlayer.PlayerGui:FindFirstChild("FinityUI") then
-    game.Players.LocalPlayer.PlayerGui["FinityUI"]:Destroy()
-end]]
-
-if game.CoreGui:FindFirstChild("FinityUI") then
-    game.CoreGui["FinityUI"]:Destroy()
-end
-
-local dir = "Anime_Adventures/"..game.Players.LocalPlayer.Name
-local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_Main.lua"))()
---local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
-local exec = tostring(identifyexecutor())
-local Window = Uilib.new(true, "[HSz_v2] Anime Adventures "..version.." - "..exec)
-Window.ChangeToggleKey(Enum.KeyCode.P)
-
-local Home = Window:Category("🏠 หน้าแรก")
-local Developers = Home:Sector("HSz Anime Adventures")
-local asdasd = Home:Sector(" ")
-local UIUPDT = Home:Sector("⚙️ Fix UPDATE "..version.." ⚙️")
-
-
-local Farm = Window:Category("🤖 Auto Farm")
-local SelectUnits = Farm:Sector("🧙‍ เลือก Units")
-local SelectWorld = Farm:Sector("🌏 เลือก World")
-local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
-local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
-local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
-local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
-
-
-local UC = Window:Category("🧙 ตั้งค่า Unit")
-local NDY = UC:Sector("Beta Unit Config ")
-local NDY2 = UC:Sector(" ")
-local emptyxx = UC:Sector(" ")
-local emptyxx2 = UC:Sector(" ")
-local Unit1 = UC:Sector("Unit 1")
-local Unit2 = UC:Sector("Unit 2")
-local Unit3 = UC:Sector("Unit 3")
-local Unit4 = UC:Sector("Unit 4")
-local Unit5 = UC:Sector("Unit 5")
-local Unit6 = UC:Sector("Unit 6")
-
---- Unit AOE
-local UA = Window:Category("⚔️ INF Range")
-
-Unit = {}
-for i = 1, 6 do
-    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " INF Range")
-end
-
-local UnitAOE = UA:Sector("INF Range Config ")
-local UnitAOE1 = UA:Sector("Check Unit ")
---- End of Unit AOE
-
-local LG = Window:Category("🛠️ Misc [BETA]")
-local LowCPU2 = LG:Sector("Low CPU Mode")
-local LowCPU3 = LG:Sector(" ")
-local LG1 = LG:Sector("Beta LAGGY Config ")
-local DELMAP = LG:Sector("🗺️ New Function 🗺️")
-local DELMAP1 = LG:Sector(" ")
-local OtherSec = LG:Sector("⌛ Auto Load Script ⌛")
-local OtherSec1 = LG:Sector(" ")
-local OtherSec3 = LG:Sector("🐱 Hide Name Player 🐱")
-local DelMapConfig = LG:Sector(" ")
-local DelMapConfig2 = LG:Sector("⚙️ Other Config ⚙️")
-local DelMapConfig3 = LG:Sector(" ")
-
-
-local ETC = Window:Category("🌐 Discord & Shop")
-local AutoSummonSec = ETC:Sector("💸 Auto สุ่ม Units 💸")
-local AutoSnipeMerchantSec = ETC:Sector("🏪 Auto ชื้อของร้านค้า Bulma 🏪")
-local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
-local OtherSec2 = ETC:Sector("")
-
-local Summer = Window:Category("🦸🏽 Event & Skin ")
-local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
-local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
-local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
-local SummerSkin0 = Summer:Sector("")
-local SummerEgg = Summer:Sector("🥚 Auto Open Events Egg 🥚")
-
--------------
----sponsorfix---
--------------
-local sponsor = Window:Category("🌟 Sponsor ของเรา ")
-local discord = sponsor:Sector(" Discord 🌟 StarBux 🌟 Store ")
-local facebook = sponsor:Sector(" 👑ร้าน 🌟 StarBux 🌟 ")
-local kaigem = sponsor:Sector("🐣 ชื้อ ID ไก่เพชร 🐣")
-local farmgem = sponsor:Sector("💎 บริการฟาร์มเพชร 💎")
-local starbux = sponsor:Sector("💎 ROBUX กลุ่ม 💎")
-----------------------------------------------
----------------- Units Selection -------------
-----------------------------------------------
-if Settings.SelectedUnits == nil then
-    Settings.SelectedUnits = {
-        U1 = "nil",
-        U2 = "nil",
-        U3 = "nil",
-        U4 = "nil",
-        U5 = "nil",
-        U6 = "nil"
-    }
-    saveSettings()
-end
-local function UnitSec()
-    --#region เลือก Units Tab
-    local Units = {}
-    
-    function Check()
-        local DataUnits = require(game:GetService("ReplicatedStorage").src.Data.Units)
-        for i, v in pairs(getgenv().profile_data.equipped_units) do
-            if DataUnits[v.unit_id] and v.equipped_slot then
-                Settings.SelectedUnits["U"..tostring(v.equipped_slot)] = tostring(DataUnits[v.unit_id].id) .. " #" .. tostring(v.uuid)
-                print("U"..tostring(v.equipped_slot).." "..tostring(DataUnits[v.unit_id].id).." #" .. tostring(v.uuid))
-                local StarterGui = game:GetService("StarterGui")
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "กำลังใส่ Unit",
-                        Text = "U"..tostring(v.equipped_slot).." : "..tostring(DataUnits[v.unit_id].name),
-                        Duration = 10
-                    })
-            end
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+        if getgenv().currentMerchantItems ~= shop_item_ids or test then
+            getgenv().currentMerchantItems = shop_item_ids
+            updatejson()
+            warn("Sending sniper webhook notification...")
+            request(discordMessageData)
         end
-        saveSettings()
-    end
-    function LoadUnits()
-        local DataUnits = require(game:GetService("ReplicatedStorage").src.Data.Units)
-        table.clear(Units)
-        for i, v in pairs(getgenv().profile_data.equipped_units) do
-            if DataUnits[v.unit_id] then
-                table.insert(Units, DataUnits[v.unit_id].name .. " #" .. tostring(v.uuid))
-            end
+	end)
+end
+
+local function SpecialSummonSniperWebhook(test)
+    test = test or false
+	pcall(function()
+		local url = tostring(getgenv().sniperUrl) --webhook
+		print("Special Summon Sniper Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end
+		
+		local special_banner = game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.EventClover.Main
+        local units = {
+            special_banner["Featured_One"],
+            special_banner["Featured_Two"],
+            special_banner["Featured_Three"]
+        }
+
+        local unitNamesForJson = {
+            special_banner["Featured_One"].name.Text,
+            special_banner["Featured_Two"].name.Text,
+            special_banner["Featured_Three"].name.Text
+        }
+
+		local data = {
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Current Special Banner",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0xFF00FF,
+
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					}, 
+                    ["fields"] = {
+                        {
+                            ["name"] = units[1].name.Text,
+                            ["value"] = "(" .. units[1].Rarity.Text .. ") [Featured]",
+                            ["inline"] = false
+                        },
+                        {
+                            ["name"] = units[2].name.Text,
+                            ["value"] = "(" .. units[2].Rarity.Text .. ")",
+                            ["inline"] = false
+                        },
+                        {
+                            ["name"] = units[3].name.Text,
+                            ["value"] = "(" .. units[3].Rarity.Text .. ")",
+                            ["inline"] = false
+                        }
+                    }
+				}
+			}
+		}
+		
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
+
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+        if getgenv().currentSpecialBannerUnits ~= unitNamesForJson or test then
+            getgenv().currentSpecialBannerUnits = unitNamesForJson
+            updatejson()
+            warn("Sending special sniper webhook notification...")
+            request(discordMessageData)
         end
-        Check()
-    end
-    function GetUnits()
-        if Settings.SelectedUnits == nil then
-            Settings.SelectedUnits = {
-                U1 = "nil",
-                U2 = "nil",
-                U3 = "nil",
-                U4 = "nil",
-                U5 = "nil",
-                U6 = "nil"
+	end)
+end
+
+local function StandardSummonSniperWebhook(test)
+    test = test or false
+	pcall(function()
+		local url = tostring(getgenv().sniperUrl) --webhook
+		print("Standard Summon Sniper Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end
+
+        local units = {
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["1"].Main,
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["2"].Main,
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["3"].Main,
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["4"].Main,
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["5"].Main,
+            game:GetService("Players").LocalPlayer.PlayerGui.HatchGuiNew.BannerFrames.Standard.Main.Scroll["6"].Main
+        }
+
+        local unitIdsForJson = {
+            units[1].petimage.WorldModel:GetChildren()[1].Name,
+            units[2].petimage.WorldModel:GetChildren()[1].Name,
+            units[3].petimage.WorldModel:GetChildren()[1].Name,
+            units[4].petimage.WorldModel:GetChildren()[1].Name,
+            units[5].petimage.WorldModel:GetChildren()[1].Name,
+            units[6].petimage.WorldModel:GetChildren()[1].Name
+        }
+        
+		local data = {
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "Current Standard Banner",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0xFF00FF,
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					}, 
+                    ["fields"] = {}
+				}
+			}
+		}
+
+
+        for i, unit in pairs(units) do
+            unit_stats = {
+                ["name"] = unit.petimage.WorldModel:GetChildren()[1].Name,
+                ["value"] = unit.Rarity.Text,
+                ["inline"] = true
             }
-            saveSettings()
+            table.insert(data["embeds"][1]["fields"], unit_stats)
         end
-        getgenv().profile_data = { equipped_units = {} }; repeat
-            do
-                for i, v in pairs(getgc(true)) do
-                    if type(v) == "table" and rawget(v, "xp") then wait()
-                        table.insert(getgenv().profile_data.equipped_units, v)
+        
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+        if getgenv().currentStandardBannerUnits ~= unitIdsForJson or test then
+            getgenv().currentStandardBannerUnits = unitIdsForJson
+            updatejson()
+            warn("Sending standard sniper webhook notification...")
+            request(discordMessageData)
+        end
+	end)
+end
+
+local function NormalItemWebhook(test)
+    test = test or false
+	pcall(function()
+		local url = tostring(getgenv().webUrl) --webhook
+		print("Normal Item Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end
+		
+        local itemDifference = getItemChangesNormal(getgenv().startingInventoryNormalItems, getNormalItems())
+        
+		local data = {
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "New Normal Items Acquired!",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0xFF00FF,
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					}
+				}
+			}
+		}
+
+		if itemDifference ~= nil and itemDifference ~= {} then
+			
+			for name, amount in pairs(itemDifference) do
+				if data["embeds"][1]["fields"] == nil then
+					data["embeds"][1]["fields"] = {}
+				end
+				item_stats = {
+					["name"] = name,
+					["value"] = amount,
+					["inline"] = true
+				}
+				table.insert(data["embeds"][1]["fields"], item_stats)
+			end
+		end
+        
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+        
+        warn("Sending normal item webhook notification...")
+        request(discordMessageData)
+	end)
+end
+
+local function UniqueItemWebhook(test)
+    test = test or false
+	pcall(function()
+		local url = tostring(getgenv().webUrl) --webhook
+		print("Unique Item Webhook?")
+		if url == "" then
+            print("No Webhook Found!")
+			return
+		end
+
+        local itemDifference = getItemChangesUnique(getgenv().startingInventoryUniqueItems, getUniqueItems())
+        
+		local data = {
+			["content"] = "",
+			["username"] = "Professional Gamer",
+			["avatar_url"] = "https://i.pinimg.com/originals/1c/6c/55/1c6c55a47126ddf97931d9463876594c.jpg",
+			["embeds"] = {
+				{
+					["author"] = {
+						["name"] = "New Unique Items Acquired!",
+						["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
+					},
+					["color"] = 0xFF00FF,
+					["thumbnail"] = {
+						['url'] = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. game.Players.LocalPlayer.userId .. "&width=420&height=420&format=png"
+					}
+				}
+			}
+		}
+
+		if itemDifference ~= nil and itemDifference ~= {} then
+			if data["embeds"][1]["fields"] == nil then
+				data["embeds"][1]["fields"] = {}
+			end
+			for _, item in pairs(itemDifference) do
+				item_stats = {
+					["name"] = tostring(item),
+					["value"] = "+1",
+					["inline"] = true
+				}
+				table.insert(data["embeds"][1]["fields"], item_stats)
+			end
+		end
+        
+		local discordMessageBody = game:GetService("HttpService"):JSONEncode(data)
+		local headers = {["content-type"] = "application/json"}
+		request = http_request or request or HttpPost or syn.request or http.request
+		local discordMessageData = {Url = url, Body = discordMessageBody, Method = "POST", Headers = headers}
+        
+		warn("Sending unique item webhook notification...")
+        request(discordMessageData)
+	end)
+end
+
+getgenv().UnitCache = {}
+
+for _, Module in next, game:GetService("ReplicatedStorage"):WaitForChild("src"):WaitForChild("Data"):WaitForChild("Units"):GetDescendants() do
+    if Module:IsA("ModuleScript") and Module.Name ~= "UnitPresets" then
+        for UnitName, UnitStats in next, require(Module) do
+            getgenv().UnitCache[UnitName] = UnitStats
+        end
+    end
+end
+
+--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\--
+--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\--
+--\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\--
+
+function MainModule()
+    local jsonData = readfile(saveFileName)
+    local data = HttpService:JSONDecode(jsonData)
+
+	getgenv().altCount = data.altcount
+
+    getgenv().AutoLeave = data.AutoLeave
+    getgenv().AutoReplay = data.AutoReplay
+    getgenv().AutoChallenge = data.AutoChallenge  
+    getgenv().selectedreward = data.selectedreward
+    getgenv().AutoChallengeAll = data.AutoChallengeAll
+    getgenv().disableAutoFarm = false
+    getgenv().sellatwave = data.sellatwave 
+    getgenv().quitAtWave = data.quitAtWave
+    getgenv().autoSell = data.autoSell
+    getgenv().autoQuit = data.autoQuit
+    getgenv().AutoFarm = data.autofarm
+    getgenv().AutoFarmIC = data.autofarmic
+    getgenv().AutoFarmTP = data.autofarmtp
+    getgenv().AutoLoadTP = data.autoloadtp
+    getgenv().webUrl = data.webhook
+    getgenv().sniperUrl = data.sniperwebhook
+    getgenv().autoStart = data.autoStart
+    getgenv().autoUpgrade = data.autoUpgrade
+    getgenv().difficulty = data.difficulty
+    getgenv().world = data.world
+	getgenv().macroWorld = data.macroworld
+    getgenv().level = data.level
+	getgenv().macroLevel = data.macrolevel
+    getgenv().AutoContinue = data.autocontinue
+    getgenv().nextLevel = data.nextlevel
+    getgenv().currentMerchantItems = data.currentmerchantitems
+    getgenv().currentSpecialBannerUnits = data.currentspecialbannerunits
+    getgenv().currentStandardBannerUnits = data.currentstandardbannerunits
+
+	getgenv().lockAutoFunctions = data.lockautofunctions
+
+    getgenv().SpawnUnitPos = data.xspawnUnitPos
+    getgenv().SelectedUnits = data.xselectedUnits
+    getgenv().autoabilities = data.autoabilities
+
+	getgenv().recordingMacro = data.recordingmacro
+	getgenv().recordMacroOnTeleport = data.recordmacroonteleport
+	getgenv().replayMacroOnTeleport = data.replaymacroonteleport
+	getgenv().macroToReplay = data.macrotoreplay
+	getgenv().levelMacros = data.levelmacros
+
+	getgenv().altList = data.altlist
+	getgenv().mainAccount = data.mainaccount
+	getgenv().altMode = data.altmode
+
+	getgenv().unitPlacementSettings = data.unitplacementsettings
+
+    function updatejson()
+        local xdata = {
+			altcount = getgenv().altCount,
+
+            autoloadtp = getgenv().AutoLoadTP,
+            AutoLeave = getgenv().AutoLeave,
+            AutoReplay = getgenv().AutoReplay,
+            AutoChallenge = getgenv().AutoChallenge, 
+            selectedreward = getgenv().selectedreward,
+            AutoChallengeAll = getgenv().AutoChallengeAll, 
+            sellatwave = getgenv().sellatwave,
+            quitAtWave = getgenv().quitAtWave,
+            autoSell = getgenv().autoSell,
+            autoQuit = getgenv().autoQuit,
+            webhook = getgenv().webUrl,
+            sniperwebhook = getgenv().sniperUrl,
+            autofarm = getgenv().AutoFarm,
+            autofarmic = getgenv().AutoFarmIC,
+            autofarmtp = getgenv().AutoFarmTP,
+            autoStart = getgenv().autoStart,
+            autoUpgrade = getgenv().autoUpgrade,
+            difficulty = getgenv().difficulty,
+            world = getgenv().world,
+			macroworld = getgenv().macroWorld,
+            level = getgenv().level,
+			macrolevel = getgenv().macroLevel,
+            autocontinue = getgenv().AutoContinue,
+            nextlevel = getgenv().nextLevel,
+            currentmerchantitems = getgenv().currentMerchantItems,
+            currentspecialbannerunits = getgenv().currentSpecialBannerUnits,
+            currentstandardbannerunits = getgenv().currentStandardBannerUnits,
+            --door = getgenv().door,
+
+			lockautofunctions = getgenv().lockAutoFunctions,
+
+            xspawnUnitPos = getgenv().SpawnUnitPos,
+            xselectedUnits = getgenv().SelectedUnits,
+            autoabilities = getgenv().autoabilities,
+
+			recordingmacro = getgenv().recordingMacro,
+			recordmacroonteleport = getgenv().recordMacroOnTeleport,
+			replaymacroonteleport = getgenv().replayMacroOnTeleport,
+			macrotoreplay = getgenv().macroToReplay,
+			levelmacros = getgenv().levelMacros,
+
+			altlist = getgenv().altList,
+			mainaccount = getgenv().mainAccount,
+			altmode = getgenv().altMode,
+
+			unitplacementsettings = getgenv().unitPlacementSettings
+        }
+
+        local json = HttpService:JSONEncode(xdata)
+        writefile(saveFileName, json)
+    end
+
+    --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\--
+    --\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\--
+
+    local exec = tostring(identifyexecutor())
+    RayfieldLib = RayfieldLibrary
+
+	getgenv().isAlt = false
+
+	print(tostring(game.Players.LocalPlayer.Name))
+	print(getgenv().mainAccount)
+
+	if tostring(game.Players.LocalPlayer.Name) ~= getgenv().mainAccount then
+		print(tostring(game.Players.LocalPlayer.Name) .. " IS ALT")
+		getgenv().isAlt = true
+	end
+
+	print(getgenv().isAlt)
+
+	coroutine.resume(coroutine.create(function()
+		while task.wait(0.5) do
+			if isrbxactive() ~= true then
+				setfpscap(3)
+				game:GetService("RunService"):Set3dRenderingEnabled(false)
+			else
+				setfpscap(100)
+				game:GetService("RunService"):Set3dRenderingEnabled(true)
+			end
+		end
+	end))
+
+
+    mainWindow = RayfieldLibrary:CreateWindow({
+        Name = "Anime Adventures " .. scriptVersion .. " - " .. exec .. " (ALT: " .. tostring(getgenv().isAlt) .. ")",
+        LoadingTitle = "Anime Adventures " .. scriptVersion,
+        LoadingSubtitle = "rewritten by Defrag"
+    })
+
+    local autoFarmTab = mainWindow:CreateTab("Auto Farm")
+	local autoMacroTab = mainWindow:CreateTab("Auto Macro [BETA]")
+    local webhookTab = mainWindow:CreateTab("Webhooks")
+
+    if game.PlaceId == 8304191830 then
+		local altsInGame = false
+		if getgenv().altMode and not getgenv().isAlt then
+			repeat 
+				task.wait(1)
+				local altsInGame = 0
+				for _, val in pairs(game.Players:GetPlayers()) do
+					for i, alt in pairs(getgenv().altList) do
+						if tostring(val.Name) == tostring(alt) then
+							print(val.Name)
+							altsInGame += 1
+							break
+						end
+					end
+				end
+			until altsInGame >= 3
+		end
+
+		if getgenv().altMode and getgenv().isAlt then
+			local timer = 0
+			local mainAccountFound = false
+			repeat
+				task.wait(1)
+				timer += 1
+				mainAccountFound = false
+				for _, v in pairs(game.Players:GetPlayers()) do
+					if tostring(v) == getgenv().mainAccount then
+						mainAccountFound = true
+						print("FOUND")
+					end
+				end
+			until mainAccountFound
+
+			if mainAccountFound ~= true then
+				loadfile("TeleportTo.lua")()
+			end
+		end
+
+		getgenv().recordingMacro = false
+		autoMacroTab:CreateToggle({
+			Name = "Record Macro on Map Join",
+			CurrentValue = getgenv().recordMacroOnTeleport,
+			Callback = function(bool)
+				getgenv().recordMacroOnTeleport = bool
+				updatejson()
+			end})
+
+		autoMacroTab:CreateToggle({
+			Name = "Replay Macro on Map Join (DISABLE RECORD MACRO WHILE THIS IS ACTIVE)",
+			CurrentValue = getgenv().replayMacroOnTeleport,
+			Callback = function(bool)
+				getgenv().replayMacroOnTeleport = bool
+				updatejson()
+			end})
+		
+		
+		getgenv().macroLevels = {"nil"}
+
+		--Level dropdown here
+		local macroWorldDrop = autoMacroTab:CreateDropdown({
+            Name = "Select Macro World", 
+            Options = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
+        				"Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom", 
+						"Cape Canaveral", "Alien Ship", "Clover Kingdom [Elf Invasion]", "Hollow Invasion", "Cape Canaveral [Legend]", "Chainsaw Man Contract"},
+        CurrentOption = getgenv().macroWorld, 
+        Callback = function(world)
+            getgenv().macroWorld = world
+            updatejson()
+
+            if world == "Planet Namak" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3",
+                                    	 "namek_level_4", "namek_level_5", "namek_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Shiganshinu District" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4",
+                                    "aot_level_5", "aot_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Snowy Town" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"demonslayer_infinite", "demonslayer_level_1", "demonslayer_level_2",
+                                    "demonslayer_level_3", "demonslayer_level_4", "demonslayer_level_5",
+                                    "demonslayer_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Hidden Sand Village" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"naruto_infinite", "naruto_level_1", "naruto_level_2", "naruto_level_3",
+                                    "naruto_level_4", "naruto_level_5", "naruto_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Marine's Ford" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"marineford_infinite","marineford_level_1","marineford_level_2","marineford_level_3",
+                						 "marineford_level_4","marineford_level_5","marineford_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Ghoul City" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"tokyoghoul_infinite","tokyoghoul_level_1","tokyoghoul_level_2","tokyoghoul_level_3",
+                                    "tokyoghoul_level_4","tokyoghoul_level_5","tokyoghoul_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Hollow World" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"hueco_infinite","hueco_level_1","hueco_level_2","hueco_level_3",
+                                    "hueco_level_4","hueco_level_5","hueco_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Ant Kingdom" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"hxhant_infinite","hxhant_level_1","hxhant_level_2","hxhant_level_3",
+                                    "hxhant_level_4","hxhant_level_5","hxhant_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+				end
+            elseif world == "Magic Town" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"magnolia_infinite","magnolia_level_1","magnolia_level_2","magnolia_level_3",
+                                    "magnolia_level_4","magnolia_level_5","magnolia_level_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Cursed Academy" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"jjk_infinite","jjk_level_1","jjk_level_2","jjk_level_3",
+                                    "jjk_level_4","jjk_level_5","jjk_level_6","jjk_finger"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Clover Kingdom" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"clover_infinite","clover_level_1","clover_level_2","clover_level_3",
+                                    	 "clover_level_4","clover_level_5","clover_level_6",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+			elseif world == "Cape Canaveral" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"jojo_infinite","jojo_level_1","jojo_level_2","jojo_level_3","jojo_level_4","jojo_level_5","jojo_level_6",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+			elseif world == "Alien Ship" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"opm_infinite","opm_level_1","opm_level_2","opm_level_3","opm_level_4","opm_level_5","opm_level_6","opm_portal"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Clover Kingdom [Elf Invasion]" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"clover_legend_1","clover_legend_2","clover_legend_3",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Hollow Invasion" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Cape Canaveral [Legend]" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"jojo_legend_1","jojo_legend_2","jojo_legend_3","jojo_portal_pucci"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+			elseif world == "Planet Namak - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"namek_winter_1", "namek_winter_2", "namek_winter_3",
+                                    	 "namek_winter_4", "namek_winter_5", "namek_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Shiganshinu District - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = { "aot_winter_1", "aot_winter_2", "aot_winter_3", "aot_winter_4",
+                                    "aot_winter_5", "aot_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Snowy Town - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = { "demonslayer_winter_1", "demonslayer_winter_2",
+                                    "demonslayer_winter_3", "demonslayer_winter_4", "demonslayer_winter_5",
+                                    "demonslayer_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Hidden Sand Village - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"naruto_winter_1", "naruto_winter_2", "naruto_winter_3",
+                                    "naruto_winter_4", "naruto_winter_5", "naruto_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Marine's Ford - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"marineford_winter_1","marineford_winter_2","marineford_winter_3",
+                						 "marineford_winter_4","marineford_winter_5","marineford_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Ghoul City - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"tokyoghoul_winter_1","tokyoghoul_winter_2","tokyoghoul_winter_3",
+                                    "tokyoghoul_winter_4","tokyoghoul_winter_5","tokyoghoul_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Hollow World - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"hueco_winter_1","hueco_winter_2","hueco_winter_3",
+                                    "hueco_winter_4","hueco_winter_5","hueco_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Ant Kingdom - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"hxhant_winter_1","hxhant_winter_2","hxhant_winter_3",
+                                    "hxhant_winter_4","hxhant_winter_5","hxhant_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+				end
+            elseif world == "Magic Town - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"magnolia_winter_1","magnolia_winter_2","magnolia_winter_3",
+                                    "magnolia_winter_4","magnolia_winter_5","magnolia_winter_6"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Cursed Academy - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"jjk_winter_1","jjk_winter_2","jjk_winter_3",
+                                    "jjk_winter_4","jjk_winter_5","jjk_winter_6",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Clover Kingdom - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"clover_winter_1","clover_winter_2","clover_winter_3",
+                                    	 "clover_winter_4","clover_winter_5","clover_winter_6",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+			elseif world == "Cape Canaveral - Frozen" then
+                getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"jojo_winter_1","jojo_winter_2","jojo_winter_3","jojo_winter_4","jojo_winter_5","jojo_winter_6",}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+            elseif world == "Chainsaw Man Contract" then
+				getgenv().macroLevelDrop:Clear()
+                table.clear(macroLevels)
+                getgenv().macroLevels = {"csm_portal_1","csm_portal_2","csm_portal_3","csm_portal_4","csm_portal_5","csm_portal_6","csm_portal_secret"}
+                for i, v in ipairs(macroLevels) do
+                    getgenv().macroLevelDrop:Add(v)
+                end
+			end
+        end})
+        
+        getgenv().macroLevelDrop = autoMacroTab:CreateDropdown({
+            Name = "Select Macro Level", 
+            Options = getgenv().macroLevels, 
+            CurrentOption = getgenv().macroLevel, 
+            Callback = function(level)
+                getgenv().macroLevel = level
+                updatejson()
+            end})
+
+		--macro bound to level dropdown here
+		autoMacroTab:CreateDropdown({
+			Name = "Macro to Run on Above Level",
+			Options = listfiles("AAMacros" .. scriptVersion),
+			CurrentOption = "nil",
+			Callback = function(selectedFile)
+				getgenv().selectedMacroFile = tostring(selectedFile)
+				updatejson()
+			end})
+
+		--confirmation button here
+		autoMacroTab:CreateButton({
+			Name = "Confirm Selection",
+			Callback = function()
+				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
+				updatejson()
+			end})
+
+        --------------------------------------------------
+        --------------- Select Units Tab -----------------
+        --------------------------------------------------
+		local unitSelectSection = autoFarmTab:CreateSection("Select Units")
+
+		local Units = {}
+
+        local function LoadUnits()
+            repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
+            task.wait(2)
+            table.clear(Units)
+            for i, v in pairs(game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.collection.grid.List.Outer.UnitFrames:GetChildren()) do
+                if v.Name == "CollectionUnitFrame" then
+                    repeat task.wait() until v:FindFirstChild("_uuid")
+                    table.insert(Units, v.name.Text .. " #" .. v._uuid.Value)
+                end
+            end
+        end
+
+        LoadUnits()
+
+        local function Check(x, y)
+            for i, v in ipairs(game:GetService("Players").LocalPlayer.PlayerGui.collection.grid.List.Outer.UnitFrames:GetChildren()) do
+                if v:IsA("ImageButton") then
+                    if v.EquippedList.Equipped.Visible == true then
+                        if v.Main.petimage:GetChildren()[2].Name == x then
+                            getgenv().SelectedUnits["U"..tostring(y)] = tostring(v.name.Text.." #"..v._uuid.Value)
+                            updatejson()
+                            return true
+                        end
                     end
                 end
             end
-        until #getgenv().profile_data.equipped_units > 0
-        LoadUnits()
-    end
-    GetUnits()
-    SelectUnits:Cheat("Button", "🧙 ใส่ทีมที่เลือก", function() --Selects Currently Equipped Units!
-        Settings.SelectedUnits = {
-            U1 = "nil",
-            U2 = "nil",
-            U3 = "nil",
-            U4 = "nil",
-            U5 = "nil",
-            U6 = "nil"
-        }
-        saveSettings()
-        GetUnits()
-    end)
-    function switchteam(string)
-        local args = { [1] = string }
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.switch_team_loadout:InvokeServer(unpack(args))
-    end
-    local a = SelectUnits:Cheat("Dropdown", "🧙 เลือกทีม",function(preset)
-        Settings.SelectedPreset = preset
-        print(preset)
-        saveSettings()
-    end, { 
-        options = { "ทีม 1", "ทีม 2", "ทีม 3", "ทีม 4","ทีม 5" }, 
-        default = Settings.SelectedPreset
-    })
-    SelectUnits:Cheat("Button", "⌛ เปลี่ยนทีม", function() --loads preset
-        preset = Settings.SelectedPreset
-        if preset == "ทีม 1" then
-            switchteam("1")
-        elseif preset == "ทีม 2" then
-            switchteam("2")
-        elseif preset == "ทีม 3" then
-            switchteam("3")
-        elseif preset == "ทีม 4" then
-            switchteam("4")
-        elseif preset == "ทีม 5" then
-            switchteam("5")
         end
-        print(preset)
-        GetUnits()
-    end)
-end
 
-SelectUnits:Cheat("Checkbox","🦸 Auto Save Unit เวลาเปลี่ยนตัว  ", function(bool)
-    warn("Auto Save Unit set to " .. tostring(bool))
-    Settings.AutoSaveUnit = bool
-    saveSettings()
-end,{enabled = Settings.AutoSaveUnit })
-
--- End of Unit Section Function
-
--- Start of Auto Save Unit Function
-function AutoSaveUnit()
-    if Settings.AutoSaveUnit then
-        local function saveUnit()
-        -- Generate Selected Unit Parameters
-        if Settings.SelectedUnits == nil then
-            Settings.SelectedUnits = {}
-            for i = 1, 6, 1 do
-                Settings.SelectedUnits["UP" .. i] = "nil"
+        local function Equip()
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.unequip_all:InvokeServer()
+            
+            for i = 1, 6 do
+                local unitinfo = getgenv().SelectedUnits["U" .. i]
+                warn(unitinfo)
+                if unitinfo ~= nil then
+                    local unitinfo_ = unitinfo:split(" #")
+                    task.wait(0.5)
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.equip_unit:InvokeServer(unitinfo_[2])
+                end
             end
-        else
-            -- Reset Selected Unit List to nil
-            for i = 1, 6, 1 do
-                Settings.SelectedUnits["UP" .. i] = "nil"
-            end
+            updatejson()
         end
+
+        autoFarmTab:CreateButton({
+            Name = "Select Equipped Units", 
+            Callback = function()
+                for i, v in ipairs(game:GetService("Players").LocalPlayer.PlayerGui["spawn_units"].Lives.Frame.Units:GetChildren()) do
+                    if v:IsA("ImageButton") then
+                        local unitxx = v.Main.petimage.WorldModel:GetChildren()[1]
+                        if unitxx ~= nil then
+                            if Check(unitxx.Name,v) then
+                                print(unitxx, v)
+                            end
+                        end
+                    end
+                end
                 
-        -- Transfer Equipped Units to Selected Unit List and Save to JSON
-        for i, v in pairs(getgenv().profile_data.equipped_units) do
-            if v.equipped_slot then
-                Settings.SelectedUnits["UP" .. tostring(v.equipped_slot)] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
-                print("UP" .. tostring(v.equipped_slot) .. " " .. tostring(v.unit_id) .. " #" .. tostring(v.uuid))
+                RayfieldLib:Notify({
+                Title = "Equipped Units Are Selected!",
+                Content = "The dropdowns may not show the unit names now, but it will show next time you execute!",
+                Duration = 6.5,
+                Image = 4483362458,
+                Actions = { -- Notification Buttons
+                    Ignore = {
+                        Name = "Okay!",
+                        Callback = function()
+                            print("The user tapped Okay!")
+                        end},
+                    },
+                })
             end
+        })
+
+        local drop = autoFarmTab:CreateDropdown({
+            Name = "Unit 1",
+            Options = Units,
+            CurrentOption = getgenv().SelectedUnits["U1"] or "nil",
+            Callback = function(selectedUnit)
+                getgenv().SelectedUnits["U1"] = selectedUnit
+                Equip()
+                Dropdown:Set(selectedUnit)
+            end,
+        })
+
+        local drop2 = autoFarmTab:CreateDropdown({
+            Name = "Unit 2",
+            Options = Units,
+            CurrentOption = getgenv().SelectedUnits["U2"] or "nil",
+            Callback = function(selectedUnit)
+                getgenv().SelectedUnits["U2"] = selectedUnit
+                Equip()
+                Dropdown:Set(selectedUnit)
+            end,
+        })
+
+        local drop3 = autoFarmTab:CreateDropdown({
+            Name = "Unit 3",
+            Options = Units,
+            CurrentOption = getgenv().SelectedUnits["U3"] or "nil",
+            Callback = function(selectedUnit)
+                getgenv().SelectedUnits["U3"] = selectedUnit
+                Equip()
+                Dropdown:Set(selectedUnit)
+            end,
+        })
+
+        local drop4 = autoFarmTab:CreateDropdown({
+            Name = "Unit 4",
+            Options = Units,
+            CurrentOption = getgenv().SelectedUnits["U4"] or "nil",
+            Callback = function(selectedUnit)
+                getgenv().SelectedUnits["U4"] = selectedUnit
+                Equip()
+                Dropdown:Set(selectedUnit)
+            end,
+        })
+
+        local axx =  game.Players.LocalPlayer.PlayerGui["spawn_units"].Lives.Main.Desc.Level.Text:split(" ")
+        _G.drop5 = nil
+        _G.drop6 = nil
+
+        if tonumber(axx[2]) >= 20 then
+            _G.drop5 = autoFarmTab:CreateDropdown({
+                Name = "Unit 5",
+                Options = Units,
+                CurrentOption = getgenv().SelectedUnits["U5"] or "nil",
+                Callback = function(selectedUnit)
+                    getgenv().SelectedUnits["U5"] = selectedUnit
+                    Equip()
+                    Dropdown:Set(selectedUnit)
+                end,
+            })
         end
-        saveSettings()
+
+        if tonumber(axx[2]) >= 50 then
+            _G.drop6 = autoFarmTab:CreateDropdown({
+                Name = "Unit 6",
+                Options = Units,
+                CurrentOption = getgenv().SelectedUnits["U6"] or "nil",
+                Callback = function(selectedUnit)
+                    getgenv().SelectedUnits["U6"] = selectedUnit
+                    Equip()
+                    Dropdown:Set(selectedUnit)
+                end,
+            })
+        end
+
+        local selectWorldSection = autoFarmTab:CreateSection("Select World")
+
+        getgenv().levels = {"nil"}
+
+        getgenv().diff = autoFarmTab:CreateDropdown({
+            Name = "Select Difficulty",
+            Options = {"Normal", "Hard"},
+            CurrentOption = getgenv().difficulty,
+            Callback = function(diff)
+                getgenv().difficulty = diff
+                updatejson()
+            end,
+        })
+
+        local worlddrop = autoFarmTab:CreateDropdown({
+            Name = "Select World", 
+            Options = {"Planet Namak", "Shiganshinu District", "Snowy Town","Hidden Sand Village", "Marine's Ford",
+        "Ghoul City", "Hollow World", "Ant Kingdom", "Magic Town", "Cursed Academy","Clover Kingdom", "Clover Legend - HARD","Hollow Legend - HARD","Cape Canaveral", "Alien Ship"},
+        CurrentOption = getgenv().world, 
+        Callback = function(world)
+            getgenv().world = world
+            updatejson()
+
+            if world == "Planet Namak" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"namek_infinite", "namek_level_1", "namek_level_2", "namek_level_3",
+                                    "namek_level_4", "namek_level_5", "namek_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Shiganshinu District" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"aot_infinite", "aot_level_1", "aot_level_2", "aot_level_3", "aot_level_4",
+                                    "aot_level_5", "aot_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Snowy Town" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"demonslayer_infinite", "demonslayer_level_1", "demonslayer_level_2",
+                                    "demonslayer_level_3", "demonslayer_level_4", "demonslayer_level_5",
+                                    "demonslayer_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Hidden Sand Village" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"naruto_infinite", "naruto_level_1", "naruto_level_2", "naruto_level_3",
+                                    "naruto_level_4", "naruto_level_5", "naruto_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Marine's Ford" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"marineford_infinite","marineford_level_1","marineford_level_2","marineford_level_3",
+                "marineford_level_4","marineford_level_5","marineford_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Ghoul City" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"tokyoghoul_infinite","tokyoghoul_level_1","tokyoghoul_level_2","tokyoghoul_level_3",
+                                    "tokyoghoul_level_4","tokyoghoul_level_5","tokyoghoul_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Hollow World" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"hueco_infinite","hueco_level_1","hueco_level_2","hueco_level_3",
+                                    "hueco_level_4","hueco_level_5","hueco_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Ant Kingdom" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"hxhant_infinite","hxhant_level_1","hxhant_level_2","hxhant_level_3",
+                                    "hxhant_level_4","hxhant_level_5","hxhant_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+               
+            elseif world == "Magic Town" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"magnolia_infinite","magnolia_level_1","magnolia_level_2","magnolia_level_3",
+                                    "magnolia_level_4","magnolia_level_5","magnolia_level_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Cursed Academy" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"jjk_infinite","jjk_level_1","jjk_level_2","jjk_level_3",
+                                    "jjk_level_4","jjk_level_5","jjk_level_6","jjk_finger"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Clover Kingdom" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"clover_infinite","clover_level_1","clover_level_2","clover_level_3",
+                                    "clover_level_4","clover_level_5","clover_level_6",}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Clover Legend - HARD" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"clover_legend_1","clover_legend_2","clover_legend_3",}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Hollow Legend - HARD" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Cape Canaveral" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"jojo_infinite","jojo_level_1","jojo_level_2","jojo_level_3","jojo_level_4","jojo_level_5","jojo_level_6",}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+			elseif world == "Alien Ship" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"opm_infinite","opm_level_1","opm_level_2","opm_level_3","opm_level_4","opm_level_5","opm_level_6","opm_portal"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Clover Kingdom [Elf Invasion]" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"clover_legend_1","clover_legend_2","clover_legend_3",}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Hollow Invasion" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+            elseif world == "Cape Canaveral [Legend]" then
+                getgenv().leveldrop:Clear()
+                table.clear(levels)
+                getgenv().levels = {"jojo_legend_1","jojo_legend_2","jojo_legend_3","jojo_portal_pucci"}
+                for i, v in ipairs(levels) do
+                    getgenv().leveldrop:Add(v)
+                end
+			end
+        end})
+        
+        getgenv().leveldrop = autoFarmTab:CreateDropdown({
+            Name = "Select Level", 
+            Options = getgenv().levels, 
+            CurrentOption = getgenv().level, 
+            Callback = function(level)
+                getgenv().level = level
+                updatejson()
+            end})
+
+
+		--------------------------------------------------
+		------------------ Auto Farm Tab -----------------
+		--------------------------------------------------
+        
+        local autoFarmSection = autoFarmTab:CreateSection("Auto-Farm")
+		
+		autoFarmTab:CreateToggle({
+            Name = "Alt Mode", 
+            CurrentValue = getgenv().altMode, 
+            Callback = function(bool)
+                getgenv().altMode = bool
+                updatejson()
+            end})
+		
+        autoFarmTab:CreateToggle({
+            Name = "Auto Continue", 
+            CurrentValue = getgenv().AutoContinue, 
+            Callback = function(bool)
+                getgenv().AutoContinue = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Replay", 
+            CurrentValue = getgenv().AutoReplay, 
+            Callback = function(bool)
+                getgenv().AutoReplay = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Leave", 
+            CurrentValue = getgenv().AutoLeave, 
+            Callback = function(bool)
+                getgenv().AutoLeave = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Farm Event", 
+            CurrentValue = getgenv().AutoFarmTP, 
+            Callback = function(bool)
+                getgenv().AutoFarmTP = bool
+                updatejson()
+            end})
+        
+        autoFarmTab:CreateToggle({
+            Name = "Auto Start Infinity Castle", 
+            CurrentValue = getgenv().AutoFarmIC, 
+            Callback = function(bool)
+                getgenv().AutoFarmIC = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Farm", 
+            CurrentValue = getgenv().AutoFarm, 
+            Callback = function(bool)
+                getgenv().AutoFarm = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Start", 
+            CurrentValue = getgenv().autoStart, 
+            Callback = function(bool)
+                getgenv().autoStart = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Abilities", 
+            CurrentValue = getgenv().autoabilities, 
+            Callback = function(bool)
+                getgenv().autoabilities = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Upgrade Units", 
+            CurrentValue = getgenv().autoUpgrade, 
+            Callback = function(bool)
+                getgenv().autoUpgrade = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Sell at Specific Wave", 
+            CurrentValue = getgenv().autoabilities, 
+            Callback = function(bool)
+                getgenv().autoSell = bool
+                updatejson()
+                if getgenv().autoSell == false then
+                    getgenv().disableAutoFarm = false
+                end
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Quit at Specific Wave", 
+            CurrentValue = getgenv().autoQuit, 
+            Callback = function(bool)
+                getgenv().autoQuit = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateInput({
+            Name = "Select Wave Number for Auto Sell {Press Enter}", 
+            PlaceholderText = tostring(getgenv().sellatwave), 
+            RemoveTextAfterFocusLost = false,
+            Callback = function(t)
+                getgenv().sellatwave = tonumber(t)
+                updatejson()
+            end})
+
+        autoFarmTab:CreateInput({
+            Name = "Select Wave Number for Auto Quit {Press Enter}", 
+            PlaceholderText = tostring(getgenv().quitAtWave), 
+            RemoveTextAfterFocusLost = false,
+            Callback = function(t)
+                getgenv().quitAtWave = tonumber(t)
+                updatejson()
+            end})
+
+        local autoLoadSection = autoFarmTab:CreateSection("Auto Load Script")
+		autoFarmTab:CreateLabel("This Automatically executes script when you teleport to the main area.")
+        autoFarmTab:CreateLabel("You don't need to put the script in your autoexec folder!")
+        autoFarmTab:CreateToggle({
+            Name = "Auto Load Script",
+            CurrentValue = getgenv().AutoLoadTP,
+            Callback =  function(bool)
+                getgenv().AutoLoadTP = bool
+                updatejson()
+                if exec == "Synapse X" and getgenv().AutoLoadTP then
+                    syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+
+                    if exec == "Synapse X" then
+                        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+                        RayfieldLib:Notify({
+                            Title = "Queued to Auto-Attach on Teleport!",
+                            Content =  "Success",
+                            Duration = 6.5,
+                            Actions = { -- Notification Buttons
+                                Ignore = {
+                                    Name = "Okay!",
+                                    Callback = function()
+                                        print("The user tapped Okay!")
+                                    end
+                                }
+                            }
+                        })
+                    end
+
+                elseif exec ~= "Synapse X" and getgenv().AutoLoadTP then
+                    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+                end
+
+        end})
+        autoFarmTab:CreateLabel("If it doesn't work properly, then put the script in autoexec folder.")
+
+        
+
+
+
+        --------------------------------------------
+        
+        local autoChallengeSection = autoFarmTab:CreateSection("Auto-Challenge")
+        
+        autoFarmTab:CreateToggle({
+            Name = "Auto Challenge", 
+            CurrentValue = getgenv().AutoChallenge, 
+            Callback = function(bool)
+                getgenv().AutoChallenge = bool
+                updatejson()
+            end})
+        
+        local worlddrop = autoFarmTab:CreateDropdown({
+            Name = "Select Reward",
+            Options = {"star_fruit_random","star_remnant","gems", "gold"},
+            CurrentOption = getgenv().selectedreward, 
+            Callback = function(reward)
+                getgenv().selectedreward = reward
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Farm All Rewards", 
+            CurrentValue = getgenv().AutoChallengeAll, 
+            Callback = function(bool)
+                getgenv().AutoChallengeAll = bool
+                updatejson()
+            end})
+        
+        getgenv().UnitSellTog = false
+        getgenv().autosummontickets = false
+        getgenv().autosummongem = false
+        getgenv().autosummongem10 = false
+
+        getgenv().autosummonticketse = false
+        getgenv().autosummongeme = false
+        getgenv().autosummongem10e = false
+
+        local autoBuySellSection = autoFarmTab:CreateSection("Auto Buy/Sell")
+
+
+        local function autobuyfunc(xx, item)
+            task.wait()
+
+            local args = {
+                [1] = xx,
+                [2] = item
+            }
+            game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_from_banner:InvokeServer(unpack(args))
+            
+        end
+
+        autoFarmTab:CreateLabel("Special Banner - 2x Mythic")
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Use Ticket}",
+            CurrentValue =  getgenv().autosummonticketse, 
+            Callback = function(bool)
+                getgenv().autosummonticketse = bool
+                while getgenv().autosummonticketse do
+                    autobuyfunc("EventClover", "ticket")
+                end
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Buy 1}", 
+            CurrentValue = getgenv().autosummongeme,
+            Callback = function(bool)
+            getgenv().autosummongeme = bool
+            while getgenv().autosummongeme do
+                autobuyfunc("EventClover", "gems")
+            end
+            updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Buy 10}", 
+            CurrentValue = getgenv().autosummongem10e,
+            Callback = function(bool)
+                getgenv().autosummongem10e = bool
+                while getgenv().autosummongem10e do
+                    autobuyfunc("EventClover", "gems10")
+                end
+                updatejson()
+            end})
+
+        autoFarmTab:CreateLabel("Standard Banner")
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Use Ticket}",
+            CurrentValue = getgenv().autosummontickets, 
+            Callback = function(bool)
+                getgenv().autosummontickets = bool
+                while getgenv().autosummontickets do
+                    autobuyfunc("EventClover", "ticket")
+                end
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Buy 1}", 
+            CurrentValue = getgenv().autosummongem,
+            Callback = function(bool)
+            getgenv().autosummongem = bool
+            while getgenv().autosummongem do
+                autobuyfunc("EventClover", "gems")
+            end
+            updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Summon {Buy 10}", 
+            CurrentValue = getgenv().autosummongem10,
+            Callback = function(bool)
+                getgenv().autosummongem10 = bool
+                while getgenv().autosummongem10 do
+                    autobuyfunc("EventClover", "gems10")
+                end
+                updatejson()
+            end})
+
+        autoFarmTab:CreateLabel("Sell Units")
+        local utts = autoFarmTab:CreateDropdown({
+            Name = "Select Rarity", 
+            Options = {"Rare", "Epic"}, 
+            CurrentOption = tostring(getgenv().UnitToSell), 
+            Callback = function(u)
+                getgenv().UnitToSell = u
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Sell Units", 
+            CurrentValue = getgenv().UnitSellTog, 
+            Callback = function(bool)
+                getgenv().UnitSellTog = bool
+            end}) 
+		
+		local webhookSection = webhookTab:CreateSection("Webhooks")
+		
+		webhookTab:CreateLabel("Webhooks send notifications in Discord everytime a game is finished!")
+			
+		local webhookPlaceholder
+
+		if getgenv().webUrl == "" then
+			webhookPlaceholder = "Insert URL here!"
+		else
+			webhookPlaceholder = "Good to go!"
+		end
+		webhookTab:CreateInput({
+			Name = "Webhook URL {Press Enter}" , 
+			PlaceholderText = webhookPlaceholder, 
+			RemoveTextAfterFocusLost = false, 
+			Callback = function(web_url)
+				getgenv().webUrl = web_url
+				updatejson()
+		end})
+		
+		local sniperWebhookPlaceholder
+		if getgenv().sniperUrl == "" then
+			sniperWebhookPlaceholder = "Insert URL here!"
+		else
+			sniperWebhookPlaceholder = "Good to go!"
+		end
+	
+		webhookTab:CreateInput({
+			Name = "Sniper Webhook URL {Press Enter}" , 
+			PlaceholderText = sniperWebhookPlaceholder, 
+			RemoveTextAfterFocusLost = false, 
+			Callback = function(sniper_url)
+				getgenv().sniperUrl = sniper_url
+				updatejson()
+		end})
+	
+		webhookTab:CreateButton({
+			Name = "Test Regular Webhooks", 
+			Callback = function()
+				Webhook()
+				BabyWebhook()
+				NormalItemWebhook(true)
+				UniqueItemWebhook(true)
+			end})
+	
+		webhookTab:CreateButton({
+			Name = "Test Sniper Webhooks", 
+			Callback = function()
+				ShopSniperWebhook(true)
+				SpecialSummonSniperWebhook(true)
+				StandardSummonSniperWebhook(true)
+			end})
+
+		getgenv().lockAutoFunctions = false
+
+	else -- When in a match
+		unitPlacementTab = mainWindow:CreateTab("Unit Placement Settings")
+		local Paragraph = unitPlacementTab:CreateParagraph({Title = "How to Use", 
+															Content = "Placement Priority: If multiple units can be placed with current money, prioritizes higher numbered unit.\nUpgrade Priority: Same concept as Placement Priority.\nPlace From Wave: Will not place a unit until this wave.\nUpgrade From Wave: Will not upgrade a unit until this wave.\nUpgrade Cap: Will not upgrade a unit past this level."})
+		unitOneSection = unitPlacementTab:CreateSection("Unit 1 - " .. getgenv().SelectedUnits["U1"]:split(" #")[1])
+
+		unitOnePlacementPriority = unitPlacementTab:CreateInput({
+			Name = "Placement Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U1"]["placementPriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placementPriority)
+				getgenv().unitPlacementSettings["U1"]["placementPriority"] = placementPriority
+				updatejson()
+			end,
+		})
+
+		unitOneUpgradePriority = unitPlacementTab:CreateInput({
+			Name = "Upgrade Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U1"]["upgradePriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradePriority)
+				getgenv().unitPlacementSettings["U1"]["upgradePriority"] = upgradePriority
+				updatejson()
+			end,
+		})
+
+		unitOnePlaceFromWave = unitPlacementTab:CreateInput({
+			Name = "Place From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U1"]["placeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placeFromWave)
+				getgenv().unitPlacementSettings["U1"]["placeFromWave"] = placeFromWave
+				updatejson()
+			end,
+		})
+
+		unitOneUpgradeFromWave = unitPlacementTab:CreateInput({
+			Name = "Upgrade From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U1"]["upgradeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeFromWave)
+				getgenv().unitPlacementSettings["U1"]["upgradeFromWave"] = upgradeFromWave
+				updatejson()
+			end,
+		})
+
+		unitOneUpgradeCap = unitPlacementTab:CreateInput({
+			Name = "Upgrade Cap",
+			PlaceholderText = getgenv().unitPlacementSettings["U1"]["upgradeCap"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeCap)
+				getgenv().unitPlacementSettings["U1"]["upgradeCap"] = upgradeCap
+				updatejson()
+			end,
+		})
+
+		unitTwoSection = unitPlacementTab:CreateSection("Unit 2 - " .. getgenv().SelectedUnits["U2"]:split(" #")[1])
+
+		unitTwoPlacementPriority = unitPlacementTab:CreateInput({
+			Name = "Placement Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U2"]["placementPriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placementPriority)
+				getgenv().unitPlacementSettings["U2"]["placementPriority"] = placementPriority
+				updatejson()
+			end,
+		})
+
+		unitTwoUpgradePriority = unitPlacementTab:CreateInput({
+			Name = "Upgrade Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U2"]["upgradePriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradePriority)
+				getgenv().unitPlacementSettings["U2"]["upgradePriority"] = upgradePriority
+				updatejson()
+			end,
+		})
+
+		unitTwoPlaceFromWave = unitPlacementTab:CreateInput({
+			Name = "Place From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U2"]["placeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placeFromWave)
+				getgenv().unitPlacementSettings["U2"]["placeFromWave"] = placeFromWave
+				updatejson()
+			end,
+		})
+
+		unitTwoUpgradeFromWave = unitPlacementTab:CreateInput({
+			Name = "Upgrade From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U2"]["upgradeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeFromWave)
+				getgenv().unitPlacementSettings["U2"]["upgradeFromWave"] = upgradeFromWave
+				updatejson()
+			end,
+		})
+
+		unitTwoUpgradeCap = unitPlacementTab:CreateInput({
+			Name = "Upgrade Cap",
+			PlaceholderText = getgenv().unitPlacementSettings["U2"]["upgradeCap"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeCap)
+				getgenv().unitPlacementSettings["U2"]["upgradeCap"] = upgradeCap
+				updatejson()
+			end,
+		})
+
+		unitThreeSection = unitPlacementTab:CreateSection("Unit 3 - " .. getgenv().SelectedUnits["U3"]:split(" #")[1])
+
+		unitThreePlacementPriority = unitPlacementTab:CreateInput({
+			Name = "Placement Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U3"]["placementPriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placementPriority)
+				getgenv().unitPlacementSettings["U3"]["placementPriority"] = placementPriority
+				updatejson()
+			end,
+		})
+
+		unitThreeUpgradePriority = unitPlacementTab:CreateInput({
+			Name = "Upgrade Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U3"]["upgradePriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradePriority)
+				getgenv().unitPlacementSettings["U3"]["upgradePriority"] = upgradePriority
+				updatejson()
+			end,
+		})
+
+		unitThreePlaceFromWave = unitPlacementTab:CreateInput({
+			Name = "Place From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U3"]["placeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placeFromWave)
+				getgenv().unitPlacementSettings["U3"]["placeFromWave"] = placeFromWave
+				updatejson()
+			end,
+		})
+
+		unitThreeUpgradeFromWave = unitPlacementTab:CreateInput({
+			Name = "Upgrade From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U3"]["upgradeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeFromWave)
+				getgenv().unitPlacementSettings["U3"]["upgradeFromWave"] = upgradeFromWave
+				updatejson()
+			end,
+		})
+
+		unitThreeUpgradeCap = unitPlacementTab:CreateInput({
+			Name = "Upgrade Cap",
+			PlaceholderText = getgenv().unitPlacementSettings["U3"]["upgradeCap"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeCap)
+				getgenv().unitPlacementSettings["U3"]["upgradeCap"] = upgradeCap
+				updatejson()
+			end,
+		})
+
+		unitFourSection = unitPlacementTab:CreateSection("Unit 4 - " .. getgenv().SelectedUnits["U4"]:split(" #")[1])
+
+		unitFourPlacementPriority = unitPlacementTab:CreateInput({
+			Name = "Placement Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U4"]["placementPriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placementPriority)
+				getgenv().unitPlacementSettings["U4"]["placementPriority"] = placementPriority
+				updatejson()
+			end,
+		})
+
+		unitFourUpgradePriority = unitPlacementTab:CreateInput({
+			Name = "Upgrade Priority",
+			PlaceholderText = getgenv().unitPlacementSettings["U4"]["upgradePriority"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradePriority)
+				getgenv().unitPlacementSettings["U4"]["upgradePriority"] = upgradePriority
+				updatejson()
+			end,
+		})
+
+		unitFourPlaceFromWave = unitPlacementTab:CreateInput({
+			Name = "Place From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U4"]["placeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(placeFromWave)
+				getgenv().unitPlacementSettings["U4"]["placeFromWave"] = placeFromWave
+				updatejson()
+			end,
+		})
+
+		unitFourUpgradeFromWave = unitPlacementTab:CreateInput({
+			Name = "Upgrade From Wave",
+			PlaceholderText = getgenv().unitPlacementSettings["U4"]["upgradeFromWave"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeFromWave)
+				getgenv().unitPlacementSettings["U4"]["upgradeFromWave"] = upgradeFromWave
+				updatejson()
+			end,
+		})
+
+		unitFourUpgradeCap = unitPlacementTab:CreateInput({
+			Name = "Upgrade Cap",
+			PlaceholderText = getgenv().unitPlacementSettings["U4"]["upgradeCap"],
+			RemoveTextAfterFocusLost = false,
+			Callback = function(upgradeCap)
+				getgenv().unitPlacementSettings["U4"]["upgradeCap"] = upgradeCap
+				updatejson()
+			end,
+		})
+
+		if tonumber(game.Players.LocalPlayer.PlayerGui["spawn_units"].Lives.Main.Desc.Level.Text:split(" ")[2]) >= 20 then
+			unitFiveSection = unitPlacementTab:CreateSection("Unit 5 - " .. getgenv().SelectedUnits["U5"]:split(" #")[1])
+
+			unitFivePlacementPriority = unitPlacementTab:CreateInput({
+				Name = "Placement Priority",
+				PlaceholderText = getgenv().unitPlacementSettings["U5"]["placementPriority"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(placementPriority)
+					getgenv().unitPlacementSettings["U5"]["placementPriority"] = placementPriority
+					updatejson()
+				end,
+			})
+
+			unitFiveUpgradePriority = unitPlacementTab:CreateInput({
+				Name = "Upgrade Priority",
+				PlaceholderText = getgenv().unitPlacementSettings["U5"]["upgradePriority"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradePriority)
+					getgenv().unitPlacementSettings["U5"]["upgradePriority"] = upgradePriority
+					updatejson()
+				end,
+			})
+
+			unitFivePlaceFromWave = unitPlacementTab:CreateInput({
+				Name = "Place From Wave",
+				PlaceholderText = getgenv().unitPlacementSettings["U5"]["placeFromWave"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(placeFromWave)
+					getgenv().unitPlacementSettings["U5"]["placeFromWave"] = placeFromWave
+					updatejson()
+				end,
+			})
+
+			unitFiveUpgradeFromWave = unitPlacementTab:CreateInput({
+				Name = "Upgrade From Wave",
+				PlaceholderText = getgenv().unitPlacementSettings["U5"]["upgradeFromWave"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradeFromWave)
+					getgenv().unitPlacementSettings["U5"]["upgradeFromWave"] = upgradeFromWave
+					updatejson()
+				end,
+			})
+
+			unitFiveUpgradeCap = unitPlacementTab:CreateInput({
+				Name = "Upgrade Cap",
+				PlaceholderText = getgenv().unitPlacementSettings["U5"]["upgradeCap"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradeCap)
+					getgenv().unitPlacementSettings["U5"]["upgradeCap"] = upgradeCap
+					updatejson()
+				end,
+			})
+		end
+
+		if tonumber(game.Players.LocalPlayer.PlayerGui["spawn_units"].Lives.Main.Desc.Level.Text:split(" ")[2]) >= 50 then
+			unitSixSection = unitPlacementTab:CreateSection("Unit 6 - " .. getgenv().SelectedUnits["U6"]:split(" #")[1])
+		
+			unitSixPlacementPriority = unitPlacementTab:CreateInput({
+				Name = "Placement Priority",
+				PlaceholderText = getgenv().unitPlacementSettings["U6"]["placementPriority"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(placementPriority)
+					getgenv().unitPlacementSettings["U6"]["placementPriority"] = placementPriority
+					updatejson()
+				end,
+			})
+		
+			unitSixUpgradePriority = unitPlacementTab:CreateInput({
+				Name = "Upgrade Priority",
+				PlaceholderText = getgenv().unitPlacementSettings["U6"]["upgradePriority"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradePriority)
+					getgenv().unitPlacementSettings["U6"]["upgradePriority"] = upgradePriority
+					updatejson()
+				end,
+			})
+		
+			unitSixPlaceFromWave = unitPlacementTab:CreateInput({
+				Name = "Place From Wave",
+				PlaceholderText = getgenv().unitPlacementSettings["U6"]["placeFromWave"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(placeFromWave)
+					getgenv().unitPlacementSettings["U6"]["placeFromWave"] = placeFromWave
+					updatejson()
+				end,
+			})
+		
+			unitSixUpgradeFromWave = unitPlacementTab:CreateInput({
+				Name = "Upgrade From Wave",
+				PlaceholderText = getgenv().unitPlacementSettings["U6"]["upgradeFromWave"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradeFromWave)
+					getgenv().unitPlacementSettings["U6"]["upgradeFromWave"] = upgradeFromWave
+					updatejson()
+				end,
+			})
+		
+			unitSixUpgradeCap = unitPlacementTab:CreateInput({
+				Name = "Upgrade Cap",
+				PlaceholderText = getgenv().unitPlacementSettings["U6"]["upgradeCap"],
+				RemoveTextAfterFocusLost = false,
+				Callback = function(upgradeCap)
+					getgenv().unitPlacementSettings["U6"]["upgradeCap"] = upgradeCap
+					updatejson()
+				end,
+			})
+		end
+		
+
+		if getgenv().recordMacroOnTeleport then
+			getgenv().recordMacroOnTeleport = false
+			getgenv().recordingMacro = true
+			updatejson()
+		else
+			getgenv().recordingMacro = false
+			updatejson()
+		end
+
+		if getgenv().replayMacroOnTeleport then
+			if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
+				loadfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])])()
+			else
+				RayfieldLib:Notify({
+					Title = "No macro for level " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]),
+					Content = "No macro for this level!",
+					Duration = 6.5
+				})
+			end
+		end
+
+		if getgenv().recordingMacro then
+			getgenv().lockAutoFunctions = true
+			updatejson()
+			writeMacroToFile(tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y%m%d-%H%M%S')).."-"..game.Players.LocalPlayer.Name..".lua")
+			RayfieldLib:Notify({
+				Title = "Recording macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y-%m-%d %H:%M:%S'))..".lua",
+				Content = "Starting Recording",
+				Duration = 6.5
+			})
+			autoMacroTab:CreateLabel("Recording Macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["map"]).."-"..tostring(os.date('%Y-%m-%d %H:%M:%S'))..".lua")
+		end
+		
+        game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
+        game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
+    
+        local autoLoadSection = autoFarmTab:CreateSection("Auto Load Script")
+		autoFarmTab:CreateLabel("This automatically executes script when you teleport to the main area.")
+        autoFarmTab:CreateLabel("You don't need to put the script in your autoexec folder!")
+        autoFarmTab:CreateToggle({
+            Name = "Auto Load Script", 
+            CurrentValue = getgenv().AutoLoadTP, 
+            Callback = function(bool)
+                getgenv().AutoLoadTP = bool
+                updatejson()
+                if exec == "Synapse X" and getgenv().AutoLoadTP then
+                    syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+                    if exec == "Synapse X" then
+                        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+                        RayfieldLib:Notify({
+                            Title = "Queued to Auto-Attach on Teleport!",
+                            Content =  "Success",
+                            Duration = 6.5
+                        })
+                    end
+
+                elseif exec ~= "Synapse X" and getgenv().AutoLoadTP then
+                    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+                end
+            end})
+
+        autoFarmTab:CreateLabel("If it doesn't work properly, then put the script in the autoexec folder!")
+
+        local autoFarmSection = autoFarmTab:CreateSection("Auto Farm")
+
+        --#region Auto Farm Tab
+        autoFarmTab:CreateToggle({
+            Name = "Auto Continue", 
+            CurrentValue = getgenv().AutoContinue, 
+            Callback = function(bool)
+                getgenv().AutoContinue = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Replay", 
+            CurrentValue = getgenv().AutoReplay, 
+            Callback = function(bool)
+                getgenv().AutoReplay = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Leave", 
+            CurrentValue = getgenv().AutoLeave, 
+            Callback = function(bool)
+                getgenv().AutoLeave = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Farm Event", 
+            CurrentValue = getgenv().AutoFarmTP, 
+            Callback = function(bool)
+                getgenv().AutoFarmTP = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Start Infinity Castle", 
+            CurrentValue = getgenv().AutoFarmIC, 
+            Callback = function(bool)
+                getgenv().AutoFarmIC = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Farm", 
+            CurrentValue = getgenv().AutoFarm, 
+            Callback = function(bool)
+                getgenv().AutoFarm = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Start", 
+            CurrentValue = getgenv().autoStart, 
+            Callback = function(bool)
+                getgenv().autoStart = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Abilities", 
+            CurrentValue = getgenv().autoabilities, 
+            Callback = function(bool)
+                getgenv().autoabilities = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Upgrade Units", 
+            CurrentValue = getgenv().autoUpgrade, 
+            Callback = function(bool)
+                getgenv().autoUpgrade = bool
+                updatejson()
+            end})
+
+        local placementSection = autoFarmTab:CreateSection("Set Unit Placements")
+        --// Set Position \\--
+        autoFarmTab:CreateButton({
+            Name = "Set Unit 1 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 1 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP1")
+            end})
+
+        autoFarmTab:CreateButton({
+            Name = "Set Unit 2 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 2 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP2")
+            end})
+
+        autoFarmTab:CreateButton({
+            Name = "Set Unit 3 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 3 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP3")
+            end})
+
+        autoFarmTab:CreateButton({
+            Name = "Set Unit 4 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 4 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP4")
+            end})
+
+        
+        local axxc = game.Players.LocalPlayer.PlayerGui["spawn_units"].Lives.Main.Desc.Level.Text:split(" ")
+
+        if tonumber(axxc[2]) >= 20 then
+            autoFarmTab:CreateButton({
+            Name = "Set Unit 5 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 5 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP5")
+            end})
+        end
+
+        if tonumber(axxc[2]) >= 50 then
+            autoFarmTab:CreateButton({
+            Name = "Set Unit 6 Postion", 
+            Callback = function()
+                RayfieldLib:Notify({
+                    Title = "Set Unit 6 Spawn Position",
+                    Content = "Click on the floor to set the spawn unit position!\n (don't press \"Done\" until you set position)",
+                    Duration = 99999999,
+                    Actions = { -- Notification Buttons
+                        Ignore = {
+                            Name = "Done",
+                            Callback = function()
+                            print("The user tapped Okay!")
+                        end
+                    }
+                }
+            })
+                MouseClick("UP6")
+            end})
+        end
+        
+        local autoSellSection = autoFarmTab:CreateSection("Auto Sell/Quit")
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Sell at Specific Wave", 
+            CurrentValue = getgenv().autoabilities, 
+            Callback = function(bool)
+                getgenv().autoSell = bool
+                updatejson()
+                if getgenv().autoSell == false then
+                    getgenv().disableAutoFarm = false
+                end
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Quit at Specific Wave", 
+            CurrentValue = getgenv().autoQuit, 
+            Callback = function(bool)
+                getgenv().autoQuit = bool
+                updatejson()
+            end})
+
+        autoFarmTab:CreateInput({
+            Name = "Select Wave Number for Auto Sell {Press Enter}", 
+            PlaceholderText = tostring(getgenv().sellatwave), 
+            RemoveTextAfterFocusLost = false,
+            Callback = function(t)
+                getgenv().sellatwave = tonumber(t)
+                updatejson()
+            end})
+
+        autoFarmTab:CreateInput({
+            Name = "Select Wave Number for Auto Quit {Press Enter}", 
+            PlaceholderText = tostring(getgenv().quitAtWave), 
+            RemoveTextAfterFocusLost = false,
+            Callback = function(t)
+                getgenv().quitAtWave = tonumber(t)
+                updatejson()
+            end})
+
+        function MouseClick(UnitPos)
+            local connection
+            local _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
+            connection = UserInputService.InputBegan:Connect(
+                function(input, gameProcessed)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        connection:Disconnect()
+                        local a = Instance.new("Part", game.Workspace)
+                        a.Size = Vector3.new(1, 1, 1)
+                        a.Material = Enum.Material.Neon
+                        a.Position = mouse.hit.p
+                        task.wait()
+                        a.Anchored = true
+                        RayfieldLib:Notify({
+                            Title = "Spawn Unit Position:",
+                            Content =  tostring(a.Position),
+                            Duration = 6.5,
+                            Actions = { -- Notification Buttons
+                                Ignore = {
+                                    Name = "Okay!",
+                                    Callback = function()
+                                        print("The user tapped Okay!")
+                                    end
+                                }
+                            }
+                        })
+                        a.CanCollide = false
+                        for i = 0, 1, 0.1 do
+                            a.Transparency = i
+                            task.wait()
+                        end
+                        a:Destroy()
+
+                        if game.Workspace._map:FindFirstChild("namek mushroom model") then
+                            print("Namak")
+                            SpawnUnitPos["Namak"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Namak"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Namak"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("houses_new") then
+                            print("Aot")
+                            SpawnUnitPos["Aot"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Aot"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Aot"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("Snow Particles") then
+                            print("Snowy")
+                            SpawnUnitPos["Snowy"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Snowy"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Snowy"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("sand_gate") then
+                            warn("Sand")
+                            SpawnUnitPos["Sand"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Sand"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Sand"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("icebergs") then
+                            print("Marine")
+                            SpawnUnitPos["Marine"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Marine"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Marine"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+                            print("Ghoul")
+                            SpawnUnitPos["Ghoul"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Ghoul"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Ghoul"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("Bones/dust") then
+                            print("Hollow")
+                            SpawnUnitPos["Hollow"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Hollow"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Hollow"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+                            print("Ant")
+                            SpawnUnitPos["Ant"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Ant"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Ant"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("light poles") then
+                            print("Magic")
+                            SpawnUnitPos["Magic"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Magic"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Magic"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("LanternsGround") then
+                            print("Cursed")    
+                            SpawnUnitPos["Cursed"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["Cursed"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["Cursed"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("pumpkins") then
+                            print("thriller_park")    
+                            SpawnUnitPos["thriller_park"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["thriller_park"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["thriller_park"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("skeleton") then
+                            print("black_clover")    
+                            SpawnUnitPos["black_clover"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["black_clover"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["black_clover"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("graves") then
+                            print("hollow_leg")    
+                            SpawnUnitPos["hollow_leg"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["hollow_leg"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["hollow_leg"][UnitPos]["z"] = a.Position.Z
+                        elseif game.Workspace._map:FindFirstChild("SpaceCenter") then
+                            print("Cape Canaveral")    
+                            SpawnUnitPos["jojo"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["jojo"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["jojo"][UnitPos]["z"] = a.Position.Z
+						elseif game.Workspace._map:FindFirstChild("Big_Stairs") then
+							print("Chainsaw Man")    
+                            SpawnUnitPos["csm_event"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["csm_event"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["csm_event"][UnitPos]["z"] = a.Position.Z
+						elseif game.Workspace._map:FindFirstChild("Capybara") then
+							print("One Punch Man")    
+                            SpawnUnitPos["opm"][UnitPos]["x"] = a.Position.X
+                            SpawnUnitPos["opm"][UnitPos]["y"] = a.Position.Y
+                            SpawnUnitPos["opm"][UnitPos]["z"] = a.Position.Z
+						end
+                        updatejson()
+                    end
+                end)
+        end
+
+
+        -- set unit position end--
+
+--#endregion
+
+--#region Auto Challenge 
+
+        local autoChallengeSection = autoFarmTab:CreateSection("Auto Challenge")
+
+        autoFarmTab:CreateToggle({
+            Name = "Auto Challenge", 
+            CurrentValue = getgenv().AutoChallenge, 
+            Callback = function(bool)
+                getgenv().AutoChallenge = bool
+                updatejson()
+            end})
+
+        local worlddrop = autoFarmTab:CreateDropdown({
+            Name = "Select Reward",
+            Options = {"star_fruit_random","star_remnant","gems", "gold"},
+            CurrentOption = getgenv().selectedreward, 
+                Callback = function(reward)
+                getgenv().selectedreward = reward
+                updatejson()
+            end})
+
+        autoFarmTab:CreateToggle({
+            Name = "Farm All Rewards", 
+            CurrentValue = getgenv().AutoChallengeAll, 
+            Callback = function(bool)
+                getgenv().AutoChallengeAll = bool
+                updatejson()
+            end})
+
+--#region Webhook
+		--//Webhook Tab (in-game)\\--
+		local webhookSection = webhookTab:CreateSection("Webhooks")
+		webhookTab:CreateLabel("Webhooks send notifications in Discord everytime a game is finished!")
+		
+		local webhookPlaceholder
+		if getgenv().webUrl == "" then
+			webhookPlaceholder = "Insert URL here!"
+		else
+			webhookPlaceholder = "Good to go!"
+		end
+		webhookTab:CreateInput({
+            Name = "Webhook URL {Press Enter}" , 
+            PlaceholderText = webhookPlaceholder, 
+            RemoveTextAfterFocusLost = false, 
+            Callback = function(web_url)
+                getgenv().webUrl = web_url
+                updatejson()
+		end})
+    
+        local sniperWebhookPlaceholder
+		if getgenv().sniperUrl == "" then
+			sniperWebhookPlaceholder = "Insert URL here!"
+		else
+			sniperWebhookPlaceholder = "Good to go!"
+		end
+
+        webhookTab:CreateInput({
+            Name = "Sniper Webhook URL {Press Enter}" , 
+            PlaceholderText = sniperWebhookPlaceholder, 
+            RemoveTextAfterFocusLost = false, 
+            Callback = function(sniper_url)
+                getgenv().sniperUrl = sniper_url
+                updatejson()
+		end})
+
+        webhookTab:CreateButton({
+            Name = "Test Regular Webhooks", 
+            Callback = function()
+                Webhook()
+                BabyWebhook()
+				NormalItemWebhook(true)
+				UniqueItemWebhook(true)
+            end})
+    
+        webhookTab:CreateButton({
+            Name = "Test Sniper Webhooks", 
+            Callback = function()
+                ShopSniperWebhook(true)
+                SpecialSummonSniperWebhook(true)
+                StandardSummonSniperWebhook(true)
+            end})
+--#endregion
+
+
     end
 
-    local function fetchUnit()
-        getgenv().profile_data = { 
-            equipped_units = {}
+--#endregion
+
+	local creditsTab = mainWindow:CreateTab("Credits")
+    local credits = creditsTab:CreateSection("Credits")
+    creditsTab:CreateLabel("Arpon AG#6612")
+    creditsTab:CreateLabel("Forever4D#0001")
+    creditsTab:CreateLabel("Defrag")
+end
+
+--------------------------------------------------
+--------------------------------------------------
+
+---// Checks if file exist or not\\---
+if isfile(saveFileName) then 
+
+    local jsonData = readfile(saveFileName)
+    local data = HttpService:JSONDecode(jsonData)
+
+    MainModule()
+
+else
+--#region CREATES JSON
+    local xdata = {
+		altcount = 3,
+        AutoReplay = false,
+        AutoLeave = false,
+        AutoChallenge = false,
+        selectedreward = "star_fruit_random",
+        AutoChallengeAll = false,
+        autoabilities = false,
+		lockautofunctions = false,
+        autofarmtp = false,
+        webhook = "",
+        sniperwebhook = "",
+        sellatwave = 0,
+        quitAtWave = 0,
+        autoSell = false,
+        autofarm = false,
+        autofarmic = false,
+        autoStart = false,
+        autoloadtp = true,
+        autoUpgrade = false,
+        autocontinue = false,
+        difficulty = "nil",
+        world = "nil",
+		macroworld = "nil",
+        level = "nil",
+		macrolevel = "nil",
+		levelmacros = {},
+        door = "nil",
+        currentmerchantitems = {},
+        currentspecialbannerunits = {},
+        currentstandardbannerunits = {},
+		recordingmacro = false,
+		recordmacroonteleport = false,
+		replaymacroonteleport = false,
+		macrotoreplay = "",
+		altlist = {},
+		mainaccount = "nil",
+		altmode = false,
+		unitplacementsettings = {
+			U1 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			},
+			U2 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			},
+			U3 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			},
+			U4 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			},
+			U5 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			},
+			U6 = {
+				placementPriority = 0,
+				upgradePriority = 0,
+				placeFromWave = 0,
+				upgradeFromWave = 0,
+				upgradeCap = 999
+			}
+		},
+    
+        xspawnUnitPos  = {
+			opm  = {
+				UP1  = {
+				  y  = 1.4244641065597535,
+				  x  = -109.30056762695313,
+				  z  = -54.575347900390628
+			   },
+				UP3  = {
+				  y  = 1.4322717189788819,
+				  x  = -114.2433853149414,
+				  z  = -55.260982513427737
+			   },
+				UP2  = {
+				  y  = 1.7082736492156983,
+				  x  = -127.53932189941406,
+				  z  = -55.277626037597659
+			   },
+				UP6  = {
+				  y  = 1.4487617015838624,
+				  x  = -107.07078552246094,
+				  z  = -51.333045959472659
+			   },
+				UP5  = {
+				  y  = 1.8965977430343629,
+				  x  = -118.5692138671875,
+				  z  = -57.20484161376953
+			   },
+				UP4  = {
+				  y  = 1.4205386638641358,
+				  x  = -105.46223449707031,
+				  z  = -51.20615005493164
+			   }
+			 },
+            csm_event  = {
+				UP1  = {
+				  y  = 1.4244641065597535,
+				  x  = -109.30056762695313,
+				  z  = -54.575347900390628
+			   },
+				UP3  = {
+				  y  = 1.4322717189788819,
+				  x  = -114.2433853149414,
+				  z  = -55.260982513427737
+			   },
+				UP2  = {
+				  y  = 1.7082736492156983,
+				  x  = -127.53932189941406,
+				  z  = -55.277626037597659
+			   },
+				UP6  = {
+				  y  = 1.4487617015838624,
+				  x  = -107.07078552246094,
+				  z  = -51.333045959472659
+			   },
+				UP5  = {
+				  y  = 1.8965977430343629,
+				  x  = -118.5692138671875,
+				  z  = -57.20484161376953
+			   },
+				UP4  = {
+				  y  = 1.4205386638641358,
+				  x  = -105.46223449707031,
+				  z  = -51.20615005493164
+			   }
+			 },
+			 black_clover  = {
+              UP1  = {
+                y  = 1.4244641065597535,
+                x  = -109.30056762695313,
+                z  = -54.575347900390628
+             },
+              UP3  = {
+                y  = 1.4322717189788819,
+                x  = -114.2433853149414,
+                z  = -55.260982513427737
+             },
+              UP2  = {
+                y  = 1.7082736492156983,
+                x  = -127.53932189941406,
+                z  = -55.277626037597659
+             },
+              UP6  = {
+                y  = 1.4487617015838624,
+                x  = -107.07078552246094,
+                z  = -51.333045959472659
+             },
+              UP5  = {
+                y  = 1.8965977430343629,
+                x  = -118.5692138671875,
+                z  = -57.20484161376953
+             },
+              UP4  = {
+                y  = 1.4205386638641358,
+                x  = -105.46223449707031,
+                z  = -51.20615005493164
+             }
+           },
+           hollow_leg = {
+            UP1 = {
+                x = -168.71795654296875,
+                y = 36.04443359375, 
+                z = 564.4705810546875 
+            },
+            UP2 = {
+                x = -161.105712890625, 
+                y = 36.04443359375, 
+                z = 558.4195556640625 
+            },
+            UP3 = {
+                x = -161.05670166015625, 
+                y = 36.04443359375, 
+                z = 546.204833984375 
+               
+            },
+            UP4 = {
+                x = -163.51824951171875, 
+                y = 36.04443359375, 
+                z = 534.6953735351562 
+            },
+            UP5 = {
+                x = -170.02479553222656, 
+                y = 36.04443359375, 
+                z = 528.9660034179688
+            },
+            UP6 = {
+                x = -160.92405700683594, 
+                y = 36.04443359375, 
+                z = 565.2430419921875 
+            }
+           },
+            Cursed  = {
+              UP1  = {
+                y  = 122.78201293945313,
+                x  = 361.69732666015627,
+                z  = -89.76468658447266
+             },
+              UP3  = {
+                y  = 122.73872375488281,
+                x  = 372.2068786621094,
+                z  = -62.877601623535159
+             },
+              UP2  = {
+                y  = 122.73872375488281,
+                x  = 391.6465759277344,
+                z  = -62.87253189086914
+             },
+              UP6  = {
+                y  = 121.5274887084961,
+                x  = 399.4963684082031,
+                z  = -60.31044387817383
+             },
+              UP5  = {
+                y  = 121.6282958984375,
+                x  = 400.8389587402344,
+                z  = -64.46269226074219
+             },
+              UP4  = {
+                y  = 122.73872375488281,
+                x  = 362.14788818359377,
+                z  = -77.3993148803711
+             }
+           },
+            Sand  = {
+              UP1  = {
+                y  = 25.514015197753908,
+                x  = -919.7685546875,
+                z  = 290.9293518066406
+             },
+              UP3  = {
+                y  = 25.518001556396486,
+                x  = -919.7103881835938,
+                z  = 288.1217346191406
+             },
+              UP2  = {
+                y  = 26.06340980529785,
+                x  = -920.3797607421875,
+                z  = 300.7817077636719
+             },
+              UP6  = {
+                y  = 25.528093338012697,
+                x  = -916.4822998046875,
+                z  = 287.9609069824219
+             },
+              UP5  = {
+                y  = 25.71731185913086,
+                x  = -920.7069091796875,
+                z  = 296.8504943847656
+             },
+              UP4  = {
+                y  = 25.508501052856447,
+                x  = -919.2952270507813,
+                z  = 294.7797546386719
+             }
+           },
+            Namak  = {
+              UP1  = {
+                y  = 92.14557647705078,
+                x  = -2931.182861328125,
+                z  = -698.5640869140625
+             },
+              UP3  = {
+                y  = 92.5256118774414,
+                x  = -2950.3916015625,
+                z  = -697.1671142578125
+             },
+              UP2  = {
+                y  = 93.32953643798828,
+                x  = -2940.813720703125,
+                z  = -697.09326171875
+             },
+              UP6  = {
+                y  = 92.16944885253906,
+                x  = -2946.967041015625,
+                z  = -710.122802734375
+             },
+              UP5  = {
+                y  = 92.15478515625,
+                x  = -2947.684326171875,
+                z  = -699.6248779296875
+             },
+              UP4  = {
+                y  = 92.5256118774414,
+                x  = -2950.408935546875,
+                z  = -709.8072509765625
+             }
+           },
+            Hollow  = {
+              UP1  = {
+                y  = 133.10752868652345,
+                x  = -168.9812774658203,
+                z  = -692.3645629882813
+             },
+              UP3  = {
+                y  = 133.09632873535157,
+                x  = -167.3197021484375,
+                z  = -695.4755249023438
+             },
+              UP2  = {
+                y  = 133.50978088378907,
+                x  = -160.6356964111328,
+                z  = -709.1862182617188
+             },
+              UP6  = {
+                y  = 133.08169555664063,
+                x  = -176.02857971191407,
+                z  = -691.7825317382813
+             },
+              UP5  = {
+                y  = 133.0151824951172,
+                x  = -161.20188903808595,
+                z  = -702.9484252929688
+             },
+              UP4  = {
+                y  = 133.17193603515626,
+                x  = -172.60714721679688,
+                z  = -691.3147583007813
+             }
+           },
+            Ant  = {
+              UP1  = {
+                y  = 23.502197265625,
+                x  = -180.23072814941407,
+                z  = 2961.130126953125
+             },
+              UP3  = {
+                y  = 23.855152130126954,
+                x  = -167.0123748779297,
+                z  = 2954.2958984375
+             },
+              UP2  = {
+                y  = 23.637359619140626,
+                x  = -205.69203186035157,
+                z  = 2964.095947265625
+             },
+              UP6  = {
+                y  = 23.31997299194336,
+                x  = -163.1376953125,
+                z  = 2959.968017578125
+             },
+              UP5  = {
+                y  = 23.598222732543947,
+                x  = -170.1063232421875,
+                z  = 2955.477294921875
+             },
+              UP4  = {
+                y  = 23.855152130126954,
+                x  = -156.4979705810547,
+                z  = 2959.6123046875
+             }
+           },
+            Aot  = {
+              UP1  = {
+                y  = 34.25483703613281,
+                x  = -3016.723388671875,
+                z  = -682.4714965820313
+             },
+              UP3  = {
+                y  = 34.442054748535159,
+                x  = -3024.1181640625,
+                z  = -682.2401123046875
+             },
+              UP2  = {
+                y  = 34.387603759765628,
+                x  = -3035.071533203125,
+                z  = -683.9107055664063
+             },
+              UP6  = {
+                y  = 34.25492477416992,
+                x  = -3019.5390625,
+                z  = -681.8257446289063
+             },
+              UP5  = {
+                y  = 34.25492477416992,
+                x  = -3030.930419921875,
+                z  = -683.3449096679688
+             },
+              UP4  = {
+                y  = 34.442054748535159,
+                x  = -3013.065185546875,
+                z  = -681.4302368164063
+             }
+           },
+            Snowy  = {
+              UP1  = {
+                y  = 34.8720588684082,
+                x  = -2884.6103515625,
+                z  = -139.17750549316407
+             },
+              UP3  = {
+                y  = 35.055450439453128,
+                x  = -2871.251708984375,
+                z  = -131.86231994628907
+             },
+              UP2  = {
+                y  = 34.86832046508789,
+                x  = -2863.6240234375,
+                z  = -120.90508270263672
+             },
+              UP6  = {
+                y  = 34.79566192626953,
+                x  = -2853.62548828125,
+                z  = -123.30137634277344
+             },
+              UP5  = {
+                y  = 34.79277038574219,
+                x  = -2853.63232421875,
+                z  = -119.10173034667969
+             },
+              UP4  = {
+                y  = 34.86832046508789,
+                x  = -2878.749755859375,
+                z  = -138.48580932617188
+             }
+           },
+            Ghoul  = {
+              UP1  = {
+                y  = 59.36590576171875,
+                x  = -3008.964111328125,
+                z  = -56.00475311279297
+             },
+              UP3  = {
+                y  = 59.03008270263672,
+                x  = -3008.75732421875,
+                z  = -58.37107849121094
+             },
+              UP2  = {
+                y  = 59.382938385009769,
+                x  = -2998.44140625,
+                z  = -42.68498992919922
+             },
+              UP6  = {
+                y  = 59.03008270263672,
+                x  = -3009.03125,
+                z  = -67.12299346923828
+             },
+              UP5  = {
+                y  = 59.03008270263672,
+                x  = -3007.1025390625,
+                z  = -52.12919998168945
+             },
+              UP4  = {
+                y  = 59.03008270263672,
+                x  = -3008.94580078125,
+                z  = -63.67665100097656
+             }
+           },
+            Magic  = {
+              UP1  = {
+                y  = 7.411101341247559,
+                x  = -606.7291259765625,
+                z  = -815.5218505859375
+             },
+              UP3  = {
+                y  = 7.411093711853027,
+                x  = -589.5305786132813,
+                z  = -814.8512573242188
+             },
+              UP2  = {
+                y  = 7.413991928100586,
+                x  = -578.809814453125,
+                z  = -814.5386962890625
+             },
+              UP6  = {
+                y  = 7.372146129608154,
+                x  = -605.3615112304688,
+                z  = -820.8731079101563
+             },
+              UP5  = {
+                y  = 7.413986682891846,
+                x  = -597.8843383789063,
+                z  = -814.5377807617188
+             },
+              UP4  = {
+                y  = 7.4139862060546879,
+                x  = -600.348388671875,
+                z  = -814.8621215820313
+             }
+           },
+            Marine  = {
+              UP1  = {
+                y  = 25.521255493164064,
+                x  = -2566.733642578125,
+                z  = -62.77167892456055
+             },
+              UP3  = {
+                y  = 25.5211124420166,
+                x  = -2565.930419921875,
+                z  = -57.89338684082031
+             },
+              UP2  = {
+                y  = 25.210872650146486,
+                x  = -2560.966796875,
+                z  = -44.40180969238281
+             },
+              UP6  = {
+                y  = 25.676485061645509,
+                x  = -2566.796142578125,
+                z  = -67.01408386230469
+             },
+              UP5  = {
+                y  = 25.5211238861084,
+                x  = -2563.39990234375,
+                z  = -63.74509811401367
+             },
+              UP4  = {
+                y  = 24.990556716918947,
+                x  = -2570.3349609375,
+                z  = -69.34259033203125
+             }
+           },
+            thriller_park  = {
+              UP1  = {
+                y  = 113.23728942871094,
+                x  = -224.14295959472657,
+                z  = -657.738037109375
+             },
+              UP3  = {
+                y  = 109.37400817871094,
+                x  = -224.78709411621095,
+                z  = -640.7178955078125
+             },
+              UP2  = {
+                y  = 109.37401580810547,
+                x  = -229.42715454101563,
+                z  = -649.636474609375
+             },
+              UP6  = {
+                y  = 109.37400817871094,
+                x  = -214.7626190185547,
+                z  = -632.3900146484375
+             },
+              UP5  = {
+                y  = 109.37401580810547,
+                x  = -230.53053283691407,
+                z  = -657.9769287109375
+             },
+              UP4  = {
+                y  = 109.37400817871094,
+                x  = -220.0915985107422,
+                z  = -636.2127075195313
+             }
+           },
+           jojo = {
+            UP1  = {
+                x = -111.61297607421875, 
+                y = 15.255210876464844, 
+                z = -513.5579833984375
+             },
+              UP3  = {
+                x = -120.01858520507812, 
+                y = 15.255210876464844, 
+                z = -522.66650390625
+             },
+              UP2  = {
+                x = -124.42668151855469, 
+                y = 15.255210876464844, 
+                z = -530.7169799804688
+             },
+              UP6  = {
+                x = -120.38040161132812, 
+                y = 15.255212783813477, 
+                z = -536.6077270507812
+             },
+              UP5  = {
+                x = -115.62987518310547, 
+                y = 15.255210876464844, 
+                z = -518.679931640625                
+             },
+              UP4  = {
+                x = -118.3056411743164, 
+                y = 15.255210876464844, 
+                z = -529.9589233398438
+             }
+           }
+           
+         },
+
+        xselectedUnits = {
+            U1 = "nil #nil",
+            U2 = "nil #nil",
+            U3 = "nil #nil",
+            U4 = "nil #nil",
+            U5 = "nil #nil",
+            U6 = "nil #nil"
         }
-        table.clear(getgenv().profile_data.equipped_units)
+    
+    }
+
+    local json = HttpService:JSONEncode(xdata)
+    writefile(saveFileName, json)
+
+    MainModule()
+--#endregion
+end
+
+--#region ----------------------
+--#endregion
+--------------------------------------------------
+
+--[[
+coroutine.resume(coroutine.create(function()
+    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+
+    unitTrackerTab = mainWindow:CreateTab("Unit Tracker")
+
+    while task.wait() do 
         
-        -- Fetch Unit List
-        for i, v in pairs(getgc(true)) do
-            if type(v) == "table" and rawget(v, "xp") then
-                wait()
-                table.insert(getgenv().profile_data.equipped_units, v)
-            end
-        end
-            
-        -- Generate Selected Unit Parameters
-        if Settings.SelectedUnits == nil then
-            Settings.SelectedUnits = {}
-            for i = 1, 6, 1 do
-                Settings.SelectedUnits["UP" .. i] = "nil"
-            end
-        end
+        local unitList = {}
+        local sections = {}
+        local toggles = {}
 
-        -- Generate Compare List Parameters
-        EquippedList = {}
-        table.clear(EquippedList)
-        
-        for i = 1, 6, 1 do
-            EquippedList["UP" .. i] = "nil"
-        end
-            
-        -- Filter Fetched Unit to List Equipped Units Only
-        for i, v in pairs(getgenv().profile_data.equipped_units) do
-            if v.equipped_slot then
-                EquippedList["UP" .. v.equipped_slot] = tostring(v.unit_id) .. " #" .. tostring(v.uuid)
-            end
-        end
-            
-        -- If Equipped Slot in Empty, Put "nil"
-        for i = 1, 6, 1 do
-            if EquippedList["UP"..i] == nil then
-                EquippedList["UP"..i] = "nil"
-            end
-        end
-            
-        -- Compared Current List to Saved JSON List if not the same then call AutoSave Function
-        for i = 1, 6, 1 do
-            if EquippedList["UP"..i] ~= Settings.SelectedUnits["UP"..i] then
-                saveUnit()
-            end
-        end
-    end
-    
-    fetchUnit()
-    
-    end
-end
-
--- End of Auto Save Unit Function
-----------------------------------------------
------------------- World Section -------------updatefix
-----------------------------------------------
-local function WorldSec()
-    SelectWorld:Cheat("Dropdown", "🔱 เลือกโหมด",function(value)
-        print(value)
-        Settings.WorldCategory = value
-        getgenv().updateworld()
-        getgenv().updatelevel()
-        getgenv().updatedifficulty()
-        saveSettings()
-    end, {
-        options = {
-            "Story Worlds",
-            "Legend Stages",
-            "Raid Worlds",
-            "Portals",
-            "Dungeon",
-            "ประตูลับ"
-        },
-        default = Settings.WorldCategory
-    })
-
-    ---------
-    local GeneralMap = {}
-    local Data_Worlds_Name = {}
-    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
-    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
-    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
-        GeneralMap[Worlds[v].name] = v
-        Data_Worlds_Name[i] = Worlds[v].name
-    end
----------
-    local selectworld = SelectWorld:Cheat("Dropdown", "🌏 เลือก World",function(value)
-        print(value)
-        Settings.SelectedWorld = value
-        getgenv().updatelevel()
-        getgenv().updatedifficulty()
-        saveSettings()
-    end, {options = { }, default = Settings.SelectedWorld })
---fixmap
-    getgenv().updateworld = function()
-        selectworld:ClearDrop() local storylist;
-        if Settings.WorldCategory == "Story Worlds" then
-            storylist = Data_Worlds_Name
-        elseif Settings.WorldCategory == "Legend Stages" then
-            storylist = {"Clover Kingdom (Elf Invasion)", "Hollow Invasion","Cape Canaveral (Legend)", "Fabled Kingdom (Legend)", "Hero City (Midnight)", "Virtual Dungeon (Bosses)",
-            "Undead Tomb (Legend)"}
-        elseif Settings.WorldCategory == "Raid Worlds" then
-            storylist = {"Storm Hideout","West City", "Infinity Train", "Shiganshinu District - Raid","Hiddel Sand Village - Raid", "Freezo's Invasion", "Entertainment District", 
-            "Hero City (Hero Slayer)", "Marine's Ford (Buddha)"}
-        elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","Summer Events"}
-        elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
-        elseif Settings.WorldCategory == "ประตูลับ" then
-            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ Summer"}
-        end
-
-        for i = 1, #storylist do
-            selectworld:AddOption(storylist[i])
-        end
-    end
----------------------
-    local GeneralMap2 = {}
-    local Data_Worlds_Name2 = {}
-    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
-    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
-    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
-        GeneralMap2[Worlds[v].name] = v
-        Data_Worlds_Name2[i] = Worlds[v].name
-    end
--------------------
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ เลือก ด่าน",function(value)
-        print(value)
-        Settings.SelectedLevel = value
-        getgenv().updatedifficulty()
-        saveSettings()
-    end, {options = { }, default = Settings.SelectedLevel})
-    getgenv().updatelevel = function()
-        selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
-        --///Legend Stages\\\---
-        if level == "Clover Kingdom (Elf Invasion)" then
-            levellist = {"clover_legend_1","clover_legend_2","clover_legend_3"}
-        elseif level == "Hollow Invasion" then
-            levellist = {"bleach_legend_1","bleach_legend_2","bleach_legend_3","bleach_legend_4","bleach_legend_5","bleach_legend_6"}
-        elseif level == "Cape Canaveral (Legend)" then
-            levellist = {"jojo_legend_1","jojo_legend_2","jojo_legend_3"}
-        elseif level == "Fabled Kingdom (Legend)" then
-            levellist = {"7ds_legend_1","7ds_legend_2","7ds_legend_3"}
-        elseif level == "Hero City (Midnight)" then
-            levellist = {"mha_legend_1","mha_legend_2","mha_legend_3","mha_legend_4","mha_legend_5","mha_legend_6"}
-        elseif level == "Virtual Dungeon (Bosses)" then
-            levellist = {"sao_legend_1","sao_legend_2","sao_legend_3"}
-        elseif level == "Undead Tomb (Legend)" then
-            levellist = {"overlord_legend_1","overlord_legend_2","overlord_legend_3"}
-        --///Raids\\\---
-        elseif level == "Storm Hideout" then
-            levellist = {"uchiha_level_1","uchiha_level_2","uchiha_level_3","uchiha_level_4","uchiha_level_5"} 
-        elseif level == "West City" then
-            levellist = {"west_city_raid"}
-        elseif level == "Infinity Train" then
-            levellist = {"demonslayer_raid_1"}
-        elseif level == "Shiganshinu District - Raid" then
-            levellist = {"aot_raid_1"}
-        elseif level == "Hiddel Sand Village - Raid" then
-            levellist = {"naruto_raid_1"}
-        elseif level == "Freezo's Invasion" then
-            levellist = {"west_city_frieza_level_1","west_city_frieza_level_2","west_city_frieza_level_3","west_city_frieza_level_4","west_city_frieza_level_5"}
-        elseif level == "Entertainment District" then
-            levellist = {"entertainment_district_level_1","entertainment_district_level_2","entertainment_district_level_3","entertainment_district_level_4","entertainment_district_level_5"}
-        elseif level == "Hero City (Hero Slayer)" then
-            levellist = {"mha_stain"}
-        elseif level == "Marine's Ford (Buddha)" then
-            levellist = {"marineford_sengoku"}
-        --///Portals\\\---
-        elseif level == "Alien Portals" then
-            levellist = {"portal_boros_g"}
-        elseif level == "Demon Portals" then
-            levellist = {"april_portal_item"}
-        elseif level == "Zeldris Portals" then
-            levellist = {"portal_zeldris"}    
-        elseif level == "Dressrosa Portals" then
-            levellist = {"portal_item__dressrosa"}
-        elseif level == "The Eclipse" then
-            levellist = {"portal_item__eclipse"}
-        elseif level == "Summer Events" then
-            levellist = {"portal_summer"}
-        ---///Dungeon\\\---    updatefix
-        elseif level == "ดันนิ้ว Cursed Womb" then
-            levellist = {"jjk_finger"}    
-        elseif level == "ดันเกะโท Crused Parade" then
-            levellist = {"jjk_raid"}   
-        elseif level == "Anniversary Island" then
-            levellist = {"namek_anniversary"}  
-            --///ประตูลับ\\\---   
-        elseif level == "ประตูลับ Dofamingo" then
-            levellist = {"portal_item__doflamingo"}
-        elseif level == "ประตูลับ The Eclipse" then
-            levellist = {"portal_item__femto"}
-        elseif level == "ประตูลับ Summer" then
-            levellist = {"portal_poseidon"}
-            --///Story Mode\\\---
-        elseif level == Settings.SelectedWorld then
-            levellist = {GeneralMap[Settings.SelectedWorld] .. "_infinite",GeneralMap[Settings.SelectedWorld] .. "_level_1",GeneralMap[Settings.SelectedWorld] .. "_level_2",GeneralMap[Settings.SelectedWorld] .. "_level_3",
-            GeneralMap[Settings.SelectedWorld] .. "_level_4",GeneralMap[Settings.SelectedWorld] .. "_level_5",GeneralMap[Settings.SelectedWorld] .. "_level_6"}
-
-
-        end
-
-        for i = 1, #levellist do
-            selectlevel:AddOption(levellist[i])
-        end
-    end
-
-    ---------------------
-    local GeneralMap3 = {}
-    local Data_Worlds_Name3 = {}
-    Worlds = require(game:GetService("ReplicatedStorage").src.Data.Worlds)
-    WorldLevelOrder = require(game:GetService("ReplicatedStorage").src.Data.WorldLevelOrder)
-    for i,v in pairs(WorldLevelOrder['WORLD_ORDER']) do
-        GeneralMap3[Worlds[v].name] = v
-        Data_Worlds_Name3[i] = Worlds[v].name
-    end
--------------------
-
-
-    local selectdiff = SelectWorld:Cheat("Dropdown", "🔫 ระดับความยาก",function(value)
-        print(value, " Selected")
-        Settings.Difficulty = value
-        saveSettings()
-    end, {
-        options = {}, default = Settings.Difficulty
-    })
-    getgenv().updatedifficulty = function()
-        selectdiff:ClearDrop(); level = Settings.SelectedLevel; cata = Settings.WorldCategory; local diff; local levellist;
-        if level == "namek_infinite" or level == "aot_infinite" or level == "demonslayer_infinite" 
-        or level == "naruto_infinite" or level == "marineford_infinite" or level == "tokyoghoul_infinite" or level == "hueco_infinite" 
-        or level == "hxhant_infinite" or level == "magnolia_infinite" or level == "jjk_infinite" or level == "clover_infinite" 
-        or level == "jojo_infinite" or level == "opm_infinite" or level == "7ds_infinite" or level == "mha_infinite" 
-        or level == "sao_infinite" or level == "berserk_infinite" or level == "overlord_infinite" 
-        or level == "dressrosa_infinite" or level == "_infinite" or cata == "Legend Stages" or cata == "Raid Worlds"  then
-            --fixmap
-            diff = {"Hard"}
-        elseif cata == "Portals" or cata == "Dungeon" or cata == "ประตูลับ" then
-            diff = {"Default"}
-        else
-            diff = {"Normal", "Hard"}
-        end
-        for i = 1, #diff do
-            selectdiff:AddOption(diff[i])
-        end
-    end
-
-
-    Table_Tier2 = {}
-    for i = 0,15 do
-        table.insert(Table_Tier2,i)
-    end
-    Settings.SelectedTier1 = Settings.SelectedTier1 or 0
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier มากกว่า >",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedTier1 = value
-        saveSettings()
-    end, {options = Table_Tier2, default = Settings.SelectedTier1})
-
-    Table_Tier3 = {}
-    for i = 0,15 do
-        table.insert(Table_Tier3,i)
-    end
-    Settings.SelectedTier2 = Settings.SelectedTier2 or 15
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ Tier น้อยกว่า <",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedTier2 = value
-        saveSettings()
-    end, {options = Table_Tier3, default = Settings.SelectedTier2})
-
-    Settings.SelectedChallenge = Settings.SelectedChallenge or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedChallenge = value
-        saveSettings()
-    end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
-    "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge})
-
-    Settings.SelectedChallenge2 = Settings.SelectedChallenge2 or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedChallenge2 = value
-        saveSettings()
-    end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
-    "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge2})
-
-    Settings.SelectedChallenge3 = Settings.SelectedChallenge3 or "double_cost"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🎚️ จะไม่เปิด Challenge ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedChallenge3 = value
-        saveSettings()
-    end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies",
-    "godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedChallenge3})
-
-    Settings.SelectedPortalsName1 = Settings.SelectedPortalsName1 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedPortalsName1 = value
-        saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName1})
-
-    Settings.SelectedPortalsName2 = Settings.SelectedPortalsName2 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedPortalsName2 = value
-        saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName2})
-
-    Settings.SelectedPortalsName3 = Settings.SelectedPortalsName3 or "None"
-    local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedPortalsName3 = value
-        saveSettings()
-    end, { options = {"None","Planet Namak (Summer)","Shiganshinu District (Summer)","Ant Kingdom (Summer)","Cursed Academy (Summer)","Puppet Island (Summer)","Alien Spaceship (Underwater)","Fabled Kingdom (Summer)"}, default =Settings.SelectedPortalsName3})
-
-    SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
-        print(bool)
-        Settings.isFriendOnly = bool
-        saveSettings()
-    end,{enabled = Settings.isFriendOnly})
-end
-
-----------------------------------------------
----------------- AutoFarm Config -------------
-----------------------------------------------
-
-local function AutoFarmSec()
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto Start เริ่มทำงาน  ", function(bool)
-        print(bool)
-        Settings.autostart = bool
-        saveSettings()
-    end,{enabled = Settings.autostart })
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto Farm วางตัว  ", function(bool)
-        print(bool)
-        Settings.AutoFarm = bool
-        saveSettings()
-    end,{enabled = Settings.AutoFarm })
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto Replay เล่นซ้ำ ", function(bool)
-        print(bool)
-        Settings.AutoReplay = bool
-        saveSettings()
-    end,{enabled = Settings.AutoReplay})
-    AutoFarmConfig:Cheat("Checkbox"," Auto Pick Portal เล่นซ้ำ ", function(bool)
-        print(bool)
-        Settings.AutoPickPortal = bool
-        saveSettings()
-    end,{enabled = Settings.AutoPickPortal})
-    AutoFarmConfig:Cheat("Checkbox"," Auto Next Story  ", function(bool)
-        print(bool)
-        Settings.AutoNext = bool
-        saveSettings()
-    end,{enabled = Settings.AutoNext})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto Leave ออก ", function(bool)
-        print(bool)
-        Settings.AutoLeave = bool
-        saveSettings()
-    end,{enabled = Settings.AutoLeave})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto Upgrade Units อัปตัว  ", function(bool)
-        print(bool)
-        Settings.AutoUpgrade = bool
-        saveSettings()
-    end,{enabled = Settings.AutoUpgrade})
-    
-    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [เมื่อโจมตี] ", function(bool)
-        print(bool)
-        Settings.AutoAbilities = bool
-        saveSettings()
-    end,{enabled = Settings.AutoAbilities})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [Global Cooldown] ", function(bool)
-        print(bool)
-        Settings.AutoGCDAbilities = bool
-        saveSettings()
-    end,{enabled = Settings.AutoGCDAbilities})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Erwin] ", function(bool)
-        print(bool)
-        Settings.EnableBufferwinLoop = bool
-        autoabilityerwin()
-        saveSettings()
-    end,{enabled = Settings.EnableBufferwinLoop})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Wendy] ", function(bool)
-        print(bool)
-        Settings.EnableBuffwendyLoop = bool
-        autoabilitywendy()
-        saveSettings()
-    end,{enabled = Settings.EnableBuffwendyLoop})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Leafa] ", function(bool)
-        print(bool)
-        Settings.EnableBuffleafaLoop = bool
-        autoabilityleafa()
-        saveSettings()
-    end,{enabled = Settings.EnableBuffleafaLoop})
-
-    AutoFarmConfig:Cheat("Checkbox"," ขายตัว เมื่อถึง Wave ", function(bool)
-        print(bool)
-        Settings.AutoSell = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSell})
-
-    AutoFarmConfig:Cheat("Checkbox"," ออก เมื่อถึง Wave  ", function(bool)
-        print(bool)
-        Settings.autoQuit = bool
-        saveSettings()
-    end,{enabled = Settings.autoQuit})
-
-    AutoFarmConfig:Cheat("Textbox", " ใส่จำนวน Wave", function(Value)
-        Value = tonumber(Value)
-        Settings.AutoSellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.AutoSellWave})
-end
-----------------------------------------------
---------------- More Farm Config -------------
-----------------------------------------------
-local function MoreFarmSec()
-
-    Settings.SelectedDiffInf = Settings.SelectedDiffInf or "Normal"
-    castleconfig:Cheat("Dropdown", "🏯 Select Difficulty ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedDiffInf = value
-        saveSettings()
-    end, { options = {"Normal","Hard"}, default = Settings.SelectedDiffInf})
-
-    castleconfig:Cheat("Checkbox","🏯 Auto Infinity Castle  ", function(bool)
-        print(bool)
-        Settings.AutoInfinityCastle = bool
-        saveSettings()
-    end,{enabled = Settings.AutoInfinityCastle})
-
-    castleconfig:Cheat("Checkbox","🏯 Auto Next Level หอคอย ชั้นต่อไป  ", function(bool)
-        print(bool)
-        Settings.AutoContinue = bool
-        saveSettings()
-    end,{enabled = Settings.AutoContinue })
-end
-
------------------------------------------------
---resetautofarm config
---resetall
-function refarmcon()
-    print("reset AutoFarm & find Picoro config ?")
-
-    --findPicoro
-    if Settings.picoHOP then
-        Settings.picoHOP = false end
-   --Start
-    if Settings.autostart then
-        Settings.autostart = false end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = false end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = false end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = false end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = false end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = false end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 0 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.refarmc then
-    refarmcon()
-    autoload2()
-end
-
---setAutoFarmStory
-function setfarm1()
-    print("Set AutoFarm Story ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = true end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = true end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarm1 then
-    setfarm1()
-    autoload2()
-end
-
---setAutoFarmStorynReplay
-function setfarm2()
-    print("Set AutoFarm Story & Replay ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = true end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = true end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = true end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarm2 then
-    setfarm2()
-    autoload2()
-end
-
---setAutoInfCastle
-function setfarmIC()
-    print("Set AutoFarm Inf Castle ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = false end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = false end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = true end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = true end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarmIC then
-    setfarmIC()
-    autoload2()
-end
-
-
------------------------------------------------
-
-
-----------------------------------------------
------------------ Challenge ------------------
-----------------------------------------------
-local function ChallengeSec()
-
-    Settings.SelectedReward = Settings.SelectedReward or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 1",function(value)
-        print(value)
-        Settings.SelectedReward = value
-        saveSettings()
-    end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward})
-
-    Settings.SelectedReward2 = Settings.SelectedReward2 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 2",function(value)
-        print(value)
-        Settings.SelectedReward2 = value
-        saveSettings()
-    end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward2})
-
-    Settings.SelectedReward3 = Settings.SelectedReward3 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 3",function(value)
-        print(value)
-        Settings.SelectedReward3 = value
-        saveSettings()
-    end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward3})
-
-    Settings.SelectedReward4 = Settings.SelectedReward4 or "star_fruit_random"
-    local challengeconfig = ChallengeConfig:Cheat("Dropdown", "🏵️ เลือก Reward 4",function(value)
-        print(value)
-        Settings.SelectedReward4 = value
-        saveSettings()
-    end, { options = {"star_fruit_random","star_remnant","gems", "gold"}, default =Settings.SelectedReward4})
-
-    ChallengeConfig:Cheat("Checkbox","🎯 Auto Challenge  ", function(bool)
-        print(bool)
-        Settings.AutoChallenge = bool
-        saveSettings()
-    end, {enabled =Settings.AutoChallenge})
-
-end
-----------------------------------------------
------------ Delete Map Config ---------------- 
-----------------------------------------------
-local function DELMAPNEW()
-
-    DELMAP:Cheat("Checkbox"," Delete Map ", function(bool)
-		print(bool)
-        Settings.deletemap2 = bool
-        saveSettings()
-    end,{enabled = Settings.deletemap2})
-
-    DELMAP:Cheat("Checkbox"," Place Spawn วางได้ทุกจุด", function(bool)
-        print(bool)
-        Settings.placeany = bool
-        saveSettings()
-        placeAny()
-        placeunittwin()
-    end,{enabled = Settings.placeany})
-
-    DELMAP:Cheat("Button","Activate Place Spawn ", function()
-        placeAny()
-        placeunittwin()
-    end)
-
-    DELMAP:Cheat("Checkbox"," Delete Hill [ลบที่วางตัวแอร์//วางตัวแอร์ไม่ได้]", function(bool)
-		print(Settings.deletehill)
-        Settings.deletehill = bool
-        saveSettings()
-        DelHill()
-    end,{enabled = Settings.deletehill})
-
-    DELMAP:Cheat("Button","Activate Delete Hill ", function()
-        DelHill()
-    end)
-
-
-end
-
-----------------------------------------------
----------------- Other Config ---------------- 
-----------------------------------------------
-local function DeleteMapSec()
-
-    DelMapConfig2:Cheat("Button", "Redeem All Code", function()
-        print(Settings.redeemc)
-        Reedemcode()
-    end)
-
-    DelMapConfig2:Cheat("Button", "Leave To Lobby", function()
-        warn("Return to Lobby")
-        Teleport()
-        --TPReturner()
-    end)
-
-    DelMapConfig2:Cheat("Button", "Rejoin Server", function()
-        warn("Rejoin Server")
-        Rejoine()
-    end)
-
-    DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Quest ", function(bool)
-        print(Settings.autoDailyquest)
-        Settings.autoDailyquest = bool
-        saveSettings()
-        autoDailyquest()
-    end,{enabled = Settings.autoDailyquest})
-
-    DelMapConfig2:Cheat("Checkbox","Auto Grab Daily Mission ", function(bool)
-        print(Settings.autoDailyMission)
-        Settings.autoDailyMission = bool
-        saveSettings()
-        autoDailyMission()
-    end,{enabled = Settings.autoDailyMission})
-
-    DelMapConfig2:Cheat("Checkbox","Auto Join Portals ", function(bool)
-        print(Settings.autoJoinPortals)
-        Settings.autoJoinPortals = bool
-        saveSettings()
-        autoJoinportals()
-    end,{enabled = Settings.autoJoinPortals})
-
-    DelMapConfig2:Cheat("Label","")  
-
-end
-
-----------------------------------------------
-------------- Unit AOE Config ---------------- 
-----------------------------------------------
-local function UNITAOEAA()
-
-    UnitAOE1:Cheat("Button", "Check Kill & Take Down [F9 to see]", function()
         for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
             if v:FindFirstChild("_stats") then
                 if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                    if v._stats.takedown_count.Value >= 1 then
-                    warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
-                    local StarterGui = game:GetService("StarterGui")
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "Kill & Take Down",
-                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value),
-                        Duration = 10
-                    })
+                    table.insert(unitList, {v["_stats"]["id"].Value, v["_stats"]["upgrade"].Value, v})
                 end
             end
         end
-    end
-end)
-
-
-
-    UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
-        print(bool)
-        Settings.blackhole = bool
-        saveSettings()
-    end,{enabled = Settings.blackhole})
-
-    --Unit1
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-                local player = game.Players.LocalPlayer.Name
-                local Unit = game.Workspace._UNITS
-                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
-                local distanceTable = {}
-            
-                local function getDistance(toCheck)
-                    table.clear(distanceTable)
-                    if Unit:getChildren()[1] then
-                        for i, v in pairs(Unit:getChildren()) do
-                            if v:WaitForChild("_stats"):FindFirstChild("base") then
-                                if tostring(v._stats.base.Value) == "pve" then
-                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                                    table.insert(distanceTable, tonumber(distance))
-                                    table.sort(distanceTable)
-                                    if tonumber(distance) == distanceTable[1] then
-
-                                        enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    return enemy
-                end
-                    
-        local function followEnemyU1()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
-
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU1()
-                end
-            end
-        end)
-
-
-    --Unit2
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-                local player = game.Players.LocalPlayer.Name
-                local Unit = game.Workspace._UNITS
-                local distanceTable = {}
-            
-                local function getDistance(toCheck)
-                    table.clear(distanceTable)
-                    if Unit:getChildren()[1] then
-                        for i, v in pairs(Unit:getChildren()) do
-                            if v:WaitForChild("_stats"):FindFirstChild("base") then
-                                if tostring(v._stats.base.Value) == "pve" then
-                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                                    table.insert(distanceTable, tonumber(distance))
-                                    table.sort(distanceTable)
-                                    if tonumber(distance) == distanceTable[1] then
-                                        enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    return enemy
-                end
-                    
-        local function followEnemyU2()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE2 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE2].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU2()
-                end
-            end
-        end)
-
-    --Unit3
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-                local player = game.Players.LocalPlayer.Name
-                local Unit = game.Workspace._UNITS
-                local distanceTable = {}
-            
-                local function getDistance(toCheck)
-                    table.clear(distanceTable)
-                    if Unit:getChildren()[1] then
-                        for i, v in pairs(Unit:getChildren()) do
-                            if v:WaitForChild("_stats"):FindFirstChild("base") then
-                                if tostring(v._stats.base.Value) == "pve" then
-                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                                    table.insert(distanceTable, tonumber(distance))
-                                    table.sort(distanceTable)
-                                    if tonumber(distance) == distanceTable[1] then
-                                        enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    return enemy
-                end
-                    
-        local function followEnemyU3()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE3 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE3].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU3()
-                end
-            end
-        end)
-
-    --Unit4
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-                local player = game.Players.LocalPlayer.Name
-                local Unit = game.Workspace._UNITS
-                local distanceTable = {}
-            
-                local function getDistance(toCheck)
-                    table.clear(distanceTable)
-                    if Unit:getChildren()[1] then
-                        for i, v in pairs(Unit:getChildren()) do
-                            if v:WaitForChild("_stats"):FindFirstChild("base") then
-                                if tostring(v._stats.base.Value) == "pve" then
-                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                                    table.insert(distanceTable, tonumber(distance))
-                                    table.sort(distanceTable)
-                                    if tonumber(distance) == distanceTable[1] then
-                                        enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    return enemy
-                end
-                    
-        local function followEnemyU4()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE4 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE4].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU4()
-                end
-            end
-        end)
-
-    --Unit5
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-                local player = game.Players.LocalPlayer.Name
-                local Unit = game.Workspace._UNITS
-                local distanceTable = {}
-            
-                local function getDistance(toCheck)
-                    table.clear(distanceTable)
-                    if Unit:getChildren()[1] then
-                        for i, v in pairs(Unit:getChildren()) do
-                            if v:WaitForChild("_stats"):FindFirstChild("base") then
-                                if tostring(v._stats.base.Value) == "pve" then
-                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                                    table.insert(distanceTable, tonumber(distance))
-                                    table.sort(distanceTable)
-                                    if tonumber(distance) == distanceTable[1] then
-                                        enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                                    end
-                                end
-                            end
-                        end
-                    end
-                    return enemy
-                end
-                    
-        local function followEnemyU5()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE5 then
-                                            --if game.Workspace._wave_time.Value > 0 then
-
-                                            --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            --game.Workspace._UNITS[Settings.UnitAOE5].HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU5()
-                end
-            end
-        end)
-
-    --Unit6
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-        local player = game.Players.LocalPlayer.Name
-        local Unit = game.Workspace._UNITS
-        local distanceTable = {}
-
-        local function getDistance(toCheck)
-            table.clear(distanceTable)
-            if Unit:getChildren()[1] then
-                for i, v in pairs(Unit:getChildren()) do
-                    if v:WaitForChild("_stats"):FindFirstChild("base") then
-                        if tostring(v._stats.base.Value) == "pve" then
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tonumber(distance) == distanceTable[1] then
-                                enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                            end
-                        end
-                    end
-                end
-            end
-            return enemy
-        end
-                        
-        local function followEnemyU6()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU6()
-                end
-            end
-        end)
-
-        --Unit7
-    task.spawn(function()
-        while task.wait() do
-            if Settings.blackhole then
-
-        local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-        local player = game.Players.LocalPlayer.Name
-        local Unit = game.Workspace._UNITS
-        local distanceTable = {}
-
-        local function getDistance(toCheck)
-            table.clear(distanceTable)
-            if Unit:getChildren()[1] then
-                for i, v in pairs(Unit:getChildren()) do
-                    if v:WaitForChild("_stats"):FindFirstChild("base") then
-                        if tostring(v._stats.base.Value) == "pve" then
-                            distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
-                            table.insert(distanceTable, tonumber(distance))
-                            table.sort(distanceTable)
-                            if tonumber(distance) == distanceTable[1] then
-                                enemy = v.HumanoidRootPart.CFrame *
-                                            CFrame.new(0, 0, -2)
-                            end
-                        end
-                    end
-                end
-            end
-            return enemy
-        end
-                        
-        local function followEnemyU7()
-            --Settings.unitAOE = "เลือก Units"
-            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
-            local player = game.Players.LocalPlayer.Name
-            local Unit = game.Workspace._UNITS
-                if Unit:getChildren()[1] then
-                    for i, v in pairs(Unit:getChildren()) do
-                        if v:WaitForChild("_stats"):FindFirstChild("player") then
-                            if tostring(v._stats.player.Value) == player then
-                                local success, err = pcall(function()
-                                    if tostring(v._stats.player.Value) == player then
-                                        if tostring(v._stats.id.Value) == Settings.UnitAOE7 then
-
-                                            v.HumanoidRootPart.CFrame = getDistance("enemyName")
-                                            v.HumanoidRootPart_Fake.CFrame = getDistance("enemyName")
-
-                                        end
-                                    end
-                                end)
-                                if err then
-                                    return
-                                    end
-                                end
-                            end
-                        end
-                    end
-                end
-                followEnemyU7()
-                end
-            end
-        end)
-
-end
-
-
---- Fetch Units from Equipped List
-if Settings.SelectedUnits ~= nil then
-    local names = {}
-    for h = 1, 6 do
-        Units = Settings.SelectedUnits["U"..h]:split(" #")
-        table.insert(names, Units[1])
-    end
-    --- End of Fetch Unit
-    --- Check Slot Unit to Dropdown 
-    --Unit1
-    for i = 1, 1 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE1 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE1 or nil})
-    end
-    --Unit2
-    for i = 2, 2 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE2 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE2 or nil})
-    end
-    --Unit3
-    for i = 3, 3 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE3 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE3 or nil})
-    end
-    --Unit4
-    for i = 4, 4 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE4 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE4 or nil})
-    end
-    --Unit5
-    for i = 5, 5 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE5 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE5 or nil})
-    end
-    --Unit6
-    for i = 6, 6 do
-        Unit["AOE"..i]:Cheat("Dropdown", "เลือก Unit " .. i .. " Name",function(value)
-            Settings.UnitAOE6 = value
-            saveSettings()
-        end, { options = { "ปิดฟังชั่น", names[i] }, default = Settings.UnitAOE6 or nil})
-    end
-    --- End Check Unit
-
-    Settings.UnitAOE7 = Settings.UnitAOE7 or "femto"
-    UnitAOE:Cheat("Dropdown", " Select Griffin Name ",function(value)
-        warn("Change to : "..value)
-        Settings.UnitAOE7 = value
-        saveSettings()
-    end, { options = {"None","femto_egg","griffith_reincarnation","femto"}, default =Settings.UnitAOE7})
-
-end
-----------------------------------------------
------------------- credits -------------------
-----------------------------------------------
-local function credits()
-
-    Developers:Cheat("Label","📜 Scripted by: Negative & HOLYSHz ")       
-    --Developers:Cheat("Label","⚒️ กด \"RightControl\" หรือ \"Control ขวา\" เพื่อ เปิด - ปิด เมนู")   
-    Developers:Cheat("Label","⚒️ กด \"P\" เพื่อ เปิด - ปิด เมนู")   
-    Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
-        setclipboard("https://discord.gg/6V8nzm5ZYB")
-    end)    
-    UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [=+]ตั้งค่าตามนี้นะอยากปิดอันไหน[+=] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
-end
-getgenv().posX = 1.5
-getgenv().posZ = 1.5
-----------------------------------------------
------------------- sponsorfix ----------------
-----------------------------------------------
-local function sponsor()
-
-    discord:Cheat("Label","Discord สำหรับสั่งชื้อ GamePass และ สอบถามต่าง ๆ ") 
-    discord:Cheat("Button","🔥 Copy Discord Link   ", function()
-        setclipboard("https://discord.gg/6V8nzm5ZYB")
-        end)
-
-    --facebook
-    facebook:Cheat("Label","✅ ร้านเปิดบริการเวลา 12:00 - 22:00 ทุกวัน ") 
-    facebook:Cheat("Label","✅ ไม่ต้องใช้ ID - PASS ") 
-    facebook:Cheat("Label","✅ รับของผ่านเซิร์ฟ วี จ่ายปุ๊บรับเลย ") 
-    facebook:Cheat("Label","✅ Anime Adventures , Blox Fruits , BedWars , Anime Dimension , 9ล9 ") 
-    facebook:Cheat("Button","🔥 Copy Facebook Link   ", function()
-        setclipboard("https://www.facebook.com/StarBux.Store/")
-        end)    
-
-    --kaigem
-    kaigem:Cheat("Label","🐣 ไก่ 40,000 เพชร  ราคา 250 บาท") 
-    kaigem:Cheat("Label","🐣 ไก่ 60,000 เพชร  ราคา 375 บาท") 
-    kaigem:Cheat("Label","🐣 ไก่ 100,000 เพชร ราคา 699 บาท") 
-    kaigem:Cheat("Label","💳 บัตรเติม ROBUX 10$ ราคา 279 บาท") 
-    kaigem:Cheat("Label","💳 จะได้รับ ROBUX 1000 และพรีเมี่ยม 1เดือน  ") 
-    kaigem:Cheat("Button","🔥 Copy ไก่เพชร Link  ", function()
-        setclipboard("https://starbuxstore.com/categories/clduzowwu0033jxn22a9llwis")
-        end)
-
-    --farmgem
-    farmgem:Cheat("Label","✅ ต้องใช้ ID - PASS") 
-    farmgem:Cheat("Label","✅ ต้องปิด 2FA ก่อนทุกครั้ง") 
-    farmgem:Cheat("Label","💎 20,000 เพชร (ใช้เวลา 3วัน) ราคา 125 บาท") 
-    farmgem:Cheat("Label","💎 30,000 เพชร (ใช้เวลา 4วัน) ราคา 185 บาท") 
-    farmgem:Cheat("Label","💎 40,000 เพชร (ใช้เวลา 5วัน) ราคา 249 บาท") 
-    farmgem:Cheat("Label","💎 50,000 เพชร (ใช้เวลา 6วัน) ราคา 309 บาท") 
-    farmgem:Cheat("Button","🔥 Copy ฟาร์มเพชร Link  ", function()
-        setclipboard("https://starbuxstore.com/categories/clduzowt00000jxn2aaruqdjr")   
-    end) 
-
-    --ROBUXGroup
-    starbux:Cheat("Label","👑ร้าน 🌟 STARBUX 🌟 ") 
-    starbux:Cheat("Label","🛒 กำลังจะเปิดขาย ROBUX แบบกลุ่ม [ROBLOX]🛒") 
-    starbux:Cheat("Label","ROBUX กลุ่ม ใครสนใจเข้ากลุ่มไว้เลยนะ") 
-    starbux:Cheat("Label","เรทราคาติดตามได้จากกลุ่มเลย") 
-    starbux:Cheat("Label","💎 40,000 เพชร (ใช้เวลา 5วัน) ราคา 249 บาท") 
-    starbux:Cheat("Label","💎 50,000 เพชร (ใช้เวลา 6วัน) ราคา 309 บาท") 
-    starbux:Cheat("Button","🔥 Copy กลุ่มชื้อ ROBUX Link  ", function()
-        setclipboard("https://www.roblox.com/groups/16807082/STARBUX-STORE#!/about")   
-    end) 
     
-    
-    end    
-----------------------------------------------
----------------- Unit Config -----------------
-----------------------------------------------
-function updatepos(map, UnitPos, a,a2,a3,a4,a5,a6)
-    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-    world = GetLevelData.world or GetLevelData.name
-    warn(map)		
-    if Settings[map] == nil then
-        Settings[map] = {}
-        saveSettings()
+        for _, unit in pairs(unitList) do
+            local unitHolder = unitTrackerTab:CreateSection(unit[1] .. " (Upgrade [" .. tostring(unit[2]) .. " > " ..tostring(unit[2] + 1) .. "])")
+            table.insert(sections, unitHolder)
+        end
+
+        task.wait(3)
+
+        unitTrackerTab:Clear()
     end
-    if Settings[map][UnitPos] == nil then
-        Settings[map] = {
-            UP1 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-            },
-            UP2 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-                },
-            UP3 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-            },
-            UP4 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-            },
-            UP5 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-            },
-            UP6 = {
-                x = 0,
-                z = 0,
-                y = 0,
-                y2 = 0,
-                y3 = 0,
-                y4 = 0,
-                y5 = 0,
-                y6 = 0
-            }
-        }
-    saveSettings()
-    end
-    pcall(function()
-        
-    end)
-    Settings[map][UnitPos]["x"] = a.Position.X
-    Settings[map][UnitPos]["z"] = a.Position.Z
-    Settings[map][UnitPos]["y"] = a.Position.Y
-    Settings[map][UnitPos]["y2"] = a2.Position.Y
-    Settings[map][UnitPos]["y3"] = a3.Position.Y
-    Settings[map][UnitPos]["y4"] = a4.Position.Y
-    Settings[map][UnitPos]["y5"] = a5.Position.Y
-    Settings[map][UnitPos]["y6"] = a6.Position.Y
-    print("updatepos")
-    saveSettings()
-end
---updatefix 
-function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
-    local Loader = require(game.ReplicatedStorage.src.Loader)
-    local Maps = Loader.load_data(script, "Maps")
-    local v100 = Maps[Loader.LevelData.map]
-    local world = v100.terrain_preset
-    local world2 = v100.id
-    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-    local Mapname = GetLevelData.name
-        
+end))
+--]]
 
-    if game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
+------// Auto Farm \\------
+--#region Auto Farm Loop
 
-        --fixmm
-        if world == "karakura" and world2 == "csm_city" then world = "csm_city" end
-        if world == "karakura" and world2 ~= "csm_city" then world = "karakura" end
-        if Mapname == "Infinity Castle" and world2 == "csm_city" then world = "csm_city" end
-        if Mapname == "Infinity Castle" and world2 ~= "csm_city" then world = "karakura" end
-        if map == "aot_raid" then map = "aot" end
-        if map == "naruto_desert_night" then map = "naruto_desert" end
-        if map == "west_city" then map = "west_city_frieza" end
-        if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-        if map == "hage_night" then map = "hage" end
-        if Mapname == "Infinity Castle" then world = world2 end
-
-        updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
-
-    end
-    warn("savepos " ..world )
-end
-
-function mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
-	local BillboardGui = Instance.new("BillboardGui")
-	local Frame = Instance.new("Frame")
-	local UIListLayout = Instance.new("UIListLayout")
-	local Done = Instance.new("TextButton")
-	local UICorner = Instance.new("UICorner")
-	local Cancel = Instance.new("TextButton")
-	local UICorner_2 = Instance.new("UICorner")
-	--Properties:
-	BillboardGui.Adornee = a
-	BillboardGui.Parent = game.Players.LocalPlayer.PlayerGui 
-	BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-	BillboardGui.Active = true
-	BillboardGui.LightInfluence = 1.000
-	BillboardGui.Size = UDim2.new(7, 0, 3, 0)
-	BillboardGui.SizeOffset = Vector2.new(0, 1.5)
-	Frame.Parent = BillboardGui
-	Frame.BackgroundColor3 = Color3.fromRGB(49, 49, 57)
-	Frame.BackgroundTransparency = 1.000
-	Frame.Size = UDim2.new(1, 0, 0.5, 0)
-	UIListLayout.Parent = Frame
-	UIListLayout.FillDirection = Enum.FillDirection.Horizontal
-	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-	UIListLayout.Padding = UDim.new(0.0599999987, 0)
-	Done.Name = "Done"
-	Done.Parent = Frame
-	Done.BackgroundColor3 = Color3.fromRGB(34, 255, 0)
-	Done.Size = UDim2.new(0.469999999, 0, 1, 0)
-	Done.Font = Enum.Font.SourceSansBold
-	Done.Text = "Done"
-	Done.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Done.TextScaled = true
-	Done.TextSize = 1.000
-	Done.TextWrapped = true
-	Done.Activated:Connect(function()
-		_G.gg = false 
-		saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
-		for i = 0, 1, 0.1 do
-			a.Transparency = i
-			a2.Transparency = i
-			a3.Transparency = i
-			a4.Transparency = i
-			a5.Transparency = i
-			a6.Transparency = i
-			task.wait()
-		end
-		a:Destroy()
-		a2:Destroy()
-		a3:Destroy()
-		a4:Destroy()
-		a5:Destroy()
-		a6:Destroy()
-		BillboardGui:Destroy();
-	end)
-	
-	UICorner.CornerRadius = UDim.new(0.119999997, 0)
-	UICorner.Parent = Done
-	Cancel.Name = "Cancel"
-	Cancel.Parent = Frame
-	Cancel.BackgroundColor3 = Color3.fromRGB(255, 0, 4)
-	Cancel.Size = UDim2.new(0.469999999, 0, 1, 0)
-	Cancel.Font = Enum.Font.SourceSansBold
-	Cancel.Text = "Cancel"
-	Cancel.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Cancel.TextScaled = true
-	Cancel.TextSize = 1.000
-	Cancel.TextWrapped = true
-	Cancel.Activated:Connect(function()
-		print("Cancel")
-		_G.gg = false 
-		for i = 0, 1, 0.1 do
-			a.Transparency = i
-			a2.Transparency = i
-			a3.Transparency = i
-			a4.Transparency = i
-			a5.Transparency = i
-			a6.Transparency = i
-			task.wait()
-		end
-		a:Destroy()
-		a2:Destroy()
-		a3:Destroy()
-		a4:Destroy()
-		a5:Destroy()
-		a6:Destroy()
-		BillboardGui:Destroy();
-	end)
-	
-	UICorner_2.CornerRadius = UDim.new(0.119999997, 0)
-	UICorner_2.Parent = Cancel
-end
-function MouseClick2(UnitPos)
-	if UserInputService.TouchEnabled then mobile = true else mobile = false end 
-	print("a")
-	local raycastParams = RaycastParams.new()
-	raycastParams.FilterType = Enum.RaycastFilterType.Whitelist
-	raycastParams.FilterDescendantsInstances = {game:GetService("Workspace")["_terrain"]}
-	_G.gg = true
-	task.wait(0.5)
-	local x = getgenv().posX
-	local z = getgenv().posZ
-	local a = Instance.new("Part", game.Workspace)
-	local a2 = Instance.new("Part", game.Workspace)
-	local a3 = Instance.new("Part", game.Workspace)
-	local a4 = Instance.new("Part", game.Workspace)
-	local a5 = Instance.new("Part", game.Workspace)
-	local a6 = Instance.new("Part", game.Workspace)
-	a.Size = Vector3.new(1, 1, 1)
-	a2.Size = Vector3.new(1, 1, 1)
-	a3.Size = Vector3.new(1, 1, 1)
-	a4.Size = Vector3.new(1, 1, 1)
-	a5.Size = Vector3.new(1, 1, 1)
-	a6.Size = Vector3.new(1, 1, 1)
-	a.Material = Enum.Material.Neon
-	a2.Material = Enum.Material.Neon
-	a3.Material = Enum.Material.Neon
-	a4.Material = Enum.Material.Neon
-	a5.Material = Enum.Material.Neon
-	a6.Material = Enum.Material.Neon
-	--a.Position = mouse.hit.p
-	game:GetService("RunService").RenderStepped:Connect(function()
-		pcall(function()
-			if _G.gg and not mobile then
-				mouse.TargetFilter  = a
-				local xPos = mouse.Hit.Position.X --x position of unit
-				local zPos = mouse.Hit.Position.Z --z position of unit
-				local rayOrigin = CFrame.new(xPos, 1000, zPos).p
-				local rayDestination = CFrame.new(xPos, -500, zPos).p
-				local rayDirection = (rayDestination - rayOrigin)
-				local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
-				a.CFrame = CFrame.new(raycastResult.Position) * CFrame.Angles(0, -0, -0)
-				local xPos2 = a.Position.X --x position of unit
-				local zPos2 = a.Position.Z + z --z position of unit
-				local rayOrigin2 = CFrame.new(xPos2, 1000, zPos2).p
-				local rayDestination2 = CFrame.new(xPos2, -500, zPos2).p
-				local rayDirection2 = (rayDestination2 - rayOrigin2)
-				local raycastResult2 = workspace:Raycast(rayOrigin2, rayDirection2, raycastParams)
-				a2.CFrame = CFrame.new(raycastResult2.Position) * CFrame.Angles(0, -0, -0)
-				local xPos3 = a.Position.X + x --x position of unit
-				local zPos3 = a.Position.Z  --z position of unit
-				local rayOrigin3 = CFrame.new(xPos3, 1000, zPos3).p
-				local rayDestination3 = CFrame.new(xPos3, -500, zPos3).p
-				local rayDirection3 = (rayDestination3 - rayOrigin3)
-				local raycastResult3 = workspace:Raycast(rayOrigin3, rayDirection3, raycastParams)
-				a3.CFrame = CFrame.new(raycastResult3.Position) * CFrame.Angles(0, -0, -0)
-				local xPos4 = a.Position.X - x --x position of unit
-				local zPos4 = a.Position.Z  --z position of unit
-				local rayOrigin4 = CFrame.new(xPos4, 1000, zPos4).p
-				local rayDestination4 = CFrame.new(xPos4, -500, zPos4).p
-				local rayDirection4 = (rayDestination4 - rayOrigin4)
-				local raycastResult4 = workspace:Raycast(rayOrigin4, rayDirection4, raycastParams)
-				a4.CFrame = CFrame.new(raycastResult4.Position) * CFrame.Angles(0, -0, -0)
-				local xPos5 = a.Position.X + x--x position of unit
-				local zPos5 = a.Position.Z + z --z position of unit
-				local rayOrigin5 = CFrame.new(xPos5, 1000, zPos5).p
-				local rayDestination5 = CFrame.new(xPos5, -500, zPos5).p
-				local rayDirection5 = (rayDestination5 - rayOrigin5)
-				local raycastResult5 = workspace:Raycast(rayOrigin5, rayDirection5, raycastParams)
-				a5.CFrame = CFrame.new(raycastResult5.Position) * CFrame.Angles(0, -0, -0)
-				local xPos6 = a.Position.X - x --x position of unit
-				local zPos6 = a.Position.Z + z --z position of unit
-				local rayOrigin6 = CFrame.new(xPos6, 1000, zPos6).p
-				local rayDestination6 = CFrame.new(xPos6, -500, zPos6).p
-				local rayDirection6 = (rayDestination6 - rayOrigin6)
-				local raycastResult6 = workspace:Raycast(rayOrigin6, rayDirection6, raycastParams)
-				a6.CFrame = CFrame.new(raycastResult6.Position) * CFrame.Angles(0, -0, -0)	
-			elseif _G.gg and mobile then
-				warn("MOBILE DEVICE")
-				UserInputService.TouchLongPress:Connect(function()
-					mouse.TargetFilter  = a
-					local xPos = mouse.Hit.Position.X --x position of unit
-					local zPos = mouse.Hit.Position.Z --z position of unit
-					local rayOrigin = CFrame.new(xPos, 1000, zPos).p
-					local rayDestination = CFrame.new(xPos, -500, zPos).p
-					local rayDirection = (rayDestination - rayOrigin)
-					local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
-					a.CFrame = CFrame.new(raycastResult.Position) * CFrame.Angles(0, -0, -0)
-					local xPos2 = a.Position.X --x position of unit
-					local zPos2 = a.Position.Z + z --z position of unit
-					local rayOrigin2 = CFrame.new(xPos2, 1000, zPos2).p
-					local rayDestination2 = CFrame.new(xPos2, -500, zPos2).p
-					local rayDirection2 = (rayDestination2 - rayOrigin2)
-					local raycastResult2 = workspace:Raycast(rayOrigin2, rayDirection2, raycastParams)
-					a2.CFrame = CFrame.new(raycastResult2.Position) * CFrame.Angles(0, -0, -0)
-					local xPos3 = a.Position.X + x --x position of unit
-					local zPos3 = a.Position.Z  --z position of unit
-					local rayOrigin3 = CFrame.new(xPos3, 1000, zPos3).p
-					local rayDestination3 = CFrame.new(xPos3, -500, zPos3).p
-					local rayDirection3 = (rayDestination3 - rayOrigin3)
-					local raycastResult3 = workspace:Raycast(rayOrigin3, rayDirection3, raycastParams)
-					a3.CFrame = CFrame.new(raycastResult3.Position) * CFrame.Angles(0, -0, -0)
-					local xPos4 = a.Position.X - x --x position of unit
-					local zPos4 = a.Position.Z  --z position of unit
-					local rayOrigin4 = CFrame.new(xPos4, 1000, zPos4).p
-					local rayDestination4 = CFrame.new(xPos4, -500, zPos4).p
-					local rayDirection4 = (rayDestination4 - rayOrigin4)
-					local raycastResult4 = workspace:Raycast(rayOrigin4, rayDirection4, raycastParams)
-					a4.CFrame = CFrame.new(raycastResult4.Position) * CFrame.Angles(0, -0, -0)
-					local xPos5 = a.Position.X + x--x position of unit
-					local zPos5 = a.Position.Z + z --z position of unit
-					local rayOrigin5 = CFrame.new(xPos5, 1000, zPos5).p
-					local rayDestination5 = CFrame.new(xPos5, -500, zPos5).p
-					local rayDirection5 = (rayDestination5 - rayOrigin5)
-					local raycastResult5 = workspace:Raycast(rayOrigin5, rayDirection5, raycastParams)
-					a5.CFrame = CFrame.new(raycastResult5.Position) * CFrame.Angles(0, -0, -0)
-					local xPos6 = a.Position.X - x --x position of unit
-					local zPos6 = a.Position.Z + z --z position of unit
-					local rayOrigin6 = CFrame.new(xPos6, 1000, zPos6).p
-					local rayDestination6 = CFrame.new(xPos6, -500, zPos6).p
-					local rayDirection6 = (rayDestination6 - rayOrigin6)
-					local raycastResult6 = workspace:Raycast(rayOrigin6, rayDirection6, raycastParams)
-					a6.CFrame = CFrame.new(raycastResult6.Position) * CFrame.Angles(0, -0, -0)	
-				end)
-			end
-		end)
-	end)
-	task.wait()
-	a.Anchored = true
-	a2.Anchored = true
-	a3.Anchored = true
-	a4.Anchored = true
-	a5.Anchored = true
-	a6.Anchored = true
-	a.CanCollide = false
-	a2.CanCollide = false
-	a3.CanCollide = false
-	a4.CanCollide = false
-	a5.CanCollide = false
-	a6.CanCollide = false
-	if _G.gg and not mobile then
-		kjqhwe = mouse.Button1Down:Connect(function()
-			kjqhwe:Disconnect()
-			print("b")
-			saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
-			_G.gg = false 
-			for i = 0, 1, 0.1 do
-				a.Transparency = i
-				a2.Transparency = i
-				a3.Transparency = i
-				a4.Transparency = i
-				a5.Transparency = i
-				a6.Transparency = i
-				task.wait()
-			end
-			a:Destroy()
-			a2:Destroy()
-			a3:Destroy()
-			a4:Destroy()
-			a5:Destroy()
-			a6:Destroy()
-		end)
-	elseif _G.gg  and mobile then
-		mobilegui(UnitPos, a,a2,a3,a4,a5,a6)
-	end
-end
-
---------------------------------END SAVEPOSTEST
-local function UnitPosSec()
-    
-    
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 1", function()
-        MouseClick2("UP1")
-    end)
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 2", function()
-        MouseClick2("UP2")
-    end)
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 3 ", function()
-        MouseClick2("UP3")
-    end)
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 4 ", function()
-        MouseClick2("UP4")
-    end)
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 5 ", function()
-        MouseClick2("UP5")
-    end)
-    UnitPosition:Cheat("Button", "เช็ทจุดวาง Unit 6 ", function()
-        MouseClick2("UP6")
-    end)
-end
-local function unitconfig()
-
-    NDY:Cheat("Checkbox"," เปิด Unit Config  ", function(bool)
-        print(bool)
-        Settings.unitconfig = bool
-        saveSettings()
-    end,{enabled = Settings.unitconfig })
-
-    NDY2:Cheat("Button", "Reload Script", function()
-        autoload2()
-    end)
-
-    --//UNIT 1
-
-    Settings.U1_Priority = Settings.U1_Priority or "first"
-    Unit1:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U1_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U1_Priority})
-
-    Settings.U1_Wave = Settings.U1_Wave or 1
-    Unit1:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U1_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U1_Wave})
-
-    Settings.U1_TotalAmmount = Settings.U1_TotalAmmount or 6
-    Unit1:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U1_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U1_TotalAmmount})
-
-    Settings.U1_UpgWave = Settings.U1_UpgWave or 1
-    Unit1:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U1_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U1_UpgWave})
-
-    Settings.U1_UpgCap = Settings.U1_UpgCap or 9
-    Unit1:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U1_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U1_UpgCap})
-
-    Settings.U1_SellWave = Settings.U1_SellWave or 999
-    Unit1:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U1_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U1_SellWave}) 
-    
-    --//UNIT 2
-
-    Settings.U2_Priority = Settings.U2_Priority or "first"
-    Unit2:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U2_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U2_Priority})
-
-    Settings.U2_Wave = Settings.U2_Wave or 1
-    Unit2:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U2_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U2_Wave})
-
-    Settings.U2_TotalAmmount = Settings.U2_TotalAmmount or 6
-    Unit2:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U2_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U2_TotalAmmount})
-
-    Settings.U2_UpgWave = Settings.U2_UpgWave or 1
-    Unit2:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U2_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U2_UpgWave})
-
-    Settings.U2_UpgCap = Settings.U2_UpgCap or 9
-    Unit2:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U2_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U2_UpgCap})
-
-    Settings.U2_SellWave = Settings.U2_SellWave or 999
-    Unit2:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U2_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U2_SellWave}) 
-    
-    --//UNIT 3
-
-    Settings.U3_Priority = Settings.U3_Priority or "first"
-    Unit3:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U3_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U3_Priority})
-
-    Settings.U3_Wave = Settings.U3_Wave or 1
-    Unit3:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U3_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U3_Wave})
-
-    Settings.U3_TotalAmmount = Settings.U3_TotalAmmount or 6
-    Unit3:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U3_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U3_TotalAmmount})
-
-    Settings.U3_UpgWave = Settings.U3_UpgWave or 1
-    Unit3:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U3_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U3_UpgWave})
-
-    Settings.U3_UpgCap = Settings.U3_UpgCap or 9
-    Unit3:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U3_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U3_UpgCap})
-
-    Settings.U3_SellWave = Settings.U3_SellWave or 999
-    Unit3:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U3_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U3_SellWave}) 
-
-    --//UNIT 4
-
-    Settings.U4_Priority = Settings.U4_Priority or "first"
-    Unit4:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U4_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U4_Priority})
-
-    Settings.U4_Wave = Settings.U4_Wave or 1
-    Unit4:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U4_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U4_Wave})
-
-    Settings.U4_TotalAmmount = Settings.U4_TotalAmmount or 6
-    Unit4:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U4_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U4_TotalAmmount})
-
-    Settings.U4_UpgWave = Settings.U4_UpgWave or 1
-    Unit4:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U4_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U4_UpgWave})
-
-    Settings.U4_UpgCap = Settings.U4_UpgCap or 9
-    Unit4:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U4_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U4_UpgCap})
-
-    Settings.U4_SellWave = Settings.U4_SellWave or 999
-    Unit4:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U4_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U4_SellWave})  
-    
-    --//UNIT 5
-
-    Settings.U5_Priority = Settings.U5_Priority or "first"
-    Unit5:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U5_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U5_Priority})
-
-    Settings.U5_Wave = Settings.U5_Wave or 1
-    Unit5:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U5_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U5_Wave})
-
-    Settings.U5_TotalAmmount = Settings.U5_TotalAmmount or 6
-    Unit5:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U5_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U5_TotalAmmount})
-
-    Settings.U5_UpgWave = Settings.U5_UpgWave or 1
-    Unit5:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U5_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U5_UpgWave})
-
-    Settings.U5_UpgCap = Settings.U5_UpgCap or 9
-    Unit5:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U5_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U5_UpgCap})
-
-    Settings.U5_SellWave = Settings.U5_SellWave or 999
-    Unit5:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U5_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U5_SellWave}) 
-
-    --//UNIT 6
-
-        Settings.U6_Priority = Settings.U6_Priority or "first"
-    Unit6:Cheat("Dropdown", "Target Priority ",function(value)
-        warn("Change to : "..value)
-        Settings.U6_Priority = value
-        saveSettings()
-    end, { options = {"first","closest","last","farthest", "strongest","weakest","flying"}, default =Settings.U6_Priority})
-
-    Settings.U6_Wave = Settings.U6_Wave or 1
-    Unit6:Cheat("Textbox", "วางตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U6_Wave = Value
-        saveSettings()
-    end, {placeholder = Settings.U6_Wave})
-
-    Settings.U6_TotalAmmount = Settings.U6_TotalAmmount or 6
-    Unit6:Cheat("Textbox", "จำนวน Unit ที่วาง", function(Value)
-        Value = tonumber(Value)
-        Settings.U6_TotalAmmount = Value
-        saveSettings()
-    end, {placeholder = Settings.U6_TotalAmmount})
-
-    Settings.U6_UpgWave = Settings.U6_UpgWave or 1
-    Unit6:Cheat("Textbox", "อัปตัวเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U6_UpgWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U6_UpgWave})
-
-    Settings.U6_UpgCap = Settings.U6_UpgCap or 9
-    Unit6:Cheat("Textbox", "จำนวนขั้นที่อัป", function(Value)
-        Value = tonumber(Value)
-        Settings.U6_UpgCap = Value
-        saveSettings()
-    end, {placeholder = Settings.U6_UpgCap})
-
-    Settings.U6_SellWave = Settings.U6_SellWave or 999
-    Unit6:Cheat("Textbox", "ขายเมื่อถึง wave", function(Value)
-        Value = tonumber(Value)
-        Settings.U6_SellWave = Value
-        saveSettings()
-    end, {placeholder = Settings.U6_SellWave}) 
-    
-end
-
-
----------------------------------------------
--------------- LOWW CPU Config --------------
----------------------------------------------
-local function LowCPUModeT()
-
---New Fix isrbxactive
-local IS_ROBLOX_ACTIVE = false
-local UIS = game:GetService("UserInputService")
-UIS.WindowFocused:Connect(function()
-    IS_ROBLOX_ACTIVE = true
-end)
-UIS.WindowFocusReleased:Connect(function()
-    IS_ROBLOX_ACTIVE = false
-end)
-function isrbxactive()
-    return IS_ROBLOX_ACTIVE
-end
-getgenv().isrbxactive = newcclosure(isrbxactive)
---End fix isrbxactive
-
---Start_FPS_Cap
-FPS_CAP = {}
-for i = 1,60 do
-    table.insert(FPS_CAP,i)
-end
-Settings.FPSCAPNum = Settings.FPSCAPNum or 15
-LowCPU2:Cheat("Dropdown", "🎚️ เลือก FPS Cap ",function(value)
-    warn("Change to : "..value)
-    Settings.FPSCAPNum = value
-    saveSettings()
-end, {options = FPS_CAP, default = Settings.FPSCAPNum})
-
-
-LowCPU2:Cheat("Checkbox","Enable Low CPU Mode ", function(bool)
-	print(bool)
-	Settings.lowCpuMode = bool
-	saveSettings()
-end,{enabled = Settings.lowCpuMode})
-
-task.spawn(function()
-	while task.wait() do
-        if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuMode then
-            setfpscap(tonumber(Settings.FPSCAPNum))
-            game:GetService("RunService"):Set3dRenderingEnabled(false)
-            isrbxactive(true)
-        else
-            setfpscap(240)
-            game:GetService("RunService"):Set3dRenderingEnabled(true)
-            isrbxactive(false)
-        end
-    end
-end)
-
-
---New Fix isrbxactive
-local IS_ROBLOX_ACTIVE2 = false
-local UIS = game:GetService("UserInputService")
-UIS.WindowFocused:Connect(function()
-    IS_ROBLOX_ACTIVE2 = true
-end)
-UIS.WindowFocusReleased:Connect(function()
-    IS_ROBLOX_ACTIVE2 = false
-end)
-function isrbxactive2()
-    return IS_ROBLOX_ACTIVE2
-end
-getgenv().isrbxactive2 = newcclosure(isrbxactive2)
---End fix isrbxactive
-
-LowCPU2:Cheat("Checkbox","Enable FPS Cap ", function(bool)
-	print(bool)
-	Settings.lowCpuMode2 = bool
-	saveSettings()
-end,{enabled = Settings.lowCpuMode2})
-
-task.spawn(function()
-	while task.wait() do
-        if Settings.lowCpuMode2 then
-            setfpscap(tonumber(Settings.FPSCAPNum))
-            isrbxactive2(true)
-        --else
-           -- setfpscap(240)
-            --isrbxactive2(true)
-        end
-    end
-end)
---End_FPS_Cap
-
-LowCPU2:Cheat("Checkbox","Enable Boost FPS Mode ", function(bool)
-    print(bool)
-    Settings.fpsboost = bool
-    saveSettings()
-    FPSBOOST()
-end,{enabled = Settings.fpsboost })
-
-LowCPU2:Cheat("Button","Activate Boost FPS Mode ", function()
-    FPSBOOST()
-end)
-
-
-end
----------------------------------------------
--------------- LAGGY Config -----------------
----------------------------------------------
-local function LAGGYconfig()
-
-LG1:Cheat("Label"," ยังเป็น Beta Version อาจจะยังบัคนะครับ ")
-
-local l__ReplicatedStorage__1 = game:GetService("ReplicatedStorage");
-local l__Bindable__9 = l__ReplicatedStorage__1.endpoints:WaitForChild("server_to_client");
-
-    --test New Lag
-LG1:Cheat("Checkbox","Enable Laggy ", function(bool)
-	print(bool)
-	Settings.EnableLag = bool
-	saveSettings()
-end,{enabled = Settings.EnableLag})
-
-game:GetService('RunService').Stepped:connect(function()
-	if Settings.EnableLag then
-		pcall(function()
-			game.Players.LocalPlayer.Character.Humanoid:ChangeState(21)
-            l__Bindable__9.start_vote_wave_skip:Fire(v, false);
-		end)		
-	end
-end)
-task.spawn(function()
-	while task.wait() do
-        local l_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-		if Settings.EnableLag and tonumber(Settings.LagatWave) <= l_wave.Value then
-            
-    delaylag = tonumber(Settings.delag or 1.5)
-    while wait(tonumber(Settings.delag or 1.5)) do --// don't change it's the best
-
-    game:GetService("NetworkClient"):SetOutgoingKBPSLimit(math.huge * math.huge)
-    
-    local function getmaxvalue(val)
-       local mainvalueifonetable = tonumber(Settings.lagimpact or 499999)
-       if type(val) ~= "number" then
-           return nil
-       end
-       local calculateperfectval = (mainvalueifonetable/(val+2))
-       return calculateperfectval
-end
-     
-function bomb(tableincrease, tries)
-    local maintable = {}
-    local spammedtable = {}
-    
-    table.insert(spammedtable, {})
-    z = spammedtable[1]
-
-    tableincrease = tonumber(Settings.max or 22)
-    for i = 1, tableincrease do
-        local tableins = {}
-        table.insert(z, tableins)
-        z = tableins
-    end
-     
-    local calculatemax = getmaxvalue(tableincrease)
-    local maximum
-     
-    if calculatemax then
-         maximum = calculatemax
-         else
-         maximum = 4999999
-    end
-     
-    for i = 1, maximum do
-         table.insert(maintable, spammedtable)
-    end
-     
-    for i = 1, tries do
-         game.RobloxReplicatedStorage.SetPlayerBlockList:FireServer(maintable)
-         
-    end
-end
-    
-    tableincrease = tonumber(Settings.max or 22)
-
-    if Settings.EnableLag then
-        bomb(tonumber(Settings.max), tonumber(Settings.mix))
-    elseif not Settings.EnableLag then
-        bomb(tableincrease, 0)
-    end
-            end
-        end
-    end
-end)
-
-
-
-    LG1:Cheat("Textbox", " Lag เมื่อถึง Wave ", function(Value)
-        Value = tonumber(Value)
-        Settings.LagatWave = Value
-        saveSettings()
-    end, {placeholder = Settings.LagatWave}) 
-
-
-    LG1:Cheat("Slider", "LAG IMPACT(S) ", function(Value)
-        print("LAG Lv.:", Value)
-        Settings.lagimpact = tonumber(Value)
-        saveSettings()
-    end, {min = 0, max = 499999, suffix = "", default = Settings.lagimpact })
-    --LG1:Cheat("Label","LAG IMPACT(S) : "..tonumber(Settings.lagimpact)) 
-
-
-    LG1:Cheat("Slider", "LAG Threads ", function(Value)
-        print("LAG Lv.:", Value)
-        Settings.max = tonumber(Value)
-        saveSettings()
-    end, {min = 0, max = 250, suffix = "", default = Settings.max })
-    --LG1:Cheat("Label","LAG Threads : "..tonumber(Settings.max)) 
-
-
-    LG1:Cheat("Slider", "LAG Lv. ", function(Value)
-        print("LAG Lv.:", Value)
-        Settings.mix = tonumber(Value)
-        saveSettings()
-    end, {min = 1, max = 7, suffix = "", default = Settings.mix })
-    --LG1:Cheat("Label","LAG Lv. : "..tonumber(Settings.mix)) 
-
-
-    LG1:Cheat("Slider", "Delay ", function(Value)
-        print("Delay.:", Value)
-        Settings.delag = tonumber(Value)
-        saveSettings()
-    end, {min = 0, max = 10, suffix = "", default = Settings.delag })
-    --LG1:Cheat("Label","LAG Delay :  "..tonumber(Settings.delag)) 
-
-    LG1:Cheat("Label","  Lag At Wave = จะ Lag เมื่อถึง Wave ")
-    LG1:Cheat("Label","  Threads = ยิ่งใส่เลขน้อย ยิ่ง lags ")
-    LG1:Cheat("Label","  Tries = ยิ่งใส่เลขเยอะ ยิ่ง lags ")
-    LG1:Cheat("Label","  Delay = ยิ่งใส่เลขน้อย ยิ่ง lags เร็ว")
-    LG1:Cheat("Label","  การตั้งค่าพิ้นฐาน : threads = 250, tries = 1, Delay = 1.5 ")
-    LG1:Cheat("Label","  การตั้งค่าแบบเร็ว : threads = 10, tries = 1.5, Delay = 1.5 ")
-
-end
-----------------------------------------------
----------------- Auto Summon -----------------
-----------------------------------------------
-function SummonUnits(banner, method)
-    local args = {
-        [1] = tostring(banner),
-        [2] = tostring(method)
-    }
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_from_banner:InvokeServer(unpack(args)) 
-    wait(1.5)
-end
-function AutoSummon()
-    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "🧙 เลือก Banner 🧙",function(value)
-        getgenv().SelectedBanner = value
-    end, { options = {"Special", "Standard"}})
-
-    local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "💸 เลือกของที่ใช้ 💸",function(value)
-        getgenv().SelectedMethod = value
-    end, { options = {"ticket", "gems", "gems10"}})
-
-    AutoSummonSec:Cheat("Checkbox","Auto Summon", function(bool)
-        getgenv().AutoSummon = bool
-    end)
-end
-----------------------------------------------
------------- Auto Snipe Merchant -------------fixstar 
-----------------------------------------------
-function buymerchant(item)
-    local args = { [1] = item } 
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_travelling_merchant_item:InvokeServer(unpack(args))
-end
-function snipefunc(item)
-    if item =="Any StarFruits" then
-        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
-            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruit") or v.Name:match("StarFruitGreen") or v.Name:match("StarFruitRed") or v.Name:match("StarFruitPink") or v.Name:match("StarFruitBlue") or v.Name:match("StarFruitEpic") then
-                    buymerchant(v.Name)
-                    print(v.Name)
-                end   
-            end
-        end
-    elseif item =="StarFruitsyellow" then
-        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
-            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruitstar") then
-                    buymerchant(v.Name)
-                    print(v.Name)
-                end   
-            end
-        end
-    elseif item =="StarFruitsRainbow" then
-        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
-            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("StarFruitEpic") then
-                    buymerchant(v.Name)
-                    print(v.Name)
-                end   
-            end
-        end               
-    elseif item == "Any Items"then
-        if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
-            for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                if v.Name:match("LuckPotion") or v.Name:match("star_remnant") or v.Name:match("summon_ticket") then
-                    buymerchant(v.Name)
-                    print(v.Name)
-                end  
-            end
-        end
-    else
-        for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.ItemShop:FindFirstChild("Window"):FindFirstChild("Outer"):FindFirstChild("ItemFrames"):GetChildren()) do
-            if game:GetService("Workspace")["travelling_merchant"]["is_open"].Value == true then
-                for i,v in pairs(game:GetService("Workspace")["travelling_merchant"]:FindFirstChild("stand"):FindFirstChild("items"):GetChildren()) do
-                    if v.Name:match(tostring(item)) then
-                        buymerchant(v.Name)
-                        print(v.Name)
-                    end  
-                end
-            end 
-        end
-    end
-end
-function SnipeMerchant()
-    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Star Fruit ที่จะชื้อ",function(value)
-        Settings.ASM_SelectedFruit = value
-        saveSettings()
-    end, { options = {"None","StarFruit","StarFruitGreen","StarFruitRed", "StarFruitPink","StarFruitBlue","StarFruitsRainbow"}, default =Settings.ASM_SelectedFruit})
-   
-    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Items ที่จะชื้อ",function(value)
-        Settings.ASM_SelectedOtherItems = value
-        saveSettings()
-    end, { options = {"None","Any Items","LuckPotion","star_remnant","summon_ticket"}, default =Settings.ASM_SelectedOtherItems})
-    
-    AutoSnipeMerchantSec:Cheat("Dropdown", "เลือก Evo Items ที่จะชื้อ",function(value)
-        Settings.ASM_SelectedEvoItems = value
-        saveSettings()
-    end, { options = {"None"}, default =Settings.ASM_SelectedEvoItems})
-    AutoSnipeMerchantSec:Cheat("Checkbox","เปิดชื้อของ Auto", function(bool)
-        Settings.AutoSnipeMerchant = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSnipeMerchant })
-
-    -----------------------------------------------------------------------------
-    --AutoBuySummer
-
-    SummerItem:Cheat("Dropdown", "เลือก Item Summer",function(pornname)
-        getgenv().portalnameC = pornname
-        saveSettings()
-    end, { options = {"summer_portal_item_contract","capsule_summer"}, default = getgenv().portalnameC})
-
-    SummerItem:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
-        Settings.SummerNum = value
-        saveSettings()
-    end, { options = {"1","10","100"}, default = getgenv().SummerNum})
-
-    SummerItem:Cheat("Button","ชื้อ Summer Item [ครั้งเดียว]", function(bool)
-        local args = {
-            [1] = getgenv().portalnameC,
-            [2] = "event",
-            [3] = "event_shop",
-            [4] = Settings.SummerNum
-        }
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
-        warn("Buy Summer Portal !!!")
-    end)
-
-    SummerItem:Cheat("Checkbox","Auto Buy Item Summer [มันจะชื้อรัวมาก]", function(bool)
-        print(bool)
-        Settings.AutoBuySummer = bool
-        saveSettings()
-    end,{enabled = Settings.AutoBuySummer})
-
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoBuySummer then
-                local args = {
-                    [1] = getgenv().portalnameC,
-                    [2] = "event",
-                    [3] = "event_shop",
-                    [4] = Settings.SummerNum
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
-            end
-        end
-    end)
-
-    ----------------------------------------------------------------
-    --Auto Open Egg
-
-    Settings.SelecteStars = Settings.SelecteStars or "capsule_summer"
-    SummerEgg:Cheat("Dropdown", "เลือก ไข่ Star",function(value)
-        Settings.SelecteStars = value
-        saveSettings()
-    end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
-
-    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [1 ea]", function(bool)
-        print(bool)
-        Settings.AutoOpenSummer1 = bool
-        saveSettings()
-    end,{enabled = Settings.AutoOpenSummer1})
-
-    SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [10 ea]", function(bool)
-        print(bool)
-        Settings.AutoOpenSummer10 = bool
-        saveSettings()
-    end,{enabled = Settings.AutoOpenSummer10})
-
-    SummerEgg:Cheat("Checkbox","Webhook Skin", function(bool)
-        print(bool)
-        Settings.SendWebhookSkin = bool
-        saveSettings()
-    end,{enabled = Settings.SendWebhookSkin})
-    SummerEgg:Cheat("Textbox", "Send Webhook Skin", function(Value)
-        Settings.WebhookUrlSkin = Value
-        saveSettings()
-    end, {placeholder = Settings.WebhookUrlSkin})
-
-    -- สร้าง Table ของ สกิน
-    local SummerSkinTable,TableSeason,WebhookSkin = {},{},{}
-    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-        Remove_Items_Text = string.gsub(v.Name,"Items_","")
-        Remove_Skins_Text = string.gsub(Remove_Items_Text,"Skins","")
-        table.insert(TableSeason,Remove_Skins_Text)
-        
-        for i,v in pairs(require(v)) do
-            WebhookSkin[i] = 0
-            SummerSkinTable[i] = v
-        end
-    end
-    -- Add Skin In Inventory
-    for i,v in pairs(get_inventory_items_unique_items()) do
-        if string.find(v['item_id'],"_skin") then
-            WebhookSkin[v['item_id']] = WebhookSkin[v['item_id']] + 1
-        end
-    end
-
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoOpenSummer1 or Settings.AutoOpenSummer10 then
-                local args = {
-                    --[1] = "capsule_summer",
-                    [1] = Settings.SelecteStars,
-                    [2] = {
-                        --["use10"] = Settings.AutoOpenSummer1 == false and Settings.AutoOpenSummer10 == true
-                        ["use10"] = Settings.AutoOpenSummer1 and false or Settings.AutoOpenSummer10 and true
-                    }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_item:InvokeServer(unpack(args))
-               
-                
-                if Settings.SendWebhookSkin and Settings.WebhookUrlSkin ~= nil then
-                    -- Create Table New Skinb
-                    local WebhookSkinNew,TextWebhook = {},""
-                    for i,v in pairs(game:GetService("ReplicatedStorage").src.Data.Items.UniqueItems.Skins:GetChildren()) do
-                        for i,v in pairs(require(v)) do
-                            WebhookSkinNew[i] = 0
-                        end
-                    end
-                    for i,v in pairs(get_inventory_items_unique_items()) do
-                        if string.find(v['item_id'],"_skin") then
-                            WebhookSkinNew[v['item_id']] = WebhookSkinNew[v['item_id']] + 1
-                        end
-                    end
-
-                    -- Create Text Output
-                    SentSkin = false
-                    for SkinName,Count_OldSkin in pairs(WebhookSkin) do
-                        if WebhookSkinNew[SkinName] > Count_OldSkin then
-                            local Name = SummerSkinTable[SkinName]['name']:split(" ")
-                            TextWebhook = TextWebhook .. "[" .. SummerSkinTable[SkinName].rarity .. "]" .. " " .. Name[3] .. " " .. Name[4] .. " | Count : " .. tostring(WebhookSkinNew[SkinName]) .. "\n"
-                            SentSkin = true
-                        end 
-                    end
-
-                    CountPortal_list = 0
-                    for i,v in pairs(get_inventory_items_unique_items()) do
-                        if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-                            CountPortal_list = CountPortal_list + 1
-                        end
-                    end
-            
-                    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
-                    local Time = os.date('!*t', OSTime);
-                    local exec = tostring(identifyexecutor())
-
-                    local data = {
-                        ["content"] = "",
-                        ["username"] = "Anime Adventures V2",
-                        ["avatar_url"] = "https://tr.rbxcdn.com/8e885e939ad70638b40e74a7c84d1530/150/150/Image/Png",
-                        ["embeds"] = {
-                            {
-                                ["author"] = {
-                                    ["name"] = "Anime Adventures | แจ้งเตือน V2 ✔️",
-                                    ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
-                                },
-                                ["thumbnail"] = {
-                                    ['url'] = thumbnails_avatar.data[1].imageUrl,
-                                },
-                                ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
-                                ["color"] = 110335,
-                                ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
-                                ['footer'] = {
-                                    ['text'] = "// Made by Negative & HOLYSHz", 
-                                    ['icon_url'] = "https://yt3.ggpht.com/mApbVVD8mT92f50OJuTObnBbc3j7nDCXMJFBk2SCDpSPcaoH9DB9rxVpJhsB5SxAQo1UN2GzyA=s48-c-k-c0x00ffffff-no-rj"
-                                },
-                                ["fields"] = {
-                                    {
-                                        ["name"] ="Current Level ✨ & Gems 💎 & Gold 💰 & Portals 🌀",
-                                        ["value"] = "```ini\n"
-                                                    ..tostring(game.Players.LocalPlayer.PlayerGui.spawn_units.Lives.Main.Desc.Level.Text)..  " ✨\nGold รวม : "
-                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
-                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
-                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                                    ..tostring(CountPortal_list) .." 🌀\nSummer Pearls : "
-                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
-                                    },
-                                    {
-                                        ["name"] ="Skins Drop :",
-                                        ["value"] = "```ini\n" .. TextWebhook .. "```",
-                                        ["inline"] = false 
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    local porn = game:GetService("HttpService"):JSONEncode(data)
-                    local headers = {["content-type"] = "application/json"}
-                    local request = http_request or request or HttpPost or syn.request or http.request
-                    local sex = {Url = Settings.WebhookUrlSkin, Body = porn, Method = "POST", Headers = headers}
-                    if SentSkin then
-                        warn("Sending webhook notification...")
-                        request(sex)
-                    end
-                end
-            end
-        end
-    end)
-
-    ----------------------------------------------------------------sellskin
-    --Auto Sell Summer Skin
-
-    Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
-    SummerSkin:Cheat("Dropdown","เลือก Season", function(bool)
-        print(bool)
-        Settings.SelectedSellSeason = bool
-        saveSettings()
-    end,{options = TableSeason, default = Settings.SelectedSellSeason})
-
-    Settings.SelectedSellRarity1 = Settings.SelectedSellRarity1 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 1",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity1 = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity1})
-
-    Settings.SelectedSellRarity2 = Settings.SelectedSellRarity2 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 2",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity2 = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity2})
-
-    Settings.SelectedSellRarity3 = Settings.SelectedSellRarity3 or "Rare"
-    SummerSkin:Cheat("Dropdown", "🎚️ เลือก Rarity 3",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellRarity3 = value
-        saveSettings()
-    end, { options = {"Rare","Epic","Legendary","Mythic"}, default = Settings.SelectedSellRarity3})
-
-    SummerSkin:Cheat("Checkbox","Auto Sell Skins ", function(bool)
-        print(bool)
-        Settings.AutoSellSskin = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSellSskin})
-
-    task.spawn(function()
-        while task.wait() do 
-            if Settings.AutoSellSskin then
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"_skin") then
-                        if SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity1 
-                        or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity2 
-                        or SummerSkinTable[v['item_id']].rarity == Settings.SelectedSellRarity3
-                        and string.find(v['item_id'],Settings.SelectedSellSeason:lower()) then
-                            local args = {
-                                [1] = {
-                                    [1] = v["uuid"]
-                                }
-                            }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                            warn("Sell : " ..tostring(v['item_id']) .. " | "  ..tostring(Settings.SelectedSellSeason))
-                            --wait(0.1)
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end
-----------------------------------------------
--------------- Discord Webhook ---------------
-----------------------------------------------
-function Webhooksec()
-    WebhookSec:Cheat("Textbox", "Webhook Url", function(Value)
-        Settings.WebhookUrl = Value
-        saveSettings()
-    end, {placeholder = Settings.WebhookUrl})
-    
-    WebhookSec:Cheat("Textbox", "Baby Webhook Url", function(Value)
-        Settings.BabyWebhookUrl = Value
-        saveSettings()
-    end, {placeholder = Settings.BabyWebhookUrl})
-
-    WebhookSec:Cheat("Textbox", "Snipe Webhook Url", function(Value)
-        Settings.SnipeWebhookUrl = Value
-        saveSettings()
-    end, {placeholder = Settings.SnipeWebhookUrl})
-
-    WebhookSec:Cheat("Checkbox","เปิดใช้ Webhook", function(bool)
-        Settings.WebhookEnabled = bool
-        saveSettings()
-    end,{enabled = Settings.WebhookEnabled})
-
-    WebhookSec:Cheat("Checkbox","เปิดใช้ Baby Webhook [BTP,Castle,Tour]", function(bool)
-        Settings.BabyWebhookEnabled = bool
-        saveSettings()
-    end,{enabled = Settings.BabyWebhookEnabled})
-
-    WebhookSec:Cheat("Checkbox","เปิดใช้ Snipe Webhook [Banner & Shop]", function(bool)
-        Settings.snipeWebhookEnabled = bool
-        saveSettings()
-    end,{enabled = Settings.snipeWebhookEnabled})
-
-    WebhookSec:Cheat("Button", "Test Webhook", function()
-        print(Settings.WebhookUrl)
-        webhook()
-    end)
-end
-
-function Webhooksec2()
-    WebhookSec:Cheat("Button", "Test Baby&Shop Webhook", function()
-        print(Settings.WebhookUrl)
-        BabyWebhook()
-        SnipeShopNew()
-    end)
-end
-
------------------------------------------------
-------------------Sell Portal------------------
------------------------------------------------
-function Sellportals()
-
-    Settings.SelectedSellPortals = Settings.SelectedSellPortals or "portal_summer"
-    SellPortals:Cheat("Dropdown", "🎚️ เลือก Portal",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellPortals = value
-        saveSettings()
-    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
---fixportal
-
-    Tier_sell = {}
-    for i = 0,15 do
-        table.insert(Tier_sell,i)
-    end
-
-    Settings.SelectedSellTier = Settings.SelectedSellTier or 0
-    SellPortals:Cheat("Dropdown", "🎚️ เลือก Tier Portal ",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellTier = value
-        saveSettings()
-    end, {options = Tier_sell, default = Settings.SelectedSellTier})
-
-
-    Settings.SelectedSellChallenge = Settings.SelectedSellChallenge or "double_cost"
-    SellPortals:Cheat("Dropdown", "🎚️ เลือก Challenge",function(value)
-        warn("Change to : "..value)
-        Settings.SelectedSellChallenge = value
-        saveSettings()
-    end, { options = {"double_cost","short_range","fast_enemies","regen_enemies", "tank_enemies","shield_enemies","triple_cost","hyper_regen_enemies","hyper_shield_enemies","godspeed_enemies","flying_enemies","mini_range"}, default =Settings.SelectedSellChallenge})
-
-
-    SellPortals:Cheat("Checkbox","Auto Sell  <= [เลือก Tier & Challenge]", function(bool)
-        print(bool)
-        Settings.AutoSellPortals = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSellPortals})
-
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoSellPortals then
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") then
-                        if v['item_id'] == Settings.SelectedSellPortals then
-                        if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
-                            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] == Settings.SelectedSellChallenge then
-                                local args = {
-                                    [1] = {
-                                        [1] = v["uuid"]
-                                    }
-                                }
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                --warn("Sell Selecte Protals")
-                                warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
-                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
-                                
-                                wait(0.1)
-                            end
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end)
-
-    SellPortals:Cheat("Label"," ")    
-    SellPortals:Cheat("Checkbox","Auto Sell Portal == [เลือก Tier]", function(bool)
-        print(bool)
-        Settings.AutoSellNRPortals = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSellNRPortals})
-
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoSellNRPortals then
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") then
-
-                        if v['item_id'] == Settings.SelectedSellPortals then
-                        if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
-                                local args = {
-                                    [1] = {
-                                        [1] = v["uuid"]
-                                    }
-                                }
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                                --warn("Sell Selecte Protals")
-                                warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
-                                --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
-                               
-                                wait(0.1)
-                            end
-                        end
-                    end
-                end
-            end
-        end
-    end)
-
-    SellPortals:Cheat("Label"," ")  
-    SellPortals:Cheat("Checkbox","Auto Sell All Portal [ทุกประตู]", function(bool)
-        print(bool)
-        Settings.AutoSellAllPortals = bool
-        saveSettings()
-    end,{enabled = Settings.AutoSellAllPortals})
-
-    task.spawn(function()
-        while task.wait() do
-            if Settings.AutoSellAllPortals then
-                for i,v in pairs(get_inventory_items_unique_items()) do
-                    if string.find(v['item_id'],"portal") then
-
-                        if v['item_id'] == Settings.SelectedSellPortals then
-                        --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] <= Settings.SelectedSellTier then
-                                local args = {
-                                    [1] = {
-                                        [1] = v["uuid"]
-                                    }
-                                }
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.delete_unique_items:InvokeServer(unpack(args))
-                               --warn("Sell Selecte Protals")
-                               warn("Sell : " ..tostring(v['item_id']) .. " | Tier : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["portal_depth"]).. " | Challenge : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["challenge"]))
-                               --warn("Difficulty : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]).. " | Rewards : "  ..tostring(v["_unique_item_data"]["_unique_portal_data"]["_portal_reward_scale"]))
-                               wait(0.1)
-                            --end
-                        end
-                    end
-                end
-            end
-        end
-    end)
-
-end
-
-
-----------------------------------------------
------------------- Others --------------------
-----------------------------------------------
-function autoload()
-    pcall(function()
-        local exec = tostring(identifyexecutor())
-        if exec == "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
-        elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
-        elseif exec ~= "Synapse X" and Settings.AutoLoadScript then
-            syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
-        end
-    end)
-end
-
-if Settings.AutoLoadScript then
-    autoload()
-end
-
-function autoload2()
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()
-end
-
-if Settings.refarmc then
-    autoload2() end
-if Settings.setfarm1 then
-    autoload2() end
-if Settings.setfarm2 then
-    autoload2() end
-if Settings.setfarmIC then
-    autoload2() end
-
-function others()
-    OtherSec:Cheat("Checkbox","Auto Load Script", function(bool)
-        Settings.AutoLoadScript = bool
-        saveSettings()
-        autoload()
-    end,{enabled = Settings.AutoLoadScript})
-
-    OtherSec:Cheat("Checkbox","Auto Check Internet", function(bool)
-        Settings.AutoReConnect = bool
-        saveSettings()
-    end,{enabled = Settings.AutoReConnect})
-
-    OtherSec3:Cheat("Checkbox","Hide Name Player", function(bool)
-        Settings.hidenamep = bool
-        saveSettings()
-        hidename()
-    end,{enabled = Settings.hidenamep})
-end
-
-
-
-----------------------------------------------
------------- /\/\/\/\/\/\/\/\/\ --------------
-----------------------------------------------
-if game.PlaceId == 8304191830 then
-    UnitPosition:Cheat("Label","ไม่สามารถใช้ได้ใน lobby!!!")    
-    UnitSec()
-    WorldSec()
-    AutoFarmSec()
-    MoreFarmSec()
-    ChallengeSec()
-    DeleteMapSec()
-    unitconfig()
-    LowCPUModeT()
-    LAGGYconfig()
-    credits()
-    sponsor()
-    AutoSummon()
-    SnipeMerchant()
-    Webhooksec()
-    Webhooksec2()
-    Sellportals()
-    others()
-    DELMAPNEW()
-    UNITAOEAA()
-else
-    SelectUnits:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")    
-    AutoSummonSec:Cheat("Label","ใช้ได้แค่ใน Lobby!!!")
-    WorldSec()
-    AutoFarmSec()
-    MoreFarmSec()
-    ChallengeSec()
-    DeleteMapSec()
-    UnitPosSec()
-    unitconfig()
-    LowCPUModeT()
-    LAGGYconfig()
-    sponsor()
-    credits()
-    SnipeMerchant()
-    Webhooksec()
-    Sellportals()
-    others()
-    DELMAPNEW()
-    UNITAOEAA()
-    WebhookSec:Cheat("Label","")
-    WebhookSec:Cheat("Label","Test Baby&Shop Webhook ใช้ได้แค่ใน Lobby!!!")
-end
-----------------------------------------------
------------- /\/\/\/\/\/\/\/\/\ --------------
-----------------------------------------------
-local function checkChallenge()
-    for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
-        if v:IsA("SurfaceGui") then
-            if v:FindFirstChild("ChallengeCleared") then
-                return v.ChallengeCleared.Visible
-            end
-        end
-    end
-end
-local function checkReward()
-    if checkChallenge() == false then
-        if Settings.SelectedReward == game:GetService("Workspace")["_LOBBIES"]["_DATA"]["_CHALLENGE"]["current_reward"].Value --then
-        or Settings.SelectedReward2 == game:GetService("Workspace")["_LOBBIES"]["_DATA"]["_CHALLENGE"]["current_reward"].Value --then
-        or Settings.SelectedReward3 == game:GetService("Workspace")["_LOBBIES"]["_DATA"]["_CHALLENGE"]["current_reward"].Value --then
-        or Settings.SelectedReward4 == game:GetService("Workspace")["_LOBBIES"]["_DATA"]["_CHALLENGE"]["current_reward"].Value then
-        return true
-        elseif Settings.AutoChallengeAll then
-            return true
-        else
-            return false
-        end
-    else
-        return false
-    end
-end
-
-----------------------------------------
-getgenv().door = "_lobbytemplate316"
-local function startChallenge()
-    if game.PlaceId == 8304191830 then
-        local cpos = plr.Character.HumanoidRootPart.CFrame
-        if Settings.AutoChallenge and Settings.AutoFarm  and checkReward() == true then
-            if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
-
-            for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
-                if v.Name == "Owner" and v.Value == nil then
-                    --print(v.Parent.Name.." "..v.Parent:GetFullName())
-                        local args = {  [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-                        Settings.chdoor = v.Parent.Name
-                        break
-                    end
-                end
-            end
-            task.wait()
-            plr.Character.HumanoidRootPart.CFrame = cpos
-        end
-    end
-end
----------------------------------------------
---test fixportal
-
-function getBorosPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_boros_g" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getDemonPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "april_portal_item" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getOPNPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__dressrosa" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getZeldrisPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_zeldris" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-
-function getberserkPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__eclipse" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getSummerPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_summer" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
---ประตูลับ
-
-function getPoseidonPortals()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_poseidon" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-function getSecretDoflamingo()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__doflamingo" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
-
-function getSecretEclipse()
-    local portals = {}
-    for _, item in pairs(get_inventory_items_unique_items()) do
-        if item["item_id"] == "portal_item__femto" then
-            table.insert(portals, item)
-        end
-    end
-    return portals
-end
-
---End
-
-function GetPortals(id)
-    local reg = getreg() 
-    local portals = {}
-    for i,v in next, reg do
-        if type(v) == 'function' then 
-            if getfenv(v).script then 
-                for _, v in pairs(debug.getupvalues(v)) do 
-                    if type(v) == 'table' then
-                        if v["session"] then
-                            for _, item in pairs(v["session"]["inventory"]['inventory_profile_data']['unique_items']) do
-                                if item["item_id"]:match(id) then
-                                    table.insert(portals, item)
-                                end
-                            end
-                            return portals
-                        end
-                    end
-                end
-            end
-        end
-    end
-end
-
-function GetPlayerPortal()
-    local PlayerPortal
-    if game:GetService("Workspace"):FindFirstChild("_PORTALS") then
-        for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-            if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                local PlayerPortal = { [1] = tostring(v.Parent.Name) }
-                break;
-            end 
-        end
-        pcall(function() 
-            BabyWebhook()
-            SnipeShopNew()
-        end)
-    end
-    return PlayerPortal
-end
-
-function GetPlayerPortalUse(level)
-
-    ---------------------------------
-    --New Mapname
-    --[[local Loader = require(game.ReplicatedStorage.src.Loader)
-    local Maps = Loader.load_data(script, "Maps")
-    local v100 = Maps[Loader.LevelData.map]
-    MapsNameTEST2 = v100.name]]
-    -------------------------
-    for i,v in pairs(get_inventory_items_unique_items()) do
-        if string.find(v['item_id'],"portal") then
-            if v['item_id'] == PortalsNameN then
-
-                
-
-            end
-        end
-    end
-    -------------------------
-
-    local PortalName,PortalUUID,PortalPlayer
-    -- Aline fixportal
-    if level == "portal_boros_g" then
-        PortalName = "Aline farming"
-        PortalUUID = GetPortals("portal_boros_g")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-    -- Demon 		
-    elseif level == "april_portal_item" then
-        PortalName = "Demon farming"
-        PortalUUID = GetPortals("april_portal_item")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-    --OPN 		
-    elseif level == "portal_item__dressrosa" then
-        PortalName = "OPNew farming"
-        PortalUUID = GetPortals("portal_item__dressrosa")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-        --7Ds 		
-    elseif level == "portal_zeldris" then
-        PortalName = "7ds farming"
-        PortalUUID = GetPortals("portal_zeldris")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-        --Berserk 		
-    elseif level == "portal_item__eclipse" then
-        PortalName = "Berserk farming"
-        PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-
-        --ประตูลับ
-    elseif level == "portal_item__doflamingo" then
-        PortalName = "Dofamingo Secret Portal farming"
-        PortalUUID = GetPortals("portal_item__doflamingo")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-
-    elseif level == "portal_item__femto" then
-        PortalName = "The Eclipse Secret Portal farming"
-        PortalUUID = GetPortals("portal_item__femto")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-
-    elseif level == "portal_poseidon" then
-        PortalName = "Summer Secret Portal farming"
-        PortalUUID = GetPortals("portal_poseidon")[1]["uuid"]
-        PortalPlayer = GetPlayerPortal()
-
-        
-    ------------------------------
-    -- [[ Portal Event Portal ]] --
-
-    elseif level == "portal_summer" then
-            for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
-                Settings.SelectedTier = i
-            local PortalEvent = GetPortals("portal_summer")
-            for i,v in pairs(PortalEvent) do
-
-                --SettingPortalsName1
-                if Settings.SelectedPortalsName1 == "Planet Namak (Summer)" then
-                    Settings.SelectedPortalsName1 = "namek_infinite" end 
-                if Settings.SelectedPortalsName1 == "Shiganshinu District (Summer)" then
-                    Settings.SelectedPortalsName1 = "aot_infinite" end 
-                if Settings.SelectedPortalsName1 == "Ant Kingdom (Summer)" then
-                    Settings.SelectedPortalsName1 = "hxhant_infinite" end 
-                if Settings.SelectedPortalsName1 == "Cursed Academy (Summer)" then
-                    Settings.SelectedPortalsName1 = "jjk_infinite" end 
-                if Settings.SelectedPortalsName1 == "Alien Spaceship (Underwater)" then
-                    Settings.SelectedPortalsName1 = "opm_infinite" end 
-                if Settings.SelectedPortalsName1 == "Puppet Island (Summer)" then
-                    Settings.SelectedPortalsName1 = "dressrosa_infinite" end 
-                if Settings.SelectedPortalsName1 == "Fabled Kingdom (Summer)" then
-                    Settings.SelectedPortalsName1 = "7ds_infinite" end 
-                --SettingPortalsName2
-                if Settings.SelectedPortalsName2 == "Planet Namak (Summer)" then
-                    Settings.SelectedPortalsName2 = "namek_infinite" end 
-                if Settings.SelectedPortalsName2 == "Shiganshinu District (Summer)" then
-                    Settings.SelectedPortalsName2 = "aot_infinite" end 
-                if Settings.SelectedPortalsName2 == "Ant Kingdom (Summer)" then
-                    Settings.SelectedPortalsName2 = "hxhant_infinite" end 
-                if Settings.SelectedPortalsName2 == "Cursed Academy (Summer)" then
-                    Settings.SelectedPortalsName2 = "jjk_infinite" end 
-                if Settings.SelectedPortalsName2 == "Alien Spaceship (Underwater)" then
-                    Settings.SelectedPortalsName2 = "opm_infinite" end 
-                if Settings.SelectedPortalsName2 == "Puppet Island (Summer)" then
-                    Settings.SelectedPortalsName2 = "dressrosa_infinite" end 
-                if Settings.SelectedPortalsName2 == "Fabled Kingdom (Summer)" then
-                    Settings.SelectedPortalsName2 = "7ds_infinite" end 
-                --SettingPortalsName3
-                if Settings.SelectedPortalsName3 == "Planet Namak (Summer)" then
-                    Settings.SelectedPortalsName3 = "namek_infinite" end 
-                if Settings.SelectedPortalsName3 == "Shiganshinu District (Summer)" then
-                    Settings.SelectedPortalsName3 = "aot_infinite" end 
-                if Settings.SelectedPortalsName3 == "Ant Kingdom (Summer)" then
-                    Settings.SelectedPortalsName3 = "hxhant_infinite" end 
-                if Settings.SelectedPortalsName3 == "Cursed Academy (Summer)" then
-                    Settings.SelectedPortalsName3 = "jjk_infinite" end 
-                if Settings.SelectedPortalsName3 == "Alien Spaceship (Underwater)" then
-                    Settings.SelectedPortalsName3 = "opm_infinite" end 
-                if Settings.SelectedPortalsName3 == "Puppet Island (Summer)" then
-                    Settings.SelectedPortalsName3 = "dressrosa_infinite" end 
-                if Settings.SelectedPortalsName3 == "Fabled Kingdom (Summer)" then
-                    Settings.SelectedPortalsName3 = "7ds_infinite" end 
-
-                if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1
-                and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName2
-                and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName3 then
-                if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
-                if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
-                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
-                and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
-
-                    PortalEventUse = v
-                    PortalName = "Summer farming"
-                    PortalUUID = PortalEventUse["uuid"]
-                    PortalPlayer = GetPlayerPortal()
-                    break
-                    end
-                end
-            end
-        end
-    end
-
-
-end
-    return {PortalName,PortalUUID,PortalPlayer}
-end
-
-function StartPortal(input)
-    local DataPlayerPortal = GetPlayerPortalUse(input)
-    --for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-        --if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name and game.workspace._MAP_CONFIG:WaitForChild("GetLevelData") then
-            if game.workspace:FindFirstChild("_MAP_CONFIG") and game.workspace:FindFirstChild("_MAP_CONFIG"):FindFirstChild("GetLevelData") then
-                return DataPlayerPortal
-            else
-                local args = {
-                    [1] = DataPlayerPortal[2],
-                    [2] = { ["friends_only"] = Settings.isFriendOnly } --getgenv().isFriendOnly 
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_portal:InvokeServer(unpack(args))
-                task.wait(1)
-                for i,v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and tostring(v.value) == game.Players.LocalPlayer.Name then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                --game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(DataPlayerPortal[3]))
-                warn(DataPlayerPortal[1])
-                task.wait(1)
-            end
-        end
-    end
-end
-
-
-
-Settings.teleporting = true
-getgenv().door = "_lobbytemplategreen1"
-local function startfarming()
-    if game.PlaceId == 8304191830 and not Settings.farmprotal and Settings.autostart and Settings.AutoFarm and Settings.teleporting and not Settings.AutoInfinityCastle then
-        local cpos = plr.Character.HumanoidRootPart.CFrame; cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-        
-        if cata == "Story Worlds" or cata == "Legend Stages" then
-            if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
-                for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
-                    if v.Name == "Owner" and v.Value == nil then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-    
-                        task.wait()
-                    
-                        local args = {
-                            [1] = tostring(v.Parent.Name), -- Lobby 
-                            [2] = Settings.SelectedLevel, -- World/Level
-                            [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                            [4] = Settings.Difficulty }
-    
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-    
-                        local args = { [1] =tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        
-                        getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                        plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                        break
-                    end
-                end
-    
-                task.wait()
-    
-                plr.Character.HumanoidRootPart.CFrame = cpos
-    
-                if Workspace._LOBBIES.Story[getgenv().door].Owner == plr.Name then
-                    if Workspace._LOBBIES.Story[getgenv().door].Teleporting.Value == true then
-                        getgenv().teleporting = false
-                    else
-                        getgenv().teleporting = true
-                    end
-                end
-    
-            pcall(function() 
-                BabyWebhook() 
-                SnipeShopNew()
-            
-            end)
-                print("send Webhook")
-                task.wait(0.5)
-                warn("farming")
-                task.wait(1)
-            end
-        elseif cata == "Raid Worlds" then
-            getgenv().door =  "_lobbytemplate212"
-            if tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
-                for i, v in pairs(game:GetService("Workspace")["_RAID"].Raid:GetDescendants()) do
-                    if v.Name == "Owner" and v.Value == nil then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-    
-                        task.wait()
-                    
-                        local args = {
-                            [1] = tostring(v.Parent.Name), -- Lobby 
-                            [2] = Settings.SelectedLevel, -- World/Level
-                            [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                            [4] = Settings.Difficulty }
-    
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-    
-                        local args = { [1] =tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        
-                        getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                        plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                        break
-                    end
-                end
-    
-                task.wait()
-    
-                plr.Character.HumanoidRootPart.CFrame = cpos
-    
-                if Workspace._RAID.Raid[getgenv().door].Owner == plr.Name then
-                    if Workspace._RAID.Raid[getgenv().door].Teleporting.Value == true then
-                        getgenv().teleporting = false
-                    else
-                        getgenv().teleporting = true
-                    end
-                end
-    
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew() 
-            end)
-                print("send Webhook")
-                task.wait(0.5)
-                warn("Raid farming")
-                task.wait(1)
-            end       
-        elseif cata == "Portals" then
-            StartPortal(level)
-
-        elseif cata == "Dungeon" then
-            if level == "jjk_finger" then --_lobbytemplate_event221
-            getgenv().door = "_lobbytemplate_event221"
-            local string_1 = "_lobbytemplate_event221";
-            local table_1 = {
-                ["selected_key"] = "key_jjk_finger" --key_jjk_finger
-            };
-            local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-            Target:InvokeServer(string_1, table_1);
-        
-            if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
-                    if v.Name == "Owner" and v.Value == nil then
-                        local args = { [1] = tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-    
-                        task.wait()
-                    
-                        local args = {
-                            [1] = tostring(v.Parent.Name), -- Lobby 
-                            [2] = Settings.SelectedLevel, -- World/Level
-                            [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                            [4] = Settings.Difficulty 
-                        }
-    
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-    
-                        local args = { [1] =tostring(v.Parent.Name) }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                        
-                        getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                        plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                        break
-                    end
-                end
-    
-                task.wait()
-    
-                plr.Character.HumanoidRootPart.CFrame = cpos
-    
-                if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
-                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
-                        getgenv().teleporting = false
-                    else
-                        getgenv().teleporting = true
-                    end
-                end
-    
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(0.5)
-                warn("DUNGEONS jjk_finger farming")
-                task.wait(1)
-            end
-        --ดันเกะโท
-        elseif cata == "Dungeon" then
-            if level == "jjk_raid" then
-                getgenv().door = "_lobbytemplate_event22"
-                local string_1 = "_lobbytemplate_event22";
-                local table_1 = {
-                    ["selected_key"] = "key_jjk_map"
-                };
-                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                Target:InvokeServer(string_1, table_1);
-            
-                if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                    for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
-                        if v.Name == "Owner" and v.Value == nil then
-                            local args = { [1] = tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-        
-                            task.wait()
-                        
-                            local args = {
-                                [1] = tostring(v.Parent.Name), -- Lobby 
-                                [2] = Settings.SelectedLevel, -- World/Level
-                                [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                                [4] = Settings.Difficulty 
-                            }
-        
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-        
-                            local args = { [1] =tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                            
-                            getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                            plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                            break
-                        end
-                    end
-        
-                    task.wait()
-        
-                    plr.Character.HumanoidRootPart.CFrame = cpos
-        
-                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
-                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
-                            getgenv().teleporting = false
-                        else
-                            getgenv().teleporting = true
-                        end
-                    end
-        
-                pcall(function() 
-                    BabyWebhook()
-                    SnipeShopNew()
-                 end)
-                    print("send Webhook")
-                    task.wait(0.5)
-                    warn("DUNGEONS jjk_raid farming")
-                    task.wait(1)
-                end
-            --Events Annivesary
-        elseif cata == "Dungeon" then
-            if level == "namek_anniversary" then
-                getgenv().door = "_lobbytemplate_event323"
-                local string_1 = "_lobbytemplate_event323";
-                local table_1 = {
-                    ["selected_key"] = "key_jjk_map"
-                };
-                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                Target:InvokeServer(string_1, table_1);
-            
-                if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                    for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
-                        if v.Name == "Owner" and v.Value == nil then
-                            local args = { [1] = tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-        
-                            task.wait()
-                        
-                            local args = {
-                                [1] = tostring(v.Parent.Name), -- Lobby 
-                                [2] = Settings.SelectedLevel, -- World/Level
-                                [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                                [4] = Settings.Difficulty 
-                            }
-        
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-        
-                            local args = { [1] =tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                            
-                            getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                            plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                            break
-                        end
-                    end
-        
-                    task.wait()
-        
-                    plr.Character.HumanoidRootPart.CFrame = cpos
-        
-                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
-                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
-                            getgenv().teleporting = false
-                        else
-                            getgenv().teleporting = true
-                        end
-                    end
-        
-                pcall(function() 
-                    BabyWebhook()
-                    SnipeShopNew()
-                 end)
-                    print("send Webhook")
-                    task.wait(0.5)
-                    warn("DUNGEONS Annivesary farming")
-                    task.wait(1)
-                end
-            end
-
-
-                end
-            end
-        end
-    end
-end
---end]]
-
-------------------------------------
----- Start Auto Ability Function----
-------------------------------------
-
-getgenv().autoabilityerr = false
-function autoabilityfunc()
-    local player = game.Players.LocalPlayer.Name
-    if Settings.AutoAbilities then
-        repeat task.wait() until Workspace:WaitForChild("_UNITS")
-        local success, err = pcall(function()
-            for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-                if v:FindFirstChild("_stats") then
-                    
-                    
-                    if v._stats:FindFirstChild("threat") then
-                        if v._stats.threat.Value > 0 then
-                            UsePuchiSkill()
-                            UseErenSkill()
-                            UseDioOHSkill()
-                        end
-                        
-
-    				elseif v._stats:FindFirstChild("player") then
-    					if tostring(v._stats.player.Value) == player then
-
-                            --AutoSkill
-
-                            if v._stats.id.Value == "gojo_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Gojo")
-                                end
-                            end
-                            
-                            if v._stats.id.Value == "homura_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Homura")
-                                end
-                            end
-
-                            if v._stats.id.Value == "law_2_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Homura")
-                                end
-                            end
-
-                            if v._stats.id.Value == "shanks_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Shanks")
-                                end
-                            end
-
-                            if v._stats.id.Value == "stain_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    wait(1)
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill stain")
-                                end
-                            end
-
-                            if v._stats.id.Value == "ainz_evolved" then
-                                if v._stats.state.Value == "attack" then
-                                    wait(5)
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Ainz")
-                                end
-                            end
-
-                        end
-                    end
-                end
-            end
-        end)
-
-
-      
-        if err then
-            warn("Can't use Ability")
-            getgenv().autoabilityerr = true
-            error(err)
-        end
-    end
-end
--- End  Auto Abilities Function
-    
-
-    -- Start of Auto Global Cooldown Abilities Function
-getgenv().autoGCDabilityerr = false
-function autoabilityGCDfunc()
-    local player = game.Players.LocalPlayer.Name
-    if Settings.AutoGCDAbilities then
-        repeat task.wait() until Workspace:WaitForChild("_UNITS")
-        local success, errGCD = pcall(function()
-            for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-                if v:FindFirstChild("_stats") then
-                    
-                    -- Look for Threat then execute Puchi Skill
-                    if v._stats:FindFirstChild("threat") then
-                        if v._stats.threat.Value > 0 then
-                            UsePuchiSkill()
-                            UseErenSkill()
-                            UseDioOHSkill()
-                        end
-                        
-                    -- Search Player Units
-    				elseif v._stats:FindFirstChild("player") then
-    					if tostring(v._stats.player.Value) == player then
-
-
-                            if v._stats.id.Value ~= "pucci_heaven" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "erwin" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "wendy" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "leafa" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "eren_final" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value == "homura_evolved" then
-                            if v._stats.state.Value ~= "attack" then
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                            end
-                        end
-                        
-                        end
-                    end
-                end
-            end
-        end)
-        
-        if errGCD then
-            warn("Can't use Ability")
-            getgenv().autoGCDabilityerr = true
-            error(errGCD)
-        end
-    end
-end
-    -- End of Auto Global Cooldown Abilities Function
-
-
--- Start  Puchi Skill Function
-function UsePuchiSkill()
-    local player = game.Players.LocalPlayer.Name
-    local LocalPlayer = game.Players.LocalPlayer
-	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
-		if v:FindFirstChild("_stats") then
-			if v._stats:FindFirstChild("player") then
-				if tostring(v._stats.player.Value) == player then
-					if v._stats.id.Value == "pucci_heaven" then
-					    if v._stats.state.Value == "attack" then
-					    
-					        -- Check Infinite
-						    if GLD()._gamemode == "infinite" then
-						        if GetWaveNumber() % 10 == 0 then
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Puchi")
-						        end
-						    -- Check Raid
-					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Puchi")
-						        end
-						    -- Check Story or Infinite Tower
-					        elseif GLD()._gamemode == "story" or "infinite_tower" then
-					            if GetWaveNumber() == 15 then
-					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Puchi")
-					            end
-					        end
-						end
-					end
-				end
-			end
-		end
-	end
-end
--- End  Puchi Skill Function
-
--- Start  Eren Skill Function
-function UseErenSkill()
-    local player = game.Players.LocalPlayer.Name
-    local LocalPlayer = game.Players.LocalPlayer
-	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
-		if v:FindFirstChild("_stats") then
-			if v._stats:FindFirstChild("player") then
-				if tostring(v._stats.player.Value) == player then
-					if v._stats.id.Value == "eren_final" then       
-					    if v._stats.state.Value ~= "attack" then
-					    
-					        -- Check Infinite 
-						    if GLD()._gamemode == "infinite" then
-						        if GetWaveNumber() % 10 == 0 then
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Eren")
-						        end
-						    -- Check Raid
-					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Eren")
-						        end
-						    -- Check Story or Infinite Tower
-					        elseif GLD()._gamemode == "story" or "infinite_tower" then
-					            if GetWaveNumber() == 15 then
-					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Eren")
-					            end
-					        end
-						end
-					end
-				end
-			end
-		end
-	end
-end
--- End  Eren Skill Function
-
--- Start  Jio Hevent Skill Function
-function UseDioOHSkill()
-    local player = game.Players.LocalPlayer.Name
-    local LocalPlayer = game.Players.LocalPlayer
-	for i, v in ipairs(Workspace["_UNITS"]:getChildren()) do
-		if v:FindFirstChild("_stats") then
-			if v._stats:FindFirstChild("player") then
-				if tostring(v._stats.player.Value) == player then
-					if v._stats.id.Value == "dio_heaven" then       
-					    if v._stats.state.Value == "attack" then
-					    
-					        -- Check Infinite 
-						    if GLD()._gamemode == "infinite" then
-						        if GetWaveNumber() % 10 == 0 then
-                                    wait(5)
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Dio heaven")
-						        end
-						    -- Check Raid
-					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
-                                    wait(5)
-						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Dio heaven")
-						        end
-						    -- Check Story or Infinite Tower
-					        elseif GLD()._gamemode == "story" or "infinite_tower" then
-					            if GetWaveNumber() == 15 then
-                                    wait(5)
-					                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Dio heaven")
-					            end
-					        end
-						end
-					end
-				end
-			end
-		end
-	end
-end
--- End  Jio Hevent Skill Function
-
--- Start  Auto Buff 100 Function
---Erwin
-function autoabilityerwin()
-    if Settings.EnableBufferwinLoop then
-
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
-        local LocalPlayer = game.Players.LocalPlayer
-        local LPlayer = game.Players.LocalPlayer.Name
-        local UnitsE = {'erwin','erwin:shiny','erwin_school','erwin_halloween'}
-        local Delay = {
-            ['erwin'] = 16.4,
-            ['erwin:shiny'] = 16.4,
-            ['erwin_school'] = 16.4,
-            ['erwin_halloween'] = 16.4,
-        }
-        _G.Stop = false
-        while wait() do
-          if _G.Stop then
-            break
-          end
-          local erwin1 = {}
-          for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
-              if table.find(UnitsE,v.Name) and v:FindFirstChild("_stats"):FindFirstChild("player").Value == LocalPlayer then
-                  table.insert(erwin1, v)
-              end
-          end
-        
-          if #erwin1 == 4 then
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[1])
-            warn("Use Skill " ..erwin1[1].Name .." 1 " )
-            wait(Delay[erwin1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[3])
-            warn("Use Skill " ..erwin1[1].Name .." 2 " )
-            wait(Delay[erwin1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[2])
-            warn("Use Skill " ..erwin1[1].Name .." 3 " )
-            wait(Delay[erwin1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(erwin1[4])
-            warn("Use Skill " ..erwin1[1].Name .." 4 " )
-            wait(Delay[erwin1[1].Name])
-          end
-        end
-
-    end
-end
-
-if Settings.EnableBufferwinLoop then
-    autoabilityerwin()
-end
-
---Wendy
-function autoabilitywendy()
-    if Settings.EnableBuffwendyLoop then
-
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
-        local LocalPlayer = game.Players.LocalPlayer
-        local LPlayer = game.Players.LocalPlayer.Name
-        local UnitsW = {'wendy','wendy:shiny'}
-        local Delay = {
-            ['wendy'] = 16.4,
-            ['wendy:shiny'] = 16.4,
-        }
-        _G.Stop = false
-        while wait() do
-            if _G.Stop then
-                break
-            end
-            local wendy1 = {}
-            for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
-                if table.find(UnitsW,v.Name) and v:FindFirstChild("_stats"):FindFirstChild("player").Value == LocalPlayer then
-                    table.insert(wendy1, v)
-                end
-            end
-            
-            if #wendy1 == 4 then
-                game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[1])
-                warn("Use Skill " ..wendy1[1].Name .." 1 " )
-                wait(Delay[wendy1[1].Name])
-                game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[3])
-                warn("Use Skill " ..wendy1[1].Name .." 2 " )
-                wait(Delay[wendy1[1].Name])
-                game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[2])
-                warn("Use Skill " ..wendy1[1].Name .." 3 " )
-                wait(Delay[wendy1[1].Name])
-                game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(wendy1[4])
-                warn("Use Skill " ..wendy1[1].Name .." 4 " )
-                wait(Delay[wendy1[1].Name])
-            end
-        end
-
-    end
-end
-
-if Settings.EnableBuffwendyLoop then
-    autoabilitywendy()
-end
-
---Leafa
-function autoabilityleafa()
-    if Settings.EnableBuffleafaLoop then
-
-        --local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        --repeat task.wait() until  GameFinished.Value == true
-        repeat task.wait() until game:IsLoaded()
-        --repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
-        local LocalPlayer = game.Players.LocalPlayer
-        local LPlayer = game.Players.LocalPlayer.Name
-        local UnitsL = {'leafa','leafa:shiny'}
-        local Delay = {
-            ['leafa'] = 16.4,
-            ['leafa:shiny'] = 16.4,
-        }
-        _G.Stop = false
-        while wait() do
-          if _G.Stop then
-            break
-          end
-          local leafa1 = {}
-          for _,v in pairs(game:GetService("Workspace")._UNITS:GetChildren()) do
-              if table.find(UnitsL,v.Name) and v:FindFirstChild("_stats"):FindFirstChild("player").Value == LocalPlayer then
-                  table.insert(leafa1, v)
-              end
-          end
-        
-          if #leafa1 == 4 then
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[1])
-            warn("Use Skill " ..leafa1[1].Name .." 1 " )
-            wait(Delay[leafa1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[3])
-            warn("Use Skill " ..leafa1[1].Name .." 2 " )
-            wait(Delay[leafa1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[2])
-            warn("Use Skill " ..leafa1[1].Name .." 3 " )
-            wait(Delay[leafa1[1].Name])
-            game:GetService("ReplicatedStorage"):WaitForChild("endpoints"):WaitForChild("client_to_server"):WaitForChild("use_active_attack"):InvokeServer(leafa1[4])
-            warn("Use Skill " ..leafa1[1].Name .." 4 " )
-            wait(Delay[leafa1[1].Name])
-          end
-        end
-
-    end
-end
-
-if Settings.EnableBuffleafaLoop then
-    autoabilityleafa()
-end
-
--- End  Auto Buff 100 Function
------------------------------------------------------------
-
-function autoupgradefunc()
-    local success, err = pcall(function() --///
-        repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-           if v:FindFirstChild("_stats") then
-                if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end)
-    if err then
-        warn("//////////////////////////////////////////////////")
-        warn("//////////////////////////////////////////////////")
-        getgenv().autoupgradeerr = true
-        error(err)
-    end
-end
-
-local function FarmInfinityCastle()
-    if Settings.AutoInfinityCastle and Settings.AutoFarm or Settings.AutoInfinityCastle then
-        if game.PlaceId == 8304191830 then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(12423.1855, 155.24025, 3198.07593, -1.34111269e-06, -2.02512282e-08, 1, 3.91705386e-13, 1, 2.02512282e-08, -1, 4.18864542e-13, -1.34111269e-06)
-            getgenv().infinityroom = 0
-            for i, v in pairs(game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.InfiniteTowerUI.LevelSelect.InfoFrame.LevelButtons:GetChildren()) do
-                if v.Name == "FloorButton" then
-                    if v.clear.Visible == false and v.Locked.Visible == false then
-                        local room = string.split(v.Main.text.Text, " ")
-                        local args = {
-                            [1] = tonumber(room[2]),
-                            [2] = Settings.SelectedDiffInf
-                        }
-                        
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower:InvokeServer(unpack(args))
-                        getgenv().infinityroom = tonumber(room[2])
-                        break
-                    end
-                end
-            end
-            pcall(function() 
-                BabyWebhook()
-                SnipeShopNew()
-             end)
-                print("send Webhook")
-                task.wait(0.5)
-                warn("Infinity Castle Farm")
-            task.wait(6)
-        end
-    end
-end
 coroutine.resume(coroutine.create(function()
-    while task.wait() do
-        if not Settings.AutoInfinityCastle then
-            if not checkChallenge() then --Challenge_Not_Complete
-                if  Settings.AutoChallenge and checkReward() == true then
-                    startChallenge() --S_Challenge
-                else
-                    startfarming()--S_Farming
-                end
-            elseif checkChallenge() == true then
-                startfarming()--S_Farming
-                BabyWebhook()
-                SnipeShopNew()
-            end
-        elseif not Settings.AutoInfinityCastle == true then--Infiniy Castle
-            if not checkChallenge() then --Challenge_Not_Complete
-                if  Settings.AutoChallengeAll then
-                    startChallenge() --S_Challenge
-                else
-                    startfarming()--S_Farming
-                end
-            elseif checkChallenge() == true then
-                startfarming()--S_Farming
-                BabyWebhook()
-                SnipeShopNew()
-            end
-        elseif Settings.AutoInfinityCastle == true then--Infiniy Castle
-            if not checkChallenge() then --Challenge_Not_Complete
-                if  Settings.AutoChallenge and checkReward() == true then
-                    startChallenge() --S_Challenge
-                else
-                    FarmInfinityCastle()--S_Farming
-                end
-            elseif checkChallenge() == true then
-                FarmInfinityCastle()--S_Farming
-                BabyWebhook()
-                SnipeShopNew()
+    local wave = 0
+
+    PlaceUnits = function(mapName, waveNum, x, y, z)
+		local raycastParams = RaycastParams.new()
+
+		raycastParams.FilterType = Enum.RaycastFilterType.Whitelist
+		raycastParams.FilterDescendantsInstances = {game:GetService("Workspace")["_terrain"]}
+
+		local rayOrigin = CFrame.new(xPos, 1000, zPos).p
+		local rayDestination = CFrame.new(xPos, -1000, zPos).p
+
+		local rayDirection = (rayDestination - rayOrigin)
+
+		local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
+
+		local units = {}
+
+		for i = 1, 6 do
+            local unitInfo = getgenv().SelectedUnits["U" .. i]
+			table.insert(units, {"U" .. i, unitInfo})
+		end
+
+		table.sort(units, function(a, b)
+			if tonumber(getgenv().unitPlacementSettings[a[1]]["placementPriority"]) ~= nil and tonumber(getgenv().unitPlacementSettings[b[1]]["placementPriority"]) ~= nil then
+				return tonumber(getgenv().unitPlacementSettings[a[1]]["placementPriority"]) > tonumber(getgenv().unitPlacementSettings[b[1]]["placementPriority"])
+			else
+				return false
+			end
+		end)
+		
+        for i = 1, 6 do
+            local unitinfo = units[i][2]
+			local spacer = 2
+
+			if unitinfo ~= nil then
+				if tonumber(getgenv().unitPlacementSettings[units[i][1]]["placeFromWave"]) <= tonumber(game:GetService("Workspace"):WaitForChild("_wave_num").Value) then
+					local unitinfo_ = unitinfo:split(" #")
+					local pos = getgenv().SpawnUnitPos[mapName][string.gsub(units[i][1], "U", "UP")]
+					
+					for j = 1, 9 do
+						--if not ((unitinfo_[1] == "Bulmy" or unitinfo_[1] == "Speedcart") and waveNum < 4) then
+						local rayOrigin = CFrame.new(pos["x"] + (x * (((j - 1) % 3) - 1)), 1000, pos["z"] + (z * (math.ceil(j / 3) - 2))).p
+						local rayDestination = CFrame.new(pos["x"] + (x * (((j - 1) % 3) - 1)), -1000, pos["z"] + (z * (math.ceil(j / 3) - 2))).p
+						local rayDirection = (rayDestination - rayOrigin)
+
+						local raycastResult = workspace:Raycast(rayOrigin, rayDirection, raycastParams)
+
+						--place units
+						if raycastResult ~= nil then
+							local args = {
+								[1] = unitinfo_[2],
+								[2] = CFrame.new(raycastResult.Position) * CFrame.Angles(0, -0, -0)
+							}
+							game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
+						end
+					end
+				end
             end
         end
-        if game.PlaceId ~= 8304191830 then
-            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-            if Settings.autoQuit and not Settings.AutoSell and tonumber(Settings.AutoSellWave) <= _wave.Value then
-                pcall(function() webhook() end)
-                print("send Webhook")
-                task.wait(2.1)
-                print("Returning to lobby...")
-                task.wait(2.1)
-                Teleport()
-            end
-            if Settings.AutoSell and not Settings.autoQuit and tonumber(Settings.AutoSellWave) <= _wave.Value then
-                getgenv().disableatuofarm = true
-                repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-                for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-                    repeat task.wait()
-                    until v:WaitForChild("_stats")
-                    if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-                        repeat
-                            task.wait()
-                        until v:WaitForChild("_stats"):WaitForChild("upgrade")
-            
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-                    end
+    end
+
+
+    while task.wait(1.5) do
+        local _wave = game:GetService("Workspace"):WaitForChild("_wave_num").Value
+        if wave ~= _wave then
+            wave = game:GetService("Workspace"):WaitForChild("_wave_num").Value
+            pcall(function() BabyWebhook() end)
+        end
+
+        if getgenv().AutoFarm and not getgenv().disableAutoFarm and not getgenv().lockAutoFunctions then
+            if game.PlaceId ~= 8304191830 then
+                --print("AutoFarming")
+                xOffset = 2
+                yOffset = -0.5
+                zOffset = 2
+
+				repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
+
+                if game.Workspace._map:FindFirstChild("namek mushroom model") then
+                    print("Namak")
+                    PlaceUnits("Namak", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("houses_new") then
+                    print("Aot")
+                    PlaceUnits("Aot", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("Snow Particles") then
+                    print("Snowy")
+                    PlaceUnits("Snowy", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("sand_gate") then
+                    print("Sand")
+                    PlaceUnits("Sand", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("icebergs") then
+                    print("Marine")
+                    PlaceUnits("Marine", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("Helicopter Pad") then
+                    print("Ghoul")
+                    PlaceUnits("Ghoul", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("Bones/dust") then
+                    print("Hollow")
+                    PlaceUnits("Hollow", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("Ant Nest") then
+                    print("Ant")
+                    PlaceUnits("Ant", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("light poles") then
+                    print("Magic")
+                    PlaceUnits("Magic", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("LanternsGround") then
+                    print("Cursed")    
+                    PlaceUnits("Cursed", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("pumpkins") then
+                    print("thriller_park")    
+                    PlaceUnits("thriller_park", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("skeleton") then
+                    print("black_clover")    
+                    PlaceUnits("black_clover", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("graves") then
+                    print("Hollow Legend")
+                    PlaceUnits("hollow_leg", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("SpaceCenter") then
+                    print("Cape Canaveral")
+                    PlaceUnits("jojo", _wave, xOffset, yOffset, zOffset)
+                elseif game.Workspace._map:FindFirstChild("Big_Stairs") then
+                    print("Chainsaw Man")
+                    PlaceUnits("csm_event", _wave, xOffset, yOffset, zOffset)
+				elseif game.Workspace._map:FindFirstChild("Capybara") then
+                    print("One Punch Man")
+                    PlaceUnits("opm", _wave, xOffset, yOffset, zOffset)
+                else
+                    print("Something bad happened")
                 end
+            end
+        end
+
+        if getgenv().autoUpgrade then
+            if game.PlaceId ~= 8304191830 then
+                pcall(function()
+                    autoUpgradefunc()
+                end)
+            end
+            if getgenv().autoUpgrader == true then
+                task.wait()
+                autoUpgradefunc()
+                getgenv().autoUpgrader = false
             end
         end
     end
 end))
-coroutine.resume(coroutine.create(function()
-    while task.wait(2) do
-        if Settings.AutoAbilities then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    autoabilityfunc()
-                end)
-            end
-            if  getgenv().autoabilityerr == true then
-                task.wait()
-                autoabilityfunc()
-                getgenv().autoabilityerr = false
-            end
-        end
-        
-        if Settings.AutoGCDAbilities then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    autoabilityGCDfunc()
-                end)
-            end
-            if  getgenv().autoGCDabilityerr == true then
-                task.wait()
-                autoabilityGCDfunc()
-                getgenv().autoGCDabilityerr = false
-            end
-        end
+--#endregion
 
-        if Settings.AutoUpgrade and not Settings.unitconfig then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    autoupgradefunc()
-                end)
-            end
-            if  getgenv().autoupgradeerr == true then
-                task.wait()
-                autoupgradefunc()
-                getgenv().autoupgradeerr = false
-            end
-        end
 
-        if Settings.unitconfig and not Settings.AutoUpgrade then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    upgradeunit(name, min)
-                    upgradeunit1(name)
-                    upgradeunit2(name)
-                    upgradeunit3(name)
-                    upgradeunit4(name)
-                    upgradeunit5(name)
-                    upgradeunit6(name)
-                    --upgradeunitTEST()
-                end)
-            end
-            if  getgenv().autoupgradeerr == true then
-                task.wait()
-                autoupgradefunc()
-                getgenv().autoupgradeerr = false
-            end
-        end
-        if Settings.unitconfig and Settings.AutoUpgrade then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    upgradeunit(name, min)
-                    upgradeunit1(name)
-                    upgradeunit2(name)
-                    upgradeunit3(name)
-                    upgradeunit4(name)
-                    upgradeunit5(name)
-                    upgradeunit6(name)
-                    --upgradeunitTEST()
-                end)
-            end
-            if  getgenv().autoupgradeerr == true then
-                task.wait()
-                autoupgradefunc()
-                getgenv().autoupgradeerr = false
-            end
-        end
-    end
-end))
+
 ------// Auto Leave \\------
 --#region Auto Leave 
+
+
+
+--- Made by "CharWar" # Modified by "binsfr" (V3rm)
 local PlaceID = 8304191830
 local AllIDs = {}
 local foundAnything = ""
 local actualHour = os.date("!*t").hour
 local Deleted = false
+
 local last
+
 local File = pcall(function()
    AllIDs = game:GetService('HttpService'):JSONDecode(readfile("NotSameServers.json"))
 end)
@@ -5252,7 +6592,7 @@ function TPReturner()
    if foundAnything == "" then
        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100'))
    else
-        Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
+       Site = game.HttpService:JSONDecode(game:HttpGet('https://games.roblox.com/v1/games/' .. PlaceID .. '/servers/Public?sortOrder=Asc&limit=100&cursor=' .. foundAnything))
    end
    local ID = ""
    if Site.nextPageCursor and Site.nextPageCursor ~= "null" and Site.nextPageCursor ~= nil then
@@ -5260,7 +6600,7 @@ function TPReturner()
    end
    local num = 0;
    local extranum = 0
-   for i,v in pairs(Site.data) do
+   for i, v in pairs(Site.data) do
        extranum += 1
        local Possible = true
        ID = tostring(v.id)
@@ -5289,1530 +6629,683 @@ function TPReturner()
            if Possible == true then
                table.insert(AllIDs, ID)
                wait()
-               pcall(function()
-                   writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
-                   wait()
-                   game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceID, ID, game.Players.LocalPlayer)
-               end)
-               wait(4)
+				if getgenv().isAlt ~= true then
+					writefile("NotSameServers.json", game:GetService('HttpService'):JSONEncode(AllIDs))
+					wait()
+					writefile("TeleportTo.lua", "game:GetService(\"TeleportService\"):TeleportToPlaceInstance(" .. PlaceID ..",\"".. ID.."\", game.Players.LocalPlayer)")
+					task.wait(5)
+					loadfile("TeleportTo.lua")()
+				end
+               	task.wait(400)
            end
        end
    end
 end
 
 function Teleport()
-   while wait() do
-       pcall(function()
-           TPReturner()
-           if foundAnything ~= "" then
-               TPReturner()
-           end
-       end)
-   end
+	if getgenv().isAlt ~= true then
+		while wait() do
+			pcall(function()
+				TPReturner()
+				if foundAnything ~= "" then
+					TPReturner()
+				end
+			end)
+		end
+	else
+		repeat
+			task.wait()
+			local mainAccountFound = false
+			for _, v in pairs(game.Players:GetPlayers()) do
+				if tostring(v) == getgenv().mainAccount then
+					mainAccountFound = true
+				end
+			end
+		until mainAccountFound == false
+		task.wait(5)
+		loadfile("TeleportTo.lua")()
+	end
 end
-
-function Rejoine()
-    while wait() do
-        pcall(function()
-            game:GetService("TeleportService"):Teleport(8304191830, game:GetService("Players").LocalPlayer)
-        end)
-    end
- end
-
-
-
 -------------------------------------------
--------------------------------------------
-coroutine.resume(coroutine.create(function()
-    task.spawn(function()
-        local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
-        GameFinished:GetPropertyChangedSignal("Value"):Connect(function()
-            print("Changed", GameFinished.Value == true)
-            if GameFinished.Value == true then
-                repeat task.wait() until  game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
-                pcall(function() webhook() end)
-                warn("Wait next or leave")
-                task.wait(1.5)
-
-            cata = Settings.WorldCategory; level = Settings.SelectedLevel;
-            if Settings.AutoPickPortal and cata == "Portals" or cata == "ประตูลับ" then
-                local DataPortalReplay = GetPlayerPortalUse(level)
-                local args = {
-                    [1] = "replay",
-                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                local args = {
-                    [1] = "replay",
-                    [2] = { ["item_uuid"] = DataPortalReplay[2] }
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(args))
-                warn("Pick Portal Replay...") 
-            end
-
-            if Settings.AutoReplay then
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Replay...")
-            end
-
-            if Settings.AutoNext then
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Check 1...")
-                wait(5)
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Check 2...")
-                wait(4)
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Check 3...")
-                wait(3)
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Check 4...")
-                wait(2)
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Check 5...")
-                wait(1)
-                local a={[1]="next_story"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                local a={[1]="NextLevel"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
-                warn("Next Story...")
-            end
-
-            --elseif Settings.AutoContinue then
-            if Settings.AutoContinue then
-                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a))
-                local a={[1]="NextRetry"} game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer(unpack(a)) 
-                warn("Next Room infint Castle...")    
-            end
-
-            if Settings.AutoLeave and not Settings.AutoReplay and not Settings.AutoNext and not Settings.AutoContinue and not Settings.AutoPickPortal then
-                   game:GetService("TeleportService"):Teleport(8304191830, game.Players.LocalPlayer)
-                    Teleport()
-                    warn("Returning to lobby...")
-                end
-
-            end
-        end)
-    end)
-
-    while task.wait() do
-        if getgenv().AutoSummon then
-            if getgenv().SelectedBanner == "Special" and getgenv().SelectedMethod ~= nil then
-                SummonUnits("EventClover", getgenv().SelectedMethod)
-            elseif getgenv().SelectedBanner == "Standard" and getgenv().SelectedMethod ~= nil then
-                SummonUnits("Standard", getgenv().SelectedMethod)
-            end
-        end
-        if Settings.AutoSnipeMerchant then
-            if Settings.ASM_SelectedFruit ~= "None" or Settings.ASM_SelectedFruit ~= nil then
-                if Settings.ASM_SelectedFruit == "Any StarFruits" then
-                    snipefunc("Any StarFruits")
-                else
-                    snipefunc(Settings.ASM_SelectedFruit)
-                end
-            end
-            if Settings.ASM_SelectedOtherItems ~= "None" or Settings.ASM_SelectedOtherItems ~= nil then
-                if Settings.ASM_SelectedOtherItems == "Any StarFruits" then
-                    snipefunc("Any Items")
-                else
-                    snipefunc(Settings.ASM_SelectedOtherItems)
-                end
-            end
-            if Settings.ASM_SelectedEvoItems ~= "None" or Settings.ASM_SelectedEvoItems ~= nil then
-           
-            end
-        end
-    end  
-end))
-
---New Fix isrbxactive
-local IS_ROBLOX_ACTIVE3 = false
-local UIS = game:GetService("UserInputService")
-UIS.WindowFocused:Connect(function()
-    IS_ROBLOX_ACTIVE3 = true
-end)
-UIS.WindowFocusReleased:Connect(function()
-    IS_ROBLOX_ACTIVE3 = false
-end)
-function isrbxactive3()
-    return IS_ROBLOX_ACTIVE3
-end
-getgenv().isrbxactive3 = newcclosure(isrbxactive3)
---End fix isrbxactive
-
-function PlacePos(map,name,_uuid,unit)
-    if Settings.AutoFarm and not getgenv().disableatuofarm then
-        isrbxactive3(true)
-
-        x = getgenv().posX; z = getgenv().posZ
-            print(map)
-        local Loader = require(game.ReplicatedStorage.src.Loader)
-        local Maps = Loader.load_data(script, "Maps")
-        local v100 = Maps[Loader.LevelData.map]
-        local map = v100.terrain_preset
-        local map2 = v100.id
-        local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-        local Mapname = GetLevelData.name
-
-        --fixmm
-        if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
-        if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-        if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-        if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
-        if map == "aot_raid" then map = "aot" end
-        if map == "naruto_desert_night" then map = "naruto_desert" end
-        if map == "west_city" then map = "west_city_frieza" end
-        if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-        if map == "hage_night" then map = "hage" end
-        if Mapname == "Infinity Castle" then map = map2 end
-        local pos = Settings[map][unit]
-
-  
-        if name ~= "metal_knight_evolved" and name ~= "metal_knight_drone" then
-            local i = math.random(1,6)
-            if i == 1 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            elseif i == 2 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"], pos["y2"], pos["z"] + z) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            elseif i == 3 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            elseif i == 4 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y4"], pos["z"]) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            elseif i == 5 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y5"], pos["z"] + z) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            elseif i == 6 then
-                    local args = {
-                    [1] = _uuid,
-                    [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y6"], pos["z"] + z) )
-                }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                return
-            end
-        elseif name == "metal_knight_evolved" and name == "metal_knight_drone" then
-            local i = math.random(1,6)
-            if i == 1 then
-                task.spawn(function()
-                    --place units 0
-                    warn("Metal Knight Place")
-                    local args = {
-                        [1] = _uuid,
-                        [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
-                    }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                end)
-                return
-            elseif i == 2 then
-                task.spawn(function()
-                    --place units 1
-                    task.wait(2)
-                    local args = {
-                        [1] = _uuid,
-                        [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y2"], pos["z"]) )
-                    }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                end)
-                return
-            elseif i == 3 then
-                task.spawn(function()
-                    --place units 2
-                    task.wait(3)
-                    local args = {
-                        [1] = _uuid,
-                        [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
-                    }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                end)
-                return
-            elseif i == 4 then
-                task.spawn(function()
-                    --place units 1
-                    task.wait(2)
-                    local args = {
-                        [1] = _uuid,
-                        [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y4"], pos["z"] + z) )
-                    }
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                end)
-            end
-        end
-        return
-    end
-end
-
-    -- Start of Get Current Wave Number [Added by HOLYSHz]
-function GetWaveNumber()
-    return game:GetService("Workspace")["_wave_num"].Value
-end
-    -- End of Get Current Wave Number
-
-function GetUnitInfo(Unit)
-    local unitinfo = Settings.SelectedUnits[Unit]
-    local unitinfo_ = unitinfo:split(" #")
-    local _units = {}
-    local uu = {}
-    table.clear(_units)
-    table.clear(uu)
-    local name = " "
-    local min;
-    for i, v in pairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do 
-        for i,v in pairs(v:GetChildren()) do 
-            if v.Name == "_stats" then
-                if v:FindFirstChild("uuid") then
-                    if v.uuid.Value == unitinfo_[2] then
-                        table.insert(_units,v.Parent.Name)
-                        name = v.Parent.Name
-                    end
-                end
-                if v:FindFirstChild("uuid") and v:FindFirstChild("upgrade") then
-                    if v.uuid.Value == unitinfo_[2] then
-                        table.insert(uu,v.upgrade.Value)
-                    end
-                end
-            end
-        end
-    end
-    
-    if #uu ~= 0 then
-        min = math.min(table.unpack(uu))
-        table.sort(uu, function(a, b) return a < b end)
-        local min = uu[1]
-    end
-    
-    return #_units or 0, unitinfo_[1], unitinfo_[2], min or 0
-end
-
---test Upgrade
-
-function upgradeunit(name, min)
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                --if v.Name == name and v._stats.upgrade.Value <= min then
-                if v._stats.id.Value == name and v._stats.upgrade.Value <= min then
-                   game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
-
-function upgradeunit1(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U1_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function upgradeunit2(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U2_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function upgradeunit3(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U3_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function upgradeunit4(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U4_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function upgradeunit5(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U5_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function upgradeunit6(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.upgrade.Value ~= tonumber(Settings.U6_UpgCap) then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---test Priority
-
-function targetpriority(name)
-    for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-       if v:FindFirstChild("_stats") and v:FindFirstChild("_hitbox") then
-            if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
-                if v._stats.id.Value == name and v._stats.priority.Value ~= Settings.U1_Priority then
-                    game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-                end
-            end
-        end
-    end
-end
-
-function Priorityunit1(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U1_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function Priorityunit2(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U2_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function Priorityunit3(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U3_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function Priorityunit4(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U4_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function Priorityunit5(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U5_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
-function Priorityunit6(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v._stats.priority.Value ~= Settings.U6_Priority then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
-            end
-        end
-    end
-end
-
----------------------------------
----------test sell unit----------
----------------------------------
---test
-function sellunit(name) 
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-
-
---unit1
-function sellunit1(name) 
-    U1_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U1_SellWave) <= U1_wave.Value then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---unit2
-function sellunit2(name) 
-    U2_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U2_SellWave) <= U2_wave.Value then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---unit3
-function sellunit3(name) 
-    U3_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U3_SellWave) <= U3_wave.Value then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---unit4
-function sellunit4(name) 
-    U4_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U4_SellWave) <= U4_wave.Value then 
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---unit5
-function sellunit5(name) 
-    U5_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U5_SellWave) <= U5_wave.Value then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
---unit6
-function sellunit6(name) 
-    U6_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-    repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        repeat task.wait() until v:WaitForChild("_stats")
-        if v.Name == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v._stats:FindFirstChild("upgrade") then
-            if tonumber(Settings.U6_SellWave) <= U6_wave.Value then
-            game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
-            end
-        end
-    end
-end
-
----------------------------------
----------------------------------
----------------------------------
-function PlaceUnitsTEST(map,name,_uuid,unit)
-    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-    world = GetLevelData.world or GetLevelData.name
-    current_wave = game:GetService("Workspace")["_wave_num"].Value
-    U1_wv, U2_wv, U3_wv, U4_wv, U5_wv, U6_wv = Settings.U1_Wave or 1, Settings.U2_Wave or 1, Settings.U3_Wave or 1, Settings.U4_Wave or 1, Settings.U5_Wave or 1, Settings.U6_Wave or 1
-    U1_TAmm, U2_TAmm, U3_TAmm, U4_TAmm, U5_TAmm, U6_TAmm = Settings.U1_TotalAmmount or 6, Settings.U2_TotalAmmount or 6, Settings.U3_TotalAmmount or 6, Settings.U4_TotalAmmount or 6, Settings.U5_TotalAmmount or 6, Settings.U6_TotalAmmount or 6
-    U1_upgW, U2_upgW, U3_upgW, U4_upgW, U5_upgW, U6_upgW = Settings.U1_UpgWave or 1, Settings.U2_UpgWave or 1, Settings.U3_UpgWave or 1, Settings.U4_UpgWave or 1, Settings.U5_UpgWave or 1, Settings.U6_UpgWave or 1
-    U1_sellW, U2_sellW, U3_sellW, U4_sellW, U5_sellW, U6_sellW = Settings.U1_SellWave or 999, Settings.U2_SellWave or 999, Settings.U3_SellWave or 999, Settings.U4_SellWave or 999, Settings.U5_SellWave or 999, Settings.U6_SellWave or 999
-
-    --//Unit 1
-
-    local U1_amm, U1_name, U1_uuid, U1_u = GetUnitInfo("U1")
-    if U1_wv <= current_wave and U1_amm <= U1_TAmm then
-        if U1_sellW >= current_wave and U1_amm < U1_TAmm then
-            print("placing u1.."..U1_name)
-            PlacePos(map, U1_name, U1_uuid,"UP1")
-        end
-        if U1_TAmm > 0 then
-            print("Target Priority u1.."..U1_name)
-            Priorityunit1(U1_name)
-        end
-        if U1_sellW <= current_wave then
-            print("selling u1.."..U1_name)
-            sellunit1(U1_name)
-        end
-        if U1_upgW <= current_wave and U1_sellW >= current_wave then
-            print("upgrading u1.."..U1_name)
-            upgradeunit1(U1_name)
-            wait(0.5)
-            upgradeunit1(U1_name)
-            print("upgrading check u1.."..U1_name)
-        end
-    end
---end
-    --//Unit 2
-    local U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
-    if U2_wv <= current_wave and U2_amm <= U2_TAmm then
-        if U2_sellW >= current_wave and U2_amm < U2_TAmm then
-            print("placing u2.."..U2_name)
-            PlacePos(map, U2_name, U2_uuid,"UP2")
-        end
-        if U2_TAmm > 0 then
-            print("Target Priority u2.."..U2_name)
-            Priorityunit2(U2_name)
-        end
-        if U2_sellW <= current_wave then
-            print("selling u2.."..U2_name)
-            sellunit2(U2_name)
-        end
-        if U2_upgW <= current_wave and U2_sellW >= current_wave then
-            print("upgrading u2.."..U2_name)
-            upgradeunit2(U2_name)
-            wait(0.5)
-            upgradeunit2(U2_name)
-            print("upgrading check u2.."..U2_name)
-        end
-    end
---end
-    --//Unit 3
-    local U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
-    if U3_wv <= current_wave and U3_amm <= U3_TAmm then
-	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
-		    print("placing u3.."..U3_name)
-		    PlacePos(map, U3_name, U3_uuid,"UP3")
-        end
-        if U3_TAmm > 0 then
-            print("Target Priority u3.."..U3_name)
-            Priorityunit3(U3_name)
-        end
-	    if U3_sellW <= current_wave then
-		    print("selling u3.."..U3_name)
-		    sellunit3(U3_name)
-	    end
-        if U3_upgW <= current_wave and U3_sellW >= current_wave then
-            print("upgrading u3.."..U3_name)
-            upgradeunit3(U3_name)
-            wait(0.5)
-            upgradeunit3(U3_name)
-            print("upgrading check u3.."..U3_name)
-        end
-    end
---end
-    --//Unit 4
-    local U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
-    if U4_wv <= current_wave and U4_amm <= U4_TAmm then
-	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
-		    print("placing u4.."..U4_name)
-		    PlacePos(map, U4_name, U4_uuid,"UP4")
-        end
-        if U4_TAmm > 0 then
-            print("Target Priority u4.."..U4_name)
-            Priorityunit4(U4_name)
-        end
-	    if U4_sellW <= current_wave then
-		    print("selling u4.."..U4_name)
-		    sellunit4(U4_name)
-	    end
-        if U4_upgW <= current_wave and U4_sellW >= current_wave then
-            print("upgrading u4.."..U4_name)
-            upgradeunit4(U4_name)
-            wait(0.5)
-            upgradeunit4(U4_name)
-            print("upgrading check u4.."..U4_name)
-        end
-    end
---end
-    --//Unit 5
-    local U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
-    if U5_wv <= current_wave and U5_amm <= U5_TAmm then
-	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
-		    print("placing u5.."..U5_name)
-		    PlacePos(map, U5_name, U5_uuid,"UP5")
-        end
-        if U5_TAmm > 0 then
-            print("Target Priority u5.."..U5_name)
-            Priorityunit5(U5_name)
-        end
-	    if U5_sellW <= current_wave then
-		    print("selling u5.."..U5_name)
-		    sellunit5(U5_name)
-	    end
-        if U5_upgW <= current_wave and U5_sellW >= current_wave then
-            print("upgrading u5.."..U5_name)
-            upgradeunit5(U5_name)
-            wait(0.5)
-            upgradeunit5(U5_name)
-            print("upgrading check u5.."..U5_name)
-        end
-    end
---end
-    --//Unit 6
-    local U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
-    if U6_wv <= current_wave and U6_amm <= U6_TAmm then
-	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
-		    print("placing u6.."..U6_name)
-		    PlacePos(map, U6_name, U6_uuid,"UP6")
-        end
-        if U6_TAmm > 0 then
-            print("Target Priority u6.."..U6_name)
-            Priorityunit6(U6_name)
-        end
-	    if U6_sellW <= current_wave then
-		    print("selling u6.."..U6_name)
-		    sellunit6(U6_name)
-	    end
-        if U6_upgW <= current_wave and U6_sellW >= current_wave then
-            print("upgrading u6.."..U6_name)
-            upgradeunit6(U6_name)
-            wait(0.5)
-            upgradeunit6(U6_name)
-            print("upgrading check u6.."..U6_name)
-            end
-        end
-    end
---end
-
---fix sell and place spam
---New Fix isrbxactive
-local IS_ROBLOX_ACTIVE4 = false
-local UIS = game:GetService("UserInputService")
-UIS.WindowFocused:Connect(function()
-    IS_ROBLOX_ACTIVE4 = true
-end)
-UIS.WindowFocusReleased:Connect(function()
-    IS_ROBLOX_ACTIVE4 = false
-end)
-function isrbxactive4()
-    return IS_ROBLOX_ACTIVE4
-end
-getgenv().isrbxactive4 = newcclosure(isrbxactive4)
---End fix isrbxactive
-
-function PlaceUnits(map)
-    pcall(function()
-        if Settings.AutoFarm and not getgenv().disableatuofarm then
-            isrbxactive4(true)
-            x = getgenv().posX; z = getgenv().posZ
-            print(map)
-            for i = 1, 6 do
-                local unitinfo = Settings.SelectedUnits["U" .. i]
-                if unitinfo ~= nil then
-                    local Loader = require(game.ReplicatedStorage.src.Loader)
-                    local Maps = Loader.load_data(script, "Maps")
-                    local v100 = Maps[Loader.LevelData.map]
-                    local map = v100.terrain_preset
-                    local map2 = v100.id
-                    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-                    local Mapname = GetLevelData.name
-
-                    --fixmm
-                    if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
-                    if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                    if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                    if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
-                    if map == "aot_raid" then map = "aot" end
-                    if map == "naruto_desert_night" then map = "naruto_desert" end
-                    if map == "west_city" then map = "west_city_frieza" end
-                    if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-                    if map == "hage_night" then map = "hage" end
-                    if Mapname == "Infinity Castle" then map = map2 end
-                    local unitinfo_ = unitinfo:split(" #")
-                    local pos = Settings[map]["UP" .. i]
-
-                    print(" ด่าน "..map.." กำลังวางหรืออัพตัว "..unitinfo_[1])
-    
-                    if unitinfo_[1] ~= "metal_knight_evolved" then
-    
-                        --place units 0
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-            
-                        --place units 1
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y2"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-            
-                        --place units 2 
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y3"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-            
-                        --place units 3 
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y4"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-            
-                        --place units 4
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y5"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-            
-                        --place units 5
-                        local args = {
-                            [1] = unitinfo_[2],
-                            [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y6"], pos["z"]) )
-                        }
-                        game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-    
-                    elseif unitinfo_[1] == "metal_knight_evolved" then
-                       
-                        task.spawn(function()
-                            --place units 0
-                            warn("p1" )
-                            local args = {
-                                [1] = unitinfo_[2],
-                                [2] = CFrame.new(Vector3.new(pos["x"], pos["y"], pos["z"]) )
-                            }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                        end)
-                  
-                        task.spawn(function()
-                            --place units 1
-                            task.wait(2)
-                            local args = {
-                                [1] = unitinfo_[2],
-                                [2] = CFrame.new(Vector3.new(pos["x"] - x, pos["y"], pos["z"]) )
-                            }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                        end)
-                   
-                        task.spawn(function()
-                            --place units 2
-                            task.wait(3)
-                            local args = {
-                                [1] = unitinfo_[2],
-                                [2] = CFrame.new(Vector3.new(pos["x"] + x, pos["y"], pos["z"]) )
-                            }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unpack(args))
-                        end)
-                    end
-                end
-            end
-        end
-    end)
-end
-
-
-------------------------------------------------------------------------------------------------
-------------------------------------------------------------------------------------------
---updatefix
-coroutine.resume(coroutine.create(function()
-    while task.wait(0.1) do
-        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("เปิดใช้ ฟังชั่น ตั้งค่า Unit")
-            repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
-
-            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-
-            local Loader = require(game.ReplicatedStorage.src.Loader)
-            local Maps = Loader.load_data(script, "Maps")
-            local v100 = Maps[Loader.LevelData.map]
-            local map = v100.terrain_preset
-            local map2 = v100.id
-            local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-            local Mapname = GetLevelData.name
-
-            --if game.Workspace:FindFirstChild("_map") then
-
-                --fixmm
-                if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
-                if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
-                if map == "aot_raid" then map = "aot" end
-                if map == "naruto_desert_night" then map = "naruto_desert" end
-                if map == "west_city" then map = "west_city_frieza" end
-                if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-                if map == "hage_night" then map = "hage" end
-                if Mapname == "Infinity Castle" then map = map2 end
-
-                PlaceUnitsTEST(map)
-
-            --end
-        end
-    end
-end))
 
 coroutine.resume(coroutine.create(function()
-    while task.wait() do
-        if game.PlaceId ~= 8304191830 and Settings.AutoFarm and not Settings.unitconfig and not getgenv().disableatuofarm then
-            warn("ปิด ฟังชั่น ตั้งค่า Unit")
-            repeat task.wait(0.1) until game:GetService("Workspace"):WaitForChild("_map")
-
-            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-
-            local Loader = require(game.ReplicatedStorage.src.Loader)
-            local Maps = Loader.load_data(script, "Maps")
-            local v100 = Maps[Loader.LevelData.map]
-            local map = v100.terrain_preset
-            local map2 = v100.id
-            local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-            local Mapname = GetLevelData.name
-            
-            --if game.Workspace:FindFirstChild("_map") then
-
-                --fixmm
-                if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
-                if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
-                if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
-                if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
-                if map == "aot_raid" then map = "aot" end
-                if map == "naruto_desert_night" then map = "naruto_desert" end
-                if map == "west_city" then map = "west_city_frieza" end
-                if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
-                if map == "hage_night" then map = "hage" end
-                if Mapname == "Infinity Castle" then map = map2 end
-
-                PlaceUnits(map)
-
-            --end
-        end
-    end
-end))
------------------------------------------------------
---------------------FPS BOOST-----------------------
------------------------------------------------------
-
-function FPSBOOST()
-    _G.Settings = {
-        Players = {
-            ["Ignore Me"] = true, -- Ignore your Character
-            ["Ignore Others"] = true -- Ignore other Characters
-        },
-        Meshes = {
-            Destroy = false, -- Destroy Meshes
-            LowDetail = true -- Low detail meshes (NOT SURE IT DOES ANYTHING)
-        },
-        Images = {
-            Invisible = false, -- Invisible Images
-            LowDetail = false, -- Low detail images (NOT SURE IT DOES ANYTHING)
-            Destroy = false, -- Destroy Images
-        },
-        ["No Particles"] = true, -- Disables all ParticleEmitter, Trail, Smoke, Fire and Sparkles
-        ["No Camera Effects"] = true, -- Disables all PostEffect's (Camera/Lighting Effects)
-        ["No Explosions"] = true, -- Makes Explosion's invisible
-        ["No Clothes"] = true, -- Removes Clothing from the game
-        ["Low Water Graphics"] = true, -- Removes Water Quality
-        ["No Shadows"] = true, -- Remove Shadows
-        ["Low Rendering"] = true, -- Lower Rendering
-        ["Low Quality Parts"] = true -- Lower quality parts
-    }
-    
-    if not _G.Ignore then
-        _G.Ignore = {} -- Add Instances to this table to ignore them (e.g. _G.Ignore = {workspace.Map, workspace.Map2})
-    end
-    if not _G.WaitPerAmount then
-        _G.WaitPerAmount = 500 -- Set Higher or Lower depending on your computer's performance
-    end
-    if _G.SendNotifications == nil then
-        _G.SendNotifications = false -- Set to false if you don't want notifications
-    end
-    if _G.ConsoleLogs == nil then
-        _G.ConsoleLogs = false -- Set to true if you want console logs (mainly for debugging)
-    end
-    
-    if not game:IsLoaded() then
-        repeat task.wait() until game:IsLoaded()
-    end
-    if not _G.Settings then
-        _G.Settings = {
-            Players = {
-                ["Ignore Me"] = true,
-                ["Ignore Others"] = true,
-                ["Ignore Tools"] = true
-            },
-            Meshes = {
-                NoMesh = false,
-                NoTexture = true,
-                Destroy = false
-            },
-            Images = {
-                Invisible = false,
-                Destroy = false
-            },
-            Explosions = {
-                Smaller = true,
-                Invisible = false, -- Not recommended for PVP games
-                Destroy = false -- Not recommended for PVP games
-            },
-            Particles = {
-                Invisible = true,
-                Destroy = false
-            },
-            TextLabels = {
-                LowerQuality = true,
-                Invisible = false,
-                Destroy = false
-            },
-            MeshParts = {
-                LowerQuality = true,
-                Invisible = false,
-                NoTexture = false,
-                NoMesh = false,
-                Destroy = false
-            },
-            Other = {
-                ["FPS Cap"] = true, -- Set this true to uncap FPS
-                ["No Camera Effects"] = true,
-                ["No Clothes"] = true,
-                ["Low Water Graphics"] = true,
-                ["No Shadows"] = true,
-                ["Low Rendering"] = true,
-                ["Low Quality Parts"] = true,
-                ["Low Quality Models"] = true,
-                ["Reset Materials"] = true,
-                ["Lower Quality MeshParts"] = true
-            }
-        }
-    end
-    local Players, Lighting, StarterGui, MaterialService = game:GetService("Players"), game:GetService("Lighting"), game:GetService("StarterGui"), game:GetService("MaterialService")
-    local ME, CanBeEnabled = Players.LocalPlayer, {"ParticleEmitter", "Trail", "Smoke", "Fire", "Sparkles"}
-    local function PartOfCharacter(Instance)
-        for i, v in pairs(Players:GetPlayers()) do
-            if v ~= ME and v.Character and Instance:IsDescendantOf(v.Character) then
-                return true
-            end
-        end
-        return false
-    end
-    local function DescendantOfIgnore(Instance)
-        for i, v in pairs(_G.Ignore) do
-            if Instance:IsDescendantOf(v) then
-                return true
-            end
-        end
-        return false
-    end
-    local function CheckIfBad(Instance)
-        if not Instance:IsDescendantOf(Players) and (_G.Settings.Players["Ignore Others"] and not PartOfCharacter(Instance) or not _G.Settings.Players["Ignore Others"]) and (_G.Settings.Players["Ignore Me"] and ME.Character and not Instance:IsDescendantOf(ME.Character) or not _G.Settings.Players["Ignore Me"]) and (_G.Settings.Players["Ignore Tools"] and not Instance:IsA("BackpackItem") and not Instance:FindFirstAncestorWhichIsA("BackpackItem") or not _G.Settings.Players["Ignore Tools"])--[[not PartOfCharacter(Instance)]] and (_G.Ignore and not table.find(_G.Ignore, Instance) and not DescendantOfIgnore(Instance) or (not _G.Ignore or type(_G.Ignore) ~= "table" or #_G.Ignore <= 0)) then
-            if Instance:IsA("DataModelMesh") then
-                if _G.Settings.Meshes.NoMesh and Instance:IsA("SpecialMesh") then
-                    Instance.MeshId = ""
-                end
-                if _G.Settings.Meshes.NoTexture and Instance:IsA("SpecialMesh") then
-                    Instance.TextureId = ""
-                end
-                if _G.Settings.Meshes.Destroy or _G.Settings["No Meshes"] then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("FaceInstance") then
-                if _G.Settings.Images.Invisible then
-                    Instance.Transparency = 1
-                    Instance.Shiny = 1
-                end
-                if _G.Settings.Images.LowDetail then
-                    Instance.Shiny = 1
-                end
-                if _G.Settings.Images.Destroy then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("ShirtGraphic") then
-                if _G.Settings.Images.Invisible then
-                    Instance.Graphic = ""
-                end
-                if _G.Settings.Images.Destroy then
-                    Instance:Destroy()
-                end
-            elseif table.find(CanBeEnabled, Instance.ClassName) then
-                if _G.Settings["Invisible Particles"] or _G.Settings["No Particles"] or (_G.Settings.Other and _G.Settings.Other["Invisible Particles"]) or (_G.Settings.Particles and _G.Settings.Particles.Invisible) then
-                    Instance.Enabled = false
-                end
-                if (_G.Settings.Other and _G.Settings.Other["No Particles"]) or (_G.Settings.Particles and _G.Settings.Particles.Destroy) then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("PostEffect") and (_G.Settings["No Camera Effects"] or (_G.Settings.Other and _G.Settings.Other["No Camera Effects"])) then
-                Instance.Enabled = false
-            elseif Instance:IsA("Explosion") then
-                if _G.Settings["Smaller Explosions"] or (_G.Settings.Other and _G.Settings.Other["Smaller Explosions"]) or (_G.Settings.Explosions and _G.Settings.Explosions.Smaller) then
-                    Instance.BlastPressure = 1
-                    Instance.BlastRadius = 1
-                end
-                if _G.Settings["Invisible Explosions"] or (_G.Settings.Other and _G.Settings.Other["Invisible Explosions"]) or (_G.Settings.Explosions and _G.Settings.Explosions.Invisible) then
-                    Instance.BlastPressure = 1
-                    Instance.BlastRadius = 1
-                    Instance.Visible = false
-                end
-                if _G.Settings["No Explosions"] or (_G.Settings.Other and _G.Settings.Other["No Explosions"]) or (_G.Settings.Explosions and _G.Settings.Explosions.Destroy) then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("Clothing") or Instance:IsA("SurfaceAppearance") or Instance:IsA("BaseWrap") then
-                if _G.Settings["No Clothes"] or (_G.Settings.Other and _G.Settings.Other["No Clothes"]) then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("BasePart") and not Instance:IsA("MeshPart") then
-                if _G.Settings["Low Quality Parts"] or (_G.Settings.Other and _G.Settings.Other["Low Quality Parts"]) then
-                    Instance.Material = Enum.Material.Plastic
-                    Instance.Reflectance = 0
-                end
-            elseif Instance:IsA("TextLabel") and Instance:IsDescendantOf(workspace) then
-                if _G.Settings["Lower Quality TextLabels"] or (_G.Settings.Other and _G.Settings.Other["Lower Quality TextLabels"]) or (_G.Settings.TextLabels and _G.Settings.TextLabels.LowerQuality) then
-                    Instance.Font = Enum.Font.SourceSans
-                    Instance.TextScaled = false
-                    Instance.RichText = false
-                    Instance.TextSize = 14
-                end
-                if _G.Settings["Invisible TextLabels"] or (_G.Settings.Other and _G.Settings.Other["Invisible TextLabels"]) or (_G.Settings.TextLabels and _G.Settings.TextLabels.Invisible) then
-                    Instance.Visible = false
-                end
-                if _G.Settings["No TextLabels"] or (_G.Settings.Other and _G.Settings.Other["No TextLabels"]) or (_G.Settings.TextLabels and _G.Settings.TextLabels.Destroy) then
-                    Instance:Destroy()
-                end
-            elseif Instance:IsA("Model") then
-                if _G.Settings["Low Quality Models"] or (_G.Settings.Other and _G.Settings.Other["Low Quality Models"]) then
-                    Instance.LevelOfDetail = 1
-                end
-            elseif Instance:IsA("MeshPart") then
-                if _G.Settings["Low Quality MeshParts"] or (_G.Settings.Other and _G.Settings.Other["Low Quality MeshParts"]) or (_G.Settings.MeshParts and _G.Settings.MeshParts.LowerQuality) then
-                    Instance.RenderFidelity = 2
-                    Instance.Reflectance = 0
-                    Instance.Material = Enum.Material.Plastic
-                end
-                if _G.Settings["Invisible MeshParts"] or (_G.Settings.Other and _G.Settings.Other["Invisible MeshParts"]) or (_G.Settings.MeshParts and _G.Settings.MeshParts.Invisible) then
-                    Instance.Transparency = 1
-                    Instance.RenderFidelity = 2
-                    Instance.Reflectance = 0
-                    Instance.Material = Enum.Material.Plastic
-                end
-                if _G.Settings.MeshParts and _G.Settings.MeshParts.NoTexture then
-                    Instance.TextureID = ""
-                end
-                if _G.Settings.MeshParts and _G.Settings.MeshParts.NoMesh then
-                    Instance.MeshId = ""
-                end
-                if _G.Settings["No MeshParts"] or (_G.Settings.Other and _G.Settings.Other["No MeshParts"]) or (_G.Settings.MeshParts and _G.Settings.MeshParts.Destroy) then
-                    Instance:Destroy()
-                end
-            end
-        end
-    end
-    coroutine.wrap(pcall)(function()
-        if (_G.Settings["Low Water Graphics"] or (_G.Settings.Other and _G.Settings.Other["Low Water Graphics"])) then
-            if not workspace:FindFirstChildOfClass("Terrain") then
-                repeat
-                    task.wait()
-                until workspace:FindFirstChildOfClass("Terrain")
-            end
-            workspace:FindFirstChildOfClass("Terrain").WaterWaveSize = 0
-            workspace:FindFirstChildOfClass("Terrain").WaterWaveSpeed = 0
-            workspace:FindFirstChildOfClass("Terrain").WaterReflectance = 0
-            workspace:FindFirstChildOfClass("Terrain").WaterTransparency = 0
-            if sethiddenproperty then
-                sethiddenproperty(workspace:FindFirstChildOfClass("Terrain"), "Decoration", false)
-            else
-                StarterGui:SetCore("SendNotification", {
-                    Title = "FPS Boost V2",
-                    Text = "Your exploit does not support sethiddenproperty, please use a different exploit.",
-                    Duration = 5,
-                    Button1 = "Okay"
-                })
-                warn("Your exploit does not support sethiddenproperty, please use a different exploit.")
-            end
-            if _G.ConsoleLogs then
-                warn("Low Water Graphics Enabled")
-            end
-        end
-    end)
-    coroutine.wrap(pcall)(function()
-        if _G.Settings["No Shadows"] or (_G.Settings.Other and _G.Settings.Other["No Shadows"]) then
-            Lighting.GlobalShadows = false
-            Lighting.FogEnd = 9e9
-            Lighting.ShadowSoftness = 0
-            if sethiddenproperty then
-                sethiddenproperty(Lighting, "Technology", 2)
-            else
-                StarterGui:SetCore("SendNotification", {
-                    Title = "FPS Boost V2",
-                    Text = "Your exploit does not support sethiddenproperty, please use a different exploit.",
-                    Duration = 5,
-                    Button1 = "Okay"
-                })
-                warn("Your exploit does not support sethiddenproperty, please use a different exploit.")
-            end
-            if _G.ConsoleLogs then
-                warn("No Shadows Enabled")
-            end
-        end
-    end)
-    coroutine.wrap(pcall)(function()
-        if _G.Settings["Low Rendering"] or (_G.Settings.Other and _G.Settings.Other["Low Rendering"]) then
-            settings().Rendering.QualityLevel = 1
-            settings().Rendering.MeshPartDetailLevel = Enum.MeshPartDetailLevel.Level04
-            if _G.ConsoleLogs then
-                warn("Low Rendering Enabled")
-            end
-        end
-    end)
-    coroutine.wrap(pcall)(function()
-        if _G.Settings["Reset Materials"] or (_G.Settings.Other and _G.Settings.Other["Reset Materials"]) then
-            for i, v in pairs(MaterialService:GetChildren()) do
-                v:Destroy()
-            end
-            MaterialService.Use2022Materials = false
-            if _G.ConsoleLogs then
-                warn("Reset Materials Enabled")
-            end
-        end
-    end)
-    coroutine.wrap(pcall)(function()
-        if _G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"]) then
-            if setfpscap then
-                if type(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])) == "string" or type(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])) == "number" then
-                    setfpscap(tonumber(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])))
-
-                    if _G.ConsoleLogs then
-                        warn("FPS Capped to " .. tostring(_G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"])))
-                    end
-                elseif _G.Settings["FPS Cap"] or (_G.Settings.Other and _G.Settings.Other["FPS Cap"]) == true then
-                    setfpscap(1e6)
-
-                    if _G.ConsoleLogs then
-                        warn("FPS Uncapped")
-                    end
-                end
-            else
-                StarterGui:SetCore("SendNotification", {
-                    Title = "FPS Boost V2",
-                    Text = "FPS Cap Failed",
-                    Duration = math.huge,
-                    Button1 = "Okay"
-                })
-                warn("FPS Cap Failed")
-            end
-        end
-    end)
-    game.DescendantAdded:Connect(function(value)
-        wait(_G.LoadedWait or 1)
-        CheckIfBad(value)
-    end)
-    local Descendants = game:GetDescendants()
-    local StartNumber = _G.WaitPerAmount or 500
-    local WaitNumber = _G.WaitPerAmount or 500
-
-    if _G.ConsoleLogs then
-        warn("Checking " .. #Descendants .. " Instances...")
-    end
-    for i, v in pairs(Descendants) do
-        CheckIfBad(v)
-        if i == WaitNumber then
+	local GameFinished = game:GetService("Workspace"):WaitForChild("_DATA"):WaitForChild("GameFinished")
+    GameFinished:GetPropertyChangedSignal("Value"):Connect(function()
+        print("Changed", GameFinished.Value == true)
+        if GameFinished.Value == true then
+			getgenv().recordingMacro = false
+			updatejson()
+            repeat task.wait() until game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Enabled == true
             task.wait()
-            if _G.ConsoleLogs then
-                print("Loaded " .. i .. "/" .. #Descendants)
+            pcall(function() Webhook() end)
+			pcall(function() NormalItemWebhook() end)
+			pcall(function() UniqueWebhook() end)
+            print("next button pressed")
+            task.wait(2.1)
+
+            if getgenv().AutoFarmIC then
+                for i = 1, 25 do
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower_from_game:InvokeServer()
+                    task.wait(1)
+                end
             end
-            WaitNumber = WaitNumber + StartNumber
+
+            if getgenv().AutoContinue then	
+                if game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.bg.Win ~= nil then
+                    getgenv().level = GetNextLevel(GetCurrentLevelId())
+                    updatejson()
+                    if getgenv().isAlt ~= true then
+						Teleport()
+					end
+                else
+                    getgenv().level = GetCurrentLevelId()
+                    updatejson()
+                    if getgenv().isAlt ~= true then
+						Teleport()
+					end
+                end
+                updatejson()
+            end
+
+            if getgenv().AutoReplay then
+                for i = 1, 25 do
+                    local a={[1]="replay"} game:GetService("ReplicatedStorage").endpoints.client_to_server.set_game_finished_vote:InvokeServer(unpack(a))
+                    task.wait(1)
+                end
+            elseif getgenv().AutoLeave then
+				if getgenv().isAlt then
+					repeat
+						task.wait(1)
+						local mainAccountFound = false
+						for _, v in pairs(game.Players:GetPlayers()) do
+							if tostring(v) == getgenv().mainAccount then
+								mainAccountFound = true
+							end
+						end
+					until mainAccountFound == false
+					Teleport()
+				else
+					Teleport()
+				end
+            end
         end
-    end
-    warn("FPS Booster Loaded!")
-end
+	end)
+end))
+--#endregion
 
-
-if Settings.fpsboost then
-    FPSBOOST()
-end
------------------------------------------------------
---------------------DELETE MAP-----------------------
------------------------------------------------------
---delete map Map id
-function DelHill()
-	if game.Workspace._terrain:FindFirstChild("terrain") then
-    	for i,v in pairs(game:GetService("Workspace")["_terrain"].hill:GetChildren()) do
-			if v.ClassName == "MeshPart" then v:Remove() end
-        	if v.ClassName == "Model" then v:Remove() end
-            if v.ClassName == "Part" then v:Remove() end
-			if v.ClassName == "Folder" then v:Remove() end
-			if v.ClassName == "MeshPart" then v:Remove() end
-        end
-    end  
-end   
-
-if Settings.deletehill then
-    DelHill()
-end
-
---deletet terrain
-function DelTer()
-	if game.Workspace._terrain:FindFirstChild("terrain") then
-    	for i,v in pairs(game:GetService("Workspace")["_terrain"].terrain:GetChildren()) do
-			if v.ClassName == "MeshPart" then v:Remove() end
-        	if v.ClassName == "Model" then v:Remove() end
-			if v.ClassName == "Folder" then v:Remove() end
-			if v.ClassName == "Part" then v:Remove() end
-        end
-    end  
-end   
-
-function DelMapMain()
-	if game.Workspace:FindFirstChild("_map") then
-    	for i,v in pairs(game:GetService("Workspace")["_map"]:GetChildren()) do
-				if v.ClassName == "MeshPart" then v:Remove() end
-				if v.ClassName == "Model" then v:Remove() end
-				if v.ClassName == "Part" then v:Remove() end
-				if v.ClassName == "Folder" then v:Remove() end
-        end
-    end  
-end
-
-
----------------------------------------------------------------------------------------
---DeleteMap
+------// Auto Sell Units \\------
 coroutine.resume(coroutine.create(function()
-    while task.wait(1.5) do
-        if game.PlaceId ~= 8304191830 and Settings.deletemap2 then
-            local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
-            repeat task.wait() until game:GetService("Workspace"):WaitForChild("_map")
-			DelTer() 
-			DelMapMain()
+while task.wait() do
+    if getgenv().UnitSellTog then
+
+        for i, v in pairs(game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.collection.grid.List.Outer.UnitFrames:GetChildren()) do
+            if v.Name == "CollectionUnitFrame" then
+                repeat task.wait() until v:FindFirstChild("name")
+                for _, Info in next, getgenv().UnitCache do
+                    if Info.name == v.name.Text and Info.rarity == getgenv().UnitToSell then
+                        local args = {
+                            [1] = {
+                                [1] = tostring(v._uuid.Value)
+                            }
+                        }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_units:InvokeServer(unpack(args))
+                     end
+                end
+            end
+        end
+        
+    end
+end
+end))
+
+------// Auto Upgrade \\------
+--#region Auto Upgrade Loop
+getgenv().autoUpgrader = false
+
+function autoUpgradefunc()
+	if not getgenv().lockAutoFunctions then
+		repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+
+		unitList = {}
+		for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+			if v:FindFirstChild("_stats") then
+				if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+					table.insert(unitList, {v["_stats"]["id"].Value, v["_stats"]["uuid"].Value, v, v["_stats"]["upgrade"].Value})
+				end
+			end
+		end
+
+		local currentUnitUUIDs = {}
+		for i = 1, 6 do
+			local unitUUID = getgenv().SelectedUnits["U" .. i]:split(" #")[2]
+			table.insert(currentUnitUUIDs, {"U" .. i, unitUUID})
+		end
+
+		table.sort(unitList, function(a, b)
+			local unitAFound = false
+			local unitBFound = false
+
+			for i = 1, 6 do
+				if currentUnitUUIDs[i][2] == a[2] then
+					unitAFound = true
+				end
+			end
+
+			for i = 1, 6 do
+				if currentUnitUUIDs[i][2] == b[2] then
+					unitBFound = true
+				end
+			end
+
+			if (unitAFound == false and unitBFound == false) then
+				return true
+			elseif (unitAFound == true and unitBFound == false) then
+				return true
+			elseif (unitAFound == false and unitBFound == true) then
+				return false
+			else
+				local unitAIdentifier
+				local unitBIdentifier
+
+				for i = 1, 6 do
+					if currentUnitUUIDs[i][2] == a[2] then
+						unitAIdentifier = currentUnitUUIDs[i][1]
+					end
+				end
+
+				for i = 1, 6 do
+					if currentUnitUUIDs[i][2] == b[2] then
+						unitBIdentifier = currentUnitUUIDs[i][1]
+					end
+				end
+
+				if tonumber(getgenv().unitPlacementSettings[unitAIdentifier]["upgradePriority"]) ~= nil and tonumber(getgenv().unitPlacementSettings[unitBIdentifier]["upgradePriority"]) ~= nil then
+					return tonumber(getgenv().unitPlacementSettings[unitAIdentifier]["upgradePriority"]) > tonumber(getgenv().unitPlacementSettings[unitBIdentifier]["upgradePriority"])
+				end
+			end
+		end)
+		for _, unitEntry in pairs(unitList) do
 			
+			for i = 1, 6 do
+				if currentUnitUUIDs[i][2] == unitEntry[2] then
+					localIdentifier = currentUnitUUIDs[i][1]
+				end
+			end
+			print("localIDENT"..localIdentifier)
+			if localIdentifier ~= nil then
+				
+				if tonumber(getgenv().unitPlacementSettings[localIdentifier]["upgradeCap"]) > unitEntry[4] and unitEntry[1] ~= "metal_knight_drone" and unitEntry[1] ~= "metal_knight_drone:shiny" then
+					
+					game:GetService("ReplicatedStorage").endpoints.client_to_server.upgrade_unit_ingame:InvokeServer(unitEntry[3])
+				end
+			end
 		end
 	end
-end))
----------------------------------------------------------------------------------------
+end
 
--- end
+--#endregion
+
+
+------// Auto Sell/Quit \\------
+--#region Auto Sell/Quit loop
+coroutine.resume(coroutine.create(function()
+    while task.wait(1.5) do
+		if not getgenv().lockAutoFunctions then
+			local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")
+			if getgenv().autoQuit and tonumber(getgenv().quitAtWave) <= _wave.Value then
+				Teleport()
+			end
+
+			if getgenv().autoSell and tonumber(getgenv().sellatwave) <= _wave.Value then
+				getgenv().disableAutoFarm = true
+				if game.PlaceId ~= 8304191830 then
+					repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+					for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+						repeat
+							task.wait()
+						until v:WaitForChild("_stats")
+						if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
+							repeat task.wait() until v:WaitForChild("_stats"):WaitForChild("upgrade")
+							game:GetService("ReplicatedStorage").endpoints.client_to_server.sell_unit_ingame:InvokeServer(v)
+						end
+					end
+				end
+			end
+		end
+    end
+end))
+--#endregion
+
+--//Auto Abilities--
+--#region Auto Abilities loop
+getgenv().autoabilityerr = false
+
+function autoabilityfunc()
+	local success, err = pcall(function() --///
+		if not getgenv().lockAutoFunctions then
+			repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+			for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+				if v:FindFirstChild("_stats") then
+					if v._stats:FindFirstChild("player") and v._stats:FindFirstChild("xp") then
+						if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value > 0 then
+							game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+						end
+					end
+				end
+			end
+		end
+	end)
+		
+	if err then
+		warn("//////////////////////////////////////////////////")
+		warn("//////////////////////////////////////////////////")
+		getgenv().autoabilityerr = true
+		error(err)
+	end
+	
+end
+
+coroutine.resume(coroutine.create(function()
+
+    while task.wait(2) do
+        if getgenv().autoabilities then
+            if game.PlaceId ~= 8304191830 then
+                pcall(function()
+                    autoabilityfunc()
+                end)
+            end
+            if  getgenv().autoabilityerr == true then
+                task.wait()
+                autoabilityfunc()
+                getgenv().autoabilityerr = false
+            end
+        end
+    end   
+
+end))
+--#endregion
+
+
+getgenv().teleporting = true
+
+------// Auto Start \\------
+--#region Auto Start loop
+
+local function checkChallenge()
+    for i,v in pairs(game.Players.LocalPlayer.PlayerGui:GetChildren()) do
+        if v:IsA("SurfaceGui") then
+            if v:FindFirstChild("ChallengeCleared") then
+                --print(v.ChallengeCleared.Visible)
+                return v.ChallengeCleared.Visible
+            end
+        end
+    end
+end
+
+local function checkReward()
+    if checkChallenge() == false then
+        if getgenv().selectedreward == game:GetService("Workspace")["_LOBBIES"]["_DATA"]["_CHALLENGE"]["current_reward"].Value then
+            return true
+        elseif getgenv().AutoChallengeAll then
+            return true
+        else
+            return false
+        end
+    else
+        return false
+    end
+end
+
+local function startfarming()
+    if getgenv().autoStart and getgenv().AutoFarm and getgenv().teleporting 
+                           and getgenv().AutoFarmTP == false and getgenv().AutoFarmIC == false then
+        if game.PlaceId == 8304191830 then
+            local cpos = player.Character.HumanoidRootPart.CFrame
+			
+			if not getgenv().isAlt then
+				if getgenv().altMode then
+					repeat 
+						task.wait(1)
+						local altsInGame = 0
+						for _, val in pairs(game.Players:GetPlayers()) do
+							for i, alt in pairs(getgenv().altList) do
+								if tostring(val.Name) == tostring(alt) then
+									print(val.Name)
+									altsInGame += 1
+									break
+								end
+							end
+						end
+					until altsInGame >= 3
+				end
+
+				if tostring(Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= player.Name then
+					for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
+						if v.Name == "Owner" and v.Value == nil then
+							local args = {
+								[1] = tostring(v.Parent.Name)
+							}
+							game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+						
+							task.wait()
+						
+							if getgenv().level:match("infinite") then
+								local args = {
+									[1] = tostring(v.Parent.Name), -- Lobby 
+									[2] = getgenv().level, -- World
+									[3] = true, -- Friends Only or not
+									[4] = "Hard"
+								}
+								game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+							else
+								local args = {
+									[1] = tostring(v.Parent.Name), -- Lobby 
+									[2] = getgenv().level, -- World
+									[3] = true, -- Friends Only or not
+									[4] = getgenv().difficulty
+								}
+								game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+							end
+	
+							local altsInGame = false
+	
+							for _, val in pairs(game.Players:GetPlayers()) do
+								print(val.Name)
+								for i, alt in pairs(getgenv().altList) do
+									if tostring(val.Name) == tostring(alt) then
+										altsInGame = true
+										break
+									end
+								end
+							end
+							
+							if altsInGame then
+								repeat 
+									task.wait(1)
+									print(v.Parent.Timer.Value)
+									if v.Parent.Timer.Value <= 50 then
+										local leave_args = {
+											[1] = v.Parent.Name
+										}
+	
+										game:GetService("ReplicatedStorage").endpoints.client_to_server.request_leave_lobby:InvokeServer(unpack(leave_args))
+										break
+									end
+								until #v.Parent.Players:GetChildren() >= getgenv().altCount + 1
+	
+								local args = { 
+									[1] = tostring(v.Parent.Name)
+								}
+	
+								game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+								getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+								player.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+								break
+							else
+								local args = { 
+									[1] = tostring(v.Parent.Name)
+								}
+								
+								game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+								getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+								player.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+								break
+							end		
+						end
+					end
+				end
+			else
+				local timer = 0
+				local mainAccountFound = false
+				repeat
+					task.wait(1)
+					timer += 1
+					mainAccountFound = false
+					for _, v in pairs(game.Players:GetPlayers()) do
+						if tostring(v) == getgenv().mainAccount then
+							mainAccountFound = true
+							print("FOUND")
+						end
+					end
+				until mainAccountFound
+
+				if mainAccountFound ~= true then
+					loadfile("TeleportTo.lua")()
+				end
+
+				local inMainLobby = false
+				
+				repeat
+					print("WAITING ON MAIN TO SET LEVEL")
+					for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
+						if v.Name == "Owner" and tostring(v.Value) == getgenv().mainAccount then
+							for _, val in pairs(v.Parent:GetDescendants()) do
+								if val.Name == "TouchInterest" and val.Parent then
+									firetouchinterest(game.Players.LocalPlayer.Character.Head, val.Parent, 0)
+									task.wait(0.1)
+									firetouchinterest(game.Players.LocalPlayer.Character.Head, val.Parent, 1)
+									task.wait(0.1)
+								end
+							end
+						end
+					end
+					for i, v in pairs(game:GetService("Workspace")["_EVENT_CHALLENGES"].Lobbies:GetDescendants()) do
+						if v.Name == "Owner" and tostring(v.Value) == getgenv().mainAccount then
+							for _, val in pairs(v.Parent:GetDescendants()) do
+								if val.Name == "TouchInterest" and val.Parent then
+									firetouchinterest(game.Players.LocalPlayer.Character.Head, val.Parent, 0)
+									task.wait(0.1)
+									firetouchinterest(game.Players.LocalPlayer.Character.Head, val.Parent, 1)
+									task.wait(0.1)
+								end
+							end
+						end
+					end
+					for i, v in pairs(game:GetService("Workspace")["_PORTALS"].Lobbies:GetDescendants()) do
+						if v.Name == "Owner" and tostring(v.Value) == getgenv().mainAccount then
+							local args = {
+								[1] = v.Parent.Name
+							}
+							game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+						end
+					end
+					task.wait(0.5)
+				until (inMainLobby == true)
+			end
+            task.wait()
+
+            player.Character.HumanoidRootPart.CFrame = cpos
+
+			if not getgenv().isAlt then
+				if Workspace._LOBBIES.Story[getgenv().door].Owner == player.Name then
+					if Workspace._LOBBIES.Story[getgenv().door].Teleporting.Value == true then
+						getgenv().teleporting = false
+					else
+						getgenv().teleporting = true
+					end
+				end
+			else
+				if tostring(Workspace._LOBBIES.Story[getgenv().door].Owner) == getgenv().mainAccount then
+					if Workspace._LOBBIES.Story[getgenv().door].Teleporting.Value == true then
+						getgenv().teleporting = false
+					else
+						getgenv().teleporting = true
+					end
+				end
+			end
+
+            warn("farming")
+            task.wait(3)
+
+        end
+    end
+end
+
+local function startChallenge()
+    if game.PlaceId == 8304191830 then
+        local cpos = player.Character.HumanoidRootPart.CFrame
+
+        if getgenv().AutoChallenge and getgenv().autoStart and getgenv().AutoFarm  and checkReward() == true then
+
+            for i, v in pairs(game:GetService("Workspace")["_CHALLENGES"].Challenges:GetDescendants()) do
+                if v.Name == "Owner" and v.Value == nil then
+                    --print(v.Parent.Name.." "..v.Parent:GetFullName())
+                    local args = { 
+                        [1] = tostring(v.Parent.Name)
+                    }
+                    game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+
+                    getgenv().chdoor = v.Parent.Name
+                    break
+                end
+            end
+            task.wait()
+            player.Character.HumanoidRootPart.CFrame = cpos
+           
+        end
+    end
+end
+
+coroutine.resume(coroutine.create(function()
+    while task.wait() do
+        if getgenv().AutoFarmIC == false and getgenv().AutoFarmTP == false then
+            if checkChallenge() == false  then --challenge is not cleared
+                if  getgenv().AutoChallenge and checkReward() == true then
+                    startChallenge() --start challenge
+                else
+                    startfarming()--regular farming
+                end
+            elseif checkChallenge() == true then
+                startfarming()--regular farming
+            end
+        end
+    end
+end))
+--#endregion
+
+
+------// Auto Start Infiniy Castle && Thriller Park \\------
+
+local function FarmCastlePark()
+    if getgenv().AutoFarmIC and getgenv().AutoFarm then
+        if game.PlaceId == 8304191830 then
+
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(12423.1855, 155.24025, 3198.07593, -1.34111269e-06, -2.02512282e-08, 1, 3.91705386e-13, 1, 2.02512282e-08, -1, 4.18864542e-13, -1.34111269e-06)
+            
+            getgenv().infinityroom = 0
+
+            for i, v in pairs(game:GetService("Players")[game.Players.LocalPlayer.Name].PlayerGui.InfiniteTowerUI.LevelSelect.InfoFrame.LevelButtons:GetChildren()) do
+                if v.Name == "FloorButton" then
+                    if v.clear.Visible == false and v.Locked.Visible == false then
+                        local room = string.split(v.Main.text.Text, " ")
+
+                        local args = {
+                            [1] = tonumber(room[2])
+                        }
+                        
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_infinite_tower:InvokeServer(unpack(args))
+                        getgenv().infinityroom = tonumber(room[2])
+                        break
+                    end
+                end
+            end
+            
+            task.wait(6)
+        end
+    elseif getgenv().AutoFarmTP and getgenv().AutoFarm then
+        if game.PlaceId == 8304191830 then
+
+            local cpos = player.Character.HumanoidRootPart.CFrame
+
+            for i, v in pairs(game:GetService("Workspace")["_EVENT_CHALLENGES"].Lobbies:GetDescendants()) do
+                    if v.Name == "Owner" and v.Value == nil then
+
+                        local args = {
+                            [1] = tostring(v.Parent.Name)
+                        }
+                        
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+
+                        task.wait()
+
+                        player.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+                        break
+                    end
+                end
+
+            task.wait()
+
+            player.Character.HumanoidRootPart.CFrame = cpos
+            warn("farming")
+            task.wait(5)
+
+        end
+    end
+end
+
+coroutine.resume(coroutine.create(function()
+    while task.wait() do
+        if checkChallenge() == false  then --challenge is not cleared
+            if  getgenv().AutoChallenge and checkReward() == true then
+                startChallenge() --start challenge
+            else
+                FarmCastlePark()--regular farming
+            end
+        elseif checkChallenge() == true then
+            FarmCastlePark()--regular farming
+        end
+    end
+end))
+
+if getgenv().AutoLoadTP == true then
+    local exec = tostring(identifyexecutor())
+
+    if exec == "Synapse X" then
+        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+        RayfieldLib:Notify({
+            Title = "Queued to Auto-Attach on Teleport!",
+            Content = "Success",
+            Duration = 6.5
+        })
+    else
+        queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V3.lua'))()")
+    end
+
+end
+
 
 --hide name
-function hidename()
 task.spawn(function()  -- Hides name for yters (not sure if its Fe)
     while task.wait() do
         pcall(function()
             if game.Players.LocalPlayer.Character.Head:FindFirstChild("_overhead") then
-                game.Players.LocalPlayer.Character.Head:FindFirstChild("_overhead"):Destroy()
+               workspace[game.Players.LocalPlayer.Name].Head["_overhead"]:Destroy()
             end
         end)
     end
 end)
-end
-if Settings.hidenamep then
-    hidename()
-end
-
---Auto Grab Daily Quest --updatefix
---game:GetService("ReplicatedStorage").src.Data.QuestsEvent
-function autoDailyquest()
-    if Settings.autoDailyquest then
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("overlord_daily")
-        warm("Auto grab Daily quest")
-        wait(15)
-    end
-end
-
-if Settings.autoDailyquest then
-    autoDailyquest()
-end
-
-function autoDailyMission()
-    if Settings.autoDailyMission then
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_bleach2_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_dressrosa_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_clover_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_7ds_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_mha_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_jojo_daily")
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_claim_dailymission:InvokeServer("mha 12.0.0_dailymission_opm_daily")
-
-        warm("Auto grab Daily Mission")
-        wait(15)
-    end
-end
-
-if Settings.autoDailyMission then
-    autoDailyMission()
-end
-
--- Start of Check Connection
-function checkInterNet()
-    warn("Auto Reconnect Enable")
-    warn("Auto Anti-AFK Enable")
-    while task.wait(5) do
-        local vu = game:GetService("VirtualUser")
-        game:GetService("Players").LocalPlayer.Idled:connect(function()
-            vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            wait(0.5)
-            vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-            wait(0.5)
-            vu:CaptureController()vu:ClickButton2(Vector2.new())
-        end)
-        game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(a)
-            if a.Name == 'ErrorPrompt' then
-                task.wait(60)
-                warn("Trying to Reconnect")
-                TPReturner()
-                end
-            end)
-        end
-    end
 
 
--- End of Check Connection
-
---placeany
-function placeAny()
-
-    local services = require(game.ReplicatedStorage.src.Loader)
-    local placement_service = services.load_client_service(script, "PlacementServiceClient")
-    
-    task.spawn(function()
-        while task.wait() do
-            placement_service.can_place = true
-
-        end
-    end)
-end
-
-function placeunittwin() 
-    if game.Workspace:WaitForChild("_UNITS") then
-    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-        --if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
-            if v.Name == "_hitbox" then v:Remove() end
-
-            --end
-        end
-    end
-end
-    
-if Settings.placeany then
-    placeAny()
-    placeunittwin() 
-end
-
---ReedemCode updatefix
-function Reedemcode()
-    codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
-    ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819"}
-        for _, v in pairs(codes) do
-        pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
-    end
-end
-
-if Settings.redeemc then
-    Reedemcode()
-end
-
---AntiAFK
+--anti afk
 pcall(function()
     local vu = game:GetService("VirtualUser")
     game:GetService("Players").LocalPlayer.Idled:connect(function()
-        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(0.5)
-        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-        wait(0.5)
-        vu:CaptureController()vu:ClickButton2(Vector2.new())
+    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
     end)
+
     game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_daily_reward:InvokeServer()
-    game:GetService("ReplicatedStorage").endpoints.client_to_server.claim_christmas_calendar_reward:InvokeServer()
 end)
 
-pcall(function()
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false
-    warn("Display Error Hider!!!")
-end)
-
---start function mute Error
---disms
-if game.PlaceId ~= 8304191830 then
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-end
---disms
 if game.PlaceId == 8304191830 then
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error.Volume = 0
-    game:GetService("ReplicatedStorage").packages.assets["ui_sfx"].error_old.Volume = 0
-    game.Players.LocalPlayer.PlayerGui.MessageGui.Enabled = false --disables the annoying error messages 
-end
---End of function mute Error
-
-if game.PlaceId == 8304191830 and Settings.AutoReConnect then
-    repeat task.wait(0.5) until Workspace:WaitForChild(game.Players.LocalPlayer.Name)
-    checkInterNet()
-elseif game.PlaceId ~= 8304191830 and Settings.AutoReConnect then
-    repeat task.wait(0.5) until Workspace:WaitForChild("_terrain")
-    checkInterNet()
+    
+    pcall(function() ShopSniperWebhook(true) end)
+    pcall(function() SpecialSummonSniperWebhook(true) end)
+    pcall(function() StandardSummonSniperWebhook(true) end)
+    
+    
 end
 
-warn("Update Check ...!!!")
-warn("HSz Hider Name Loaded สำเร็จ!!!")
-warn("HSz AA v2 Loaded สำเร็จ!!!")
-warn("All Loaded !!!")
+print("Successfully Loaded!!")
+---------------------------------------------------------------------

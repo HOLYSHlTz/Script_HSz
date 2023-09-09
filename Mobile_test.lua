@@ -2475,7 +2475,7 @@ end
 ---############### ACTUAL CODE ################---starcode
 ---############################################---
 
-local scriptVersion = "_HSz_1a"
+local scriptVersion = "_HSz_1b"
 
 if not isfolder("AAMacros" .. scriptVersion) then
 	makefolder("AAMacros" .. scriptVersion)

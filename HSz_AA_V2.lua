@@ -203,6 +203,7 @@ function webhook()
         end
         ---------------------------------
         GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
+        Mapname = GetLevelData.name
         name = GetLevelData.id or GetLevelData.world or GetLevelData.map
         world = GetLevelData.name
         --New Mapname
@@ -214,12 +215,10 @@ function webhook()
         MapDiff = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff2 = game:GetService("Players").LocalPlayer.PlayerGui.ResultsUI.Holder.Difficulty.Text
         MapDiff3 = MapDiff2
-        --if GetLevelData.name == "Summer Hunt" then MapDiff3 = " [ Default ] Is a Portal " end
+        if Mapname == "Infinity Castle" then MapDiff3 = tostring(MapDiff2) end
         if poratltierS ~= nil or poratltierS ~= " Not have Tier " then MapDiff3 = " Hard " end
-        if world == "Infinity Castle" then MapDiff3 = MapDiff2 end
-        if world == "Infinity Castle" then MapDiff3 = MapDiff end
-        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff2 end
-        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = MapDiff end
+        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = tostring(MapDiff2) end
+        if poratltierS == nil or poratltierS == " Not have Tier " then MapDiff3 = tostring(MapDiff) end
         if poratChallengeS ~= nil or poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
         if poratChallengeS ~= " Not have Challenge " then MapDiff3 = " Hard " end
         -------------------------------

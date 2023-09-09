@@ -2475,7 +2475,7 @@ end
 ---############### ACTUAL CODE ################---starcode
 ---############################################---
 
-local scriptVersion = "_HSz"
+local scriptVersion = "_HSz_1"
 
 if not isfolder("AAMacros" .. scriptVersion) then
 	makefolder("AAMacros" .. scriptVersion)
@@ -2740,6 +2740,7 @@ local function writeMacroToFile(filename)
 						['cframe'] = arguments[2].X .. ", " .. arguments[2].Y .. ", " .. arguments[2].Z .. ", 1, 0, -0, -0, 1, -0, 0, 0, 1"
 					}
 					instructionIncrement += 1
+					print("Place Unit"  ..unitID )
 				end
 
 				if tostring(remote) == "upgrade_unit_ingame" then
@@ -5656,11 +5657,13 @@ function MainModule()
 										task.spawn(function()
 											game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 											instructionIncrement += 1
+											print("Place Unit"  ..unitInfo[2] )
 											task.wait(2)
 										end)
 									else
 										game:GetService("ReplicatedStorage").endpoints.client_to_server.spawn_unit:InvokeServer(unitInfo[1], CFrame.new(unpack(getCoordArgs(decodedFile[tostring(instructionIncrement)]['cframe']))))
 										instructionIncrement += 1
+										print("Place Unit"  ..unitInfo[2] )
 									end
 								end
 							end

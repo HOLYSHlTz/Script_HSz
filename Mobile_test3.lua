@@ -1,7 +1,7 @@
 --if game.PlaceId == 13775256536 or game.PlaceId == 14082129854 then
 if game:GetService('Players').LocalPlayer.Name == "oOHOLYSHzOo" then
 --updatefix
-local version = "1.0.1"
+local version = "1.0.2"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()

@@ -4739,6 +4739,13 @@ function autoabilityfunc()
                                 end
                             end
 
+                            if v._stats.id.Value ~= "dio_heaven" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill Auto unit")
+                                end
+                            end
+
                         end
                     end
                 end

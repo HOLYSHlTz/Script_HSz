@@ -4585,21 +4585,24 @@ function autoabilityfunc()
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            warn("Use Skill Puchi")
+                                            --warn("Use Skill Puchi")
+                                            warn("Use Skill : "..tostring(v._stats.id.Value))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() == 15 or 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill Puchi")
+                                                --warn("Use Skill Puchi")
+                                                warn("Use Skill : "..tostring(v._stats.id.Value))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill Puchi")
+                                                --warn("Use Skill Puchi")
+                                                warn("Use Skill : "..tostring(v._stats.id.Value))
                                         end
                                     end
                                 end
@@ -4610,7 +4613,8 @@ function autoabilityfunc()
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Puchi")
+                                    --warn("Use Skill Puchi")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
                         end
@@ -4624,21 +4628,24 @@ function autoabilityfunc()
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            warn("Use Skill Eren")
+                                            --warn("Use Skill Eren")
+                                            warn("Use Skill : "..tostring(v._stats.id.Value))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() == 15 or 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill Eren")
+                                                --warn("Use Skill Eren")
+                                                warn("Use Skill : "..tostring(v._stats.id.Value))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill Eren")
+                                                --warn("Use Skill Eren")
+                                                warn("Use Skill : "..tostring(v._stats.id.Value))
                                         end
                                     end
                                 end
@@ -4649,7 +4656,8 @@ function autoabilityfunc()
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Eren")
+                                    --warn("Use Skill Eren")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
                         end
@@ -4663,21 +4671,24 @@ function autoabilityfunc()
                                             if GetWaveNumber() % 10 == 0 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill Dio heaven")
+                                                --warn("Use Skill Dio heaven")
+                                                warn("Use Skill : "..tostring(v._stats.id.Value))
                                             end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
                                                 if GetWaveNumber() == 15 or 20 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                    warn("Use Skill Dio heaven")
+                                                    --warn("Use Skill Dio heaven")
+                                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                                 end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
                                                 if GetWaveNumber() == 15 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                    warn("Use Skill Dio heaven")
+                                                    --warn("Use Skill Dio heaven")
+                                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                             end
                                         end
                                     end
@@ -4688,7 +4699,8 @@ function autoabilityfunc()
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     if Settings.SelectedSkillUse2 == "formation" then
                                         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                        warn("Use Skill Dio heaven")
+                                        --warn("Use Skill Dio heaven")
+                                        warn("Use Skill : "..tostring(v._stats.id.Value))
                                     end
                                 end
                             end
@@ -4698,28 +4710,32 @@ function autoabilityfunc()
                             if v._stats.id.Value == "gojo_evolved" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Gojo")
+                                    --warn("Use Skill Gojo")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
                             
                             if v._stats.id.Value == "homura_evolved" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Homura")
+                                    --warn("Use Skill Homura")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
 
                             if v._stats.id.Value == "law_2_evolved" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Law")
+                                    --warn("Use Skill Law")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
 
                             if v._stats.id.Value == "shanks_evolved" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Shanks")
+                                    --warn("Use Skill Shanks")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
 
@@ -4727,7 +4743,8 @@ function autoabilityfunc()
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     wait(1)
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill stain")
+                                    --warn("Use Skill stain")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
 
@@ -4735,14 +4752,17 @@ function autoabilityfunc()
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     wait(5)
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Ainz")
+                                    --warn("Use Skill Ainz")
+                                    warn("Use Skill : "..tostring(v._stats.id.Value))
                                 end
                             end
 
                             if v._stats.id.Value ~= "dio_heaven" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                    if v._stats.active_attack.Value ~= "nil" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Auto unit")
+                                    warn("Use Auto Skill : "..tostring(v._stats.id.Value))
+                                    end
                                 end
                             end
 

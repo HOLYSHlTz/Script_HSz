@@ -121,11 +121,28 @@ local MacroFileL = {}
         table.insert(MacroFileL, tostring(v:split([[\]])[2]:gsub(".json", "")))
     end
 
-MainMC2:Cheat("Dropdown", "Macro Profile",function(value)
+
+local selectmacrofile = MainMC2:Cheat("Dropdown", "Macro Profile",function(value)
     warn("Change to : "..value)
     Settings.Select_Macro_Profile = value
     saveSettings()
+    local StarterGui = game:GetService("StarterGui")
+        StarterGui:SetCore("SendNotification", {
+            Title = "Macro Status",
+            Text = "Select File : " .. tostring(Settings.Select_Macro_Profile),
+            Duration = 10
+        })
 end, { options = MacroFileL, default =Settings.Select_Macro_Profile})
+
+getgenv().updatemacro = function()
+    selectmacrofile:ClearDrop() local macrolist;
+    if Settings.Select_Macro_Profile then
+        macrolist = MacroFileL
+    end
+    for i = 1, #macrolist do
+        selectmacrofile:AddOption(macrolist[i])
+    end
+end
 
 MainMC2:Cheat("Checkbox"," Record Macro on Map Join ", function(bool)
     print(bool)

@@ -1,7 +1,7 @@
 --if game.PlaceId == 13775256536 or game.PlaceId == 14082129854 then
 if game:GetService('Players').LocalPlayer.Name == "oOHOLYSHzOo" then
 --updatefix
-local version = "1.1.0"
+local version = "1.0.1"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -146,15 +146,21 @@ end
 
 MainMC2:Cheat("Checkbox"," Record Macro on Map Join ", function(bool)
     print(bool)
-    getgenv().recordMacroOnTeleport = bool
+    Settings.recordMacroOnTeleport = bool
     saveSettings()
-end,{enabled = getgenv().recordMacroOnTeleport})
+end,{enabled = Settings.recordMacroOnTeleport})
+
+MainMC2:Cheat("Checkbox"," Record Check [don't toggle] ", function(bool)
+    print(bool)
+    Settings.recordingMacro = bool
+    saveSettings()
+end,{enabled = Settings.recordingMacro})
 
 MainMC2:Cheat("Checkbox"," Replay Macro on Map Join (TURN OFF RECORD MACRO) ", function(bool)
     print(bool)
-    getgenv().replayMacroOnTeleport = bool
+    Settings.replayMacroOnTeleport = bool
     saveSettings()
-end,{enabled = getgenv().replayMacroOnTeleport})
+end,{enabled = Settings.replayMacroOnTeleport})
 
 
 
@@ -389,26 +395,26 @@ if getgenv().recordingMacro then
                         Text = "Recording macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y-%m-%d-%H:%M:%S'))..".json",
                         Duration = 6.5
                     })
-    autoMacroTab:CreateLabel("Recording Macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["map"]).."-"..tostring(os.date('%Y-%m-%d %H:%M:%S'))..".json")
+    MainMC:Cheat("Label","Recording Macro to file: " .. tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["map"]).."-"..tostring(os.date('%Y-%m-%d %H:%M:%S'))..".json")   
 end
 
 
-if getgenv().recordMacroOnTeleport then
-    getgenv().lockAutoFunctions = true
-    getgenv().recordMacroOnTeleport = false
-    getgenv().recordingMacro = true
+if Settings.recordMacroOnTeleport then
+    Settings.lockAutoFunctions = true
+    Settings.recordMacroOnTeleport = false
+    Settings.recordingMacro = true
     saveSettings()
 else
-    --getgenv().recordingMacro = false
+    Settings.recordingMacro = false
     saveSettings()
 end
 
-if getgenv().replayMacroOnTeleport then
+if Settings.replayMacroOnTeleport then
     print("MACRO STARTED AAAAAAMACRO STARTED AAAAAAMACRO STARTED AAAAAAMACRO")
-    getgenv().lockAutoFunctions = true
+    Settings.lockAutoFunctions = true
     coroutine.resume(coroutine.create(function()
-        getgenv().lockAutoFunctions = true
-        if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
+        Settings.lockAutoFunctions = true
+        if Settings.Select_Macro_Profile[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
             --decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
             decodedFile = game:GetService('HttpService'):JSONDecode(readfile("Macro/Anime Adventures/HSz_Macro Profile" .. "/" .. tostring(Settings.Select_Macro_Profile) .. ".json"))
             getgenv().macroUnitPositions = {}

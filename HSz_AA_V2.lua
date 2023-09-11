@@ -4811,7 +4811,7 @@ function autoabilityfunc()
                             if v._stats.id.Value == "law_2_evolved" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill Homura")
+                                    warn("Use Skill Law")
                                 end
                             end
 

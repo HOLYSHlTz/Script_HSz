@@ -1,7 +1,7 @@
 --if game.PlaceId == 13775256536 or game.PlaceId == 14082129854 then
 if game:GetService('Players').LocalPlayer.Name == "oOHOLYSHzOo" then
 --updatefix
-local version = "1.0.0"
+local version = "1.1.0"
 
 ---// Loading Section \\---
 repeat  task.wait() until game:IsLoaded()
@@ -409,7 +409,8 @@ if getgenv().replayMacroOnTeleport then
     coroutine.resume(coroutine.create(function()
         getgenv().lockAutoFunctions = true
         if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
-            decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+            --decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+            decodedFile = game:GetService('HttpService'):JSONDecode(readfile("Macro/Anime Adventures/HSz_Macro Profile" .. "/" .. tostring(Settings.Select_Macro_Profile) .. ".json"))
             getgenv().macroUnitPositions = {}
             instructionIncrement = 1
             

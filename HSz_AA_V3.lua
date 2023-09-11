@@ -1,3 +1,5 @@
+--if game:GetService('Players').LocalPlayer.Name == "oOHOLYSHzOo" then
+
 getgenv().hidename = true
 getgenv().loopyLegends = false
 
@@ -4343,6 +4345,14 @@ function MainModule()
 				updatejson()
 			end})
 
+			--confirmation button here
+		autoMacroTab:CreateButton({
+			Name = "Confirm Selection",
+			Callback = function()
+				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
+				updatejson()
+			end})
+
 		local MacroFileL = {}
 		for i,v in pairs(listfiles("AAMacros_HSz")) do
 			table.insert(MacroFileL, tostring(v:split([[\]])[2]:gsub(".json", "")))
@@ -4350,18 +4360,19 @@ function MainModule()
 			--macro bound to level dropdown here
 		autoMacroTab:CreateDropdown({
 			Name = "Macro to Run on Above Level 2",
-			Options = MacroFileL,
-			CurrentOption = getgenv().selectedMacroFile2,
-			Callback = function(selectedFile)
-				getgenv().selectedMacroFile2 = tostring(selectedFile)
+			Options = (MacroFileL),
+			CurrentOption = "nil",
+			Callback = function(selectedFile2)
+				getgenv().selectedMacroFile2 = tostring(selectedFile2)
 				updatejson()
 			end})
 
 		--confirmation button here
 		autoMacroTab:CreateButton({
-			Name = "Confirm Selection",
+			Name = "Confirm Selection 2",
 			Callback = function()
-				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile):gsub("\\", [[/]])
+				getgenv().levelMacros[getgenv().macroLevel] = tostring(getgenv().selectedMacroFile2):gsub("\\", [[/]])
+				warn(tostring(getgenv().selectedMacroFile2):gsub("\\", [[/]]))
 				updatejson()
 			end})
 
@@ -5608,8 +5619,8 @@ function MainModule()
 			coroutine.resume(coroutine.create(function()
 				getgenv().lockAutoFunctions = true
 				if getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])] then
-					decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
-					decodedFile = game:GetService('HttpService'):JSONDecode(readfile("AAMacros_HSz" .. "/" .. tostring(Settings.Select_Macro_Profile) .. ".json"))
+					--decodedFile = game:GetService('HttpService'):JSONDecode(readfile(getgenv().levelMacros[tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"])]))
+					decodedFile = game:GetService('HttpService'):JSONDecode(readfile("AAMacros_HSz" .. "/" .. tostring(getgenv().selectedMacroFile2) .. ".json"))
 					getgenv().macroUnitPositions = {}
 					instructionIncrement = 1
 					
@@ -8179,4 +8190,5 @@ if game.PlaceId == 8304191830 then
 end
 
 print("Successfully Loaded!!")
+end
 ---------------------------------------------------------------------

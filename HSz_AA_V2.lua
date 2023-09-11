@@ -5974,8 +5974,28 @@ end
 ---------------------------------
 ---------------------------------
 function PlaceUnitsTEST(map,name,_uuid,unit)
-    local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
-    world = GetLevelData.world or GetLevelData.name
+        local Loader = require(game.ReplicatedStorage.src.Loader)
+        local Maps = Loader.load_data(script, "Maps")
+        local v100 = Maps[Loader.LevelData.map]
+        local map = v100.terrain_preset
+        local map2 = v100.id
+        local GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
+        local Mapname = GetLevelData.name
+
+        --fixmm
+        if map == "jjk_raid" then map = "jjk" end
+        if map == "jjk_finger" then map = "jjk" end
+        if map == "karakura" and map2 == "csm_city" then map = "csm_city" end
+        if map == "karakura" and map2 ~= "csm_city" then map = "karakura" end
+        if Mapname == "Infinity Castle" and map2 == "csm_city" then map = "csm_city" end
+        if Mapname == "Infinity Castle" and map2 ~= "csm_city" then map = "karakura" end
+        if map == "aot_raid" then map = "aot" end
+        if map == "naruto_desert_night" then map = "naruto_desert" end
+        if map == "west_city" then map = "west_city_frieza" end
+        if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
+        if map == "hage_night" then map = "hage" end
+        if Mapname == "Infinity Castle" then map = map2 end
+
     current_wave = game:GetService("Workspace")["_wave_num"].Value
     U1_wv, U2_wv, U3_wv, U4_wv, U5_wv, U6_wv = Settings.U1_Wave or 1, Settings.U2_Wave or 1, Settings.U3_Wave or 1, Settings.U4_Wave or 1, Settings.U5_Wave or 1, Settings.U6_Wave or 1
     U1_TAmm, U2_TAmm, U3_TAmm, U4_TAmm, U5_TAmm, U6_TAmm = Settings.U1_TotalAmmount or 6, Settings.U2_TotalAmmount or 6, Settings.U3_TotalAmmount or 6, Settings.U4_TotalAmmount or 6, Settings.U5_TotalAmmount or 6, Settings.U6_TotalAmmount or 6
@@ -6001,9 +6021,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U1_upgW <= current_wave and U1_sellW >= current_wave then
             print("upgrading u1.."..U1_name)
             upgradeunit1(U1_name)
-            wait(0.5)
-            upgradeunit1(U1_name)
-            print("upgrading check u1.."..U1_name)
         end
     end
 --end
@@ -6025,9 +6042,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U2_upgW <= current_wave and U2_sellW >= current_wave then
             print("upgrading u2.."..U2_name)
             upgradeunit2(U2_name)
-            wait(0.5)
-            upgradeunit2(U2_name)
-            print("upgrading check u2.."..U2_name)
         end
     end
 --end
@@ -6049,9 +6063,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U3_upgW <= current_wave and U3_sellW >= current_wave then
             print("upgrading u3.."..U3_name)
             upgradeunit3(U3_name)
-            wait(0.5)
-            upgradeunit3(U3_name)
-            print("upgrading check u3.."..U3_name)
         end
     end
 --end
@@ -6073,9 +6084,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U4_upgW <= current_wave and U4_sellW >= current_wave then
             print("upgrading u4.."..U4_name)
             upgradeunit4(U4_name)
-            wait(0.5)
-            upgradeunit4(U4_name)
-            print("upgrading check u4.."..U4_name)
         end
     end
 --end
@@ -6097,9 +6105,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U5_upgW <= current_wave and U5_sellW >= current_wave then
             print("upgrading u5.."..U5_name)
             upgradeunit5(U5_name)
-            wait(0.5)
-            upgradeunit5(U5_name)
-            print("upgrading check u5.."..U5_name)
         end
     end
 --end
@@ -6121,9 +6126,6 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
         if U6_upgW <= current_wave and U6_sellW >= current_wave then
             print("upgrading u6.."..U6_name)
             upgradeunit6(U6_name)
-            wait(0.5)
-            upgradeunit6(U6_name)
-            print("upgrading check u6.."..U6_name)
             end
         end
     end

@@ -91,30 +91,6 @@ local MainMC2 = Home:Sector("Macro")
 -----------------------------------------
 --UI
 
-MainMC:Cheat("Checkbox"," Auto join Story ", function(bool)
-    print(bool)
-    Settings.Auto_join_Story = bool
-    saveSettings()
-end,{enabled = Settings.Auto_join_Story})
-
-MainMC:Cheat("Checkbox"," Auto Vote Start  ", function(bool)
-    print(bool)
-    Settings.AutoVoteStart = bool
-    saveSettings()
-end,{enabled = Settings.AutoVoteStart})
-
-MainMC:Cheat("Checkbox"," Auto Vote Skip   ", function(bool)
-    print(bool)
-    Settings.AutoVoteSkip = bool
-    saveSettings()
-end,{enabled = Settings.AutoVoteSkip})
-
-MainMC:Cheat("Checkbox"," Auto Vote Replay   ", function(bool)
-    print(bool)
-    Settings.AutoVoteReplay = bool
-    saveSettings()
-end,{enabled = Settings.AutoVoteReplay})
-
 --Ui2
 local MacroFileL = {}
     for i,v in pairs(listfiles("HSz_Macro/Anime Adventures/HSz_Macro Profile")) do
@@ -385,8 +361,8 @@ local function writeMacroToFile(filename)
 	end)
 end
 
-if getgenv().recordingMacro then
-    getgenv().lockAutoFunctions = true
+if Settings.recordingMacro then
+    Settings.lockAutoFunctions = true
     saveSettings()
     writeMacroToFile(tostring(workspace._MAP_CONFIG.GetLevelData:InvokeServer()["id"]).."-"..tostring(os.date('%Y%m%d-%H%M%S')).."-"..game.Players.LocalPlayer.Name..".json")
     local StarterGui = game:GetService("StarterGui")

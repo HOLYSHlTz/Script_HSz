@@ -80,7 +80,7 @@ local dir = "AnimeFightingSimulatorX/"..game.Players.LocalPlayer.Name
 local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_Main.lua"))()
 --local Uilib = loadstring(game:HttpGet("https://raw.githubusercontent.com/siradaniy/HSz/main/FinityUI_TEST.lua"))()
 local exec = tostring(identifyexecutor())
-local Window = Uilib.new(true, "[HSz_TTD_v1] Anime Adventures HSz_Macro UPD "..version.." - "..exec)
+local Window = Uilib.new(true, "[HSz_Macro_v1] Anime Adventures HSz_Macro UPD "..version.." - "..exec)
 Window.ChangeToggleKey(Enum.KeyCode.P)
 
 local Home = Window:Category("🏠 HOME")
@@ -126,52 +126,6 @@ MainMC2:Cheat("Dropdown", "Macro Profile",function(value)
     Settings.Select_Macro_Profile = value
     saveSettings()
 end, { options = MacroFileL, default =Settings.Select_Macro_Profile})
-
---[[MainMC2:Cheat("Dropdown", "Macro Profile 2",function(value)
-    warn("Change to : "..value)
-    Settings.Select_Macro_Profile2 = value
-    saveSettings()
-end, { options = listfiles("HSz_Macro/Anime Adventures/HSz_Macro Profile"), default =Settings.Select_Macro_Profile})]]
-
-MainMC2:Cheat("Textbox", " New Profile Name ", function(Value)
-    Settings.Profile_Name = Value
-end, {placeholder = Settings.Profile_Name})
-
-MainMC2:Cheat("Button"," Create New Profile ", function()
-    if not isfolder("HSz_Macro") or not isfolder("HSz_Macro/Anime Adventures") or not isfile("HSz_Macro/Anime Adventures/HSz_Macro Profile") or not isfile("HSz_Macro/Anime Adventures/".. (game.Players.LocalPlayer.Name .. "_" .. game.Players.LocalPlayer.UserId) ..".json") then
-        Makefile()
-    end
-    if not isfile("HSz_Macro/Anime Adventures/HSz_Macro Profile" .. "/" .. tostring(Settings.Profile_Name)..".json") then
-        writefile("HSz_Macro/Anime Adventures/HSz_Macro Profile" .. "/" .. tostring(Settings.Profile_Name) .. ".json", game:GetService("HttpService"):JSONEncode({}))
-    else
-        local StarterGui = game:GetService("StarterGui")
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "Create Profile",
-                        Text = "You Already Have This Profile !!!",
-                        Duration = 10
-                    })
-    end
-    Settings.Select_Macro_Profile = {}
-    for i,v in pairs(listfiles("HSz_Macro/Anime Adventures/HSz_Macro Profile")) do
-        table.insert(Settings.Select_Macro_Profile, tostring(v:split([[\]])[2]:gsub(".json", "")))
-        --Settings.Select_Macro_Profile:SetValues()
-    end
-end)
-spawn(function()
-    while wait(5) do
-        pcall(function()
-            Settings.Select_Macro_Profile = {}
-            for i,v in pairs(listfiles("HSz_Macro/Anime Adventures/HSz_Macro Profile")) do
-                table.insert(Settings.Select_Macro_Profile, tostring(v:split([[\]])[2]:gsub(".json", "")))
-                --Settings.Select_Macro_Profile:SetValues()
-            end
-        end)
-    end
-end)
---for i,v in pairs(listfiles("HSz_Macro/Anime Adventures/HSz_Macro Profile")) do
-    --table.insert(Settings.Select_Macro_Profile, tostring(v:split([[\]])[2]:gsub(".json", "")))
-    --Settings.Select_Macro_Profile:SetValues()
---end
 
 MainMC2:Cheat("Checkbox"," Record Macro on Map Join ", function(bool)
     print(bool)

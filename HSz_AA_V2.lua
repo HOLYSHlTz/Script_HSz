@@ -1370,18 +1370,19 @@ local function AutoFarmSec()
         Settings.AutoUpgrade = bool
         saveSettings()
     end,{enabled = Settings.AutoUpgrade})
-    
-    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [เมื่อโจมตี] ", function(bool)
+
+    Settings.SelectedSkillUse2 = Settings.SelectedSkillUse2 or "When Attack"
+    AutoFarmConfig:Cheat("Dropdown", " เลือก วิธีใช้ Skill",function(value)
+        warn("Change to : "..value)
+        Settings.SelectedSkillUse2 = value
+        saveSettings()
+    end, { options = {"When Attack","Global Cooldown"}, default =Settings.SelectedSkillUse2})
+
+    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล ", function(bool)
         print(bool)
         Settings.AutoAbilities = bool
         saveSettings()
     end,{enabled = Settings.AutoAbilities})
-
-    AutoFarmConfig:Cheat("Checkbox"," Auto ใช้สกิล [Global Cooldown] ", function(bool)
-        print(bool)
-        Settings.AutoGCDAbilities = bool
-        saveSettings()
-    end,{enabled = Settings.AutoGCDAbilities})
 
     AutoFarmConfig:Cheat("Checkbox"," Auto บัพวน 100% [Erwin] ", function(bool)
         print(bool)
@@ -4658,47 +4659,171 @@ function autoabilityfunc()
                     
                     if v._stats:FindFirstChild("threat") then
                         if v._stats.threat.Value > 0 then
-                            UsePuchiSkill()
-                            UseErenSkill()
-                            UseDioOHSkill()
+                            --UsePuchiSkill()
+                            --UseErenSkill()
+                            --UseDioOHSkill()
                         end
                         
 
     				elseif v._stats:FindFirstChild("player") then
     					if tostring(v._stats.player.Value) == player then
 
-                            --AutoSkill
+                            if Settings.SelectedSkillUse2 == "When Attack" then
+                                Settings.SelectedSkillUse2 = "attack" end 
+                            if Settings.SelectedSkillUse2 == "Global Cooldown" then
+                                Settings.SelectedSkillUse2 = "formation" end 
+
+                        --AutoSkill
+                        
+                        --Puchi--
+                        if v._stats.id.Value == "pucci_heaven" then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if Settings.SelectedSkillUse2 == "attack" then
+                                    -- Check Infinite
+                                    if GLD()._gamemode == "infinite" then
+                                        if GetWaveNumber() % 10 == 0 then
+                                            wait(10)
+                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                            warn("Use Skill Puchi")
+                                        end
+                                        -- Check Raid
+                                        elseif GLD()._gamemode == "raid" then
+                                            if GetWaveNumber() == 15 or 20 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                warn("Use Skill Puchi")
+                                            end
+                                        -- Check Story or Infinite Tower
+                                        elseif GLD()._gamemode == "story" or "infinite_tower" then
+                                            if GetWaveNumber() == 15 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                warn("Use Skill Puchi")
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    --Golbal_Cooldown
+                        if v._stats.id.Value == "pucci_heaven" then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if Settings.SelectedSkillUse2 == "formation" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill Puchi")
+                                end
+                            end
+                        end
+
+                        --Eren--
+                        if v._stats.id.Value == "eren_final" then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if Settings.SelectedSkillUse2 == "attack" then
+                                    -- Check Infinite
+                                    if GLD()._gamemode == "infinite" then
+                                        if GetWaveNumber() % 10 == 0 then
+                                            wait(10)
+                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                            warn("Use Skill Eren")
+                                        end
+                                        -- Check Raid
+                                        elseif GLD()._gamemode == "raid" then
+                                            if GetWaveNumber() == 15 or 20 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                warn("Use Skill Eren")
+                                            end
+                                        -- Check Story or Infinite Tower
+                                        elseif GLD()._gamemode == "story" or "infinite_tower" then
+                                            if GetWaveNumber() == 15 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                warn("Use Skill Eren")
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    --Golbal_Cooldown
+                        if v._stats.id.Value == "eren_final" then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if Settings.SelectedSkillUse2 == "formation" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill Eren")
+                                end
+                            end
+                        end
+
+                        --Dio_OverHeaven--
+                            if v._stats.id.Value == "dio_heaven" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                    if Settings.SelectedSkillUse2 == "attack" then
+                                        -- Check Infinite
+                                        if GLD()._gamemode == "infinite" then
+                                            if GetWaveNumber() % 10 == 0 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                warn("Use Skill Dio heaven")
+                                            end
+                                            -- Check Raid
+                                            elseif GLD()._gamemode == "raid" then
+                                                if GetWaveNumber() == 15 or 20 then
+                                                    wait(10)
+                                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                    warn("Use Skill Dio heaven")
+                                                end
+                                            -- Check Story or Infinite Tower
+                                            elseif GLD()._gamemode == "story" or "infinite_tower" then
+                                                if GetWaveNumber() == 15 then
+                                                    wait(10)
+                                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                    warn("Use Skill Dio heaven")
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        --Golbal_Cooldown
+                            if v._stats.id.Value == "dio_heaven" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                    if Settings.SelectedSkillUse2 == "formation" then
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                        warn("Use Skill Dio heaven")
+                                    end
+                                end
+                            end
+
+                        -----------------------------------------------------
 
                             if v._stats.id.Value == "gojo_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Gojo")
                                 end
                             end
                             
                             if v._stats.id.Value == "homura_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Homura")
                                 end
                             end
 
                             if v._stats.id.Value == "law_2_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Homura")
                                 end
                             end
 
                             if v._stats.id.Value == "shanks_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Shanks")
                                 end
                             end
 
                             if v._stats.id.Value == "stain_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     wait(1)
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill stain")
@@ -4706,7 +4831,7 @@ function autoabilityfunc()
                             end
 
                             if v._stats.id.Value == "ainz_evolved" then
-                                if v._stats.state.Value == "attack" then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     wait(5)
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Ainz")
@@ -4730,110 +4855,6 @@ function autoabilityfunc()
 end
 -- End  Auto Abilities Function
     
-
-    -- Start of Auto Global Cooldown Abilities Function
-getgenv().autoGCDabilityerr = false
-function autoabilityGCDfunc()
-    local player = game.Players.LocalPlayer.Name
-    if Settings.AutoGCDAbilities then
-        repeat task.wait() until Workspace:WaitForChild("_UNITS")
-        local success, errGCD = pcall(function()
-            for i, v in ipairs(Workspace["_UNITS"]:GetChildren()) do
-                if v:FindFirstChild("_stats") then
-                    
-                    -- Look for Threat then execute Puchi Skill
-                    if v._stats:FindFirstChild("threat") then
-                        if v._stats.threat.Value > 0 then
-                            --UsePuchiSkill()
-                            --UseErenSkill()
-                            --UseDioOHSkill()
-                        end
-                        
-                    -- Search Player Units
-    				elseif v._stats:FindFirstChild("player") then
-    					if tostring(v._stats.player.Value) == player then
-
-
-                            if v._stats.id.Value ~= "pucci_heaven" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "erwin" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "wendy" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "leafa" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value ~= "eren_final" then
-                                if v._stats.state.Value ~= "attack" then
-                                    if v._stats.active_attack.Value ~= "nil" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                end
-                            end
-                        end
-
-                        if v._stats.id.Value == "homura_evolved" then
-                            if v._stats.state.Value ~= "attack" then
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                            end
-                        end
-
-                        if v._stats.id.Value == "pucci_heaven" then
-                            if v._stats.state.Value ~= "attack" then
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                            end
-                        end
-
-                        if v._stats.id.Value == "eren_final" then
-                            if v._stats.state.Value ~= "attack" then
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                            end
-                        end
-
-                        if v._stats.id.Value == "dio_heaven" then
-                            if v._stats.state.Value ~= "attack" then
-                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                            end
-                        end
-
-                        end
-                    end
-                end
-            end
-        end)
-        
-        if errGCD then
-            warn("Can't use Ability")
-            getgenv().autoGCDabilityerr = true
-            error(errGCD)
-        end
-    end
-end
-    -- End of Auto Global Cooldown Abilities Function
-
-
 -- Start  Puchi Skill Function
 function UsePuchiSkill()
     local player = game.Players.LocalPlayer.Name
@@ -4959,7 +4980,6 @@ function UseDioOHSkill()
 	end
 end
 -- End  Jio Hevent Skill Function
-
 -- Start  Auto Buff 100 Function
 --Erwin
 function autoabilityerwin()
@@ -5248,18 +5268,6 @@ coroutine.resume(coroutine.create(function()
             end
         end
         
-        if Settings.AutoGCDAbilities then
-            if game.PlaceId ~= 8304191830 then
-                pcall(function()
-                    autoabilityGCDfunc()
-                end)
-            end
-            if  getgenv().autoGCDabilityerr == true then
-                task.wait()
-                autoabilityGCDfunc()
-                getgenv().autoGCDabilityerr = false
-            end
-        end
 
         if Settings.AutoUpgrade and not Settings.unitconfig then
             if game.PlaceId ~= 8304191830 then

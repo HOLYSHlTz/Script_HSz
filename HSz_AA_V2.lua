@@ -5292,38 +5292,44 @@ coroutine.resume(coroutine.create(function()
         if Settings.unitconfig and not Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
-                    upgradeunit(name, min)
-                    upgradeunit1(name)
-                    upgradeunit2(name)
-                    upgradeunit3(name)
-                    upgradeunit4(name)
-                    upgradeunit5(name)
-                    upgradeunit6(name)
-                    --upgradeunitTEST()
+                    upgradeunit1()
+                    upgradeunit2()
+                    upgradeunit3()
+                    upgradeunit4()
+                    upgradeunit5()
+                    upgradeunit6()
                 end)
             end
             if  getgenv().autoupgradeerr == true then
                 task.wait()
-                autoupgradefunc()
+                    upgradeunit1()
+                    upgradeunit2()
+                    upgradeunit3()
+                    upgradeunit4()
+                    upgradeunit5()
+                    upgradeunit6()
                 getgenv().autoupgradeerr = false
             end
         end
         if Settings.unitconfig and Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
-                    upgradeunit(name, min)
-                    upgradeunit1(name)
-                    upgradeunit2(name)
-                    upgradeunit3(name)
-                    upgradeunit4(name)
-                    upgradeunit5(name)
-                    upgradeunit6(name)
-                    --upgradeunitTEST()
+                    upgradeunit1()
+                    upgradeunit2()
+                    upgradeunit3()
+                    upgradeunit4()
+                    upgradeunit5()
+                    upgradeunit6()
                 end)
             end
             if  getgenv().autoupgradeerr == true then
                 task.wait()
-                autoupgradefunc()
+                    upgradeunit1()
+                    upgradeunit2()
+                    upgradeunit3()
+                    upgradeunit4()
+                    upgradeunit5()
+                    upgradeunit6()
                 getgenv().autoupgradeerr = false
             end
         end
@@ -5715,6 +5721,7 @@ end
 
 function upgradeunit1(name) 
     repeat task.wait() until game:GetService("Workspace"):WaitForChild("_UNITS")
+    local Money = game:GetService("Players").LocalPlayer._stats.resource.Value
     for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
         repeat task.wait() until v:WaitForChild("_stats")
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then

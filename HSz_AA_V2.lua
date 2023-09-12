@@ -789,11 +789,11 @@ local UA = Window:Category("⚔️ INF Range")
 
 Unit = {}
 for i = 1, 6 do
-    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " INF Range")
+    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " Kill or INF Range")
 end
 
 local UnitAOE = UA:Sector("INF Range Config ")
-local UnitAOE1 = UA:Sector("Check Unit ")
+local UnitAOE1 = UA:Sector("Kill Or TakeDown & Check Unit ")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
@@ -1790,12 +1790,447 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-    UnitAOE1:Cheat("Button", "Check Kill & Take Down [F9 to see]", function()
-        for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
-            if v:FindFirstChild("_stats") then
-                if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
-                    if v._stats.takedown_count.Value >= 1 then
-                    warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
+
+Settings.Exit_Kill_Wave = Settings.Exit_Kill_Wave or 5000
+UnitAOE1:Cheat("Textbox", " Leave When Unit Kill ", function(Value)
+    Value = tonumber(Value)
+    Settings.Exit_Kill_Wave = Value
+    saveSettings()
+end, {placeholder = Settings.Exit_Kill_Wave})
+                    
+UnitAOE1:Cheat("Checkbox"," Auto Leave When Unit Kill ", function(bool)
+        print(bool)
+        Settings.AutoKillWave = bool
+        saveSettings()
+    end,{enabled = Settings.AutoKillWave})
+
+    --Unit1
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill1()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill1()
+                end
+            end
+        end)
+
+        --Unit2
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill2()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE2 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill2()
+                end
+            end
+        end)
+
+        --Unit3
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill3()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE3 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill3()
+                end
+            end
+        end)
+
+        --Unit4
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill4()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE4 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill4()
+                end
+            end
+        end)
+
+        --Unit5
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill5()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE5 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill5()
+                end
+            end
+        end)
+
+        --Unit6
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoKillWave then
+
+                local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+                local player = game.Players.LocalPlayer.Name
+                local Unit = game.Workspace._UNITS
+                local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame  
+                local distanceTable = {}
+            
+                local function getDistance(toCheck)
+                    table.clear(distanceTable)
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("base") then
+                                if tostring(v._stats.base.Value) == "pve" then
+                                    distance = tostring((base.Position - v.HumanoidRootPart.CFrame.Position).Magnitude)
+                                    table.insert(distanceTable, tonumber(distance))
+                                    table.sort(distanceTable)
+                                    if tonumber(distance) == distanceTable[1] then
+
+                                        enemy = v.HumanoidRootPart.CFrame *
+                                            CFrame.new(0, 0, -2)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                    return enemy
+                end
+                    
+        local function followUnitKill6()
+            local base = game.Workspace._BASES.player.base.fake_unit.HumanoidRootPart.CFrame
+            local player = game.Players.LocalPlayer.Name
+            local Unit = game.Workspace._UNITS
+            local charPosition = game.Workspace[game.Players.LocalPlayer.Name].HumanoidRootPart.CFrame 
+
+                if Unit:getChildren()[1] then
+                    for i, v in pairs(Unit:getChildren()) do
+                        if v:WaitForChild("_stats"):FindFirstChild("player") then
+                            if tostring(v._stats.player.Value) == player then
+                                local success, err = pcall(function()
+                                    if tostring(v._stats.player.Value) == player then
+                                        if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
+                                            if tostring(v._stats.kill_count.Value) or tostring(v._stats.takedown_count.Value) == tonumber(Settings.Exit_Kill_Wave) then
+                                                pcall(function() webhook() end)
+                                                print("send Webhook")
+                                                task.wait(2.1)
+                                                print("Returning to lobby...")
+                                                task.wait(2.1)
+                                                Teleport()
+
+                                            end
+                                        end
+                                    end
+                                end)
+                                if err then
+                                    return
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+                followUnitKill6()
+                end
+            end
+        end)
+
+--check_kill
+UnitAOE1:Cheat("Button", "Check Kill & Take Down", function()
+    for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
+        if v:FindFirstChild("_stats") then
+            if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
+                if v._stats.takedown_count.Value >= 1 then
+                warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
                     local StarterGui = game:GetService("StarterGui")
                     StarterGui:SetCore("SendNotification", {
                         Title = "Kill & Take Down",
@@ -1807,9 +2242,11 @@ local function UNITAOEAA()
         end
     end
 end)
-
-
-
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+--------------------------------inf_Range------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
     UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
         print(bool)
         Settings.blackhole = bool

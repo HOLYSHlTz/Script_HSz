@@ -1577,14 +1577,14 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-Settings.ExitKillWave = Settings.ExitKillWave or 5000
-UnitAOE1:Cheat("Textbox", " Leave When Unit Kill ", function(Value)
+Settings.ExitKillWave = Settings.ExitKillWave or 7500
+UnitAOE1:Cheat("Textbox", " Unit Kill Count ", function(Value)
     Value = tonumber(Value)
     Settings.ExitKillWave = Value
     saveSettings()
 end, {placeholder = Settings.ExitKillWave})
 
-UnitAOE1:Cheat("Checkbox"," Auto Leave When Unit Kill ", function(bool)
+UnitAOE1:Cheat("Checkbox"," Auto Leave When Unit Kill Count Done ", function(bool)
         print(bool)
         Settings.AutoKillWave = bool
         saveSettings()

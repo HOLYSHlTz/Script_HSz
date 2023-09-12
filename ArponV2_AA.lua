@@ -795,15 +795,15 @@ local Unit5 = UC:Sector("Unit 5")
 local Unit6 = UC:Sector("Unit 6")
 
 --- Unit AOE
-local UA = Window:Category("⚔️ INF Range")
+local UA = Window:Category("⚔️ INF & KILL")
 
 Unit = {}
 for i = 1, 6 do
-    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " INF Range")
+    Unit["AOE"..i] = UA:Sector("Select Unit " .. i .. " Kill or INF Range")
 end
 
 local UnitAOE = UA:Sector("INF Range Config ")
-local UnitAOE1 = UA:Sector("Check Unit ")
+local UnitAOE1 = UA:Sector("Kill Or TakeDown & Check Unit")
 --- End of Unit AOE
 
 local LG = Window:Category("🛠️ Misc [BETA]")
@@ -1377,7 +1377,7 @@ local function AutoFarmSec()
         warn("Change to : "..value)
         Settings.SelectedSkillUse2 = value
         saveSettings()
-    end, { options = {"When Attack","Global Cooldown"}, default =Settings.SelectedSkillUse2})
+    end, { options = {"When Attack","Global Cooldown","Boss Wave"}, default =Settings.SelectedSkillUse2})
 
     AutoFarmConfig:Cheat("Checkbox","🔥 Auto Abilities ", function(bool)
         print(bool)
@@ -1450,218 +1450,6 @@ local function MoreFarmSec()
 end
 
 -----------------------------------------------
---resetautofarm config
---resetall
-function refarmcon()
-    print("reset AutoFarm & find Picoro config ?")
-
-    --findPicoro
-    if Settings.picoHOP then
-        Settings.picoHOP = false end
-   --Start
-    if Settings.autostart then
-        Settings.autostart = false end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = false end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = false end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = false end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = false end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = false end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 0 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.refarmc then
-    refarmcon()
-    autoload2()
-end
-
---setAutoFarmStory
-function setfarm1()
-    print("Set AutoFarm Story ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = true end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = true end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarm1 then
-    setfarm1()
-    autoload2()
-end
-
---setAutoFarmStorynReplay
-function setfarm2()
-    print("Set AutoFarm Story & Replay ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = true end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = true end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = true end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = false end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = false end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarm2 then
-    setfarm2()
-    autoload2()
-end
-
---setAutoInfCastle
-function setfarmIC()
-    print("Set AutoFarm Inf Castle ?")
-
-   --Start
-    if Settings.autostart then
-        Settings.autostart = false end
-    --Place unit
-    if Settings.AutoFarm then
-        Settings.AutoFarm = true end
-    --Replay
-    if Settings.AutoReplay then
-        Settings.AutoReplay = false end
-    --Next Story
-    if Settings.AutoNext then
-        Settings.AutoNext = false end
-    --Leave
-    if Settings.AutoLeave then
-        Settings.AutoLeave = false end
-    --Abilities
-    if Settings.AutoAbilities then
-        Settings.AutoAbilities = true end
-    --Upgrade
-    if Settings.AutoUpgrade then
-        Settings.AutoUpgrade = true end
-    --AutoSell
-    if Settings.AutoSell then
-        Settings.AutoSell = true end
-    --autoQuitWave
-    if Settings.autoQuit then
-        Settings.autoQuit = false end
-    --AutoSellWave
-    if Settings.AutoSellWave then
-        Settings.AutoSellWave = 50 end
-    --Inf Castle--
-    --Next Level inf cas
-    if Settings.AutoContinue then
-        Settings.AutoContinue = true end
-    --Auto Infinity Castle 
-    if Settings.AutoInfinityCastle then
-        Settings.AutoInfinityCastle = true end
-        saveSettings()
-        autoload2()
-  
-end
-
-if Settings.setfarmIC then
-    setfarmIC()
-    autoload2()
-end
-
-
------------------------------------------------
-
-
 ----------------------------------------------
 ----------------- Challenge ------------------
 ----------------------------------------------
@@ -1782,23 +1570,253 @@ end
 ----------------------------------------------
 local function UNITAOEAA()
 
-    UnitAOE1:Cheat("Button", "Check Kill & Take Down [F9 to see]", function()
+
+    Settings.ExitKillWave = Settings.ExitKillWave or 5000
+    UnitAOE1:Cheat("Textbox", " Leave When Unit Kill ", function(Value)
+        Value = tonumber(Value)
+        Settings.ExitKillWave = Value
+        saveSettings()
+    end, {placeholder = Settings.ExitKillWave})
+    
+    UnitAOE1:Cheat("Checkbox"," Auto Leave When Unit Kill ", function(bool)
+            print(bool)
+            Settings.AutoKillWave = bool
+            saveSettings()
+        end,{enabled = Settings.AutoKillWave})
+    
+        --Unit1
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE1 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+    
+        --Unit2
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE2 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+    
+        --Unit3
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE3 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+    
+        --Unit4
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE4 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+    
+        --Unit5
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE5 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+    
+        --Unit6
+        task.spawn(function()
+            while task.wait() do
+                if Settings.AutoKillWave then
+                    local Unit = game.Workspace._UNITS
+                    player = game.Players.LocalPlayer.Name
+                    if Unit:getChildren()[1] then
+                        for i, v in pairs(Unit:getChildren()) do
+                            if v:WaitForChild("_stats"):FindFirstChild("player") then
+                                if tostring(v._stats.player.Value) == player then
+                                    if tostring(v._stats.id.Value) == Settings.UnitAOE6 then
+                                        if v._stats.kill_count.Value >= tonumber(Settings.ExitKillWave) then
+                                            warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ")
+                                                local StarterGui = game:GetService("StarterGui")
+                                                    StarterGui:SetCore("SendNotification", {
+                                                        Title = "Unit Kill has been Success",
+                                                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value) .. " | already ",
+                                                        Duration = 6.5
+                                                    })
+                                                    pcall(function() webhook() end)
+                                                    print("send Webhook")
+                                                    task.wait(2.1)
+                                                    print("Returning to lobby...")
+                                                    task.wait(2.1)
+                                                    Teleport()
+                                                end
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+          
+    --check_kill
+    UnitAOE1:Cheat("Button", "Check Kill & Take Down", function()
         for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
             if v:FindFirstChild("_stats") then
                 if tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name and v["_stats"].xp.Value >= 0 then
                     if v._stats.takedown_count.Value >= 1 then
                     warn("Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value))
-                    local StarterGui = game:GetService("StarterGui")
-                    StarterGui:SetCore("SendNotification", {
-                        Title = "Kill & Take Down",
-                        Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value),
-                        Duration = 10
-                    })
+                        local StarterGui = game:GetService("StarterGui")
+                        StarterGui:SetCore("SendNotification", {
+                            Title = "Kill & Take Down",
+                            Text = "Unit : " ..tostring(v._stats.id.Value) .. " | Kill : "  ..tostring(v._stats.kill_count.Value).. " | TakeDown : "  ..tostring(v._stats.takedown_count.Value),
+                            Duration = 10
+                        })
+                    end
                 end
             end
         end
-    end
-end)
+    end)
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
+--------------------------------inf_Range------------------------------------
+------------------------------------------------------------------------------
+------------------------------------------------------------------------------
 
     UnitAOE:Cheat("Checkbox","Enable INF Range Unit [ZicZac] ", function(bool)
         print(bool)
@@ -2274,6 +2292,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit1
     for i = 1, 1 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE1 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE1 or nil})
@@ -2281,6 +2306,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit2
     for i = 2, 2 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE2 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE2 or nil})
@@ -2288,6 +2320,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit3
     for i = 3, 3 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE3 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE3 or nil})
@@ -2295,6 +2334,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit4
     for i = 4, 4 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE4 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE4 or nil})
@@ -2302,6 +2348,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit5
     for i = 5, 5 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE5 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE5 or nil})
@@ -2309,6 +2362,13 @@ if Settings.SelectedUnits ~= nil then
     --Unit6
     for i = 6, 6 do
         Unit["AOE"..i]:Cheat("Dropdown", "Select Unit " .. i .. " Name",function(value)
+            warn("Change to : "..value)
+            local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
             Settings.UnitAOE6 = value
             saveSettings()
         end, { options = { "Off", names[i] }, default = Settings.UnitAOE6 or nil})
@@ -2317,6 +2377,12 @@ if Settings.SelectedUnits ~= nil then
     Settings.UnitAOE7 = Settings.UnitAOE7 or "femto"
     UnitAOE:Cheat("Dropdown", " Select Griffin Name ",function(value)
         warn("Change to : "..value)
+        local StarterGui = game:GetService("StarterGui")
+                StarterGui:SetCore("SendNotification", {
+                    Title = "INF & KILL Unit",
+                    Text = "Change to : "..value,
+                    Duration = 5
+                })
         Settings.UnitAOE7 = value
         saveSettings()
     end, { options = {"None","femto_egg","griffith_reincarnation","femto"}, default =Settings.UnitAOE7})
@@ -4573,195 +4639,238 @@ function autoabilityfunc()
                                 Settings.SelectedSkillUse2 = "attack" end 
                             if Settings.SelectedSkillUse2 == "Global Cooldown" then
                                 Settings.SelectedSkillUse2 = "formation" end 
+                            if Settings.SelectedSkillUse2 == "Boss Wave" then
+                                Settings.SelectedSkillUse2 = "bosswave" end 
+
+                        local NameSkill = {}
+                            if Settings.SelectedSkillUse2 == "attack" then
+                                NameSkill = "When Attack" end 
+                            if Settings.SelectedSkillUse2 == "formation" then
+                                NameSkill = "Global Cooldown" end 
+                            if Settings.SelectedSkillUse2 == "bosswave" then
+                                NameSkill = "Boss Wave" end 
+
+
 
                         --AutoSkill
                         
                         --Puchi--
                         if v._stats.id.Value == "pucci_heaven" then
-                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                if Settings.SelectedSkillUse2 == "attack" then
+                            if v._stats.active_attack.Value ~= "nil" then
+                                if Settings.SelectedSkillUse2 == "bosswave" then
                                     -- Check Infinite
                                     if GLD()._gamemode == "infinite" then
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            --warn("Use Skill Puchi")
-                                            warn("Use Skill : "..tostring(v._stats.id.Value))
+                                            
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() == 15 or 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                --warn("Use Skill Puchi")
-                                                warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                --warn("Use Skill Puchi")
-                                                warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                         end
                                     end
                                 end
                             end
                         end
+
+                    --When_Attack
+                    if v._stats.id.Value == "pucci_heaven" then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if Settings.SelectedSkillUse2 == "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                            end
+                        end
+                    end
                     --Golbal_Cooldown
                         if v._stats.id.Value == "pucci_heaven" then
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Puchi")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
+                                    
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                 end
                             end
                         end
 
                         --Eren--
                         if v._stats.id.Value == "eren_final" then
-                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                if Settings.SelectedSkillUse2 == "attack" then
+                            if v._stats.active_attack.Value ~= "nil" then
+                                if Settings.SelectedSkillUse2 == "bosswave" then
                                     -- Check Infinite
                                     if GLD()._gamemode == "infinite" then
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            --warn("Use Skill Eren")
-                                            warn("Use Skill : "..tostring(v._stats.id.Value))
+                                            
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() == 15 or 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                --warn("Use Skill Eren")
-                                                warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                --warn("Use Skill Eren")
-                                                warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                         end
                                     end
                                 end
                             end
                         end
+
+                    --When_Attack
+                    if v._stats.id.Value == "eren_final" then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if Settings.SelectedSkillUse2 == "attack" then
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                            end
+                        end
+                    end
                     --Golbal_Cooldown
                         if v._stats.id.Value == "eren_final" then
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Eren")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
+                                    
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                 end
                             end
                         end
 
                         --Dio_OverHeaven--
-                            if v._stats.id.Value == "dio_heaven" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    if Settings.SelectedSkillUse2 == "attack" then
+                        if v._stats.id.Value == "dio_heaven" then
+                            if v._stats.active_attack.Value ~= "nil" then
+                                if Settings.SelectedSkillUse2 == "bosswave" then
+                                    -- Check Infinite
+                                    if GLD()._gamemode == "infinite" then
+                                        if GetWaveNumber() % 10 == 0 then
+                                            wait(10)
+                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                            
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                        end
+                                        -- Check Raid
+                                        elseif GLD()._gamemode == "raid" then
+                                            if GetWaveNumber() == 15 or 20 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                            end
+                                        -- Check Story or Infinite Tower
+                                        elseif GLD()._gamemode == "story" or "infinite_tower" then
+                                            if GetWaveNumber() == 15 then
+                                                wait(10)
+                                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                        end
+                                    end
+                                end
+                            end
+                        end
+
+                    --When_Attack
+                    if v._stats.id.Value == "dio_heaven" then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if Settings.SelectedSkillUse2 == "attack" then
+                                wait(1)
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                
+                            end
+                        end
+                    end
+                    --Golbal_Cooldown
+                        if v._stats.id.Value == "dio_heaven" then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if Settings.SelectedSkillUse2 == "formation" then
+                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                    
+                                end
+                            end
+                        end
+                        
+                        -----------------------------------------------------
+
+                            --Auto_Skill--
+                            if v._stats.id.Value ~= "dio_heaven" then
+                                if v._stats.active_attack.Value ~= "nil" then
+                                    if Settings.SelectedSkillUse2 == "bosswave" then
                                         -- Check Infinite
                                         if GLD()._gamemode == "infinite" then
                                             if GetWaveNumber() % 10 == 0 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                --warn("Use Skill Dio heaven")
-                                                warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                             end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
                                                 if GetWaveNumber() == 15 or 20 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                    --warn("Use Skill Dio heaven")
-                                                    warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                    
+                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                                 end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
                                                 if GetWaveNumber() == 15 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                    --warn("Use Skill Dio heaven")
-                                                    warn("Use Skill : "..tostring(v._stats.id.Value))
+                                                    
+                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
                                             end
                                         end
                                     end
                                 end
                             end
-                        --Golbal_Cooldown
-                            if v._stats.id.Value == "dio_heaven" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    if Settings.SelectedSkillUse2 == "formation" then
-                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                        --warn("Use Skill Dio heaven")
-                                        warn("Use Skill : "..tostring(v._stats.id.Value))
-                                    end
-                                end
-                            end
-
-                        -----------------------------------------------------
-
-                            if v._stats.id.Value == "gojo_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Gojo")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-                            
-                            if v._stats.id.Value == "homura_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Homura")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-
-                            if v._stats.id.Value == "law_2_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Law")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-
-                            if v._stats.id.Value == "shanks_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Shanks")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-
-                            if v._stats.id.Value == "stain_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    wait(1)
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill stain")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-
-                            if v._stats.id.Value == "ainz_evolved" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
-                                    wait(5)
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    --warn("Use Skill Ainz")
-                                    warn("Use Skill : "..tostring(v._stats.id.Value))
-                                end
-                            end
-
+                            --When_Attack
                             if v._stats.id.Value ~= "dio_heaven" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     if v._stats.active_attack.Value ~= "nil" then
-                                    game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Auto Skill : "..tostring(v._stats.id.Value))
+                                    if Settings.SelectedSkillUse2 == "attack" then
+                                        wait(2)
+                                        game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                        warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                        end
+                                    end
+                                end
+                            end
+                            --Golbal_Cooldown
+                                if v._stats.id.Value ~= "dio_heaven" then
+                                    if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                        if v._stats.active_attack.Value ~= "nil" then
+                                        if Settings.SelectedSkillUse2 == "formation" then
+                                            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                        end
                                     end
                                 end
                             end

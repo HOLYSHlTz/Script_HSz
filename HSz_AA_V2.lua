@@ -4073,7 +4073,7 @@ local function checkReward()
 end
 
 ----------------------------------------
-getgenv().door = "_lobbytemplate316"
+getgenv().door = "_lobbytemplate316" or "_lobbytemplate317" or "_lobbytemplate318" or "_lobbytemplate319" or "_lobbytemplate320"
 local function startChallenge()
     if game.PlaceId == 8304191830 then
         local cpos = plr.Character.HumanoidRootPart.CFrame
@@ -4095,6 +4095,7 @@ local function startChallenge()
         end
     end
 end
+
 ---------------------------------------------
 --test fixportal
 
@@ -4511,7 +4512,7 @@ local function startfarming()
             StartPortal(level)
 
         elseif cata == "Dungeon" then
-            if level == "jjk_finger" then --_lobbytemplate_event221
+            if level == "jjk_finger" then
             getgenv().door = "_lobbytemplate_event222"
             local string_1 = "_lobbytemplate_event222";
             local table_1 = {

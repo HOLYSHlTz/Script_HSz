@@ -767,6 +767,12 @@ local UnitPosition = Farm:Sector("🧙 Select Unit Position")
 local castleconfig = Farm:Sector("🏯 Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ Auto Farm Config")
 local ChallengeConfig = Farm:Sector("⌛ Challenge Config")
+local bkackhole1 = Farm:Sector(" ")
+local bkackhole2 = Farm:Sector(" ")
+local bkackhole3 = Farm:Sector(" ")
+local bkackhole4 = Farm:Sector(" ")
+local bkackhole5 = Farm:Sector(" ")
+local bkackhole6 = Farm:Sector(" ")
 
 
 local UC = Window:Category("🧙 Unit Config")

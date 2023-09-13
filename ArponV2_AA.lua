@@ -189,19 +189,6 @@ function webhook()
         if result == "VICTORY" then result = "VICTORY" end
         if result == "DEFEAT" then result = "DEFEAT" end
         _map = game:GetService("Workspace")["_BASES"].player.base["fake_unit"]:WaitForChild("HumanoidRootPart")
-
-        ---------------------------------
-        --portaldiff test
-        for i,v in pairs(get_inventory_items_unique_items()) do
-            if string.find(v['item_id'],"portal") then
-                --if v['item_id'] == Settings.SelectedSellPortals then
-                --if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedSellTier then
-
-                    PortalsDiff = v["_unique_item_data"]["_unique_portal_data"]["difficulty_scale"]
-
-                --end
-            end
-        end
         ---------------------------------
         GetLevelData = game.workspace._MAP_CONFIG:WaitForChild("GetLevelData"):InvokeServer()
         Mapname = GetLevelData.name

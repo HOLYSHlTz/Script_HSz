@@ -758,6 +758,13 @@ local UnitPosition = Farm:Sector("🧙 เลือกจุดวาง Unit")
 local castleconfig = Farm:Sector("🏯 ตั้งค่า Infinity Castle 🏯")
 local AutoFarmConfig = Farm:Sector("⚙️ ตั้งค่า Auto Farm")
 local ChallengeConfig = Farm:Sector("⌛ ตั้งค่า Challenge")
+local bkackhole1 = Farm:Sector(" ")
+local bkackhole2 = Farm:Sector(" ")
+local bkackhole3 = Farm:Sector(" ")
+local bkackhole4 = Farm:Sector(" ")
+local bkackhole5 = Farm:Sector(" ")
+local bkackhole6 = Farm:Sector(" ")
+
 
 
 local UC = Window:Category("🧙 ตั้งค่า Unit")

@@ -4002,7 +4002,7 @@ end
     end
 end]]
 ----------------------------------------
-getgenv().door = "_lobbytemplate316"
+getgenv().door = "_lobbytemplate316" or "_lobbytemplate317" or "_lobbytemplate318" or "_lobbytemplate319" or "_lobbytemplate320"
 local function startChallenge()
     if game.PlaceId == 8304191830 then
         local cpos = plr.Character.HumanoidRootPart.CFrame

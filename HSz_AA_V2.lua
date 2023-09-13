@@ -1,14 +1,14 @@
 ---// Loading Section \\
 repeat  task.wait() until game:IsLoaded()
 if game.PlaceId == 8304191830 then
-    --wait(10)
+    wait(10)
     local StarterGui = game:GetService("StarterGui")
                     StarterGui:SetCore("SendNotification", {
                         Title = "HOLYSHz Notify",
                         Text = "Wait Game is Loaded 10(s)...!!!",
                         Duration = 10
                     })
-    --wait(10)
+    wait(10)
     repeat task.wait() until game.Workspace:FindFirstChild(game.Players.LocalPlayer.Name)
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("collection"):FindFirstChild("grid"):FindFirstChild("List"):FindFirstChild("Outer"):FindFirstChild("UnitFrames")
     repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("UpdateUI"):FindFirstChild("Main"):FindFirstChild("Top"):FindFirstChild("Title")

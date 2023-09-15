@@ -4766,7 +4766,6 @@ function autoabilityfunc()
                         --Puchi--
                         --BossWave
                         if v._stats.id.Value == "pucci_heaven" then
-                            if v._stats.active_attack.Value ~= "nil" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
                                     -- Check Infinite
                                     if GLD()._gamemode == "infinite" then
@@ -4788,7 +4787,6 @@ function autoabilityfunc()
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
-                                        end
                                     end
                                 end
                             end
@@ -4843,7 +4841,6 @@ function autoabilityfunc()
             end
                         --Eren--
                         if v._stats.id.Value == "eren_final" then
-                            if v._stats.active_attack.Value ~= "nil" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
                                     -- Check Infinite
                                     if GLD()._gamemode == "infinite" then
@@ -4865,7 +4862,6 @@ function autoabilityfunc()
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
-                                        end
                                     end
                                 end
                             end
@@ -5040,7 +5036,7 @@ function autoabilityfunc()
             end
                         -----------------------------------------------------
                             --Auto_Skill--
-                            if v._stats.id.Value ~= "dio_heaven" then
+                            if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "bosswave" then
                                         -- Check Infinite

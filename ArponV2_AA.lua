@@ -4675,21 +4675,21 @@ function autoabilityfunc()
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                     end
                                 end
                             end
@@ -4701,7 +4701,7 @@ function autoabilityfunc()
                             if Settings.SelectedSkillUse2 == "attack" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 
-                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                             end
                         end
                     end
@@ -4711,7 +4711,7 @@ function autoabilityfunc()
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     
-                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                 end
                             end
                         end
@@ -4750,21 +4750,21 @@ function autoabilityfunc()
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                     end
                                 end
                             end
@@ -4775,7 +4775,7 @@ function autoabilityfunc()
                         if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                             if Settings.SelectedSkillUse2 == "attack" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                             end
                         end
                     end
@@ -4784,7 +4784,7 @@ function autoabilityfunc()
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                 end
                             end
                         end
@@ -4823,21 +4823,21 @@ function autoabilityfunc()
                                         if GetWaveNumber() % 10 == 0 then
                                             wait(10)
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)                   
-                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
                                             if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)               
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                         -- Check Story or Infinite Tower
                                         elseif GLD()._gamemode == "story" or "infinite_tower" then
                                             if GetWaveNumber() == 15 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)            
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                     end
                                 end
                             end
@@ -4896,7 +4896,7 @@ function autoabilityfunc()
                             if Settings.SelectedSkillUse2 == "attack" then
                                 wait(1)
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                             end
                         end
                     end
@@ -4905,7 +4905,7 @@ function autoabilityfunc()
                             if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))     
+                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))     
                                 end
                             end
                         end
@@ -4947,21 +4947,21 @@ function autoabilityfunc()
                                             if GetWaveNumber() % 10 == 0 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
                                                 if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                                 end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
                                                 if GetWaveNumber() == 15 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v) 
-                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                                    warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                         end
                                     end
@@ -4974,7 +4974,7 @@ function autoabilityfunc()
                                     if Settings.SelectedSkillUse2 == "attack" then
                                         wait(2)
                                         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                        warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                        warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                     end
                                 end
@@ -4985,7 +4985,7 @@ function autoabilityfunc()
                                         if v._stats.active_attack.Value ~= "nil" then
                                         if Settings.SelectedSkillUse2 == "formation" then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
-                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
+                                            warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                     end
                                 end

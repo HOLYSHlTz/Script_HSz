@@ -4821,7 +4821,6 @@ function autoabilityfunc()
             end
                         --Dio_OverHeaven--
                         if v._stats.id.Value == "dio_heaven" then
-                            if v._stats.active_attack.Value ~= "nil" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
                                     -- Check Infinite
                                     if GLD()._gamemode == "infinite" then
@@ -4843,7 +4842,6 @@ function autoabilityfunc()
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)            
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
-                                        end
                                     end
                                 end
                             end

@@ -4776,7 +4776,7 @@ function autoabilityfunc()
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
-                                            if GetWaveNumber() == 15 or 20 then
+                                            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
@@ -4851,7 +4851,7 @@ function autoabilityfunc()
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
-                                            if GetWaveNumber() == 15 or 20 then
+                                            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
@@ -4924,7 +4924,7 @@ function autoabilityfunc()
                                         end
                                         -- Check Raid
                                         elseif GLD()._gamemode == "raid" then
-                                            if GetWaveNumber() == 15 or 20 then
+                                            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                 wait(10)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)               
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
@@ -4964,7 +4964,7 @@ function autoabilityfunc()
                                         end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
-                                                if GetWaveNumber() == 15 or 20 then
+                                                if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU))
@@ -5048,7 +5048,7 @@ function autoabilityfunc()
                                             end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
-                                                if GetWaveNumber() == 15 or 20 then
+                                                if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                     wait(10)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill))
@@ -5113,7 +5113,7 @@ function autoabilityfunc()
                                         end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
-                                                if GetWaveNumber() == 15 or 20 then
+                                                if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU))
@@ -5263,7 +5263,7 @@ function UsePuchiSkill()
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
+					            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                     wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Puchi")
@@ -5305,7 +5305,7 @@ function UseErenSkill()
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
+					            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                     wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Eren")
@@ -5347,7 +5347,7 @@ function UseDioOHSkill()
 						        end
 						    -- Check Raid
 					        elseif GLD()._gamemode == "raid" then
-					            if GetWaveNumber() == 15 or 20 then
+					            if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then
                                     wait(10)
 						            game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill Dio heaven")

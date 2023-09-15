@@ -4968,7 +4968,7 @@ function autoabilityfunc()
                                 end
                             end
                             --When_Attack
-                            if v._stats.id.Value ~= "dio_heaven" then
+                            if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                     if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "attack" then
@@ -4980,7 +4980,7 @@ function autoabilityfunc()
                                 end
                             end
                             --Golbal_Cooldown
-                                if v._stats.id.Value ~= "dio_heaven" then
+                            if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                     if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
                                         if v._stats.active_attack.Value ~= "nil" then
                                         if Settings.SelectedSkillUse2 == "formation" then
@@ -5003,7 +5003,7 @@ function autoabilityfunc()
                                         UnitPosDis = v.HumanoidRootPart.CFrame.Position
                                         distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
-                            if v._stats.id.Value ~= "dio_heaven" then
+                            if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
                                         -- Check Infinite
@@ -5052,7 +5052,7 @@ function autoabilityfunc()
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
                                             distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
-                                        if v._stats.id.Value ~= "dio_heaven" then
+                                        if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
                                                 if Settings.SelectedSkillUse2 == "GBCDDistance" then 
                                                     if v._stats.state.Value == "formation" then
@@ -5082,7 +5082,7 @@ function autoabilityfunc()
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
                                             distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
-                                        if v._stats.id.Value ~= "dio_heaven" then
+                                        if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
                                                 if Settings.SelectedSkillUse2 == "ATKDistance" then 
                                                     if v._stats.state.Value == "attack" then
@@ -5113,7 +5113,7 @@ function autoabilityfunc()
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
                                             distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
-                                        if v._stats.id.Value ~= "dio_heaven" then
+                                        if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
                                                 if Settings.SelectedSkillUse2 == "distanceCount" then 
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then

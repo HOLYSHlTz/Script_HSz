@@ -3997,11 +3997,27 @@ if Settings.setfarmIC then
     autoload2() end
 
 function others()
-    OtherSec:Cheat("Checkbox","Auto Load Script", function(bool)
-        Settings.AutoLoadScript = bool
+
+    OtherSec:Cheat("Checkbox","Auto Load Script 2", function(bool)
+        print(bool)
+        Settings.AutoLoadScript2 = bool
         saveSettings()
-        autoload()
-    end,{enabled = Settings.AutoLoadScript})
+    end,{enabled = Settings.AutoLoadScript2})
+    
+    task.spawn(function()
+        while task.wait() do
+                if exec == "Synapse X" and Settings.AutoLoadScript2 then
+                    syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()")
+
+                    if exec == "Synapse X" then
+                        syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()")
+                    end
+
+                elseif exec ~= "Synapse X" and Settings.AutoLoadScript2 then
+                    queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()")
+                end
+            end
+        end)
 
     OtherSec:Cheat("Checkbox","Auto Check Internet", function(bool)
         Settings.AutoReConnect = bool
@@ -5727,6 +5743,15 @@ coroutine.resume(coroutine.create(function()
                 BabyWebhook()
                 SnipeShopNew()
             end
+        end
+        if Settings.AutoLoadScript2 then
+            local exec = tostring(identifyexecutor())
+            if exec == "Synapse X" then
+                syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()")
+            else
+                queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/HOLYSHlTz/Script_HSz/main/HSz_AA_V2.lua'))()")
+            end
+        
         end
         if game.PlaceId ~= 8304191830 then
             local _wave = game:GetService("Workspace"):WaitForChild("_wave_num")

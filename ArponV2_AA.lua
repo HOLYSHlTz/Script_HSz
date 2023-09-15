@@ -4727,13 +4727,15 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                         if GetBossName() ~= nil then
-                                        EnemyPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
+                                            if v:FindFirstChild("bossIndicator") then
+
+                                        BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceBoss = tostring((UnitPosDis - EnemyPosDis).Magnitude)
+                                            distanceBoss = tostring((UnitPosDis - BossPosDis).Magnitude)
 
                             if v._stats.id.Value == "pucci_heaven" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
@@ -4751,7 +4753,7 @@ function autoabilityfunc()
                                                     --if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then 
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
-                                               --end
+                                                --end
                                             end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
@@ -4760,6 +4762,7 @@ function autoabilityfunc()
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                                     --end
+                                                    end
                                                 end
                                             end
                                         end
@@ -4854,13 +4857,15 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                         if GetBossName() ~= nil then
-                                        EnemyPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
+                                            if v:FindFirstChild("bossIndicator") then
+
+                                            BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceBoss = tostring((UnitPosDis - EnemyPosDis).Magnitude)
+                                            distanceBoss = tostring((UnitPosDis - BossPosDis).Magnitude)
 
                             if v._stats.id.Value == "eren_final" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
@@ -4878,7 +4883,7 @@ function autoabilityfunc()
                                                     --if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then 
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
-                                                --end
+                                               --end
                                             end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
@@ -4887,6 +4892,7 @@ function autoabilityfunc()
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                                     --end
+                                                end
                                                 end
                                             end
                                         end
@@ -4976,13 +4982,15 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                         if GetBossName() ~= nil then
-                                        EnemyPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
+                                            if v:FindFirstChild("bossIndicator") then
+
+                                            BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceBoss = tostring((UnitPosDis - EnemyPosDis).Magnitude)
+                                            distanceBoss = tostring((UnitPosDis - BossPosDis).Magnitude)
 
                             if v._stats.id.Value == "dio_heaven" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
@@ -5008,7 +5016,8 @@ function autoabilityfunc()
                                                     --if GetWaveNumber() == 15 then
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
-                                                    --end
+                                                   --end
+                                                end
                                                 end
                                             end
                                         end
@@ -5126,13 +5135,15 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                         if GetBossName() ~= nil then
-                                        EnemyPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
+                                            if v:FindFirstChild("bossIndicator") then
+                                                
+                                            BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceBoss = tostring((UnitPosDis - EnemyPosDis).Magnitude)
+                                            distanceBoss = tostring((UnitPosDis - BossPosDis).Magnitude)
 
                             if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                 if v._stats.active_attack.Value ~= "nil" then
@@ -5160,7 +5171,7 @@ function autoabilityfunc()
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                                     --end
-                                                end
+                                                    end
                                                 end
                                             end
                                         end
@@ -5171,6 +5182,7 @@ function autoabilityfunc()
                     end
                 end
             end
+        end
                                 --GBCD_Distance
                                 --checkUnitDistance
                                 local RYY2 = game.Players.LocalPlayer.Name

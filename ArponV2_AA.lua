@@ -1379,6 +1379,13 @@ local function AutoFarmSec()
         saveSettings()
     end, { options = {"When Attack","Global Cooldown","Boss Wave","Distance Count","Attack & Distance","GBCD & Distance","Boss & Distance"}, default =Settings.SelectedSkillUse2})
 
+    Settings.AutoSkillWave = Settings.AutoSkillWave or 1
+    AutoFarmConfig:Cheat("Textbox", "🎚️ Use Skill at Wave ", function(Value)
+        Value = tonumber(Value)
+        Settings.AutoSkillWave = Value
+        saveSettings()
+    end, {placeholder = Settings.AutoSkillWave})
+
     AutoFarmConfig:Cheat("Checkbox","🔥 Auto Abilities ", function(bool)
         print(bool)
         Settings.AutoAbilities = bool
@@ -4618,6 +4625,7 @@ getgenv().autoabilityerr = false
 function autoabilityfunc()
 
     local player = game.Players.LocalPlayer.Name
+    local S_wave = game:GetService("Workspace"):WaitForChild("_wave_num")
     if Settings.AutoAbilities then
         repeat task.wait() until Workspace:WaitForChild("_UNITS")
         local success, err = pcall(function()
@@ -4697,7 +4705,7 @@ function autoabilityfunc()
 
                     --When_Attack
                     if v._stats.id.Value == "pucci_heaven" then
-                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                             if Settings.SelectedSkillUse2 == "attack" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 
@@ -4707,7 +4715,7 @@ function autoabilityfunc()
                     end
                     --Golbal_Cooldown
                         if v._stats.id.Value == "pucci_heaven" then
-                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     
@@ -4729,7 +4737,7 @@ function autoabilityfunc()
                                     distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                 if v._stats.id.Value == "pucci_heaven" then
-                                        if Settings.SelectedSkillUse2 == "distanceCount" then --tostring(string.format('%d', distanceU))
+                                        if Settings.SelectedSkillUse2 == "distanceCount" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then --tostring(string.format('%d', distanceU))
                                             if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                 wait(1.5)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4772,7 +4780,7 @@ function autoabilityfunc()
 
                     --When_Attack
                     if v._stats.id.Value == "eren_final" then
-                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                             if Settings.SelectedSkillUse2 == "attack" then
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4781,7 +4789,7 @@ function autoabilityfunc()
                     end
                     --Golbal_Cooldown
                         if v._stats.id.Value == "eren_final" then
-                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4802,7 +4810,7 @@ function autoabilityfunc()
                                     distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                 if v._stats.id.Value == "eren_final" then
-                                        if Settings.SelectedSkillUse2 == "distanceCount" then --tostring(string.format('%d', distanceU))
+                                        if Settings.SelectedSkillUse2 == "distanceCount" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then --tostring(string.format('%d', distanceU))
                                             if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                 wait(1.5)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4892,7 +4900,7 @@ function autoabilityfunc()
 
                     --When_Attack
                     if v._stats.id.Value == "dio_heaven" then
-                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                        if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                             if Settings.SelectedSkillUse2 == "attack" then
                                 wait(1)
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4902,7 +4910,7 @@ function autoabilityfunc()
                     end
                     --Golbal_Cooldown
                         if v._stats.id.Value == "dio_heaven" then
-                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                            if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                                 if Settings.SelectedSkillUse2 == "formation" then
                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Distance : "  ..string.format('%d', distanceU) .. " | Wave : " ..tostring(GetWaveNumber()))     
@@ -4924,7 +4932,7 @@ function autoabilityfunc()
                                     distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                 if v._stats.id.Value == "dio_heaven" then
-                                        if Settings.SelectedSkillUse2 == "distanceCount" then --tostring(string.format('%d', distanceU))
+                                        if Settings.SelectedSkillUse2 == "distanceCount" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then --tostring(string.format('%d', distanceU))
                                             if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                 wait(1.5)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4969,7 +4977,7 @@ function autoabilityfunc()
                             end
                             --When_Attack
                             if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
-                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                                     if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "attack" then
                                         wait(2)
@@ -4981,7 +4989,7 @@ function autoabilityfunc()
                             end
                             --Golbal_Cooldown
                             if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
-                                    if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) then
+                                    if v._stats.state.Value == tostring(Settings.SelectedSkillUse2) and tonumber(Settings.AutoSkillWave) <= S_wave.Value then
                                         if v._stats.active_attack.Value ~= "nil" then
                                         if Settings.SelectedSkillUse2 == "formation" then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -5054,7 +5062,7 @@ function autoabilityfunc()
 
                                         if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
-                                                if Settings.SelectedSkillUse2 == "GBCDDistance" then 
+                                                if Settings.SelectedSkillUse2 == "GBCDDistance" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then 
                                                     if v._stats.state.Value == "formation" then
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -5084,7 +5092,7 @@ function autoabilityfunc()
 
                                         if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
-                                                if Settings.SelectedSkillUse2 == "ATKDistance" then 
+                                                if Settings.SelectedSkillUse2 == "ATKDistance" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then 
                                                     if v._stats.state.Value == "attack" then
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                         wait(1.5)
@@ -5115,7 +5123,7 @@ function autoabilityfunc()
 
                                         if v._stats.id.Value ~= "dio_heaven" or v._stats.id.Value ~= "eren_final" or v._stats.id.Value ~= "pucci_heaven" then
                                             if v._stats.active_attack.Value ~= "nil" then
-                                                if Settings.SelectedSkillUse2 == "distanceCount" then 
+                                                if Settings.SelectedSkillUse2 == "distanceCount" and tonumber(Settings.AutoSkillWave) <= S_wave.Value then 
                                                     if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceU)) or tostring(string.format('%d', distanceU)) <= tostring(Settings.UnitDistanceX) then
                                                         wait(1.5)
                                                         game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)

@@ -4731,6 +4731,27 @@ local function startfarming()
 end
 --end]]
 
+-- Start of Get Boss [Added by HOLYSHz]
+function GetBossName()
+    local Unit = game.Workspace._UNITS
+    
+        if Unit:getChildren()[1] then
+            for i, v in pairs(Unit:getChildren()) do
+                if v:WaitForChild("_stats"):FindFirstChild("base") then
+                    if tostring(v._stats.base.Value) == "pve" then
+                        if v:FindFirstChild("bossIndicator") then
+
+                            enemy = v.Name
+
+                                end
+                            end
+                        end
+                    end
+            return enemy
+        end
+    end
+-- End of Get Boss
+
 ------------------------------------
 ---- Start Auto Ability Function----
 ------------------------------------
@@ -6201,26 +6222,6 @@ function GetWaveNumber()
 end
 -- End of Get Current Wave Number
 
--- Start of Get Boss [Added by HOLYSHz]
-function GetBossName()
-    local Unit = game.Workspace._UNITS
-    
-        if Unit:getChildren()[1] then
-            for i, v in pairs(Unit:getChildren()) do
-                if v:WaitForChild("_stats"):FindFirstChild("base") then
-                    if tostring(v._stats.base.Value) == "pve" then
-                        if v:FindFirstChild("bossIndicator") then
-
-                            enemy = v.Name
-
-                                end
-                            end
-                        end
-                    end
-            return enemy
-        end
-    end
--- End of Get Boss
 
 function GetUnitInfo(Unit)
     local unitinfo = Settings.SelectedUnits[Unit]

@@ -4641,7 +4641,14 @@ local function startfarming()
 end
 --end]]
 
--- Start of Get Boss [Added by HOLYSHz]
+
+------------------------------------
+---- Start Auto Ability Function----
+------------------------------------
+getgenv().autoabilityerr = false
+function autoabilityfunc()
+
+    -- Start of Get Boss [Added by HOLYSHz]
 function GetBossName()
     local Unit = game.Workspace._UNITS
     
@@ -4661,12 +4668,6 @@ function GetBossName()
         end
     end
 -- End of Get Boss
-
-------------------------------------
----- Start Auto Ability Function----
-------------------------------------
-getgenv().autoabilityerr = false
-function autoabilityfunc()
 
     local player = game.Players.LocalPlayer.Name
     local S_wave = game:GetService("Workspace"):WaitForChild("_wave_num")

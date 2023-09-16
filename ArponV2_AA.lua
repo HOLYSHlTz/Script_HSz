@@ -3916,6 +3916,12 @@ if Settings.setfarmIC then
 
 function others()
 
+    OtherSec:Cheat("Checkbox","Auto Load Script 1", function(bool)
+        print(bool)
+        Settings.AutoLoadScript = bool
+        saveSettings()
+    end,{enabled = Settings.AutoLoadScript})
+
     OtherSec:Cheat("Checkbox","Auto Load Script 2", function(bool)
         print(bool)
         Settings.AutoLoadScript2 = bool

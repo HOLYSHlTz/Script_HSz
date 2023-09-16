@@ -3974,7 +3974,7 @@ if Settings.AutoLoadScript then
     autoload()
 end
 
-if Settings.AutoLoadScript == true then
+if Settings.AutoLoadScript then
     local exec = tostring(identifyexecutor())
     if exec == "Synapse X" then
         syn.queue_on_teleport("loadstring(game:HttpGet('https://raw.githubusercontent.com/siradaniy/Script_HSz/main/HSz_AA.lua'))()")
@@ -3997,6 +3997,12 @@ if Settings.setfarmIC then
     autoload2() end
 
 function others()
+
+    OtherSec:Cheat("Checkbox","Auto Load Script 1", function(bool)
+        print(bool)
+        Settings.AutoLoadScript = bool
+        saveSettings()
+    end,{enabled = Settings.AutoLoadScript})
 
     OtherSec:Cheat("Checkbox","Auto Load Script 2", function(bool)
         print(bool)

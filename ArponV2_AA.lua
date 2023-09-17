@@ -5,12 +5,12 @@ if game.PlaceId == 8304191830 then
         StarterGui:SetCore("SendNotification", {
             Title = "HOLY HUB",
             Text = "Welcome to HOLY HUB !!!",
-            Duration = 5
+            Duration = 6.5
         })
-    wait(5)
+    wait(10)
     local StarterGui = game:GetService("StarterGui")
         StarterGui:SetCore("SendNotification", {
-            Title = "HOLYSHz Notify",
+            Title = "HOLY Notify",
             Text = "Wait Game is Loaded 10(s)...!!!",
             Duration = 10
         })

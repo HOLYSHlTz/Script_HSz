@@ -4820,12 +4820,12 @@ function GetBossName()
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
                                     if GetBossName() ~= "nil" or GetBossName() ~= nil then
-                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        --if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                             warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         --end
-                                    end
+                                    --end
 
                                     -- Check Infinite
                                     --[[if GLD()._gamemode == "infinite" then
@@ -4968,12 +4968,12 @@ function GetBossName()
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
                                     if GetBossName() ~= "nil" or GetBossName() ~= nil then
-                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        --if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                             warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         --end
-                                    end
+                                    --end
 
                                     -- Check Infinite
                                     --[[if GLD()._gamemode == "infinite" then
@@ -5112,12 +5112,12 @@ function GetBossName()
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
                                     if GetBossName() ~= "nil" or GetBossName() ~= nil then
-                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        --if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                             warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         --end
-                                    end
+                                    --end
 
                                     -- Check Infinite
                                     --[[if GLD()._gamemode == "infinite" then
@@ -5259,12 +5259,12 @@ function GetBossName()
                                     if Settings.SelectedSkillUse2 == "bosswave" then
 
                                         if GetBossName() ~= "nil" or GetBossName() ~= nil then
-                                            if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            --if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             --end
-                                        end
+                                        --end
 
                                         -- Check Infinite
                                         --[[if GLD()._gamemode == "infinite" then

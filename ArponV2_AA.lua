@@ -4724,7 +4724,7 @@ function GetBossName()
                         if v._stats.id.Value == "pucci_heaven" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
-                                    if GetBossName() ~= "nil" then
+                                    if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                         if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4763,7 +4763,7 @@ function GetBossName()
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
-                                        if GetBossName() ~= "nil" then
+                                        if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                             if v:FindFirstChild("bossIndicator") then
 
                                         BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
@@ -4777,8 +4777,8 @@ function GetBossName()
                             if v._stats.id.Value == "pucci_heaven" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
 
-                                        if GetBossName() ~= "nil" then
-                                            if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4872,7 +4872,7 @@ function GetBossName()
                         if v._stats.id.Value == "eren_final" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
-                                    if GetBossName() ~= "nil" then
+                                    if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                         if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -4911,7 +4911,7 @@ function GetBossName()
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
-                                        if GetBossName() ~= "nil" then
+                                        if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                             if v:FindFirstChild("bossIndicator") then
 
                                             BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
@@ -4925,8 +4925,8 @@ function GetBossName()
                             if v._stats.id.Value == "eren_final" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
 
-                                        if GetBossName() ~= "nil" then
-                                            if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -5016,7 +5016,7 @@ function GetBossName()
                         if v._stats.id.Value == "dio_heaven" then
                                 if Settings.SelectedSkillUse2 == "bosswave" then
 
-                                    if GetBossName() ~= "nil" then
+                                    if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                         if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                             --if GetWaveNumber() % 10 == 0 then
                                             game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -5054,7 +5054,7 @@ function GetBossName()
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
-                                        if GetBossName() ~= "nil" then
+                                        if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                             if v:FindFirstChild("bossIndicator") then
 
                                             BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
@@ -5068,8 +5068,8 @@ function GetBossName()
                             if v._stats.id.Value == "dio_heaven" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
 
-                                        if GetBossName() ~= "nil" then
-                                            if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -5163,7 +5163,7 @@ function GetBossName()
                                 if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "bosswave" then
 
-                                        if GetBossName() ~= "nil" then
+                                        if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                             if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
@@ -5225,7 +5225,7 @@ function GetBossName()
                             for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
-                                        if GetBossName() ~= "nil" then
+                                        if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                             if v:FindFirstChild("bossIndicator") then
                                                 
                                             BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
@@ -5240,8 +5240,8 @@ function GetBossName()
                                 if v._stats.active_attack.Value ~= "nil" then
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
 
-                                        if GetBossName() ~= "nil" then
-                                            if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                        if tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            if GetBossName() ~= "nil" or GetBossName() ~= nil then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(GetBossName()) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))

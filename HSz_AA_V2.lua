@@ -6002,6 +6002,7 @@ function targetpriority(name)
             if tostring(v._stats.player.Value) == game.Players.LocalPlayer.Name then
                 if v._stats.id.Value == name and v._stats.priority.Value ~= Settings.U1_Priority then
                     game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+                    print("Target Priority .."..name)
                 end
             end
         end
@@ -6015,6 +6016,7 @@ function Priorityunit1(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U1_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u1.."..name)
             end
         end
     end
@@ -6027,6 +6029,7 @@ function Priorityunit2(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U2_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u2.."..name)
             end
         end
     end
@@ -6039,6 +6042,7 @@ function Priorityunit3(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U3_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u3.."..name)
             end
         end
     end
@@ -6051,6 +6055,7 @@ function Priorityunit4(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U4_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u4.."..name)
             end
         end
     end
@@ -6063,6 +6068,7 @@ function Priorityunit5(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U5_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u5.."..name)
             end
         end
     end
@@ -6075,6 +6081,7 @@ function Priorityunit6(name)
         if v._stats.id.Value == name and tostring(v["_stats"].player.Value) == game.Players.LocalPlayer.Name then
             if v._stats.priority.Value ~= Settings.U6_Priority then
             game:GetService("ReplicatedStorage").endpoints.client_to_server.cycle_priority:InvokeServer(v)
+            print("Target Priority u6.."..name)
             end
         end
     end
@@ -6214,13 +6221,13 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     --//Unit 1
 
     local U1_amm, U1_name, U1_uuid, U1_u = GetUnitInfo("U1")
-    if U1_wv <= current_wave and U1_amm <= U1_TAmm then
-        if U1_sellW >= current_wave and U1_amm < U1_TAmm then
+    if U1_sellW > current_wave and U1_wv <= current_wave and U1_amm < U1_TAmm then
+        --if U1_sellW >= current_wave and U1_amm < U1_TAmm then
             print("placing u1.."..U1_name)
             PlacePos(map, U1_name, U1_uuid,"UP1")
         end
         if U1_TAmm > 0 then
-            print("Target Priority u1.."..U1_name)
+            --print("Target Priority u1.."..U1_name)
             Priorityunit1(U1_name)
         end
         if U1_sellW <= current_wave then
@@ -6231,17 +6238,17 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("upgrading u1.."..U1_name)
             upgradeunit1(U1_name)
         end
-    end
+    --end
 --end
     --//Unit 2
     local U2_amm, U2_name, U2_uuid, U2_u = GetUnitInfo("U2")
-    if U2_wv <= current_wave and U2_amm <= U2_TAmm then
-        if U2_sellW >= current_wave and U2_amm < U2_TAmm then
+    if U2_sellW > current_wave and U2_wv <= current_wave and U2_amm < U2_TAmm then
+        --if U2_sellW >= current_wave and U2_amm < U2_TAmm then
             print("placing u2.."..U2_name)
             PlacePos(map, U2_name, U2_uuid,"UP2")
         end
         if U2_TAmm > 0 then
-            print("Target Priority u2.."..U2_name)
+            --print("Target Priority u2.."..U2_name)
             Priorityunit2(U2_name)
         end
         if U2_sellW <= current_wave then
@@ -6252,17 +6259,17 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("upgrading u2.."..U2_name)
             upgradeunit2(U2_name)
         end
-    end
+    --end
 --end
     --//Unit 3
     local U3_amm, U3_name, U3_uuid, U3_u = GetUnitInfo("U3")
-    if U3_wv <= current_wave and U3_amm <= U3_TAmm then
-	    if U3_sellW >= current_wave and U3_amm < U3_TAmm then
+    if U3_sellW > current_wave and U3_wv <= current_wave and U3_amm < U3_TAmm then
+	    --if U3_sellW >= current_wave and U3_amm < U3_TAmm then
 		    print("placing u3.."..U3_name)
 		    PlacePos(map, U3_name, U3_uuid,"UP3")
         end
         if U3_TAmm > 0 then
-            print("Target Priority u3.."..U3_name)
+            --print("Target Priority u3.."..U3_name)
             Priorityunit3(U3_name)
         end
 	    if U3_sellW <= current_wave then
@@ -6273,17 +6280,17 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("upgrading u3.."..U3_name)
             upgradeunit3(U3_name)
         end
-    end
+    --end
 --end
     --//Unit 4
     local U4_amm, U4_name, U4_uuid, U4_u = GetUnitInfo("U4")
-    if U4_wv <= current_wave and U4_amm <= U4_TAmm then
-	    if U4_sellW >= current_wave and U4_amm < U4_TAmm then
+    if U4_sellW > current_wave and U4_wv <= current_wave and U4_amm < U4_TAmm then
+	    --if U4_sellW >= current_wave and U4_amm < U4_TAmm then
 		    print("placing u4.."..U4_name)
 		    PlacePos(map, U4_name, U4_uuid,"UP4")
         end
         if U4_TAmm > 0 then
-            print("Target Priority u4.."..U4_name)
+            --print("Target Priority u4.."..U4_name)
             Priorityunit4(U4_name)
         end
 	    if U4_sellW <= current_wave then
@@ -6294,17 +6301,17 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("upgrading u4.."..U4_name)
             upgradeunit4(U4_name)
         end
-    end
+    --end
 --end
     --//Unit 5
     local U5_amm, U5_name, U5_uuid, U5_u = GetUnitInfo("U5")
-    if U5_wv <= current_wave and U5_amm <= U5_TAmm then
-	    if U5_sellW >= current_wave and U5_amm < U5_TAmm then
+    if U5_sellW > current_wave and U5_wv <= current_wave and U5_amm < U5_TAmm then
+	    --if U5_sellW >= current_wave and U5_amm < U5_TAmm then
 		    print("placing u5.."..U5_name)
 		    PlacePos(map, U5_name, U5_uuid,"UP5")
         end
         if U5_TAmm > 0 then
-            print("Target Priority u5.."..U5_name)
+            --print("Target Priority u5.."..U5_name)
             Priorityunit5(U5_name)
         end
 	    if U5_sellW <= current_wave then
@@ -6315,17 +6322,17 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             print("upgrading u5.."..U5_name)
             upgradeunit5(U5_name)
         end
-    end
+    --end
 --end
     --//Unit 6
     local U6_amm, U6_name, U6_uuid, U6_u = GetUnitInfo("U6")
-    if U6_wv <= current_wave and U6_amm <= U6_TAmm then
-	    if U6_sellW >= current_wave and U6_amm < U6_TAmm then
+    if U6_sellW > current_wave and U6_wv <= current_wave and U6_amm < U6_TAmm then
+	    --if U6_sellW >= current_wave and U6_amm < U6_TAmm then
 		    print("placing u6.."..U6_name)
 		    PlacePos(map, U6_name, U6_uuid,"UP6")
         end
         if U6_TAmm > 0 then
-            print("Target Priority u6.."..U6_name)
+            --print("Target Priority u6.."..U6_name)
             Priorityunit6(U6_name)
         end
 	    if U6_sellW <= current_wave then
@@ -6337,7 +6344,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
             upgradeunit6(U6_name)
             end
         end
-    end
+    --end
 --end
 
 --fix sell and place spam

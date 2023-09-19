@@ -3612,7 +3612,7 @@ task.spawn(function()
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                                ..tostring(CountPortal_list) .." 🌀\nCurrent Summer Pearls : "
+                                                ..tostring(CountPortal_list) .." / 200 🌀\nCurrent Summer Pearls : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
                                 },
                                 {

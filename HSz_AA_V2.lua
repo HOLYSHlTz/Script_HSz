@@ -4840,21 +4840,21 @@ function autoabilityfunc()
                                     if Settings.SelectedSkillUse2 == "bosswave" then
                                         -- Check Infinite
                                         if GLD()._gamemode == "infinite" then
-                                            if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" then
+                                            if tostring(BossName) ~= "nil" then
                                                 wait(5)
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Wave : " ..tostring(GetWaveNumber()))
                                         end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
-                                                if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" then
+                                                if tostring(BossName) ~= "nil" then
                                                     wait(5) 
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Wave : " ..tostring(GetWaveNumber()))
                                             end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
-                                                if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" then
+                                                if tostring(BossName) ~= "nil" then
                                                     wait(5)
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4914,7 +4914,7 @@ function autoabilityfunc()
                                     if Settings.SelectedSkillUse2 == "BossDistance" then
                                         -- Check Infinite
                                         if GLD()._gamemode == "infinite" then
-                                            if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                            if tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                                 --if GetWaveNumber() % 10 == 0 then
                                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                 warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4922,7 +4922,7 @@ function autoabilityfunc()
                                         end
                                             -- Check Raid
                                             elseif GLD()._gamemode == "raid" then
-                                                if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                                if tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                                     --if GetWaveNumber() % 15 == 0 or GetWaveNumber() % 20 == 0 or GetWaveNumber() == 15 or GetWaveNumber() == 20 then 
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))
@@ -4930,7 +4930,7 @@ function autoabilityfunc()
                                             end
                                             -- Check Story or Infinite Tower
                                             elseif GLD()._gamemode == "story" or "infinite_tower" then
-                                                if tostring(BossName) ~= nil or tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
+                                                if tostring(BossName) ~= "nil" and tostring(Settings.UnitDistanceX) >= tostring(string.format('%d', distanceBoss)) or tostring(string.format('%d', distanceBoss)) <= tostring(Settings.UnitDistanceX) then
                                                     --if GetWaveNumber() == 15 then
                                                     game:GetService("ReplicatedStorage").endpoints.client_to_server.use_active_attack:InvokeServer(v)
                                                     warn("Use Skill : " ..tostring(v._stats.id.Value) .. " | Method : "  ..tostring(NameSkill) .. " | Boss : "  ..tostring(BossName) .. " | Distance : "  ..string.format('%d', distanceBoss) .. " | Wave : " ..tostring(GetWaveNumber()))

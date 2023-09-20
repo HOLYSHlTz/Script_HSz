@@ -4731,7 +4731,7 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                             if v:FindFirstChild("bossIndicator") then
-                                                BossName = v.Name
+                                                BossName = v._stats.id.Value or v.Name
                                                 BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name
@@ -4805,7 +4805,7 @@ function autoabilityfunc()
                                 if v:WaitForChild("_stats"):FindFirstChild("base") then
                                     if tostring(v._stats.base.Value) == "pve" then
                                             if v:FindFirstChild("bossIndicator") then
-                                                BossName = v.Name
+                                                BossName = v._stats.id.Value or v.Name
                                                 BossPosDis = v.HumanoidRootPart.CFrame.Position or v.HumanoidRootPart_Fake.CFrame.Position
 
                             local RYY3 = game.Players.LocalPlayer.Name

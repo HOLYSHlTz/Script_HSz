@@ -344,7 +344,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -3587,7 +3587,7 @@ task.spawn(function()
                 local data = {
                     ["content"] = "",
                     ["username"] = "Anime Adventures V2",
-                    ["avatar_url"] = "https://tr.rbxcdn.com/709ba9dff1880c7d4abebbe6a90ff451/150/150/Image/Png",
+                    ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
                     ["embeds"] = {
                         {
                             ["author"] = {
@@ -6881,7 +6881,7 @@ end
 --game:GetService("ReplicatedStorage").src.Data.QuestsEvent
 function autoDailyquest()
     if Settings.autoDailyquest then
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("overlord_daily")
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.accept_npc_quest:InvokeServer("fate_daily")
         wait(15)
     end
 end
@@ -6963,7 +6963,7 @@ function placeunittwin()
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

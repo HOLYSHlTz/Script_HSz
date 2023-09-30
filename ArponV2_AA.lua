@@ -1098,7 +1098,7 @@ local function WorldSec()
         getgenv().updatedifficulty()
         saveSettings()
     end, {options = { }, default = Settings.SelectedWorld })
---fixmap
+--fixmap fixportal
     getgenv().updateworld = function()
         selectworld:ClearDrop() local storylist;
         if Settings.WorldCategory == "Story Worlds" then
@@ -1108,11 +1108,11 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Raid Worlds" then
             storylist = Data_Raid_Name
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","Summer Events"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","FATE Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"Cursed Womb","Crused Parade","Anniversary Island"}    
         elseif Settings.WorldCategory == "Secret Portals" then
-            storylist = {"Dressrosa Secret Portals","The Eclipse Secret","Summer Secret"} 
+            storylist = {"Dressrosa Secret Portals","The Eclipse Secret","FATE Secret"} 
         end
     --updatefix
         for i = 1, #storylist do
@@ -1156,7 +1156,7 @@ local function WorldSec()
     end, {options = { }, default = Settings.SelectedLevel})
     getgenv().updatelevel = function()
         selectlevel:ClearDrop() local levellist; local level = Settings.SelectedWorld;
-        --///Portals\\\---updatefix
+        --///Portals\\\---updatefix fixportal
         if level == "Alien Portals" then
             levellist = {"portal_boros_g"}
         elseif level == "Demon Portals" then
@@ -1169,6 +1169,8 @@ local function WorldSec()
             levellist = {"portal_item__eclipse"}
         elseif level == "Summer Events" then
             levellist = {"portal_summer"}
+        elseif level == "FATE Portals" then
+            levellist = {"portal_item__fate"}
         ---///Dungeon\\\---    
         elseif level == "Cursed Womb" then
             levellist = {"jjk_finger"}    
@@ -1183,6 +1185,8 @@ local function WorldSec()
             levellist = {"portal_item__femto"}
         elseif level == "Summer Secret" then
             levellist = {"portal_poseidon"}
+        elseif level == "FATE Secret" then
+            levellist = {"portal_item__gilgamesh"}
 
         --///Story Mode\\\---
         elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
@@ -3758,7 +3762,7 @@ function Sellportals()
         warn("Change to : "..value)
         Settings.SelectedSellPortals = value
         saveSettings()
-    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer"}, default =Settings.SelectedSellPortals})
+    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer","portal_item__fate"}, default =Settings.SelectedSellPortals})
 --fixportal
 
     Tier_sell = {}
@@ -4136,7 +4140,27 @@ function getSummerPortals()
     return portals
 end
 
+function getFATEPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__fate" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 --Secret Portals
+
+function getGilgameshPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__gilgamesh" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
 
 function getSecretDoflamingo()
     local portals = {}
@@ -4240,6 +4264,12 @@ function GetPlayerPortalUse(level)
         PortalUUID = GetPortals("portal_item__eclipse")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
+    --FATE		
+    elseif level == "portal_item__fate" then
+        PortalName = "FATE farming"
+        PortalUUID = GetPortals("portal_item__fate")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
     --Secret Portals
     elseif level == "portal_item__doflamingo" then
         PortalName = "Dofamingo Secret Portals farming"
@@ -4254,6 +4284,11 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_poseidon" then
         PortalName = "Summer Secret Portal farming"
         PortalUUID = GetPortals("portal_poseidon")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_item__gilgamesh" then
+        PortalName = "FATE Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__gilgamesh")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
     ------------------------------
     -- [[ Portal Event Portal ]] --

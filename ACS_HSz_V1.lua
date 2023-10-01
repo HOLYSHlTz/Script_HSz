@@ -483,10 +483,10 @@ if game.PlaceId == 14433762945 then
     end)
     ------------------------------------------------------ [[ Lib Ui ]] ------------------------------------------------------
     local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/NoNiName/Library/main/UILibrary/HolyUiV3"))()
-
+--fixVersion
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Versin 1.0"
+        Version = "Versin 1.1"
     })
 
     local Themes = {
@@ -1154,7 +1154,7 @@ if game.PlaceId == 14433762945 then
                         if SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] and v.Godly == false then
                             local args = { [1] = v.GUID }
                             game:GetService("ReplicatedStorage").Remote.Machines.EssenceMachine:FireServer(unpack(args))
-                        else
+                        elseif not SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] then
                             local args = { [1] = v.GUID }
                             game:GetService("ReplicatedStorage").Remote.Machines.EssenceMachine:FireServer(unpack(args))
                         end
@@ -1626,5 +1626,5 @@ if game.PlaceId == 14433762945 then
             vu:CaptureController()vu:ClickButton2(Vector2.new())
         end)
     end)
-    
+
 end

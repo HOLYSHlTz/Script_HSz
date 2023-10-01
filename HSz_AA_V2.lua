@@ -240,6 +240,12 @@ function webhook()
         --[[if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
         end]]
+
+        --cerent
+        --[[..tostring(CountPortal_list) .." / 200 🌀\nCurrent Summer Pearls : "
+            ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",]]
+        --Reward
+        --.. comma_value(SummerPearls - SummerPearlsOld) .." Summer Pearls 🦪\n"
         ----------
 
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
@@ -377,7 +383,6 @@ function webhook()
                             ["value"] = "```ini\n"  
                                             .. comma_value(gold) .." Gold 💰\n"
                                             .. comma_value(gems) .." Gems 💎\n+"
-                                            .. comma_value(SummerPearls - SummerPearlsOld) .." Summer Pearls 🦪\n"
                                             .. comma_value(xp[1]) .." XP 🧪\n"
                                             .. trophy .." Trophy 🏆```",
                         },

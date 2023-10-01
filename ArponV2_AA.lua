@@ -145,9 +145,9 @@ for i,v in pairs(get_Units_Owner()) do
         Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
     end
 end
-if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
+--[[if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
     SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
-end
+end]]
 ----------------Map & ID Map
 local function GetCurrentLevelId()
     if game.Workspace._MAP_CONFIG then
@@ -240,9 +240,9 @@ function webhook()
         gems = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GemReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         if gems == "+99999" then gems = "+0" end	 
 
-        if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
+        --[[if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
-        end
+        end]]
         
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         xp = xpx:split(" ")
@@ -370,8 +370,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                        ..tostring(Count_Portal_list) .." 🌀\nSummer Pearls : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                        ..tostring(Count_Portal_list) .." 🌀 ```",
                         },
                         {
                             ["name"] ="Results :",
@@ -3616,8 +3615,7 @@ task.spawn(function()
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                                ..tostring(CountPortal_list) .." / 200 🌀\nCurrent Summer Pearls : "
-                                                ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                                ..tostring(CountPortal_list) .." / 200 🌀 ```",
                                 },
                                 {
                                     ["name"] ="Skins Drop :",

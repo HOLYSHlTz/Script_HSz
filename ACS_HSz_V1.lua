@@ -798,7 +798,8 @@ if game.PlaceId == 14433762945 then
     PetSetting_Feed:addLabel({title = 'Pet Only Show After Lock'})
     local Table_PetBaseData,Table_SelePet = {},{}
     table.foreach(MainData:GetData("Pets", true),function(i,v)
-        Table_PetBaseData[tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
+        PetName = v.CustomName or v.PetId
+        Table_PetBaseData[tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
             ID = v.GUID,
             Name = v.PetId,
             Level = v.Lvl,
@@ -807,7 +808,7 @@ if game.PlaceId == 14433762945 then
         }
         
         if v.Locked == true then
-            table.insert(Table_SelePet,tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
+            table.insert(Table_SelePet,tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
         end
     end)
     
@@ -847,14 +848,17 @@ if game.PlaceId == 14433762945 then
         callback = function()
             local Table_SelePet = {}
             table.foreach(MainData:GetData("Pets", true),function(i,v)
-                Table_PetBaseData[tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
+                PetName = v.CustomName or v.PetId
+                Table_PetBaseData[tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
                     ID = v.GUID,
                     Name = v.PetId,
                     Level = v.Lvl,
-                    Talent = TalentHandler.GetOverallRank(v['Talents'])
+                    Talent = v['Talents'],
+                    Quirk = v['Passives']
                 }
+                
                 if v.Locked == true then
-                    table.insert(Table_SelePet,tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
+                    table.insert(Table_SelePet,tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
                 end
             end)
             SelectPetDropFeed.Options:Refresh(Table_SelePet,SaveSettings["Pet"]['Select Pet'])
@@ -917,14 +921,17 @@ if game.PlaceId == 14433762945 then
         callback = function()
             local Table_SelePet = {}
             table.foreach(MainData:GetData("Pets", true),function(i,v)
-                Table_PetBaseData[tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
+                PetName = v.CustomName or v.PetId
+                Table_PetBaseData[tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
                     ID = v.GUID,
                     Name = v.PetId,
                     Level = v.Lvl,
-                    Talent = TalentHandler.GetOverallRank(v['Talents'])
+                    Talent = v['Talents'],
+                    Quirk = v['Passives']
                 }
+                
                 if v.Locked == true then
-                    table.insert(Table_SelePet,tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
+                    table.insert(Table_SelePet,tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
                 end
             end)
     
@@ -965,14 +972,17 @@ if game.PlaceId == 14433762945 then
         callback = function()
             local Table_SelePet = {}
             table.foreach(MainData:GetData("Pets", true),function(i,v)
-                Table_PetBaseData[tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
+                PetName = v.CustomName or v.PetId
+                Table_PetBaseData[tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents']))] = {
                     ID = v.GUID,
                     Name = v.PetId,
                     Level = v.Lvl,
-                    Talent = TalentHandler.GetOverallRank(v['Talents'])
+                    Talent = v['Talents'],
+                    Quirk = v['Passives']
                 }
+                
                 if v.Locked == true then
-                    table.insert(Table_SelePet,tostring(v.PetId) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
+                    table.insert(Table_SelePet,tostring(PetName) .. " | Lvl: " .. tostring(v.Lvl) .. " | Talents: " .. tostring(TalentHandler.GetOverallRank(v['Talents'])))
                 end
             end)
     

@@ -382,7 +382,6 @@ function webhook()
                             ["value"] = "```ini\n"  
                                             .. comma_value(gold) .." Gold 💰\n"
                                             .. comma_value(gems) .." Gems 💎\n+"
-                                            .. comma_value(SummerPearls - SummerPearlsOld) .." Summer Pearls 🦪\n"
                                             .. comma_value(xp[1]) .." XP 🧪\n"
                                             .. trophy .." Trophy 🏆```",
                         },
@@ -395,6 +394,7 @@ function webhook()
                 }
             }
         }
+        
         
         local porn = game:GetService("HttpService"):JSONEncode(data)
         local headers = {["content-type"] = "application/json"}

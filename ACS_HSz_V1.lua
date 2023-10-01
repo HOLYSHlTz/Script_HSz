@@ -4,14 +4,6 @@ if game.PlaceId == 14433762945 then
     game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
     game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("MainGui")
     
-    local a = game:GetService("UserInputService")
-    if _G.HideUiKey then _G.HideUiKey:Disconnect() _G.HideUiKey = nil end
-    _G.HideUiKey = a.InputBegan:Connect(function(b)
-        if a:GetFocusedTextBox() then return end;
-        if b.KeyCode == Enum.KeyCode.LeftControl and game:GetService("CoreGui"):FindFirstChild("Roxy") then 
-            game:GetService("CoreGui"):FindFirstChild("Roxy").Enabled = not game:GetService("CoreGui"):FindFirstChild("Roxy").Enabled
-        end 
-    end)
     ------------------------------------------------------ [[ Save Function ]] ------------------------------------------------------
     local SaveSettings = {
         ["Auto Farm"] = {
@@ -1074,6 +1066,13 @@ if game.PlaceId == 14433762945 then
             Teleport(game.PlaceId)
         end
     })
+    Setting:addKeybind({
+        title = "Keybind Hide Ui",
+        key = Enum.KeyCode.LeftControl,
+        callback = function()
+            UI:toggle()
+        end,
+    })
     
     --[[
     MainCheckSomeThing:AddLabel("Pet Id 28HNE0P-54")
@@ -1617,6 +1616,5 @@ if game.PlaceId == 14433762945 then
             vu:CaptureController()vu:ClickButton2(Vector2.new())
         end)
     end)
-
-
+    
 end

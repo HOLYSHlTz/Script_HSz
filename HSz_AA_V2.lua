@@ -145,9 +145,9 @@ for i,v in pairs(get_Units_Owner()) do
         Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] = Table_All_Items_Old_data[v["unit_id"]]['Count Shiny'] + 1
     end
 end
-if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
+--[[if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
     SummerPearlsOld = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
-end
+end]]
 
 ----------------Map & ID Map
 local function GetCurrentLevelId()
@@ -237,9 +237,9 @@ function webhook()
         gems = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("GemReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
         if gems == "+99999" then gems = "+0" end	 
 
-        if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
+        --[[if game.Players.LocalPlayer._stats:FindFirstChild("_resourceSummerPearls") then
             SummerPearls = game.Players.LocalPlayer._stats._resourceSummerPearls.Value
-        end
+        end]]
         ----------
 
         xpx = ResultHolder:FindFirstChild("LevelRewards"):FindFirstChild("ScrollingFrame"):FindFirstChild("XPReward"):FindFirstChild("Main"):FindFirstChild("Amount").Text
@@ -365,8 +365,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                        ..tostring(Count_Portal_list) .." / 200 🌀\nSummer Pearls : "
-                                        ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                        ..tostring(Count_Portal_list) .." / 200 🌀 ```",
                         },
                         {
                             ["name"] ="Results :",
@@ -3693,8 +3692,7 @@ function SnipeMerchant()
                                                     ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nGems รวม : "
                                                     ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nTrophies รวม : "
                                                     ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nPortal รวม : "
-                                                    ..tostring(CountPortal_list) .." / 200 🌀\nSummer Pearls : "
-                                                    ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceSummerPearls.Value)).. " 🦪```",
+                                                    ..tostring(CountPortal_list) .." / 200 🌀 ```",
                                     },
                                     {
                                         ["name"] ="Skins Drop :",

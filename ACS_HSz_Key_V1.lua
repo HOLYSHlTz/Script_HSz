@@ -1794,7 +1794,7 @@ if game.PlaceId == 14433762945 then
     coroutine.wrap(function()
         game:GetService("RunService").Heartbeat:Connect(function()
             if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     BodyVelocity()
                 else
                     Disable_BodyVelocity()

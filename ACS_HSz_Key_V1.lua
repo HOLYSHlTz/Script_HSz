@@ -169,19 +169,37 @@ TextButton_2.MouseButton1Down:Connect(function()
         TextButton_2.Text = "Copy Link Discord"
     end)
 end)
+
 KeySuccess = false
-ImageButton.MouseButton1Click:Connect(function()
-    if TextBox.Text == game:HttpGet('https://pastebin.com/raw/05m0bkNr') then
-        TextBox.Text = "Correct key"
-        wait(.75)
-        KeySuccess = true
-    else
-        TextBox.Text = "Invalid key"
-        wait(.75)
-        TextBox.Text = ""
-        KeySuccess = false
-    end
-end)
+
+if not isfolder("HolyShz") then makefolder("HolyShz") end
+if not isfile("/HolyShz/SaveKey.txt") then
+    writefile("/HolyShz/SaveKey.txt", "")
+else
+    SaveKeyCheck = readfile("/HolyShz/SaveKey.txt")
+end
+
+if SaveKeyCheck == game:HttpGet('https://pastebin.com/raw/05m0bkNr') then
+    KeySuccess = true
+else
+    ImageButton.MouseButton1Click:Connect(function()
+        if TextBox.Text == game:HttpGet('https://pastebin.com/raw/05m0bkNr') then
+            if not isfile("/HolyShz/SaveKey.txt") then
+                writefile("/HolyShz/SaveKey.txt", TextBox.Text)
+            else
+                writefile("/HolyShz/SaveKey.txt", TextBox.Text)
+            end
+            TextBox.Text = "Correct key"
+            wait(.75)
+            KeySuccess = true
+        else
+            TextBox.Text = "Invalid key"
+            wait(.75)
+            TextBox.Text = ""
+            KeySuccess = false
+        end
+    end)
+end
 
 while wait() do if KeySuccess then break end end
 if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end

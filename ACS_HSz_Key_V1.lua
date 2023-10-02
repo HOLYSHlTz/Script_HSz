@@ -675,7 +675,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Versin 1.0"
+        Version = "Version 1.0"
     })
 
     local Themes = {

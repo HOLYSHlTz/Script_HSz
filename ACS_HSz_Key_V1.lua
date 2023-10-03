@@ -1587,6 +1587,19 @@ if game.PlaceId == 14433762945 then
         end
     end)
     
+    function GetChestName()
+        for i,v in ipairs(game:GetService("Workspace").Worlds.Raids:GetDescendants()) do
+                    if v.Name == "RaidChest" then
+                        if v:FindFirstChild('HumanoidRootPart') and v:FindFirstChild('HumanoidRootPart'):FindFirstChild('ChestPrompt') then
+                            
+                            Chest = v
+        
+                            return Chest
+                        end
+                    end
+                end
+            end
+
     -- Raid
     function FindRaids(Target)
         if game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
@@ -1624,6 +1637,7 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
+
     function GetRaids(Mode)
         if game:GetService("Workspace").Worlds:FindFirstChild("Hub") or game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             local RaidRooms = game:GetService("CollectionService"):GetTagged("Raid Room")
@@ -1708,8 +1722,18 @@ if game.PlaceId == 14433762945 then
                         Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
                     end
                 elseif game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                    if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
+                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil then
+                            if GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
+                                    Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
+                                    wait(.1)
+                                    fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
+                                    wait(5)
+                                end
+                            end
+                        end
                     if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") == 0 then
-                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] then
+                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil then
                             if GetRaids("GetChest") == "None" then
                                 local args = { [1] = "Hub" }
                                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
@@ -1794,7 +1818,7 @@ if game.PlaceId == 14433762945 then
     coroutine.wrap(function()
         game:GetService("RunService").Heartbeat:Connect(function()
             if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
-                if SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     BodyVelocity()
                 else
                     Disable_BodyVelocity()

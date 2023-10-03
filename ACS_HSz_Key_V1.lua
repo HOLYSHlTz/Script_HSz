@@ -693,7 +693,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0"
+        Version = "Version 1.1"
     })
 
     local Themes = {
@@ -1722,26 +1722,16 @@ if game.PlaceId == 14433762945 then
                         Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
                     end
                 elseif game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-                    if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
-                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil then
-                            if GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
-                                    Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
-                                    wait(.1)
-                                    fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
-                                    wait(5)
-                                end
-                            end
-                        end
                     if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") == 0 then
-                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil then
-                            if GetRaids("GetChest") == "None" then
+                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] then
+                            if GetRaids("GetChest") == "None" and GetChestName() == nil then
                                 local args = { [1] = "Hub" }
                                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                                 wait(.5)
                                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                            elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
+                            elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") and GetChestName() ~= nil then
                                 Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
-                                wait(.1)
+                                wait(1.5)
                                 fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
                                 wait(5)
                             end
@@ -1750,6 +1740,16 @@ if game.PlaceId == 14433762945 then
                             game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                             wait(.5)
                             repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                        end
+                    if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
+                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil and game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
+                            if GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
+                                    Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
+                                    wait(1.5)
+                                    fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
+                                    wait(5)
+                                end
+                            end
                         end
                     elseif LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
                         if SaveSettings["Raids"]['Auto Farm Raid'] then

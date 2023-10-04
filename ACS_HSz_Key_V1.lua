@@ -693,7 +693,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.1"
+        Version = "Version 1.0"
     })
 
     local Themes = {
@@ -1502,7 +1502,7 @@ if game.PlaceId == 14433762945 then
                                         SendPetOneTraget(b,v)
                                     end
                                 end)
-                            until v:GetAttribute("Health") <= 0 or not SaveSettings["Auto Farm"]['Auto Farm Select']
+                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select']
                         end
                     end
                 end
@@ -1573,7 +1573,7 @@ if game.PlaceId == 14433762945 then
                                                 SendPetOneTraget(b,v)
                                             end
                                         end)
-                                    until v:GetAttribute("Health") <= 0 or not SaveSettings["Auto Farm"]['Auto Farm Tower']
+                                    until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Tower']
                                 end
                             end
                         end
@@ -1587,19 +1587,6 @@ if game.PlaceId == 14433762945 then
         end
     end)
     
-    function GetChestName()
-        for i,v in ipairs(game:GetService("Workspace").Worlds.Raids:GetDescendants()) do
-                    if v.Name == "RaidChest" then
-                        if v:FindFirstChild('HumanoidRootPart') and v:FindFirstChild('HumanoidRootPart'):FindFirstChild('ChestPrompt') then
-                            
-                            Chest = v
-        
-                            return Chest
-                        end
-                    end
-                end
-            end
-
     -- Raid
     function FindRaids(Target)
         if game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
@@ -1637,7 +1624,6 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
-
     function GetRaids(Mode)
         if game:GetService("Workspace").Worlds:FindFirstChild("Hub") or game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             local RaidRooms = game:GetService("CollectionService"):GetTagged("Raid Room")
@@ -1724,14 +1710,14 @@ if game.PlaceId == 14433762945 then
                 elseif game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") == 0 then
                         if SaveSettings["Raids"]['Collect Chest [After Finish]'] then
-                            if GetRaids("GetChest") == "None" and GetChestName() == nil then
+                            if GetRaids("GetChest") == "None" then
                                 local args = { [1] = "Hub" }
                                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                                 wait(.5)
                                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                            elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") and GetChestName() ~= nil then
+                            elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
                                 Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
-                                wait(1.5)
+                                wait(.1)
                                 fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
                                 wait(5)
                             end
@@ -1740,16 +1726,6 @@ if game.PlaceId == 14433762945 then
                             game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                             wait(.5)
                             repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                        end
-                    if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
-                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] and GetChestName() ~= nil and game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
-                            if GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
-                                    Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
-                                    wait(1.5)
-                                    fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
-                                    wait(5)
-                                end
-                            end
                         end
                     elseif LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
                         if SaveSettings["Raids"]['Auto Farm Raid'] then
@@ -1767,7 +1743,7 @@ if game.PlaceId == 14433762945 then
                                                     end
                                                 end)
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
+                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                     end
                                 end
                             else
@@ -1784,7 +1760,7 @@ if game.PlaceId == 14433762945 then
                                                     end
                                                 end)
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
+                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                     end
                                 end
                             end
@@ -1857,5 +1833,5 @@ if game.PlaceId == 14433762945 then
             vu:CaptureController()vu:ClickButton2(Vector2.new())
         end)
     end)
-
+    
 end

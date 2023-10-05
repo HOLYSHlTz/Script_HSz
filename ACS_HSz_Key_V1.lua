@@ -1355,8 +1355,8 @@ if game.PlaceId == 14433762945 then
                             ["ADmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) and true or false,
                         }
                     }
+                    game:GetService("ReplicatedStorage").Remote.Machines.TalentMachine:FireServer(unpack(args))
                 end
-                game:GetService("ReplicatedStorage").Remote.Machines.TalentMachine:FireServer(unpack(args))
                 local PetStatsTalent = MainData:GetData("Pets", true)[PetDataTalent['ID']]['Talents']
                 StatusPets.Options:ChangeText(
                     'Talent \n[DMG] '.. TalentHandler.GetStatRank(PetStatsTalent['Dmg']) ..

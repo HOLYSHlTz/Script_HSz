@@ -204,7 +204,6 @@ end
 while wait() do if KeySuccess then break end end
 if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
 
-
 if game.PlaceId == 14433762945 then
     repeat wait() until game:IsLoaded()
     if not game:IsLoaded() then game.Loaded:Wait() end
@@ -269,6 +268,9 @@ if game.PlaceId == 14433762945 then
             ['Auto Essence'] = false,
             ['Ignore Godly (Not Del Godly)'] = false
         },
+        ["SaveSetting"] = {
+            ['Hide Key'] = Enum.KeyCode.LeftControl
+        }
     }
     function Load()
         if readfile and writefile and isfile and isfolder then
@@ -698,7 +700,7 @@ if game.PlaceId == 14433762945 then
 
     local Themes = {
         Background = Color3.fromRGB(24, 24, 24),
-        Glow = Color3.fromRGB(17, 255, 77),
+        Glow = Color3.fromRGB(0, 0, 0),
         Accent = Color3.fromRGB(10, 10, 10),
         LightContrast = Color3.fromRGB(20, 20, 20),
         DarkContrast = Color3.fromRGB(14, 14, 14),  
@@ -783,7 +785,6 @@ if game.PlaceId == 14433762945 then
             if FS then RefreshEnemie() end
         end;
     })
-
     TableBaseEmemie = SaveSettings["Auto Farm"]['Select Enemie'][SaveSettings["Auto Farm"]["Select World"]] or {}
     local RefreshEnemieDrop = AutoFarm_Select:addMulitDropdown({
         title = "Select Enemie",
@@ -1285,10 +1286,14 @@ if game.PlaceId == 14433762945 then
     })
     Setting:addKeybind({
         title = "Keybind Hide Ui",
-        key = Enum.KeyCode.LeftControl,
+        key = SaveSettings["SaveSetting"]['Hide Key'],
         callback = function()
             UI:toggle()
         end,
+        changedCallback = function(key)
+            SaveSettings["SaveSetting"]['Hide Key'] = key
+            Save()
+        end
     })
     
     --[[
@@ -1336,15 +1341,21 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Pet"]['Auto Reroll Talent'] then 
                 local PetDataTalent = Table_PetBaseData[SaveSettings["Pet"]['Select Pet [Talent]']]
                 local OldPetStatsTalent = MainData:GetData("Pets", true)[PetDataTalent['ID']]['Talents']
-                local args = {
-                    [1] = PetDataTalent['ID'],
-                    [2] = {
-                        ["Dmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) and true or false,
-                        ["Spd"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) and true or false,
-                        ["CDmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) and true or false,
-                        ["ADmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) and true or false,
+                local TalentDmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) 
+                local TalentSpd = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) 
+                local TalentCDmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) 
+                local TalentADmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) 
+                if not TalentDmg or not TalentSpd or not TalentCDmg or not TalentADmg then
+                    local args = {
+                        [1] = PetDataTalent['ID'],
+                        [2] = {
+                            ["Dmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) and true or false,
+                            ["Spd"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) and true or false,
+                            ["CDmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) and true or false,
+                            ["ADmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) and true or false,
+                        }
                     }
-                }
+                end
                 game:GetService("ReplicatedStorage").Remote.Machines.TalentMachine:FireServer(unpack(args))
                 local PetStatsTalent = MainData:GetData("Pets", true)[PetDataTalent['ID']]['Talents']
                 StatusPets.Options:ChangeText(
@@ -1833,5 +1844,5 @@ if game.PlaceId == 14433762945 then
             vu:CaptureController()vu:ClickButton2(Vector2.new())
         end)
     end)
-    
+
 end

@@ -209,7 +209,7 @@ if game.PlaceId == 14433762945 then
     if not game:IsLoaded() then game.Loaded:Wait() end
     game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
     game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("MainGui")
-    
+    if _G.NoClip then _G.NoClip:Disconnect() _G.NoClip = nil end
     ------------------------------------------------------ [[ Save Function ]] ------------------------------------------------------
     local SaveSettings = {
         ["Auto Farm"] = {
@@ -217,6 +217,10 @@ if game.PlaceId == 14433762945 then
             ['Select Enemie'] = {},
             
             ['Auto Farm Select'] = false,
+
+            ["Auto Join World Select"] = false,
+            ['Teleport [Farm in Range]'] = false,
+            ["Range [ Farm in Range ]"] = 150,
         },
         ["Raids"] = {
             ["Select Raids [World]"] = "Green Planet",
@@ -248,6 +252,7 @@ if game.PlaceId == 14433762945 then
             ['Select Amount'] = 1,
     
             ['Auto Open Egg'] = false,
+            ["Auto Teleport Egg Near"] = false,
         },
         ['Pet'] = {
             ['Select Pet'] = "",
@@ -496,8 +501,7 @@ if game.PlaceId == 14433762945 then
     end
     function SendPetOneTraget(PetTraget,Mobs)
         local TragetMonster = Mobs
-        local PetTraget = PetTraget
-        ReplicatedStorage.Bindable.Pets.SetPetTarget:Fire(PetTraget,TragetMonster);
+        ReplicatedStorage.Bindable.Pets.SendAllPets:Fire(TragetMonster,false);
     end
     
     function Clicker(Mobs)
@@ -519,6 +523,7 @@ if game.PlaceId == 14433762945 then
                 if v:FindFirstChild("Pickup") then
                     v.Pickup:Fire()
                     v:FindFirstChild("Pickup"):Destroy()
+                    repeat wait() until not v:FindFirstChild("Pickup")
                 end
             end
         end
@@ -529,6 +534,7 @@ if game.PlaceId == 14433762945 then
                 if v:FindFirstChild("Pickup") then
                     v.Pickup:Fire()
                     v:FindFirstChild("Pickup"):Destroy()
+                    repeat wait() until not v:FindFirstChild("Pickup")
                 end
             end
         end
@@ -574,22 +580,41 @@ if game.PlaceId == 14433762945 then
     end
     
     function GetOpenEgg(EggsName)
+        local MAPINFO = {}
         local EggsName = EggsName
-        for i,v in pairs(game:GetService("ReplicatedStorage").UnloadedWorlds:GetChildren()) do
-            for i1,v1 in pairs(v:GetChildren()) do
-                if v1.Name == EggsName then
-                    return v1
-                end
-            end
-        end
         for i,v in pairs(game:GetService("Workspace").Worlds:GetChildren()) do
             for i1,v1 in pairs(v:GetChildren()) do
                 if v1.Name == EggsName then
-                    return v1
+                    MAPINFO[#MAPINFO + 1] = {
+                        Base = v1,
+                        Name = v1.Name,
+                        CFrame = v1:GetModelCFrame(),
+                        Size = v1:GetExtentsSize(),
+                        Position = v1:GetModelCFrame().Position
+                    }
                 end
             end
         end
-        return "Not Found"
+
+        local key , min
+        for i,v in next,MAPINFO do 
+            if key and min then
+                if (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude < min then
+                    key , min = i , (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude
+                end
+            else
+                key , min = i , (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude
+            end
+        end
+        if key and min then
+            if min <= MAPINFO[key].Position.magnitude then
+                return MAPINFO[key].Base
+            else
+                return "Not Found IsLand!! " .. MAPINFO[key].Name
+            end
+        else
+            return "API ERROR"
+        end
     end
     function UnlockEggAllMap()
         for i,v in pairs(MainData:GetData("DiscoveredWorlds", true)) do
@@ -695,7 +720,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0"
+        Version = "Versin 1.0"
     })
 
     local Themes = {
@@ -808,8 +833,35 @@ if game.PlaceId == 14433762945 then
             Save()
         end ,
     })
+    AutoFarm_Select:addToggle({
+        title = "Auto Join World Select",
+        default = SaveSettings["Auto Farm"]["Auto Join World Select"],
+        callback = function(v)
+            SaveSettings["Auto Farm"]["Auto Join World Select"] = v
+            Save()
+        end ,
+    })
+    AutoFarm_Select:addToggle({
+        title = "Teleport [Farm in Range]",
+        default = SaveSettings["Auto Farm"]["Teleport [Farm in Range]"],
+        callback = function(v)
+            SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] = v
+            Save()
+        end ,
+    })
+    AutoFarm_Select:addSlider({
+        title = "Teleport in Range",
+        default = SaveSettings["Auto Farm"]["Range [ Farm in Range ]"],
+        min = 0,
+        max = 1500,
+        callback = function(value)
+            SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] = value
+            Save()
+        end
+    })
 
     ------------------------------------------------------ [[ Auto Farm Raids ]] ------------------------------------------------------
+    local CountTimeRaids = AutoFarm_Raids:addLabel({title = "Able to raid."})
     AutoFarm_Raids:addDropdown({
         title = "Select Raids [World]",
         list = World_Select, 
@@ -953,7 +1005,7 @@ if game.PlaceId == 14433762945 then
         end ,
     })
     ------------------------------------------------------ [[ Eggs Function ]] ------------------------------------------------------
-    StatusEgg = EggItems_Eggs:addLabel({title ="Egg Status : Disabled\nIf you want to open anywhere,enter the world 1 time."})
+    StatusEgg = EggItems_Eggs:addLabel({title ="Egg Status : Disabled"})
     EggItems_Eggs:addDropdown({
         title = "Select World [Egg]",
         list = Egg_Select, 
@@ -977,6 +1029,14 @@ if game.PlaceId == 14433762945 then
         default  = SaveSettings["Egg"]['Auto Open Egg'] ,
         callback = function(v)
             SaveSettings["Egg"]['Auto Open Egg'] = v
+            Save()
+        end ,
+    })
+    EggItems_Eggs:addToggle({
+        title = "Auto Teleport to the nearest egg",
+        default  = SaveSettings["Egg"]["Auto Teleport Egg Near"] ,
+        callback = function(v)
+            SaveSettings["Egg"]["Auto Teleport Egg Near"] = v
             Save()
         end ,
     })
@@ -1345,6 +1405,7 @@ if game.PlaceId == 14433762945 then
                 local TalentSpd = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) 
                 local TalentCDmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) 
                 local TalentADmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) 
+                
                 if not TalentDmg or not TalentSpd or not TalentCDmg or not TalentADmg then
                     local args = {
                         [1] = PetDataTalent['ID'],
@@ -1369,7 +1430,7 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Pet"]['Auto Essence'] then
                 for i,v in pairs(MainData:GetData("Pets", true)) do
                     if SaveSettings["Pet"]['Auto Essence'] and table.find(SaveSettings["Pet"]['Select Rarity [Essence]'],PetStats[v.PetId].Rarity) and not v.Locked then
-                        if SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] and v.Godly == false then
+                        if SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] and not v.Godly then
                             local args = { [1] = v.GUID }
                             game:GetService("ReplicatedStorage").Remote.Machines.EssenceMachine:FireServer(unpack(args))
                         elseif not SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] then
@@ -1409,10 +1470,10 @@ if game.PlaceId == 14433762945 then
         while wait() do
             if SaveSettings["Egg"]['Auto Open Egg'] then
                 local EggPart = GetOpenEgg(tostring(DateEgg[SaveSettings["Egg"]['Select World [Egg]']]))
-                if EggPart == "Not Found" then
-                    StatusEgg.Options:ChangeText("Egg Status : Pls Join The World First\nIf you want to open anywhere,enter the world 1 time.")
-                elseif EggPart ~= "Not Found" then
-                    StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs\nIf you want to open anywhere,enter the world 1 time.")
+                if EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and SaveSettings["Egg"]["Auto Teleport Egg Near"] and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude > 15 then
+                    Character:PivotTo(EggPart:GetPivot() * CFrame.new(0,0,5))
+                elseif EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude <= 15 then
+                    StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs")
                     OpenEgg(EggPart,tonumber(SaveSettings["Egg"]['Select Amount']))
                 end
             end
@@ -1424,27 +1485,7 @@ if game.PlaceId == 14433762945 then
         while wait() do
             if SaveSettings["Pet"]['Auto Reroll Quirk'] then
                 local PetDataQuirk = Table_PetBaseData[SaveSettings["Pet"]['Select Pet [Quirk]']]
-                local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
-                local NowPassives = ""
-                if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
-                    NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['1'][1],PetDataPassives['1'][2])
-                elseif PetDataPassives['1'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
-                    NowPassives = "Nil"
-                end
-                if PetDataPassives['2'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
-                    NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['2'][1],PetDataPassives['2'][2])
-                elseif PetDataPassives['2'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
-                    NowPassives = "Nil"
-                end
-                StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
-    
-                if not table.find(SaveSettings["Pet"]['Select Rarity [Quirk]'],NowPassives) then
-                    local args = {
-                        [1] = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['GUID'],
-                        [2] = tonumber(SaveSettings["Pet"]['Select Slot']),
-                        [3] = SaveSettings["Pet"]['Premium Medal'] and true or false
-                    }
-                    game:GetService("ReplicatedStorage").Remote.Machines.PassiveMachine:FireServer(unpack(args))
+                if PetDataQuirk and PetDataQuirk['ID'] then
                     local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
                     local NowPassives = ""
                     if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
@@ -1458,7 +1499,29 @@ if game.PlaceId == 14433762945 then
                         NowPassives = "Nil"
                     end
                     StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
-                end 
+        
+                    if not table.find(SaveSettings["Pet"]['Select Rarity [Quirk]'],NowPassives) then
+                        local args = {
+                            [1] = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['GUID'],
+                            [2] = tonumber(SaveSettings["Pet"]['Select Slot']),
+                            [3] = SaveSettings["Pet"]['Premium Medal'] and true or false
+                        }
+                        game:GetService("ReplicatedStorage").Remote.Machines.PassiveMachine:FireServer(unpack(args))
+                        local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
+                        local NowPassives = ""
+                        if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
+                            NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['1'][1],PetDataPassives['1'][2])
+                        elseif PetDataPassives['1'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
+                            NowPassives = "Nil"
+                        end
+                        if PetDataPassives['2'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
+                            NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['2'][1],PetDataPassives['2'][2])
+                        elseif PetDataPassives['2'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
+                            NowPassives = "Nil"
+                        end
+                        StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
+                    end 
+                end
                 wait(.1)
             end
         end
@@ -1496,27 +1559,6 @@ if game.PlaceId == 14433762945 then
             end
             if SaveSettings["Misc"]['Auto Teleport TO Spirit World'] then
                 UnlockEggAllMap()
-            end
-        end
-    end)
-    
-    -- Farm Select
-    spawn(function()
-        while wait() do
-            if SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name) then
-                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
-                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil then
-                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
-                            repeat wait()
-                                table.foreach(CheckPet('GetPet'),function(a,b)
-                                    if b:FindFirstChild("Target") and b.Target.Value == nil then
-                                        SendPetOneTraget(b,v)
-                                    end
-                                end)
-                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select']
-                        end
-                    end
-                end
             end
         end
     end)
@@ -1682,9 +1724,21 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
+
+    TimeCooldown = workspace:GetServerTimeNow()
+    WaitRaidCooldown = false
+    function getEpoch(epochTime)
+        local date = os.date("%X", epochTime)
+        return tostring(date)
+    end
+    Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
+        repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
+        TimeCooldown = a1.CooldownTimer.Value
+    end)
+    print(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName,not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName))
     spawn(function()
         while wait() do
-            if SaveSettings["Raids"]['Auto Farm Raid'] then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown then
                 if game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
                     if GetRaids("Owner") ~= "Not Found" then
                         local OwnerRaidRooms = GetRaids("Owner")
@@ -1713,8 +1767,6 @@ if game.PlaceId == 14433762945 then
                             [1] = OwnerRaidRooms
                         }
                         game:GetService("ReplicatedStorage").Remote.Raid.StartRaid:FireServer(unpack(args))
-                        repeat wait() until LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                        repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                     elseif GetRaids("FindRoom") ~= "Not Found" then
                         Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
                     end
@@ -1777,7 +1829,49 @@ if game.PlaceId == 14433762945 then
                             end
                         end
                     end
+                else
+                    local args = { [1] = "Hub" }
+                    game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
+                    wait(.5)
+                    repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                 end
+            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name) and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name):FindFirstChild('Enemies') then
+                repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
+                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
+                        if not SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then 
+                            repeat wait()
+                                table.foreach(CheckPet('GetPet'),function(a,b)
+                                    if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil then
+                                        SendPetOneTraget(b,v)
+                                    end
+                                end)
+                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
+                        elseif SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] then 
+                            if SaveSettings["Auto Farm"]['Auto Farm Select'] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
+                                repeat wait()
+                                    table.foreach(CheckPet('GetPet'),function(a,b)
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                                            SendPetOneTraget(b,v)
+                                        elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
+                                            Character:PivotTo(v:GetPivot() * CFrame.new(0,10,5))
+                                        end
+                                    end)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
+                            else
+                                repeat wait()
+                                    table.foreach(CheckPet('GetPet'),function(a,b)
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                                            SendPetOneTraget(b,v)
+                                        end
+                                    end)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
+                            end
+                        end
+                    end
+                end
+            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
+                TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
             end
         end
     end)
@@ -1802,17 +1896,25 @@ if game.PlaceId == 14433762945 then
         end
     end
     
-    coroutine.wrap(function()
-        game:GetService("RunService").Heartbeat:Connect(function()
-            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-                    BodyVelocity()
-                else
-                    Disable_BodyVelocity()
-                end 
-            end
-        end)
-    end)()
+    _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
+        if TimeCooldown <= workspace:GetServerTimeNow() then
+            WaitRaidCooldown = false
+        else
+            WaitRaidCooldown = true
+        end
+        if WaitRaidCooldown and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText("Wait for " .. getEpoch(TimeCooldown) .. ", then can raid.")
+        elseif not WaitRaidCooldown and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText("Able to raid.")
+        end
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                BodyVelocity()
+            else
+                Disable_BodyVelocity()
+            end 
+        end
+    end)
     ------------------------------------------------------ [[ Fix Ui Lib ]] ------------------------------------------------------
     UI:SelectPage({
         page = UI.pages[1], 

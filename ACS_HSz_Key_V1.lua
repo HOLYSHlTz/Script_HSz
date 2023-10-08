@@ -870,7 +870,7 @@ if game.PlaceId == 14433762945 then
     })
     AutoFarm_Raids:addDropdown({
         title = "Select Difficulty",
-        list = {"Easy","Medium","Hard"}, 
+        list = {"Easy","Medium","Hard","Impossible"}, 
         default = SaveSettings["Raids"]['Select Difficulty'],
         callback = function(v)
             SaveSettings["Raids"]['Select Difficulty'] = v

@@ -1908,13 +1908,14 @@ if game.PlaceId == 14433762945 then
             CountTimeRaids.Options:ChangeText("Able to raid.")
         end
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
-            if SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                 BodyVelocity()
             else
                 Disable_BodyVelocity()
             end 
         end
     end)
+    
     ------------------------------------------------------ [[ Fix Ui Lib ]] ------------------------------------------------------
     UI:SelectPage({
         page = UI.pages[1], 

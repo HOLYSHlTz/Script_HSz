@@ -717,7 +717,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Versin 1.0"
+        Version = "Version 1.0"
     })
 
     local Themes = {
@@ -858,7 +858,7 @@ if game.PlaceId == 14433762945 then
     })
 
     ------------------------------------------------------ [[ Auto Farm Raids ]] ------------------------------------------------------
-    local CountTimeRaids = AutoFarm_Raids:addLabel({title = "Able to raid."})
+    local CountTimeRaids = AutoFarm_Raids:addLabel({title = "Wait Checking Raid !!!."})
     AutoFarm_Raids:addDropdown({
         title = "Select Raids [World]",
         list = World_Select, 
@@ -1900,9 +1900,13 @@ if game.PlaceId == 14433762945 then
             WaitRaidCooldown = true
         end
         if WaitRaidCooldown and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText("Wait for " .. getEpoch(TimeCooldown) .. ", then can raid.")
+            CountTimeRaids.Options:ChangeText("Raid Not Available Now!!! \n Wait for " .. getEpoch(TimeCooldown) .. ", then join Raid.")
         elseif not WaitRaidCooldown and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText("Able to raid.")
+            if SaveSettings["Raids"]['Auto Farm Raid'] then
+                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n Farming Raid : " .. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ]")
+            else
+                CountTimeRaids.Options:ChangeText("Wait Checking Raid !!!.")
+            end
         end
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
             if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then

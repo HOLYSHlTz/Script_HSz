@@ -1900,12 +1900,12 @@ if game.PlaceId == 14433762945 then
             WaitRaidCooldown = true
         end
         if WaitRaidCooldown and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText("Raid Not Available Now!!! \n Wait for " .. getEpoch(TimeCooldown) .. ", then join Raid.")
+            CountTimeRaids.Options:ChangeText("Raid Not Available Now!!! \n ... Wait for " .. getEpoch(TimeCooldown) .. ", then join Raid ...")
         elseif not WaitRaidCooldown and CountTimeRaids then
             if SaveSettings["Raids"]['Auto Farm Raid'] then
-                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n Farming Raid : " .. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ]")
+                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n ... Farming Raid : " .. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
             else
-                CountTimeRaids.Options:ChangeText("Wait Checking Raid !!!.")
+                CountTimeRaids.Options:ChangeText("Wait to Checking Raid !!!. \n ... Need To Join raid 1 Time ...")
             end
         end
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
@@ -1918,7 +1918,7 @@ if game.PlaceId == 14433762945 then
     end)
     ------------------------------------------------------ [[ Fix Ui Lib ]] ------------------------------------------------------
     UI:SelectPage({
-        page = UI.pages[1], 
+        page = UI.pages[1],
         toggle = true
     })
     -- Anti Afk

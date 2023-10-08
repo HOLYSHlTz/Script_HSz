@@ -1867,7 +1867,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 end
-            elseif SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
+            elseif SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and WaitRaidCooldown then
                 TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
             end
         end

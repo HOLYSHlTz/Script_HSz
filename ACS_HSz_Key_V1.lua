@@ -378,14 +378,10 @@ if game.PlaceId == 14433762945 then
     
     function ClickButton(Button,Mode)
         local ButtonClick = Button
-        local events = { "MouseButton1Click", "MouseButton1Down", "Activated" }
-        if Mode == "1" then
-            for i, v in next, events do firesignal(ButtonClick[v]) end
-        else
-            for i,v in pairs(events) do
-                for i,v in pairs(getconnections(ButtonClick[v])) do
-                    v.Function()
-                end
+        local events = { "Activated" }
+        for i,v in pairs(events) do
+            for i,v in pairs(getconnections(ButtonClick[v])) do
+                v.Function()
             end
         end
     end
@@ -1839,11 +1835,11 @@ if game.PlaceId == 14433762945 then
             elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name) and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name):FindFirstChild('Enemies') then
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                 for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
-                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil then
-                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and not SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then 
+                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
+                        if not SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then 
                             repeat wait()
                                 table.foreach(CheckPet('GetPet'),function(a,b)
-                                    if b:FindFirstChild("Target") and b.Target.Value == nil then
+                                    if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil then
                                         SendPetOneTraget(b,v)
                                     end
                                 end)
@@ -1852,16 +1848,17 @@ if game.PlaceId == 14433762945 then
                             if SaveSettings["Auto Farm"]['Auto Farm Select'] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
                                 repeat wait()
                                     table.foreach(CheckPet('GetPet'),function(a,b)
-                                        if b:FindFirstChild("Target") and b.Target.Value == nil then
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                                            SendPetOneTraget(b,v)
+                                        elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
                                             Character:PivotTo(v:GetPivot() * CFrame.new(0,10,5))
-                                            SendPetOneTraget(b,v)       
                                         end
                                     end)
                                 until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
-                            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                            else
                                 repeat wait()
                                     table.foreach(CheckPet('GetPet'),function(a,b)
-                                        if b:FindFirstChild("Target") and b.Target.Value == nil then
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
                                             SendPetOneTraget(b,v)
                                         end
                                     end)
@@ -1870,7 +1867,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 end
-            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
+            elseif SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
                 TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
             end
         end
@@ -1895,7 +1892,7 @@ if game.PlaceId == 14433762945 then
             end
         end
     end
-   
+    
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
         if TimeCooldown <= workspace:GetServerTimeNow() then
             WaitRaidCooldown = false
@@ -1915,7 +1912,6 @@ if game.PlaceId == 14433762945 then
             end 
         end
     end)
-
     ------------------------------------------------------ [[ Fix Ui Lib ]] ------------------------------------------------------
     UI:SelectPage({
         page = UI.pages[1], 

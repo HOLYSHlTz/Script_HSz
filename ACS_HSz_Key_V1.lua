@@ -1964,9 +1964,9 @@ if game.PlaceId == 14433762945 then
                     end
                 end
             elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 end
             end
@@ -2002,9 +2002,8 @@ if game.PlaceId == 14433762945 then
 
             CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
 
-            RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain2) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
-            RaidCooldown = " Raid Room Cooldown : " .. CoolDownRaidsTime .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         end
 
         if workspace:GetServerTimeNow() > TimeCooldown then
@@ -2014,7 +2013,7 @@ if game.PlaceId == 14433762945 then
         end
 
         if WaitRaidCooldown and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText(RaidCooldown)
+            CountTimeRaids.Options:ChangeText(RaidNotAvailable)
         elseif not WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         end

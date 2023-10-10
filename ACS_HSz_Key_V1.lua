@@ -573,7 +573,7 @@ if game.PlaceId == 14433762945 then
         local Amount = Amount
         local args = {
             [1] = Eggs,
-            [2] = Amount
+            [2] = MultiplierHandler.GetMultiplier("OpenAmount")
         }
         ReplicatedStorage.Remote.Orbs.OpenOrbs:FireServer(unpack(args))
     end
@@ -719,7 +719,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.2"
+        Version = "Version 1.0.3"
     })
 
     local Themes = {
@@ -1011,15 +1011,6 @@ if game.PlaceId == 14433762945 then
         default = SaveSettings["Egg"]['Select World [Egg]'],
         callback = function(v)
             SaveSettings["Egg"]['Select World [Egg]'] = v
-            Save()
-        end;
-    })
-    EggItems_Eggs:addDropdown({
-        title = "Select Amount",
-        list = {1,2,3,4,5,6,7,8,9,10}, 
-        default = SaveSettings["Egg"]['Select Amount'],
-        callback = function(v)
-            SaveSettings["Egg"]['Select Amount'] = v
             Save()
         end;
     })
@@ -1476,7 +1467,7 @@ if game.PlaceId == 14433762945 then
                     Character:PivotTo(EggPart:GetPivot() * CFrame.new(0,0,5))
                 elseif EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude <= 15 then
                     StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs")
-                    OpenEgg(EggPart,tonumber(SaveSettings["Egg"]['Select Amount']))
+                    OpenEgg(EggPart)
                 end
             end
         end
@@ -1892,7 +1883,7 @@ if game.PlaceId == 14433762945 then
             elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
                 if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 end
             end

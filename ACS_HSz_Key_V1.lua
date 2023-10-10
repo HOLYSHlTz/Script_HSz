@@ -1804,6 +1804,11 @@ if game.PlaceId == 14433762945 then
 
     local Updates = require(game:GetService("ReplicatedStorage"):WaitForChild("ModuleScripts").Updates)
     VersionId = Updates[#Updates].VersionId
+
+    TimeRaid1 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
+    TimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
+    TimeRaidMain2 = TimeRaid1 or TimeRaid2
+
     function getEpoch(epochTime)
         local date = os.date("%X", epochTime)
         return tostring(date)
@@ -2019,9 +2024,11 @@ if game.PlaceId == 14433762945 then
 
         if not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:00" or tostring(TimeRaidMain2) <= "0:00" or tostring(TimeRaidMain) <= "-0:10" or tostring(TimeRaidMain2) > "4:55" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+        --elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:00" or tostring(TimeRaidMain2) <= "0:00" or tostring(TimeRaidMain) <= "-0:10" or tostring(TimeRaidMain2) > "4:55" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:00" or tostring(TimeRaidMain) <= "-0:10" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:00" or tostring(TimeRaidMain2) > "0:00" and CountTimeRaids then
+        --elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:00" or tostring(TimeRaidMain2) > "0:00" and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:00" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)
         end
 

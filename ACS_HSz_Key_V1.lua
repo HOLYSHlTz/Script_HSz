@@ -274,10 +274,6 @@ if game.PlaceId == 14433762945 then
             ['Ignore Godly (Not Del Godly)'] = false
         },
         ["SaveSetting"] = {
-            ['FPS Value'] = 15,
-            ['FPS Cap'] = false,
-            ['Low CPU Mode'] = false,
-
             ['Hide Key'] = Enum.KeyCode.LeftControl
         }
     }
@@ -1338,36 +1334,6 @@ if game.PlaceId == 14433762945 then
             Teleport(game.PlaceId)
         end
     })
-    --Start_FPS_Cap
-    FPS_CAP = {}
-    for i = 1,60 do
-        table.insert(FPS_CAP,i)
-    end
-    Setting:addDropdown({
-        title = "Select FPS Amount",
-        list = FPS_CAP, 
-        default = SaveSettings["SaveSetting"]['FPS Value'],
-        callback = function(v)
-            SaveSettings["SaveSetting"]['FPS Value'] = v
-            Save()
-        end;
-    })
-    Setting:addToggle({
-        title = "Enable FPS Cap",
-        default  = SaveSettings["SaveSetting"]['FPS Cap'] ,
-        callback = function(v)
-            SaveSettings["SaveSetting"]['FPS Cap'] = v
-            Save()
-        end ,
-    })
-    Setting:addToggle({
-        title = "Enable Low CPU Mode",
-        default  = SaveSettings["SaveSetting"]['Low CPU Mode'] ,
-        callback = function(v)
-            SaveSettings["SaveSetting"]['Low CPU Mode'] = v
-            Save()
-        end ,
-    })
     Setting:addKeybind({
         title = "Keybind Hide Ui",
         key = SaveSettings["SaveSetting"]['Hide Key'],
@@ -1590,55 +1556,6 @@ if game.PlaceId == 14433762945 then
         end
     end)
     
-    --lowCPU
-    local IS_ROBLOX_ACTIVE = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE = false
-    end)
-    function isrbxactive()
-        return IS_ROBLOX_ACTIVE
-    end
-    task.spawn(function()
-        while task.wait() do
-        getgenv().isrbxactive = newcclosure(isrbxactive)
-                if IS_ROBLOX_ACTIVE ~= true and SaveSettings["SaveSetting"]['Low CPU Mode'] then
-                    setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
-                    game:GetService("RunService"):Set3dRenderingEnabled(false)
-                    isrbxactive(true)
-                else
-                    setfpscap(240)
-                    game:GetService("RunService"):Set3dRenderingEnabled(true)
-                    isrbxactive(false)
-                end
-            end
-        end)
-    
-    --FPS_Cap
-    local IS_ROBLOX_ACTIVE2 = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE2 = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE2 = false
-    end)
-    function isrbxactive2()
-        return IS_ROBLOX_ACTIVE2
-    end
-    task.spawn(function()
-        while task.wait() do
-        getgenv().isrbxactive2 = newcclosure(isrbxactive2)
-                    if SaveSettings["SaveSetting"]['FPS Cap'] then
-                        setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
-                        isrbxactive2(true)
-                    end
-                end
-            end)
-
     -- Town
     function CheckTowerOwner(Target)
         if game:GetService("Workspace").Worlds:FindFirstChild("Tower") then
@@ -1804,17 +1721,12 @@ if game.PlaceId == 14433762945 then
 
     local Updates = require(game:GetService("ReplicatedStorage"):WaitForChild("ModuleScripts").Updates)
     VersionId = Updates[#Updates].VersionId
-
-    TimeRaid1 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
-    TimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
-    TimeRaidMain2 = TimeRaid1 or TimeRaid2
-
     function getEpoch(epochTime)
         local date = os.date("%X", epochTime)
         return tostring(date)
     end
 
-    if VersionId == "2.0.2" then
+    if VersionId == "2.0.2"then
         TimeCooldown = workspace:GetServerTimeNow()
     else
         TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
@@ -1826,7 +1738,7 @@ if game.PlaceId == 14433762945 then
         WaitRaidCooldown = true
     end
     Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
-        if VersionId == "2.0.2" then
+        if VersionId == "2.0.2"then
             repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
             TimeCooldown = a1.CooldownTimer.Value
         else
@@ -2000,20 +1912,16 @@ if game.PlaceId == 14433762945 then
 
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
         if VersionId == "2.0.2"then
-            RaidNotAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
+            RaidNotAvailable = "Raid Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
             RaidFarm = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         else
-            TimeRaid1 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
-            TimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
-            TimeRaidMain2 = TimeRaid1 or TimeRaid2
-
             TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
 
-            CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or tostring(TimeRaidMain2) or "Raid Ready")
+            CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
 
-            RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
-            RaidCreatingRoom = " Raid Available Now!!! \n ...Wait Creating a Raid room : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain2) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+            RaidCooldown = " Raid Room Cooldown : " .. CoolDownRaidsTime .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         end
 
         if workspace:GetServerTimeNow() > TimeCooldown then
@@ -2022,14 +1930,10 @@ if game.PlaceId == 14433762945 then
             WaitRaidCooldown = true
         end
 
-        if not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+        if WaitRaidCooldown and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidCooldown)
+        elseif not WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        --elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:00" or tostring(TimeRaidMain2) <= "0:00" or tostring(TimeRaidMain) <= "-0:10" or tostring(TimeRaidMain2) > "4:55" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:00" or tostring(TimeRaidMain) <= "-0:10" and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
-        --elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:00" or tostring(TimeRaidMain2) > "0:00" and CountTimeRaids then
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:00" and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText(RaidNotAvailable)
         end
 
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then

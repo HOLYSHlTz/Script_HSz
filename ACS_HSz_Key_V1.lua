@@ -1809,7 +1809,7 @@ if game.PlaceId == 14433762945 then
         return tostring(date)
     end
 
-    if VersionId == "2.0.2"then
+    if VersionId == "2.0.2" then
         TimeCooldown = workspace:GetServerTimeNow()
     else
         TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
@@ -1821,7 +1821,7 @@ if game.PlaceId == 14433762945 then
         WaitRaidCooldown = true
     end
     Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
-        if VersionId == "2.0.2"then
+        if VersionId == "2.0.2" then
             repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
             TimeCooldown = a1.CooldownTimer.Value
         else

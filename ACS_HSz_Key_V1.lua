@@ -201,6 +201,7 @@ else
     end)
 end
 
+if _G.NoClip then _G.NoClip:Disconnect() _G.NoClip = nil end
 while wait() do if KeySuccess then break end end
 if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
 
@@ -209,7 +210,6 @@ if game.PlaceId == 14433762945 then
     if not game:IsLoaded() then game.Loaded:Wait() end
     game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
     game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("MainGui")
-    if _G.NoClip then _G.NoClip:Disconnect() _G.NoClip = nil end
     ------------------------------------------------------ [[ Save Function ]] ------------------------------------------------------
     local SaveSettings = {
         ["Auto Farm"] = {
@@ -341,13 +341,15 @@ if game.PlaceId == 14433762945 then
     local RemoteFolder = ReplicatedStorage:WaitForChild("Remote")
     
     local LocalDairebStore2 = require(ModuleScripts.DairebStore2.LocalDairebStore2)
-    local Config = require(ReplicatedStorage.ModuleScripts.Config.GameConfig)
+    local GameConfig = require(ReplicatedStorage.ModuleScripts.Config.GameConfig)
     local EffectsHandler = require(ModuleScripts.Handlers.EffectsHandler)
     local TalentHandler = require(ModuleScripts.Handlers.TalentHandler)
     local PetStats = require(ModuleScripts.Config.PetStats)
     local PassiveStats = require(ModuleScripts.Config.PassiveStats)
     local PassivesHandler = require(ModuleScripts.Handlers.PassiveRenderHandler)
     local ItemStatsSkins = require(ModuleScripts.Config.ItemStats.Skins)
+    local MultiplierHandler = require(ModuleScripts.Handlers.MultiplierHandler)
+    local NumToString = require(ModuleScripts.SharedFunctions.NumToString)
     
     local Bindable = ReplicatedStorage:WaitForChild("Bindable")
     local GetSpiritData = RemoteFolder.Spirit.GetSpiritData:InvokeServer()
@@ -571,7 +573,7 @@ if game.PlaceId == 14433762945 then
         local Amount = Amount
         local args = {
             [1] = Eggs,
-            [2] = Amount
+            [2] = MultiplierHandler.GetMultiplier("Radius", game:GetService("Players").LocalPlayer)
         }
         ReplicatedStorage.Remote.Orbs.OpenOrbs:FireServer(unpack(args))
     end
@@ -717,7 +719,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.1"
+        Version = "Version 1.0"
     })
 
     local Themes = {
@@ -1009,15 +1011,6 @@ if game.PlaceId == 14433762945 then
         default = SaveSettings["Egg"]['Select World [Egg]'],
         callback = function(v)
             SaveSettings["Egg"]['Select World [Egg]'] = v
-            Save()
-        end;
-    })
-    EggItems_Eggs:addDropdown({
-        title = "Select Amount",
-        list = {1,2,3,4,5,6,7,8,9,10}, 
-        default = SaveSettings["Egg"]['Select Amount'],
-        callback = function(v)
-            SaveSettings["Egg"]['Select Amount'] = v
             Save()
         end;
     })
@@ -1445,8 +1438,8 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             if SaveSettings["Misc"]['Bypass Attack Range'] then
-                Config.MaxTargetDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 150
-                Config.MaxAttackDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 160
+                GameConfig.MaxTargetDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 150
+                GameConfig.MaxAttackDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 160
             end
     
             if SaveSettings["Misc"]['Auto Click'] then
@@ -1456,7 +1449,10 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Misc"]['Auto Ability'] then
                 ClickButton(LocalPlayer.PlayerGui.MainGui.HUD.BottomButtons.AbilityButton)
             end
-    
+        end
+    end)
+    spawn(function()
+        while wait() do
             if SaveSettings["Misc"]['Instant Collect Coin'] then
                 CollectCoin()
                 CollectImageDrop()
@@ -1471,7 +1467,7 @@ if game.PlaceId == 14433762945 then
                     Character:PivotTo(EggPart:GetPivot() * CFrame.new(0,0,5))
                 elseif EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude <= 15 then
                     StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs")
-                    OpenEgg(EggPart,tonumber(SaveSettings["Egg"]['Select Amount']))
+                    OpenEgg(EggPart)
                 end
             end
         end
@@ -1674,6 +1670,7 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
+
     function GetRaids(Mode)
         if game:GetService("Workspace").Worlds:FindFirstChild("Hub") or game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             local RaidRooms = game:GetService("CollectionService"):GetTagged("Raid Room")
@@ -1722,39 +1719,37 @@ if game.PlaceId == 14433762945 then
         end 
     end
 
-    TimeCooldown = workspace:GetServerTimeNow()
-    zTimeRaid = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
-    zTimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
-    TimeRaidMain = zTimeRaid or zTimeRaid2
-
-    WaitRaidCooldown = false
-    WaitRaidCooldown2 = false
-
-    if TimeCooldown <= workspace:GetServerTimeNow() then
-        if tostring(TimeRaidMain) ~= "0:00" then
-            WaitRaidCooldown2 = false
-        elseif tostring(TimeRaidMain) <= "0:05" then
-            WaitRaidCooldown2 = true
-        end
-    end
-
+    local Updates = require(game:GetService("ReplicatedStorage"):WaitForChild("ModuleScripts").Updates)
+    VersionId = Updates[#Updates].VersionId
     function getEpoch(epochTime)
         local date = os.date("%X", epochTime)
         return tostring(date)
     end
+
+    if VersionId == "2.0.2"then
+        TimeCooldown = workspace:GetServerTimeNow()
+    else
+        TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
+    end
+
+    if TimeCooldown <= workspace:GetServerTimeNow() then
+        WaitRaidCooldown = false
+    else
+        WaitRaidCooldown = true
+    end
     Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
-        repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
-        TimeCooldown = a1.CooldownTimer.Value
+        if VersionId == "2.0.2"then
+            repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
+            TimeCooldown = a1.CooldownTimer.Value
+        else
+            repeat wait() until a2 == true
+            TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
+        end
     end)
-    print(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName,not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName),WaitRaidCooldown2)
+
     spawn(function()
         while wait() do
-            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2 then
-                if tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" then
-                    if SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-                        TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                    end
-                end
+            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown then
                 if game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
                     if GetRaids("Owner") ~= "Not Found" then
                         local OwnerRaidRooms = GetRaids("Owner")
@@ -1846,13 +1841,10 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 else
-                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:05" then
-                        local args = { [1] = "Hub" }
-                        game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
-                        wait(.5)
-                        repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                        end
-                    end
+                    local args = { [1] = "Hub" }
+                    game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
+                    repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                end
             elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name) and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name):FindFirstChild('Enemies') then
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                 for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
@@ -1864,7 +1856,7 @@ if game.PlaceId == 14433762945 then
                                         SendPetOneTraget(b,v)
                                     end
                                 end)
-                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or ( SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
                         elseif SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] and SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then 
                             if SaveSettings["Auto Farm"]['Auto Farm Select'] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
                                 repeat wait()
@@ -1875,7 +1867,7 @@ if game.PlaceId == 14433762945 then
                                             Character:PivotTo(v:GetPivot() * CFrame.new(0,10,5))
                                         end
                                     end)
-                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or ( SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
                             else
                                 repeat wait()
                                     table.foreach(CheckPet('GetPet'),function(a,b)
@@ -1883,13 +1875,13 @@ if game.PlaceId == 14433762945 then
                                             SendPetOneTraget(b,v)
                                         end
                                     end)
-                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or ( SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown)
                             end
                         end
                     end
                 end
-            elseif SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+            elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
@@ -1917,34 +1909,38 @@ if game.PlaceId == 14433762945 then
             end
         end
     end
-    
 
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
-        zTimeRaid = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
-        zTimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
-        TimeRaidMain = zTimeRaid or zTimeRaid2
-        if TimeCooldown <= workspace:GetServerTimeNow() then
-                WaitRaidCooldown = false
-            else
-                WaitRaidCooldown = true
+        if VersionId == "2.0.2"then
+            RaidAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. "(s), then join Raid ..."
+            RaidCooldown = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+        else
+            TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
+
+            CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
+
+            RaidAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+            RaidCreatingRoom = " Raid Available Now!!! \n ... Creating a Raid room : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidCooldown2 = "Raid not Available Now!!! \n ... Wait for " .. CoolDownRaidsTime .. "(s), then join Raid ..."
         end
-        if CountTimeRaids and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-            if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" then
-                CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
-            elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" then
-                CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
-            elseif SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) < "0:05" then
-                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n ... Creating a Raid room : ".. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
-            elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) < "0:05" then
-                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n ... pls. Enable 'Auto Farm Raid' ...")
-            end
-        elseif tostring(TimeRaidMain) > "0:01" and CountTimeRaids and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-            if SaveSettings["Raids"]['Auto Farm Raid'] then
-                    CountTimeRaids.Options:ChangeText("Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "(s) \n ... Now Farming Raid : " .. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
-            elseif not SaveSettings["Raids"]['Auto Farm Raid'] then
-                CountTimeRaids.Options:ChangeText("pls. Enable 'Auto Farm Raid' !!!")
-            end
+
+        if workspace:GetServerTimeNow() > TimeCooldown then
+            WaitRaidCooldown = false
+        else
+            WaitRaidCooldown = true
         end
+
+        if not WaitRaidCooldown and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidFarm)
+        elseif WaitRaidCooldown and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidAvailable)
+        elseif WaitRaidCooldown and CountTimeRaids and tostring(TimeRaidMain) < "0:05" then
+            CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
+        elseif WaitRaidCooldown and CountTimeRaids and tostring(TimeRaidMain) > "0:05" then
+            CountTimeRaids.Options:ChangeText(RaidCooldown2)
+        end
+
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
             if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                 BodyVelocity()

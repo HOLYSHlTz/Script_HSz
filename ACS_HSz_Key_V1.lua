@@ -1750,7 +1750,7 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2 then
-                if tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:40" then
+                if tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" then
                     if SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                         TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                     end
@@ -1928,11 +1928,15 @@ if game.PlaceId == 14433762945 then
             else
                 WaitRaidCooldown = true
         end
-        if tostring(TimeRaidMain) > "0:05" and CountTimeRaids and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-            if SaveSettings["Raids"]['Auto Farm Raid'] then
+        if CountTimeRaids and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" then
                 CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
-            else
-                CountTimeRaids.Options:ChangeText("pls. Enable 'Auto Farm Raid' !!!")
+            elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" then
+                CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
+            elseif SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) < "0:05" then
+                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n ... Creating a Raid room : ".. tostring(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
+            elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) < "0:05" then
+                CountTimeRaids.Options:ChangeText("Raid are Available Now!!! \n ... pls. Enable 'Auto Farm Raid' ...")
             end
         elseif tostring(TimeRaidMain) > "0:01" and CountTimeRaids and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             if SaveSettings["Raids"]['Auto Farm Raid'] then

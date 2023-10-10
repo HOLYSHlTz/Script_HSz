@@ -1996,6 +1996,7 @@ if game.PlaceId == 14433762945 then
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
         if VersionId == "2.0.2"then
             RaidNotAvailable = "Raid Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
+            RaidRoom = " Teleport To HUB \n ... Try Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidFarm = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         else
             TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
@@ -2003,6 +2004,7 @@ if game.PlaceId == 14433762945 then
             CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
 
             RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+            RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         end
 
@@ -2014,7 +2016,11 @@ if game.PlaceId == 14433762945 then
 
         if WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)
-        elseif not WaitRaidCooldown and CountTimeRaids then
+        elseif WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidRoom)
+        elseif not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidRoom)
+        elseif not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         end
 

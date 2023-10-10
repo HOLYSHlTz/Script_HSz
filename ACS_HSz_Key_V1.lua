@@ -1930,9 +1930,9 @@ if game.PlaceId == 14433762945 then
             WaitRaidCooldown = true
         end
 
-        if not WaitRaidCooldown and CountTimeRaids then
+        if not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and tostring(TimeRaidMain) < "-0:04" and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) <= "0:01" or tostring(TimeRaidMain) <= "-0:10" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
         elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:01" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)

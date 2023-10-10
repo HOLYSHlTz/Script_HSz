@@ -274,6 +274,10 @@ if game.PlaceId == 14433762945 then
             ['Ignore Godly (Not Del Godly)'] = false
         },
         ["SaveSetting"] = {
+            ['FPS Value'] = 15,
+            ['FPS Cap'] = false,
+            ['Low CPU Mode'] = false,
+
             ['Hide Key'] = Enum.KeyCode.LeftControl
         }
     }
@@ -1334,6 +1338,36 @@ if game.PlaceId == 14433762945 then
             Teleport(game.PlaceId)
         end
     })
+    --Start_FPS_Cap
+    FPS_CAP = {}
+    for i = 1,60 do
+        table.insert(FPS_CAP,i)
+    end
+    Setting:addDropdown({
+        title = "Select FPS Amount",
+        list = FPS_CAP, 
+        default = SaveSettings["SaveSetting"]['FPS Value'],
+        callback = function(v)
+            SaveSettings["SaveSetting"]['FPS Value'] = v
+            Save()
+        end;
+    })
+    Setting:addToggle({
+        title = "Enable FPS Cap",
+        default  = SaveSettings["SaveSetting"]['FPS Cap'] ,
+        callback = function(v)
+            SaveSettings["SaveSetting"]['FPS Cap'] = v
+            Save()
+        end ,
+    })
+    Setting:addToggle({
+        title = "Enable Low CPU Mode",
+        default  = SaveSettings["SaveSetting"]['Low CPU Mode'] ,
+        callback = function(v)
+            SaveSettings["SaveSetting"]['Low CPU Mode'] = v
+            Save()
+        end ,
+    })
     Setting:addKeybind({
         title = "Keybind Hide Ui",
         key = SaveSettings["SaveSetting"]['Hide Key'],
@@ -1555,6 +1589,55 @@ if game.PlaceId == 14433762945 then
             end
         end
     end)
+
+    --lowCPU
+    local IS_ROBLOX_ACTIVE = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE = true
+    end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE = false
+    end)
+    function isrbxactive()
+        return IS_ROBLOX_ACTIVE
+    end
+    task.spawn(function()
+        while task.wait() do
+        getgenv().isrbxactive = newcclosure(isrbxactive)
+                if IS_ROBLOX_ACTIVE ~= true and SaveSettings["SaveSetting"]['Low CPU Mode'] then
+                    setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                    game:GetService("RunService"):Set3dRenderingEnabled(false)
+                    isrbxactive(true)
+                else
+                    setfpscap(240)
+                    game:GetService("RunService"):Set3dRenderingEnabled(true)
+                    isrbxactive(false)
+                end
+            end
+        end)
+    
+    --FPS_Cap
+    local IS_ROBLOX_ACTIVE2 = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE2 = true
+    end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE2 = false
+    end)
+    function isrbxactive2()
+        return IS_ROBLOX_ACTIVE2
+    end
+    task.spawn(function()
+        while task.wait() do
+        getgenv().isrbxactive2 = newcclosure(isrbxactive2)
+                    if SaveSettings["SaveSetting"]['FPS Cap'] then
+                        setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                        isrbxactive2(true)
+                    end
+                end
+            end)
     
     -- Town
     function CheckTowerOwner(Target)

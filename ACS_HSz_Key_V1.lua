@@ -279,7 +279,6 @@ if game.PlaceId == 14433762945 then
             ['Low CPU Mode'] = false,
 
             ['Hide Key'] = Enum.KeyCode.LeftControl
-            
         }
     }
     function Load()
@@ -724,7 +723,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.6"
+        Version = "Version 1.0.6a"
     })
 
     local Themes = {
@@ -1805,15 +1804,12 @@ if game.PlaceId == 14433762945 then
 
     local Updates = require(game:GetService("ReplicatedStorage"):WaitForChild("ModuleScripts").Updates)
     VersionId = Updates[#Updates].VersionId
-    TimeRaid1 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
-    TimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
-    TimeRaidMain2 = TimeRaid1 or TimeRaid2
     function getEpoch(epochTime)
         local date = os.date("%X", epochTime)
         return tostring(date)
     end
 
-    if VersionId == "2.0.2" then
+    if VersionId == "2.0.2"then
         TimeCooldown = workspace:GetServerTimeNow()
     else
         TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
@@ -1968,9 +1964,9 @@ if game.PlaceId == 14433762945 then
                     end
                 end
             elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) or tostring(TimeRaidMain2) > "0:00" and tostring(TimeRaidMain) or tostring(TimeRaidMain2) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) or tostring(TimeRaidMain2) > "0:00" and tostring(TimeRaidMain) or tostring(TimeRaidMain2) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 end
             end

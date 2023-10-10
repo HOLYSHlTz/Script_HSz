@@ -573,7 +573,7 @@ if game.PlaceId == 14433762945 then
         local Amount = Amount
         local args = {
             [1] = Eggs,
-            [2] = MultiplierHandler.GetMultiplier("Radius", game:GetService("Players").LocalPlayer)
+            [2] = Amount
         }
         ReplicatedStorage.Remote.Orbs.OpenOrbs:FireServer(unpack(args))
     end
@@ -719,7 +719,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0"
+        Version = "Version 1.0.2"
     })
 
     local Themes = {
@@ -1011,6 +1011,15 @@ if game.PlaceId == 14433762945 then
         default = SaveSettings["Egg"]['Select World [Egg]'],
         callback = function(v)
             SaveSettings["Egg"]['Select World [Egg]'] = v
+            Save()
+        end;
+    })
+    EggItems_Eggs:addDropdown({
+        title = "Select Amount",
+        list = {1,2,3,4,5,6,7,8,9,10}, 
+        default = SaveSettings["Egg"]['Select Amount'],
+        callback = function(v)
+            SaveSettings["Egg"]['Select Amount'] = v
             Save()
         end;
     })
@@ -1467,7 +1476,7 @@ if game.PlaceId == 14433762945 then
                     Character:PivotTo(EggPart:GetPivot() * CFrame.new(0,0,5))
                 elseif EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude <= 15 then
                     StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs")
-                    OpenEgg(EggPart)
+                    OpenEgg(EggPart,tonumber(SaveSettings["Egg"]['Select Amount']))
                 end
             end
         end

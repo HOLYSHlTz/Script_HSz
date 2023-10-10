@@ -1912,7 +1912,7 @@ if game.PlaceId == 14433762945 then
 
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
         if VersionId == "2.0.2"then
-            RaidAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. "(s), then join Raid ..."
+            RaidAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
             RaidCooldown = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         else
             TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
@@ -1935,9 +1935,9 @@ if game.PlaceId == 14433762945 then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         elseif WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidAvailable)
-        elseif WaitRaidCooldown and CountTimeRaids and tostring(TimeRaidMain) < "0:05" then
+        elseif WaitRaidCooldown and CoolDownRaidsTime < "0:05" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
-        elseif WaitRaidCooldown and CountTimeRaids and tostring(TimeRaidMain) > "0:05" then
+        elseif WaitRaidCooldown and CoolDownRaidsTime > "0:05" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCooldown2)
         end
 

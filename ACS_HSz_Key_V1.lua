@@ -719,7 +719,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.3"
+        Version = "Version 1.0.4"
     })
 
     local Themes = {
@@ -1881,9 +1881,9 @@ if game.PlaceId == 14433762945 then
                     end
                 end
             elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:02" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and tostring(TimeRaidMain) > "0:02" and tostring(TimeRaidMain) <= "4:50" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                     TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 end
             end
@@ -1919,8 +1919,8 @@ if game.PlaceId == 14433762945 then
 
             CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
 
-            RaidAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
-            RaidCreatingRoom = " Raid Available Now!!! \n ... Creating a Raid room : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+            RaidCreatingRoom = " Raid Available Now!!! \n ...Wait Creating a Raid room : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidCooldown2 = "Raid not Available Now!!! \n ... Wait for " .. CoolDownRaidsTime .. "(s), then join Raid ..."
         end
@@ -1933,12 +1933,10 @@ if game.PlaceId == 14433762945 then
 
         if not WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        elseif WaitRaidCooldown and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText(RaidAvailable)
-        elseif WaitRaidCooldown and CoolDownRaidsTime < "0:05" and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
-        elseif WaitRaidCooldown and CoolDownRaidsTime > "0:05" and CountTimeRaids then
-            CountTimeRaids.Options:ChangeText(RaidCooldown2)
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:01" and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidNotAvailable)
         end
 
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then

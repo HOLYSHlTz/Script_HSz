@@ -719,7 +719,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.4"
+        Version = "Version 1.0.3"
     })
 
     local Themes = {
@@ -1932,7 +1932,7 @@ if game.PlaceId == 14433762945 then
 
         if not WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and tostring(TimeRaidMain) > "4:57" and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and tostring(TimeRaidMain) < "-0:04" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
         elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:01" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)

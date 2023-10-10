@@ -717,7 +717,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0"
+        Version = "Version 1.1"
     })
 
     local Themes = {
@@ -1733,7 +1733,7 @@ if game.PlaceId == 14433762945 then
     if TimeCooldown <= workspace:GetServerTimeNow() then
         if tostring(TimeRaidMain) ~= "0:00" then
             WaitRaidCooldown2 = false
-        elseif tostring(TimeRaidMain) <= "0:04" then
+        elseif tostring(TimeRaidMain) <= "0:05" then
             WaitRaidCooldown2 = true
         end
     end
@@ -1750,7 +1750,7 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2 then
-                if tostring(TimeRaidMain) > "0:04" then
+                if tostring(TimeRaidMain) > "0:05" and tostring(TimeRaidMain) <= "4:40" then
                     if SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                         TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                     end
@@ -1846,7 +1846,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 else
-                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:04" then
+                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:05" then
                         local args = { [1] = "Hub" }
                         game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                         wait(.5)
@@ -1928,7 +1928,7 @@ if game.PlaceId == 14433762945 then
             else
                 WaitRaidCooldown = true
         end
-        if tostring(TimeRaidMain) > "0:04" and CountTimeRaids and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+        if tostring(TimeRaidMain) > "0:05" and CountTimeRaids and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             if SaveSettings["Raids"]['Auto Farm Raid'] then
                 CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
             else

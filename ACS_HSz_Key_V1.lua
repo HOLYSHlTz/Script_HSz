@@ -1912,8 +1912,8 @@ if game.PlaceId == 14433762945 then
 
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
         if VersionId == "2.0.2"then
-            RaidAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
-            RaidCooldown = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+            RaidNotAvailable = "Raid not Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
+            RaidFarm = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         else
             TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
 
@@ -1922,7 +1922,6 @@ if game.PlaceId == 14433762945 then
             RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
             RaidCreatingRoom = " Raid Available Now!!! \n ...Wait Creating a Raid room : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
             RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-            RaidCooldown2 = "Raid not Available Now!!! \n ... Wait for " .. CoolDownRaidsTime .. "(s), then join Raid ..."
         end
 
         if workspace:GetServerTimeNow() > TimeCooldown then
@@ -1933,7 +1932,7 @@ if game.PlaceId == 14433762945 then
 
         if not WaitRaidCooldown and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
-        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and CountTimeRaids then
+        elseif WaitRaidCooldown and tostring(TimeRaidMain) < "0:01" and tostring(TimeRaidMain) > "4:57" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidCreatingRoom)
         elseif WaitRaidCooldown and tostring(TimeRaidMain) > "0:01" and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)

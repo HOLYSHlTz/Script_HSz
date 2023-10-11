@@ -1813,7 +1813,7 @@ if game.PlaceId == 14433762945 then
     if TimeCooldown <= workspace:GetServerTimeNow() then
         if tostring(TimeRaidMain) ~= "0:00" then
             WaitRaidCooldown2 = false
-        elseif tostring(TimeRaidMain) <= "0:05" then
+        elseif tostring(TimeRaidMain) <= "0:00" then
             WaitRaidCooldown2 = true
         end
     end
@@ -1830,7 +1830,7 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2 then
-                if tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
+                if tostring(TimeRaidMain) > "0:00" and tostring(TimeRaidMain) <= "4:50" then
                     if SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
                         TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                     end
@@ -1926,7 +1926,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 else
-                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:01" then
+                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:00" then
                         local args = { [1] = "Hub" }
                         game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                         wait(.5)
@@ -2008,17 +2008,17 @@ if game.PlaceId == 14433762945 then
             else
                 WaitRaidCooldown = true
         end
-        if tostring(TimeRaidMain) > "0:01" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+        if tostring(TimeRaidMain) > "0:00" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             if SaveSettings["Raids"]['Auto Farm Raid'] then
                 CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
             else
                 CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
             end
-        elseif tostring(TimeRaidMain) <= "0:01" and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
+        elseif tostring(TimeRaidMain) <= "0:00" and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
             if SaveSettings["Raids"]['Auto Farm Raid'] then
                 CountTimeRaids.Options:ChangeText("Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
             end
-        elseif tostring(TimeRaidMain) > "0:01" and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+        elseif tostring(TimeRaidMain) > "0:00" and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             if SaveSettings["Raids"]['Auto Farm Raid'] then     
                 CountTimeRaids.Options:ChangeText("Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "(s) \n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
             elseif not SaveSettings["Raids"]['Auto Farm Raid'] then

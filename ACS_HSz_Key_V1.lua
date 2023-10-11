@@ -723,7 +723,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.6b"
+        Version = "Version 1.0"
     })
 
     local Themes = {
@@ -1589,7 +1589,7 @@ if game.PlaceId == 14433762945 then
             end
         end
     end)
-
+    
     --lowCPU
     local IS_ROBLOX_ACTIVE = false
     local UIS = game:GetService("UserInputService")
@@ -1638,7 +1638,7 @@ if game.PlaceId == 14433762945 then
                     end
                 end
             end)
-    
+
     -- Town
     function CheckTowerOwner(Target)
         if game:GetService("Workspace").Worlds:FindFirstChild("Tower") then
@@ -1802,133 +1802,104 @@ if game.PlaceId == 14433762945 then
         end 
     end
 
-    local Updates = require(game:GetService("ReplicatedStorage"):WaitForChild("ModuleScripts").Updates)
-    VersionId = Updates[#Updates].VersionId
     function getEpoch(epochTime)
         local date = os.date("%X", epochTime)
         return tostring(date)
     end
 
-    if VersionId == "2.0.2"then
-        TimeCooldown = workspace:GetServerTimeNow()
-    else
-        TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
-    end
+    TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
 
     if TimeCooldown <= workspace:GetServerTimeNow() then
         WaitRaidCooldown = false
     else
         WaitRaidCooldown = true
     end
-    Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
-        if VersionId == "2.0.2"then
-            repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
-            TimeCooldown = a1.CooldownTimer.Value
-        else
-            repeat wait() until a2 == true
-            TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
-        end
-    end)
 
     spawn(function()
         while wait() do
-            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown then
-                if game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
-                    if GetRaids("Owner") ~= "Not Found" then
-                        local OwnerRaidRooms = GetRaids("Owner")
-                        local args = {
-                            [1] = OwnerRaidRooms,
-                            [2] = "Private",
-                            [3] = SaveSettings["Raids"]['Private Room']
-                        }
-                            
-                        game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
-                        local args = {
-                            [1] = OwnerRaidRooms,
-                            [2] = "TargetWorld",
-                            [3] = DateWorld[SaveSettings["Raids"]["Select Raids [World]"]].WorldName
-                        }
-                            
-                        game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
-                        local args = {
-                            [1] = OwnerRaidRooms,
-                            [2] = "Difficulty",
-                            [3] = SaveSettings["Raids"]['Select Difficulty']
-                        }
-                            
-                        game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
-                        local args = {
-                            [1] = OwnerRaidRooms
-                        }
-                        game:GetService("ReplicatedStorage").Remote.Raid.StartRaid:FireServer(unpack(args))
-                    elseif GetRaids("FindRoom") ~= "Not Found" then
-                        Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
-                    end
-                elseif game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-                    if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") == 0 then
-                        if SaveSettings["Raids"]['Collect Chest [After Finish]'] then
-                            if GetRaids("GetChest") == "None" then
-                                local args = { [1] = "Hub" }
-                                game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
-                                wait(.5)
-                                repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                            elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
-                                Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
-                                wait(.1)
-                                fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
-                                wait(5)
-                            end
-                        else
+            WorkspaceWorlds = game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name)
+            wait(1)
+            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
+                if GetRaids("Owner") ~= "Not Found" then
+                    local OwnerRaidRooms = GetRaids("Owner")
+                    local args = { [1] = OwnerRaidRooms, [2] = "Private", [3] = SaveSettings["Raids"]['Private Room'] }   
+                    game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
+    
+                    local args = { [1] = OwnerRaidRooms, [2] = "TargetWorld", [3] = DateWorld[SaveSettings["Raids"]["Select Raids [World]"]].WorldName }
+                    game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
+    
+                    local args = { [1] = OwnerRaidRooms, [2] = "Difficulty", [3] = SaveSettings["Raids"]['Select Difficulty'] }
+                    game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
+    
+                    local args = { [1] = OwnerRaidRooms }
+                    game:GetService("ReplicatedStorage").Remote.Raid.StartRaid:FireServer(unpack(args))
+                elseif GetRaids("FindRoom") ~= "Not Found" then
+                    Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
+                end
+            elseif SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                if LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") == 0 then
+                    if SaveSettings["Raids"]['Collect Chest [After Finish]'] then
+                        if GetRaids("GetChest") == "None" then
                             local args = { [1] = "Hub" }
                             game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                             wait(.5)
                             repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                        elseif GetRaids("GetChest") ~= "None" and GetRaids("GetChest").HumanoidRootPart:FindFirstChild("ChestPrompt") then
+                            Character.HumanoidRootPart:PivotTo(GetRaids("GetChest"):GetModelCFrame())
+                            wait(.1)
+                            fireproximityprompt(GetRaids("GetChest").HumanoidRootPart.ChestPrompt)
+                            wait(5)
                         end
-                    elseif LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
-                        if SaveSettings["Raids"]['Auto Farm Raid'] then
-                            if game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
-                                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
-                                    if v.Name == GetRaids('CheckJJKSomething').Name and SaveSettings["Raids"]['Auto Farm Raid'] and v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
-                                        repeat wait()
-                                            if v ~= nil then
-                                                if SaveSettings["Raids"]['Go On The Head [Mob]'] then
-                                                    Character.HumanoidRootPart:PivotTo(v:GetModelCFrame() * CFrame.new(0,15,5))
-                                                end
-                                                table.foreach(CheckPet('GetPet'),function(a,b)
-                                                    if b:FindFirstChild("Target") and (b.Target.Value == nil or b.Target.Value ~= v ) then
-                                                        SendPetOneTraget(b,v)
-                                                    end
-                                                end)
+                    else
+                        local args = { [1] = "Hub" }
+                        game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
+                        wait(.5)
+                        repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                    end
+                elseif LocalPlayer.PlayerGui.MainGui.HUD.RaidHUD.TimerDisplay.Timer:GetAttribute("EndTime") ~= 0 then
+                    if SaveSettings["Raids"]['Auto Farm Raid'] then
+                        if game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
+                            for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
+                                if v.Name == GetRaids('CheckJJKSomething').Name and SaveSettings["Raids"]['Auto Farm Raid'] and v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
+                                    repeat wait()
+                                        if v ~= nil then
+                                            if SaveSettings["Raids"]['Go On The Head [Mob]'] then
+                                                Character.HumanoidRootPart:PivotTo(v:GetModelCFrame() * CFrame.new(0,15,5))
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
-                                    end
+                                            table.foreach(CheckPet('GetPet'),function(a,b)
+                                                if b:FindFirstChild("Target") and (b.Target.Value == nil or b.Target.Value ~= v ) then
+                                                    SendPetOneTraget(b,v)
+                                                end
+                                            end)
+                                        end
+                                    until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                 end
-                            else
-                                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
-                                    if SaveSettings["Raids"]['Auto Farm Raid'] and v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
-                                        repeat wait()
-                                            if v ~= nil then
-                                                if SaveSettings["Raids"]['Go On The Head [Mob]'] then
-                                                    Character.HumanoidRootPart:PivotTo(v:GetModelCFrame() * CFrame.new(0,15,5))
-                                                end
-                                                table.foreach(CheckPet('GetPet'),function(a,b)
-                                                    if b:FindFirstChild("Target") and (b.Target.Value == nil or b.Target.Value ~= v ) then
-                                                        SendPetOneTraget(b,v)
-                                                    end
-                                                end)
+                            end
+                        else
+                            for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
+                                if SaveSettings["Raids"]['Auto Farm Raid'] and v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
+                                    repeat wait()
+                                        if v ~= nil then
+                                            if SaveSettings["Raids"]['Go On The Head [Mob]'] then
+                                                Character.HumanoidRootPart:PivotTo(v:GetModelCFrame() * CFrame.new(0,15,5))
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
-                                    end
+                                            table.foreach(CheckPet('GetPet'),function(a,b)
+                                                if b:FindFirstChild("Target") and (b.Target.Value == nil or b.Target.Value ~= v ) then
+                                                    SendPetOneTraget(b,v)
+                                                end
+                                            end)
+                                        end
+                                    until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                 end
                             end
                         end
                     end
-                else
-                    local args = { [1] = "Hub" }
-                    game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
-                    repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                 end
-            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name) and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name):FindFirstChild('Enemies') then
+            elseif not WaitRaidCooldown and (not game:GetService("Workspace").Worlds:FindFirstChild("Hub") or not game:GetService("Workspace").Worlds:FindFirstChild("Raids")) then
+                local args = { [1] = "Hub" }
+                game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
+                repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and WorkspaceWorlds and WorkspaceWorlds:FindFirstChild('Enemies') then
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                 for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
                     if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
@@ -1964,14 +1935,11 @@ if game.PlaceId == 14433762945 then
                     end
                 end
             elseif WaitRaidCooldown and SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
-                    TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
-                    TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
-                end
+                TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
             end
         end
     end)
+    
 
     -- [[ No Clip ]]
     local function BodyVelocity()
@@ -1994,19 +1962,15 @@ if game.PlaceId == 14433762945 then
     end
 
     _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
-        if VersionId == "2.0.2"then
-            RaidNotAvailable = "Raid Available Now!!! \n ... " .. tostring(getEpoch(TimeCooldown)) .. ", then join Raid ..."
-            RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-            RaidFarm = "Raid Ready\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-        else
-            TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
 
-            CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
+        TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
+        TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
 
-            RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
-            RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-            RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-        end
+        CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
+
+        RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+        RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+        RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
 
         if workspace:GetServerTimeNow() > TimeCooldown then
             WaitRaidCooldown = false
@@ -2023,6 +1987,7 @@ if game.PlaceId == 14433762945 then
         elseif not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         end
+
 
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
             if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then

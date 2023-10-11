@@ -1,9 +1,215 @@
+if game.CoreGui:FindFirstChild("HolyScript") then game.CoreGui:FindFirstChild("HolyScript"):Destroy() end
+if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
+
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+local LocalPlayer = game:GetService("Players").LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+local KeySystemGui = Instance.new("ScreenGui")
+local Main = Instance.new("Frame")
+local UICorner = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
+local TextButton = Instance.new("TextButton")
+local UICorner_2 = Instance.new("UICorner")
+local UIGradient = Instance.new("UIGradient")
+local UIGradient_2 = Instance.new("UIGradient")
+local TextButton_2 = Instance.new("TextButton")
+local UICorner_3 = Instance.new("UICorner")
+local UIGradient_3 = Instance.new("UIGradient")
+local lock = Instance.new("ImageButton")
+local TextBox = Instance.new("TextBox")
+local UICorner_4 = Instance.new("UICorner")
+local ImageButton = Instance.new("ImageButton")
+local UICorner_5 = Instance.new("UICorner")
+
+KeySystemGui.Name = "KeySystemGui"
+KeySystemGui.Parent = game.CoreGui
+KeySystemGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Main.Name = "Main"
+Main.Parent = KeySystemGui
+Main.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Main.BorderSizePixel = 0
+Main.Position = UDim2.new(0.5, -175, 0.5, -62)
+Main.Size = UDim2.new(0, 350, 0, 125)
+
+UICorner.CornerRadius = UDim.new(0, 6)
+UICorner.Parent = Main
+
+TextLabel.Parent = Main
+TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.BackgroundTransparency = 1.000
+TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextLabel.BorderSizePixel = 0
+TextLabel.Position = UDim2.new(0.121428572, 0, 0, 4)
+TextLabel.Size = UDim2.new(0, 115, 0, 36)
+TextLabel.Font = Enum.Font.SourceSansBold
+TextLabel.RichText = true
+TextLabel.Text = 'Key System\n<font size="14">Discord : WjGEt7pGDM</font>'
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 18.000
+TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+
+TextButton.Parent = Main
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Position = UDim2.new(0.0289999992, 0, 0.751999974, 0)
+TextButton.Size = UDim2.new(0, 160, 0, 25)
+TextButton.ClipsDescendants = true
+TextButton.Font = Enum.Font.SourceSansBold
+TextButton.Text = "Copy Key Link"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextSize = 16.000
+TextButton.TextWrapped = true
+
+UICorner_2.CornerRadius = UDim.new(0, 6)
+UICorner_2.Parent = TextButton
+
+UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+UIGradient.Parent = TextButton
+
+UIGradient_2.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+UIGradient_2.Parent = TextButton
+
+TextButton_2.Parent = Main
+TextButton_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton_2.BorderSizePixel = 0
+TextButton_2.Position = UDim2.new(0.514285743, 0, 0.751999974, 0)
+TextButton_2.Size = UDim2.new(0, 160, 0, 25)
+TextButton_2.Font = Enum.Font.SourceSansBold
+TextButton_2.Text = "Copy Link Discord"
+TextButton_2.ClipsDescendants = true
+TextButton_2.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton_2.TextSize = 16.000
+
+UICorner_3.CornerRadius = UDim.new(0, 6)
+UICorner_3.Parent = TextButton_2
+
+UIGradient_3.Color = ColorSequence.new{ColorSequenceKeypoint.new(0.00, Color3.fromRGB(0, 97, 255)), ColorSequenceKeypoint.new(1.00, Color3.fromRGB(96, 239, 255))}
+UIGradient_3.Parent = TextButton_2
+
+lock.Name = "lock"
+lock.Parent = Main
+lock.BackgroundTransparency = 1.000
+lock.Position = UDim2.new(0.0285714287, 0, 0.115999997, 0)
+lock.Size = UDim2.new(0, 25, 0, 25)
+lock.ZIndex = 2
+lock.Image = "rbxassetid://3926305904"
+lock.ImageRectOffset = Vector2.new(4, 684)
+lock.ImageRectSize = Vector2.new(36, 36)
+
+TextBox.Parent = Main
+TextBox.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextBox.BorderSizePixel = 0
+TextBox.Position = UDim2.new(0.0285714287, 0, 0.416000009, 0)
+TextBox.Size = UDim2.new(0, 295, 0, 35)
+TextBox.Font = Enum.Font.SourceSans
+TextBox.PlaceholderText = "insert key (if you can't copy just join discord)"
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255,255,255)
+TextBox.TextSize = 16.000
+
+UICorner_4.CornerRadius = UDim.new(0, 6)
+UICorner_4.Parent = TextBox
+
+ImageButton.Parent = Main
+ImageButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ImageButton.BackgroundTransparency = 0.750
+ImageButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.885714293, 0, 0.432000011, 0)
+ImageButton.Size = UDim2.new(0, 32, 0, 32)
+ImageButton.Image = "rbxassetid://3926305904"
+ImageButton.ImageRectOffset = Vector2.new(84, 204)
+ImageButton.ImageRectSize = Vector2.new(40, 40)
+
+UICorner_5.CornerRadius = UDim.new(0, 6)
+UICorner_5.Parent = ImageButton
+
+local function RippleEffect(object)
+    spawn(function()
+        local Ripple = Instance.new("ImageLabel")
+        Ripple.Name = "Ripple"
+        Ripple.Parent = object
+        Ripple.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        Ripple.BackgroundTransparency = 1.000
+        Ripple.ZIndex = 8
+        Ripple.Image = "rbxassetid://2708891598"
+        Ripple.ImageTransparency = 0.5
+        Ripple.ScaleType = Enum.ScaleType.Fit
+        Ripple.Position = UDim2.new((Mouse.X - Ripple.AbsolutePosition.X) / object.AbsoluteSize.X, 0, (Mouse.Y - Ripple.AbsolutePosition.Y) / object.AbsoluteSize.Y, 0)
+        TweenService:Create(Ripple, TweenInfo.new(1.25, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.new(-5.5, 0, -15, 0), Size = UDim2.new(12, 0, 30, 0)}):Play()
+        wait(0.75)
+        TweenService:Create(Ripple, TweenInfo.new(1, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
+        wait(.75)
+        Ripple:Destroy()
+    end)
+end
+
+TextButton.MouseButton1Down:Connect(function()
+    RippleEffect(TextButton)
+    TextButton.Text = "Copy Link Success"
+    setclipboard('https://direct-link.net/972521/holyshz-hub-key-1')
+    delay(.5,function()
+        TextButton.Text = "Copy Key Link"
+    end)
+end)
+
+TextButton_2.MouseButton1Down:Connect(function()
+    RippleEffect(TextButton_2)
+    TextButton_2.Text = "Copy Link Success"
+    setclipboard('WjGEt7pGDM')
+    delay(.5,function()
+        TextButton_2.Text = "Copy Link Discord"
+    end)
+end)
+
+KeySuccess = false
+
+if not isfolder("HolyShz") then makefolder("HolyShz") end
+if not isfile("/HolyShz/SaveKey.txt") then
+    writefile("/HolyShz/SaveKey.txt", "")
+else
+    SaveKeyCheck = readfile("/HolyShz/SaveKey.txt")
+end
+
+if SaveKeyCheck == game:HttpGet('https://pastebin.com/raw/05m0bkNr') then
+    KeySuccess = true
+else
+    ImageButton.MouseButton1Click:Connect(function()
+        if TextBox.Text == game:HttpGet('https://pastebin.com/raw/05m0bkNr') then
+            if not isfile("/HolyShz/SaveKey.txt") then
+                writefile("/HolyShz/SaveKey.txt", TextBox.Text)
+            else
+                writefile("/HolyShz/SaveKey.txt", TextBox.Text)
+            end
+            TextBox.Text = "Correct key"
+            wait(.75)
+            KeySuccess = true
+        else
+            TextBox.Text = "Invalid key"
+            wait(.75)
+            TextBox.Text = ""
+            KeySuccess = false
+        end
+    end)
+end
+
+if _G.NoClip then _G.NoClip:Disconnect() _G.NoClip = nil end
+while wait() do if KeySuccess then break end end
+if game.CoreGui:FindFirstChild("KeySystemGui") then game.CoreGui:FindFirstChild("KeySystemGui"):Destroy() end
+
 if game.PlaceId == 14433762945 then
     repeat wait() until game:IsLoaded()
     if not game:IsLoaded() then game.Loaded:Wait() end
     game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
     game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("MainGui")
-    
     ------------------------------------------------------ [[ Save Function ]] ------------------------------------------------------
     local SaveSettings = {
         ["Auto Farm"] = {
@@ -11,6 +217,10 @@ if game.PlaceId == 14433762945 then
             ['Select Enemie'] = {},
             
             ['Auto Farm Select'] = false,
+
+            ["Auto Join World Select"] = false,
+            ['Teleport [Farm in Range]'] = false,
+            ["Range [ Farm in Range ]"] = 150,
         },
         ["Raids"] = {
             ["Select Raids [World]"] = "Green Planet",
@@ -42,6 +252,7 @@ if game.PlaceId == 14433762945 then
             ['Select Amount'] = 1,
     
             ['Auto Open Egg'] = false,
+            ["Auto Teleport Egg Near"] = false,
         },
         ['Pet'] = {
             ['Select Pet'] = "",
@@ -62,6 +273,13 @@ if game.PlaceId == 14433762945 then
             ['Auto Essence'] = false,
             ['Ignore Godly (Not Del Godly)'] = false
         },
+        ["SaveSetting"] = {
+            ['FPS Value'] = 15,
+            ['FPS Cap'] = false,
+            ['Low CPU Mode'] = false,
+
+            ['Hide Key'] = Enum.KeyCode.LeftControl
+        }
     }
     function Load()
         if readfile and writefile and isfile and isfolder then
@@ -127,13 +345,15 @@ if game.PlaceId == 14433762945 then
     local RemoteFolder = ReplicatedStorage:WaitForChild("Remote")
     
     local LocalDairebStore2 = require(ModuleScripts.DairebStore2.LocalDairebStore2)
-    local Config = require(ReplicatedStorage.ModuleScripts.Config.GameConfig)
+    local GameConfig = require(ReplicatedStorage.ModuleScripts.Config.GameConfig)
     local EffectsHandler = require(ModuleScripts.Handlers.EffectsHandler)
     local TalentHandler = require(ModuleScripts.Handlers.TalentHandler)
     local PetStats = require(ModuleScripts.Config.PetStats)
     local PassiveStats = require(ModuleScripts.Config.PassiveStats)
     local PassivesHandler = require(ModuleScripts.Handlers.PassiveRenderHandler)
     local ItemStatsSkins = require(ModuleScripts.Config.ItemStats.Skins)
+    local MultiplierHandler = require(ModuleScripts.Handlers.MultiplierHandler)
+    local NumToString = require(ModuleScripts.SharedFunctions.NumToString)
     
     local Bindable = ReplicatedStorage:WaitForChild("Bindable")
     local GetSpiritData = RemoteFolder.Spirit.GetSpiritData:InvokeServer()
@@ -164,14 +384,10 @@ if game.PlaceId == 14433762945 then
     
     function ClickButton(Button,Mode)
         local ButtonClick = Button
-        local events = { "MouseButton1Click", "MouseButton1Down", "Activated" }
-        if Mode == "1" then
-            for i, v in next, events do firesignal(ButtonClick[v]) end
-        else
-            for i,v in pairs(events) do
-                for i,v in pairs(getconnections(ButtonClick[v])) do
-                    v.Function()
-                end
+        local events = { "Activated" }
+        for i,v in pairs(events) do
+            for i,v in pairs(getconnections(ButtonClick[v])) do
+                v.Function()
             end
         end
     end
@@ -310,6 +526,7 @@ if game.PlaceId == 14433762945 then
                 if v:FindFirstChild("Pickup") then
                     v.Pickup:Fire()
                     v:FindFirstChild("Pickup"):Destroy()
+                    repeat wait() until not v:FindFirstChild("Pickup")
                 end
             end
         end
@@ -320,6 +537,7 @@ if game.PlaceId == 14433762945 then
                 if v:FindFirstChild("Pickup") then
                     v.Pickup:Fire()
                     v:FindFirstChild("Pickup"):Destroy()
+                    repeat wait() until not v:FindFirstChild("Pickup")
                 end
             end
         end
@@ -359,28 +577,47 @@ if game.PlaceId == 14433762945 then
         local Amount = Amount
         local args = {
             [1] = Eggs,
-            [2] = Amount
+            [2] = MultiplierHandler.GetMultiplier("OpenAmount")
         }
         ReplicatedStorage.Remote.Orbs.OpenOrbs:FireServer(unpack(args))
     end
     
     function GetOpenEgg(EggsName)
+        local MAPINFO = {}
         local EggsName = EggsName
-        for i,v in pairs(game:GetService("ReplicatedStorage").UnloadedWorlds:GetChildren()) do
-            for i1,v1 in pairs(v:GetChildren()) do
-                if v1.Name == EggsName then
-                    return v1
-                end
-            end
-        end
         for i,v in pairs(game:GetService("Workspace").Worlds:GetChildren()) do
             for i1,v1 in pairs(v:GetChildren()) do
                 if v1.Name == EggsName then
-                    return v1
+                    MAPINFO[#MAPINFO + 1] = {
+                        Base = v1,
+                        Name = v1.Name,
+                        CFrame = v1:GetModelCFrame(),
+                        Size = v1:GetExtentsSize(),
+                        Position = v1:GetModelCFrame().Position
+                    }
                 end
             end
         end
-        return "Not Found"
+
+        local key , min
+        for i,v in next,MAPINFO do 
+            if key and min then
+                if (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude < min then
+                    key , min = i , (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude
+                end
+            else
+                key , min = i , (v.CFrame.Position - Character:GetModelCFrame().Position).magnitude
+            end
+        end
+        if key and min then
+            if min <= MAPINFO[key].Position.magnitude then
+                return MAPINFO[key].Base
+            else
+                return "Not Found IsLand!! " .. MAPINFO[key].Name
+            end
+        else
+            return "API ERROR"
+        end
     end
     function UnlockEggAllMap()
         for i,v in pairs(MainData:GetData("DiscoveredWorlds", true)) do
@@ -483,10 +720,10 @@ if game.PlaceId == 14433762945 then
     end)
     ------------------------------------------------------ [[ Lib Ui ]] ------------------------------------------------------
     local Venyx = loadstring(game:HttpGet("https://raw.githubusercontent.com/NoNiName/Library/main/UILibrary/HolyUiV3"))()
---fixVersion
+
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Versin 1.1"
+        Version = "Version 1.1 manual"
     })
 
     local Themes = {
@@ -576,7 +813,6 @@ if game.PlaceId == 14433762945 then
             if FS then RefreshEnemie() end
         end;
     })
-
     TableBaseEmemie = SaveSettings["Auto Farm"]['Select Enemie'][SaveSettings["Auto Farm"]["Select World"]] or {}
     local RefreshEnemieDrop = AutoFarm_Select:addMulitDropdown({
         title = "Select Enemie",
@@ -600,8 +836,35 @@ if game.PlaceId == 14433762945 then
             Save()
         end ,
     })
+    AutoFarm_Select:addToggle({
+        title = "Auto Join World Select",
+        default = SaveSettings["Auto Farm"]["Auto Join World Select"],
+        callback = function(v)
+            SaveSettings["Auto Farm"]["Auto Join World Select"] = v
+            Save()
+        end ,
+    })
+    AutoFarm_Select:addToggle({
+        title = "Teleport [Farm in Range]",
+        default = SaveSettings["Auto Farm"]["Teleport [Farm in Range]"],
+        callback = function(v)
+            SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] = v
+            Save()
+        end ,
+    })
+    AutoFarm_Select:addSlider({
+        title = "Teleport in Range",
+        default = SaveSettings["Auto Farm"]["Range [ Farm in Range ]"],
+        min = 0,
+        max = 1500,
+        callback = function(value)
+            SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] = value
+            Save()
+        end
+    })
 
     ------------------------------------------------------ [[ Auto Farm Raids ]] ------------------------------------------------------
+    local CountTimeRaids = AutoFarm_Raids:addLabel({title = "pls. Enable 'Auto Farm Raid' !!!"})
     AutoFarm_Raids:addDropdown({
         title = "Select Raids [World]",
         list = World_Select, 
@@ -613,7 +876,7 @@ if game.PlaceId == 14433762945 then
     })
     AutoFarm_Raids:addDropdown({
         title = "Select Difficulty",
-        list = {"Easy","Medium","Hard"}, 
+        list = {"Easy","Medium","Hard","Impossible"}, 
         default = SaveSettings["Raids"]['Select Difficulty'],
         callback = function(v)
             SaveSettings["Raids"]['Select Difficulty'] = v
@@ -745,7 +1008,7 @@ if game.PlaceId == 14433762945 then
         end ,
     })
     ------------------------------------------------------ [[ Eggs Function ]] ------------------------------------------------------
-    StatusEgg = EggItems_Eggs:addLabel({title ="Egg Status : Disabled\nIf you want to open anywhere,enter the world 1 time."})
+    StatusEgg = EggItems_Eggs:addLabel({title ="Egg Status : Disabled"})
     EggItems_Eggs:addDropdown({
         title = "Select World [Egg]",
         list = Egg_Select, 
@@ -755,20 +1018,19 @@ if game.PlaceId == 14433762945 then
             Save()
         end;
     })
-    EggItems_Eggs:addDropdown({
-        title = "Select Amount",
-        list = {1,2,3,4,5,6,7,8,9,10}, 
-        default = SaveSettings["Egg"]['Select Amount'],
-        callback = function(v)
-            SaveSettings["Egg"]['Select Amount'] = v
-            Save()
-        end;
-    })
     EggItems_Eggs:addToggle({
         title = "Auto Open Egg",
         default  = SaveSettings["Egg"]['Auto Open Egg'] ,
         callback = function(v)
             SaveSettings["Egg"]['Auto Open Egg'] = v
+            Save()
+        end ,
+    })
+    EggItems_Eggs:addToggle({
+        title = "Auto Teleport to the nearest egg",
+        default  = SaveSettings["Egg"]["Auto Teleport Egg Near"] ,
+        callback = function(v)
+            SaveSettings["Egg"]["Auto Teleport Egg Near"] = v
             Save()
         end ,
     })
@@ -1076,12 +1338,46 @@ if game.PlaceId == 14433762945 then
             Teleport(game.PlaceId)
         end
     })
+    --Start_FPS_Cap
+    FPS_CAP = {}
+    for i = 1,60 do
+        table.insert(FPS_CAP,i)
+    end
+    Setting:addDropdown({
+        title = "Select FPS Amount",
+        list = FPS_CAP, 
+        default = SaveSettings["SaveSetting"]['FPS Value'],
+        callback = function(v)
+            SaveSettings["SaveSetting"]['FPS Value'] = v
+            Save()
+        end;
+    })
+    Setting:addToggle({
+        title = "Enable FPS Cap",
+        default  = SaveSettings["SaveSetting"]['FPS Cap'] ,
+        callback = function(v)
+            SaveSettings["SaveSetting"]['FPS Cap'] = v
+            Save()
+        end ,
+    })
+    Setting:addToggle({
+        title = "Enable Low CPU Mode",
+        default  = SaveSettings["SaveSetting"]['Low CPU Mode'] ,
+        callback = function(v)
+            SaveSettings["SaveSetting"]['Low CPU Mode'] = v
+            Save()
+        end ,
+    })
     Setting:addKeybind({
         title = "Keybind Hide Ui",
-        key = Enum.KeyCode.LeftControl,
+        key = SaveSettings["SaveSetting"]['Hide Key'],
         callback = function()
             UI:toggle()
         end,
+        changedCallback = function(key)
+            SaveSettings["SaveSetting"]['Hide Key'] = key
+            Save()
+        end
     })
     
     --[[
@@ -1129,16 +1425,23 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Pet"]['Auto Reroll Talent'] then 
                 local PetDataTalent = Table_PetBaseData[SaveSettings["Pet"]['Select Pet [Talent]']]
                 local OldPetStatsTalent = MainData:GetData("Pets", true)[PetDataTalent['ID']]['Talents']
-                local args = {
-                    [1] = PetDataTalent['ID'],
-                    [2] = {
-                        ["Dmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) and true or false,
-                        ["Spd"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) and true or false,
-                        ["CDmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) and true or false,
-                        ["ADmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) and true or false,
+                local TalentDmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) 
+                local TalentSpd = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) 
+                local TalentCDmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) 
+                local TalentADmg = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) 
+                
+                if not TalentDmg or not TalentSpd or not TalentCDmg or not TalentADmg then
+                    local args = {
+                        [1] = PetDataTalent['ID'],
+                        [2] = {
+                            ["Dmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Dmg'])) and true or false,
+                            ["Spd"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['Spd'])) and true or false,
+                            ["CDmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['CDmg'])) and true or false,
+                            ["ADmg"] = table.find(SaveSettings["Pet"]['Select Talent'],TalentHandler.GetStatRank(OldPetStatsTalent['ADmg'])) and true or false,
+                        }
                     }
-                }
-                game:GetService("ReplicatedStorage").Remote.Machines.TalentMachine:FireServer(unpack(args))
+                    game:GetService("ReplicatedStorage").Remote.Machines.TalentMachine:FireServer(unpack(args))
+                end
                 local PetStatsTalent = MainData:GetData("Pets", true)[PetDataTalent['ID']]['Talents']
                 StatusPets.Options:ChangeText(
                     'Talent \n[DMG] '.. TalentHandler.GetStatRank(PetStatsTalent['Dmg']) ..
@@ -1151,7 +1454,7 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Pet"]['Auto Essence'] then
                 for i,v in pairs(MainData:GetData("Pets", true)) do
                     if SaveSettings["Pet"]['Auto Essence'] and table.find(SaveSettings["Pet"]['Select Rarity [Essence]'],PetStats[v.PetId].Rarity) and not v.Locked then
-                        if SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] and v.Godly == false then
+                        if SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] and not v.Godly then
                             local args = { [1] = v.GUID }
                             game:GetService("ReplicatedStorage").Remote.Machines.EssenceMachine:FireServer(unpack(args))
                         elseif not SaveSettings["Pet"]['Ignore Godly (Not Del Godly)'] then
@@ -1169,8 +1472,8 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             if SaveSettings["Misc"]['Bypass Attack Range'] then
-                Config.MaxTargetDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 150
-                Config.MaxAttackDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 160
+                GameConfig.MaxTargetDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 150
+                GameConfig.MaxAttackDistance = SaveSettings["Misc"]['Bypass Attack Range'] and 9e9 or 160
             end
     
             if SaveSettings["Misc"]['Auto Click'] then
@@ -1180,7 +1483,10 @@ if game.PlaceId == 14433762945 then
             if SaveSettings["Misc"]['Auto Ability'] then
                 ClickButton(LocalPlayer.PlayerGui.MainGui.HUD.BottomButtons.AbilityButton)
             end
-    
+        end
+    end)
+    spawn(function()
+        while wait() do
             if SaveSettings["Misc"]['Instant Collect Coin'] then
                 CollectCoin()
                 CollectImageDrop()
@@ -1191,11 +1497,11 @@ if game.PlaceId == 14433762945 then
         while wait() do
             if SaveSettings["Egg"]['Auto Open Egg'] then
                 local EggPart = GetOpenEgg(tostring(DateEgg[SaveSettings["Egg"]['Select World [Egg]']]))
-                if EggPart == "Not Found" then
-                    StatusEgg.Options:ChangeText("Egg Status : Pls Join The World First\nIf you want to open anywhere,enter the world 1 time.")
-                elseif EggPart ~= "Not Found" then
-                    StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs\nIf you want to open anywhere,enter the world 1 time.")
-                    OpenEgg(EggPart,tonumber(SaveSettings["Egg"]['Select Amount']))
+                if EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and SaveSettings["Egg"]["Auto Teleport Egg Near"] and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude > 15 then
+                    Character:PivotTo(EggPart:GetPivot() * CFrame.new(0,0,5))
+                elseif EggPart ~= "API ERROR" and not string.find(tostring(EggPart),"Not Found IsLand!!") and (Character:GetModelCFrame().Position - EggPart:GetPivot().Position).Magnitude <= 15 then
+                    StatusEgg.Options:ChangeText("Egg Status : Auto Open Eggs")
+                    OpenEgg(EggPart)
                 end
             end
         end
@@ -1206,27 +1512,7 @@ if game.PlaceId == 14433762945 then
         while wait() do
             if SaveSettings["Pet"]['Auto Reroll Quirk'] then
                 local PetDataQuirk = Table_PetBaseData[SaveSettings["Pet"]['Select Pet [Quirk]']]
-                local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
-                local NowPassives = ""
-                if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
-                    NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['1'][1],PetDataPassives['1'][2])
-                elseif PetDataPassives['1'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
-                    NowPassives = "Nil"
-                end
-                if PetDataPassives['2'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
-                    NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['2'][1],PetDataPassives['2'][2])
-                elseif PetDataPassives['2'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
-                    NowPassives = "Nil"
-                end
-                StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
-    
-                if not table.find(SaveSettings["Pet"]['Select Rarity [Quirk]'],NowPassives) then
-                    local args = {
-                        [1] = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['GUID'],
-                        [2] = tonumber(SaveSettings["Pet"]['Select Slot']),
-                        [3] = SaveSettings["Pet"]['Premium Medal'] and true or false
-                    }
-                    game:GetService("ReplicatedStorage").Remote.Machines.PassiveMachine:FireServer(unpack(args))
+                if PetDataQuirk and PetDataQuirk['ID'] then
                     local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
                     local NowPassives = ""
                     if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
@@ -1240,7 +1526,29 @@ if game.PlaceId == 14433762945 then
                         NowPassives = "Nil"
                     end
                     StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
-                end 
+        
+                    if not table.find(SaveSettings["Pet"]['Select Rarity [Quirk]'],NowPassives) then
+                        local args = {
+                            [1] = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['GUID'],
+                            [2] = tonumber(SaveSettings["Pet"]['Select Slot']),
+                            [3] = SaveSettings["Pet"]['Premium Medal'] and true or false
+                        }
+                        game:GetService("ReplicatedStorage").Remote.Machines.PassiveMachine:FireServer(unpack(args))
+                        local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
+                        local NowPassives = ""
+                        if PetDataPassives['1'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
+                            NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['1'][1],PetDataPassives['1'][2])
+                        elseif PetDataPassives['1'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 1 then
+                            NowPassives = "Nil"
+                        end
+                        if PetDataPassives['2'] ~= nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
+                            NowPassives = PassivesHandler.GetDisplayName(PetDataPassives['2'][1],PetDataPassives['2'][2])
+                        elseif PetDataPassives['2'] == nil and tonumber(SaveSettings["Pet"]['Select Slot']) == 2 then
+                            NowPassives = "Nil"
+                        end
+                        StatusPetsQuirk.Options:ChangeText('Quirk : ' .. NowPassives)
+                    end 
+                end
                 wait(.1)
             end
         end
@@ -1281,27 +1589,55 @@ if game.PlaceId == 14433762945 then
             end
         end
     end)
-    
-    -- Farm Select
-    spawn(function()
-        while wait() do
-            if SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name) then
-                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
-                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil then
-                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
-                            repeat wait()
-                                table.foreach(CheckPet('GetPet'),function(a,b)
-                                    if b:FindFirstChild("Target") and b.Target.Value == nil then
-                                        SendPetOneTraget(b,v)
-                                    end
-                                end)
-                            until v:GetAttribute("Health") <= 0 or not SaveSettings["Auto Farm"]['Auto Farm Select']
-                        end
-                    end
+
+    --lowCPU
+    local IS_ROBLOX_ACTIVE = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE = true
+    end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE = false
+    end)
+    function isrbxactive()
+        return IS_ROBLOX_ACTIVE
+    end
+    task.spawn(function()
+        while task.wait() do
+        getgenv().isrbxactive = newcclosure(isrbxactive)
+                if IS_ROBLOX_ACTIVE ~= true and SaveSettings["SaveSetting"]['Low CPU Mode'] then
+                    setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                    game:GetService("RunService"):Set3dRenderingEnabled(false)
+                    isrbxactive(true)
+                else
+                    setfpscap(240)
+                    game:GetService("RunService"):Set3dRenderingEnabled(true)
+                    isrbxactive(false)
                 end
             end
-        end
+        end)
+    
+    --FPS_Cap
+    local IS_ROBLOX_ACTIVE2 = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE2 = true
     end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE2 = false
+    end)
+    function isrbxactive2()
+        return IS_ROBLOX_ACTIVE2
+    end
+    task.spawn(function()
+        while task.wait() do
+        getgenv().isrbxactive2 = newcclosure(isrbxactive2)
+                    if SaveSettings["SaveSetting"]['FPS Cap'] then
+                        setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                        isrbxactive2(true)
+                    end
+                end
+            end)
     
     -- Town
     function CheckTowerOwner(Target)
@@ -1366,7 +1702,7 @@ if game.PlaceId == 14433762945 then
                                                 SendPetOneTraget(b,v)
                                             end
                                         end)
-                                    until v:GetAttribute("Health") <= 0 or not SaveSettings["Auto Farm"]['Auto Farm Tower']
+                                    until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Tower']
                                 end
                             end
                         end
@@ -1417,6 +1753,7 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
+
     function GetRaids(Mode)
         if game:GetService("Workspace").Worlds:FindFirstChild("Hub") or game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
             local RaidRooms = game:GetService("CollectionService"):GetTagged("Raid Room")
@@ -1464,9 +1801,40 @@ if game.PlaceId == 14433762945 then
             end
         end 
     end
+
+    TimeCooldown = workspace:GetServerTimeNow()
+    zTimeRaid = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
+    zTimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
+    TimeRaidMain = zTimeRaid or zTimeRaid2
+
+    WaitRaidCooldown = false
+    WaitRaidCooldown2 = false
+
+    if TimeCooldown <= workspace:GetServerTimeNow() then
+        if tostring(TimeRaidMain) ~= "0:00" then
+            WaitRaidCooldown2 = false
+        elseif tostring(TimeRaidMain) <= "0:05" then
+            WaitRaidCooldown2 = true
+        end
+    end
+
+    function getEpoch(epochTime)
+        local date = os.date("%X", epochTime)
+        return tostring(date)
+    end
+    Bindable.Player.RaidRoom.Event:Connect(function(a1, a2)
+        repeat wait() until a1.CooldownTimer.Value > 0 and a2 == true
+        TimeCooldown = a1.CooldownTimer.Value
+    end)
+    print(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName,not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName),WaitRaidCooldown2)
     spawn(function()
         while wait() do
-            if SaveSettings["Raids"]['Auto Farm Raid'] then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2 then
+                if tostring(TimeRaidMain) > "0:01" and tostring(TimeRaidMain) <= "4:50" then
+                    if SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                        TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
+                    end
+                end
                 if game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
                     if GetRaids("Owner") ~= "Not Found" then
                         local OwnerRaidRooms = GetRaids("Owner")
@@ -1475,28 +1843,26 @@ if game.PlaceId == 14433762945 then
                             [2] = "Private",
                             [3] = SaveSettings["Raids"]['Private Room']
                         }
-                        
+                            
                         game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
                         local args = {
                             [1] = OwnerRaidRooms,
                             [2] = "TargetWorld",
                             [3] = DateWorld[SaveSettings["Raids"]["Select Raids [World]"]].WorldName
                         }
-                        
+                            
                         game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
                         local args = {
                             [1] = OwnerRaidRooms,
                             [2] = "Difficulty",
                             [3] = SaveSettings["Raids"]['Select Difficulty']
                         }
-                        
+                            
                         game:GetService("ReplicatedStorage").Remote.Raid.SetRaidSetting:FireServer(unpack(args))
                         local args = {
                             [1] = OwnerRaidRooms
                         }
                         game:GetService("ReplicatedStorage").Remote.Raid.StartRaid:FireServer(unpack(args))
-                        repeat wait() until LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
-                        repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
                     elseif GetRaids("FindRoom") ~= "Not Found" then
                         Character.HumanoidRootPart:PivotTo(GetRaids("FindRoom").CFrame)
                     end
@@ -1536,7 +1902,7 @@ if game.PlaceId == 14433762945 then
                                                     end
                                                 end)
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
+                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                     end
                                 end
                             else
@@ -1553,17 +1919,65 @@ if game.PlaceId == 14433762945 then
                                                     end
                                                 end)
                                             end
-                                        until v:GetAttribute("Health") <= 0 or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
+                                        until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Raids"]['Auto Farm Raid'] or v:GetAttribute("Invulnerable") == true
                                     end
                                 end
                             end
                         end
                     end
+                else
+                    if tostring(TimeRaidMain) == "3:59" or tostring(TimeRaidMain) == "0:00" or tostring(TimeRaidMain) <= "0:01" then
+                        local args = { [1] = "Hub" }
+                        game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
+                        wait(.5)
+                        repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                        end
+                    end
+            elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name) and game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name):FindFirstChild('Enemies') then
+                repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
+                for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild(CheckWorld().Name).Enemies:GetChildren()) do
+                    if SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then
+                        if not SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then 
+                            repeat wait()
+                                table.foreach(CheckPet('GetPet'),function(a,b)
+                                    if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil then
+                                        SendPetOneTraget(b,v)
+                                    end
+                                end)
+                            until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                        elseif SaveSettings["Auto Farm"]["Teleport [Farm in Range]"] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] and SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName] ~= nil and v:GetAttribute("Health") > 0 and table.find(SaveSettings["Auto Farm"]['Select Enemie'][WorldDate[CheckWorld().Name].DisplayName],DateEnemie[v.Name]) then 
+                            if SaveSettings["Auto Farm"]['Auto Farm Select'] and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
+                                repeat wait()
+                                    table.foreach(CheckPet('GetPet'),function(a,b)
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                                            SendPetOneTraget(b,v)
+                                        elseif SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude > 150 then
+                                            Character:PivotTo(v:GetPivot() * CFrame.new(0,10,5))
+                                        end
+                                    end)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                            else
+                                repeat wait()
+                                    table.foreach(CheckPet('GetPet'),function(a,b)
+                                        if SaveSettings["Auto Farm"]['Auto Farm Select'] and b:FindFirstChild("Target") and b.Target.Value == nil and (Character:GetModelCFrame().Position - v:GetPivot().Position).Magnitude <= 150 then
+                                            SendPetOneTraget(b,v)
+                                        end
+                                    end)
+                                until v:GetAttribute("Health") <= 0 or not v.Parent or not SaveSettings["Auto Farm"]['Auto Farm Select'] or (not SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown2)
+                            end
+                        end
+                    end
+                end
+            elseif SaveSettings["Auto Farm"]["Auto Join World Select"] and not game:GetService("Workspace").Worlds:FindFirstChild(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName) then
+                if SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                    TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
+                elseif not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                    TeleportWorld(DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName)
                 end
             end
         end
     end)
-    
+
     -- [[ No Clip ]]
     local function BodyVelocity()
         if game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and not game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"):FindFirstChild("BodyVelocity") then
@@ -1584,20 +1998,44 @@ if game.PlaceId == 14433762945 then
         end
     end
     
-    coroutine.wrap(function()
-        game:GetService("RunService").Heartbeat:Connect(function()
-            if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
-                if SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
-                    BodyVelocity()
-                else
-                    Disable_BodyVelocity()
-                end 
+
+    _G.NoClip = game:GetService("RunService").Heartbeat:Connect(function()
+        zTimeRaid = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.Text
+        zTimeRaid2 = game:GetService("Players").LocalPlayer.PlayerGui.MainGui.Windows.RaidLobby.Main.Players.QuestTitleHeader.Timer.ContentText
+        TimeRaidMain = zTimeRaid or zTimeRaid2
+        if TimeCooldown <= workspace:GetServerTimeNow() then
+                WaitRaidCooldown = false
+            else
+                WaitRaidCooldown = true
+        end
+        if tostring(TimeRaidMain) > "0:01" and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            if SaveSettings["Raids"]['Auto Farm Raid'] then
+                CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
+            else
+                CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
             end
-        end)
-    end)()
+        elseif tostring(TimeRaidMain) <= "0:01" and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
+            if SaveSettings["Raids"]['Auto Farm Raid'] then
+                CountTimeRaids.Options:ChangeText("Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
+            end
+        elseif tostring(TimeRaidMain) > "0:01" and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            if SaveSettings["Raids"]['Auto Farm Raid'] then     
+                CountTimeRaids.Options:ChangeText("Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "(s) \n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
+            elseif not SaveSettings["Raids"]['Auto Farm Raid'] then
+                CountTimeRaids.Options:ChangeText("pls. Enable 'Auto Farm Raid' !!!")
+            end
+        end
+        if game:GetService("Players").LocalPlayer.Character:FindFirstChild("Humanoid") then
+            if SaveSettings["Raids"]['Auto Farm Raid'] and SaveSettings["Raids"]['Go On The Head [Mob]'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") then
+                BodyVelocity()
+            else
+                Disable_BodyVelocity()
+            end 
+        end
+    end)
     ------------------------------------------------------ [[ Fix Ui Lib ]] ------------------------------------------------------
     UI:SelectPage({
-        page = UI.pages[1], 
+        page = UI.pages[1],
         toggle = true
     })
     -- Anti Afk

@@ -1978,12 +1978,14 @@ if game.PlaceId == 14433762945 then
             WaitRaidCooldown = true
         end
 
-        if WaitRaidCooldown and CountTimeRaids then
+        if WaitRaidCooldown and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)
-        elseif WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
+        elseif WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidRoom)
         elseif not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidRoom)
+        elseif WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidFarm)
         elseif not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         end

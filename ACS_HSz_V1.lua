@@ -2014,7 +2014,7 @@ if game.PlaceId == 14433762945 then
             else
                 CountTimeRaids.Options:ChangeText("Raid not Available Now!!! \n ... Wait for " .. tostring(TimeRaidMain) .. "(s), then join Raid ...")
             end
-        elseif tostring(TimeRaidMain) <= "0:00" and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
+        elseif tostring(TimeRaidMain) <= "0:00" and tostring(TimeRaidMain) >= "4:56" and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and CountTimeRaids then
             if SaveSettings["Raids"]['Auto Farm Raid'] then
                 CountTimeRaids.Options:ChangeText("Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ...")
             end

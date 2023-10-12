@@ -1997,6 +1997,10 @@ if game.PlaceId == 14433762945 then
             CountTimeRaids.Options:ChangeText(RaidFarm)
         elseif not WaitRaidCooldown and SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidFarm)
+        elseif WaitRaidCooldown and not SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidFarm)
+        elseif not WaitRaidCooldown and not SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidFarm)
         end
 
 

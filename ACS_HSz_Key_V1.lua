@@ -1970,12 +1970,12 @@ if game.PlaceId == 14433762945 then
         TimeRaidMain = NumToString.AdaptiveTime((MainData:GetData("LastRaidHosted") - workspace:GetServerTimeNow()) + GameConfig.RaidCooldownTime)
         TimeCooldown = LocalDairebStore2.GetDairebStoreAsync("MainData"):GetData("LastRaidHosted") + GameConfig.RaidCooldownTime
 
-        CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
+        CoolDownRaidsTime = tostring(WaitRaidCooldown and tostring(TimeRaidMain) or "Raid Ready")
 
         RaidAvailable = " Raid are Available Now!!! \n ... Pls. Enable 'Auto Farm Raid' ..."
-        RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
+        RaidNotAvailable = " Raid not Available Now!!! \n ... Wait for " .. CoolDownRaidsTime .. "(s), then join Raid ..."
         RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
-        RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
+        RaidFarm = " Raid Room Cooldown : " .. CoolDownRaidsTime .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
 
         if workspace:GetServerTimeNow() > TimeCooldown then
             WaitRaidCooldown = false

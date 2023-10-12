@@ -1895,7 +1895,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 end
-            elseif not WaitRaidCooldown and (not game:GetService("Workspace").Worlds:FindFirstChild("Hub") or not game:GetService("Workspace").Worlds:FindFirstChild("Raids")) then
+            elseif SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown and (not game:GetService("Workspace").Worlds:FindFirstChild("Hub") or not game:GetService("Workspace").Worlds:FindFirstChild("Raids")) then
                 local args = { [1] = "Hub" }
                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')

@@ -1972,6 +1972,7 @@ if game.PlaceId == 14433762945 then
 
         CoolDownRaidsTime = tostring(WaitRaidCooldown and "Wait for " .. tostring(TimeRaidMain) or "Raid Ready")
 
+        RaidAvailable = " Raid are Available Now!!! \n ... Pls. Enable 'Auto Farm Raid' ..."
         RaidNotAvailable = " Raid not Available Now!!! \n ... " .. CoolDownRaidsTime .. "(s), then join Raid ..."
         RaidRoom = " Teleport To HUB \n ... Creating Raid Coom  : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
         RaidFarm = " Raid Room Cooldown : " .. tostring(TimeRaidMain) .. "\n ... Now Farming Raid : " .. tostring(SaveSettings["Raids"]["Select Raids [World]"]) .. " [ " .. tostring(SaveSettings["Raids"]['Select Difficulty']) .. " ] ..."
@@ -1986,6 +1987,8 @@ if game.PlaceId == 14433762945 then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)
         elseif WaitRaidCooldown and not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidNotAvailable)
+        elseif not WaitRaidCooldown and not SaveSettings["Raids"]['Auto Farm Raid'] and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
+            CountTimeRaids.Options:ChangeText(RaidAvailable)
         elseif WaitRaidCooldown and SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then
             CountTimeRaids.Options:ChangeText(RaidRoom)
         elseif not WaitRaidCooldown and SaveSettings["Raids"]['Auto Farm Raid'] and game:GetService("Workspace").Worlds:FindFirstChild("Hub") and not game:GetService("Workspace").Worlds:FindFirstChild("Raids") and CountTimeRaids then

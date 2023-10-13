@@ -737,7 +737,7 @@ if game.PlaceId == 14433762945 then
     ------------------------------------------------------ [[ Create Tab ]] ------------------------------------------------------
     local MainCreateTap = UI:addPage({
         title = "Main",
-        icon = 5012544693
+        icon = 7539983773
     })
     local AutoFarm_Select = MainCreateTap:addSection({
         title = "Auto Farm Select"
@@ -754,7 +754,7 @@ if game.PlaceId == 14433762945 then
     -- Pet
     local PetCreateTap = UI:addPage({
         title = "Pet",
-        icon = 5012544693
+        icon = 10885655986
     })
     local PetSetting_Feed = PetCreateTap:addSection({
         title = "Pet Setting - Feed"
@@ -771,7 +771,7 @@ if game.PlaceId == 14433762945 then
     -- Egg
     local EggCreateTap = UI:addPage({
         title = "Egg & Items",
-        icon = 5012544693
+        icon = 7939410236
     })
     local EggItems_Eggs = EggCreateTap:addSection({
         title = "Egg & Items - Eggs"
@@ -782,7 +782,7 @@ if game.PlaceId == 14433762945 then
     -- Teleport
     local TeleportCreateTap = UI:addPage({
         title = "Teleport",
-        icon = 5012544693
+        icon = 6723742952
     })
     local Teleport_Worlds = TeleportCreateTap:addSection({
         title = "Teleport - Worlds"
@@ -793,7 +793,7 @@ if game.PlaceId == 14433762945 then
     -- Theme
     local Theme = UI:addPage({
         title = "Theme",
-        icon = 5012544693
+        icon = 11413045091
     })
     local Colors = Theme:addSection({
         title = "Colors"

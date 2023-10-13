@@ -1784,7 +1784,7 @@ if game.PlaceId == 14433762945 then
                 if game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
                     for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
                         if v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
-                            if table.find({'FlyCurse','FlyCurse2','BridgeCurse','BridgeCurse2','Finger','FingerRaid','Hanami'},v.Name) then
+                            if table.find({'FlyCurse','FlyCurse2','BridgeCurse','BridgeCurse2','Finger','WoodBall','FingerRaid','Hanami'},v.Name) then
                                 return v
                             end
                         end

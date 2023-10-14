@@ -3453,7 +3453,7 @@ function SnipeMerchant()
     end,{enabled = Settings.AutoSnipeMerchant })
 
     -----------------------------------------------------------------------------
-    --AutoBuySummer
+     --AutoBuySummer AutoBuyEvent
 
     SummerItem:Cheat("Dropdown", "Select Item Event",function(pornname)
         getgenv().portalnameC = pornname
@@ -3467,10 +3467,8 @@ function SnipeMerchant()
 
     SummerItem:Cheat("Button","Buy Item [One Time]", function(bool)
         local args = {
-            [1] = getgenv().portalnameC,
-            [2] = "event",
-            [3] = "event_shop",
-            [4] = Settings.SummerNum
+            [1] = getgenv().ItemEventNameC,
+            [2] = Settings.SummerNum
         }
         game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_bsd_shop_item:InvokeServer(unpack(args))
         warn("Buy Event Items !!!")
@@ -3486,12 +3484,10 @@ function SnipeMerchant()
         while task.wait() do
             if Settings.AutoBuySummer then
                 local args = {
-                    [1] = getgenv().portalnameC,
-                    [2] = "event",
-                    [3] = "event_shop",
-                    [4] = Settings.SummerNum
+                    [1] = getgenv().ItemEventNameC,
+                    [2] = Settings.SummerNum
                 }
-                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_bsd_shop_item:InvokeServer(unpack(args))
             end
         end
     end)

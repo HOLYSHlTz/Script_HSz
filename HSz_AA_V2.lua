@@ -345,7 +345,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -452,7 +452,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -535,7 +535,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -614,7 +614,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -679,7 +679,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -822,7 +822,7 @@ local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec2 = ETC:Sector("")
 
 local Summer = Window:Category("🦸🏽 Event & Skin ")
-local SummerItem = Summer:Sector("💸 Auto Buy Summer Item 💸")
+local SummerItem = Summer:Sector("💸 Auto Buy Event Item 💸")
 local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
 local SummerSkin0 = Summer:Sector("")
@@ -1113,11 +1113,11 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Raid Worlds" then
             storylist = Data_Raid_Name
         elseif Settings.WorldCategory == "Portals" then
-            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","FATE Portals"}
+            storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","FATE Portals","BSD Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Anniversary Island"}
         elseif Settings.WorldCategory == "ประตูลับ" then
-            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ FATE"}
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ FATE","ประตูลับ BSD"}
         end
 --updatefix
         for i = 1, #storylist do
@@ -1176,6 +1176,8 @@ local function WorldSec()
             levellist = {"portal_summer"}
         elseif level == "FATE Portals" then
             levellist = {"portal_item__fate"}
+        elseif level == "BSD Portals" then 
+            levellist = {"portal_item__bsd"} 
         ---///Dungeon\\\---   
         elseif level == "ดันนิ้ว Cursed Womb" then
             levellist = {"jjk_finger"}    
@@ -1192,6 +1194,8 @@ local function WorldSec()
             levellist = {"portal_poseidon"}
         elseif level == "ประตูลับ FATE" then
             levellist = {"portal_item__gilgamesh"}
+        elseif level == "ประตูลับ BSD" then
+            levellist = {"portal_item__dazai"}
             --///Story Mode\\\---
         elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
             levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
@@ -1311,21 +1315,24 @@ local function WorldSec()
         warn("Change to : "..value)
         Settings.SelectedPortalsName1 = value
         saveSettings()
-    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName1})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Snowy Town","Hidden Sand Village","Marine's Ford","Ghoul City","Hollow World","Ant Kingdom","Magic Town",
+    "Cursed Academy","Clover Kingdom","Cape Canaveral","Alien Spaceship","Fabled Kingdom","Hero City","Puppet Island","Virtual Dungeon","Windhym","Undead Tomb"}, default =Settings.SelectedPortalsName1})
 
     Settings.SelectedPortalsName2 = Settings.SelectedPortalsName2 or "None"
     local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName2 = value
         saveSettings()
-    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName2})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Snowy Town","Hidden Sand Village","Marine's Ford","Ghoul City","Hollow World","Ant Kingdom","Magic Town",
+    "Cursed Academy","Clover Kingdom","Cape Canaveral","Alien Spaceship","Fabled Kingdom","Hero City","Puppet Island","Virtual Dungeon","Windhym","Undead Tomb"}, default =Settings.SelectedPortalsName2})
 
     Settings.SelectedPortalsName3 = Settings.SelectedPortalsName3 or "None"
     local selectlevel = SelectWorld:Cheat("Dropdown", "🌀 จะไม่เปิด Map ",function(value)
         warn("Change to : "..value)
         Settings.SelectedPortalsName3 = value
         saveSettings()
-    end, { options = {"None","Planet Namak","Shiganshinu District","Ant Kingdom","Cursed Academy","Puppet Island","Alien Spaceship","Fabled Kingdom"}, default =Settings.SelectedPortalsName3})
+    end, { options = {"None","Planet Namak","Shiganshinu District","Snowy Town","Hidden Sand Village","Marine's Ford","Ghoul City","Hollow World","Ant Kingdom","Magic Town",
+    "Cursed Academy","Clover Kingdom","Cape Canaveral","Alien Spaceship","Fabled Kingdom","Hero City","Puppet Island","Virtual Dungeon","Windhym","Undead Tomb"}, default =Settings.SelectedPortalsName3})
 
     SelectWorld:Cheat("Checkbox","👬 Friends Only", function(bool)
         print(bool)
@@ -3529,28 +3536,28 @@ function SnipeMerchant()
     -----------------------------------------------------------------------------
     --AutoBuySummer
 
-    SummerItem:Cheat("Dropdown", "เลือก Item Summer",function(pornname)
+    SummerItem:Cheat("Dropdown", "เลือก Item Event",function(pornname)
         getgenv().portalnameC = pornname
         saveSettings()
-    end, { options = {"summer_portal_item_contract","capsule_summer"}, default = getgenv().portalnameC})
+    end, { options = {"bsd_portal_item_contract","bsd_book"}, default = getgenv().portalnameC})
 
     SummerItem:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
         Settings.SummerNum = value
         saveSettings()
     end, { options = {"1","10","100"}, default = getgenv().SummerNum})
 
-    SummerItem:Cheat("Button","ชื้อ Summer Item [ครั้งเดียว]", function(bool)
+    SummerItem:Cheat("Button","ชื้อ Event Item [ครั้งเดียว]", function(bool)
         local args = {
             [1] = getgenv().portalnameC,
             [2] = "event",
             [3] = "event_shop",
             [4] = Settings.SummerNum
         }
-        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_bsd_shop_item:InvokeServer(unpack(args))
         warn("Buy Summer Portal !!!")
     end)
 
-    SummerItem:Cheat("Checkbox","Auto Buy Item Summer [มันจะชื้อรัวมาก]", function(bool)
+    SummerItem:Cheat("Checkbox","Auto Buy Item Event [มันจะชื้อรัวมาก]", function(bool)
         print(bool)
         Settings.AutoBuySummer = bool
         saveSettings()
@@ -3672,7 +3679,7 @@ function SnipeMerchant()
                     local data = {
                         ["content"] = "",
                         ["username"] = "Anime Adventures V2",
-                        ["avatar_url"] = "https://tr.rbxcdn.com/af7bc8c82d3f237d122560ff1ee5cecc/150/150/Image/Png",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
                         ["embeds"] = {
                             {
                                 ["author"] = {
@@ -3841,7 +3848,9 @@ function Sellportals()
         warn("Change to : "..value)
         Settings.SelectedSellPortals = value
         saveSettings()
-    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer","portal_item__fate"}, default =Settings.SelectedSellPortals})
+    end, { options = {"portal_boros_g","april_portal_item","portal_zeldris","portal_item__dressrosa","portal_item__eclipse","portal_summer","portal_item__fate",
+    "portal_item__bsd"}, default =Settings.SelectedSellPortals})
+
 --fixportal
 
     Tier_sell = {}
@@ -4155,6 +4164,25 @@ end
 ---------------------------------------------
 --test fixportal
 
+function getBSDPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__bsd" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+function getBSDSPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__dazai" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
+
 function getBorosPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -4364,6 +4392,11 @@ function GetPlayerPortalUse(level)
         PortalPlayer = GetPlayerPortal()
 
         --ประตูลับ
+    elseif level == "portal_item__dazai" then
+        PortalName = "BSD Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__dazai")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
     elseif level == "portal_item__doflamingo" then
         PortalName = "Dofamingo Secret Portal farming"
         PortalUUID = GetPortals("portal_item__doflamingo")[1]["uuid"]
@@ -4388,6 +4421,7 @@ function GetPlayerPortalUse(level)
     ------------------------------
     -- [[ Portal Event Portal ]] --
 
+    --Summer
     elseif level == "portal_summer" then
             for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
                 Settings.SelectedTier = i
@@ -4458,8 +4492,154 @@ function GetPlayerPortalUse(level)
             end
         end
     end
+--end_Event_Summer
+
+    --BSD_Event
+    elseif level == "portal_item__bsd" then
+        for i = tonumber(Settings.SelectedTier1) ,tonumber(Settings.SelectedTier2) do
+            Settings.SelectedTier = i
+        local PortalEvent = GetPortals("portal_item__bsd")
+        for i,v in pairs(PortalEvent) do
+            --SettingPortalsName1
+            if Settings.SelectedPortalsName1 == "Planet Namak" then
+                Settings.SelectedPortalsName1 = "namek_infinite" end 
+            if Settings.SelectedPortalsName1 == "Shiganshinu District" then
+                Settings.SelectedPortalsName1 = "aot_infinite" end 
+            if Settings.SelectedPortalsName1 == "Snowy Town" then
+                Settings.SelectedPortalsName1 = "demonslayer_infinite" end
+            if Settings.SelectedPortalsName1 == "Hidden Sand Village" then
+                Settings.SelectedPortalsName1 = "naruto_infinite" end
+            if Settings.SelectedPortalsName1 == "Marine's Ford" then
+                Settings.SelectedPortalsName1 = "marineford_infinite" end
+            if Settings.SelectedPortalsName1 == "Ghoul City" then
+                Settings.SelectedPortalsName1 = "tokyoghoul_infinite" end
+            if Settings.SelectedPortalsName1 == "Hollow World" then
+                Settings.SelectedPortalsName1 = "hueco_infinite" end
+            if Settings.SelectedPortalsName1 == "Ant Kingdom" then
+                Settings.SelectedPortalsName1 = "hxhant_infinite" end 
+            if Settings.SelectedPortalsName1 == "Magic Town" then
+                Settings.SelectedPortalsName1 = "magnolia_infinite" end
+            if Settings.SelectedPortalsName1 == "Cursed Academy" then
+                Settings.SelectedPortalsName1 = "jjk_infinite" end 
+            if Settings.SelectedPortalsName1 == "Clover Kingdom" then
+                Settings.SelectedPortalsName1 = "clover_infinite" end
+            if Settings.SelectedPortalsName1 == "Cape Canaveral" then
+                Settings.SelectedPortalsName1 = "jojo_infinite" end
+            if Settings.SelectedPortalsName1 == "Alien Spaceship" then
+                Settings.SelectedPortalsName1 = "opm_infinite" end 
+            if Settings.SelectedPortalsName1 == "Fabled Kingdom" then
+                Settings.SelectedPortalsName1 = "7ds_infinite" end
+            if Settings.SelectedPortalsName1 == "Hero City" then
+                Settings.SelectedPortalsName1 = "mha_infinite" end
+            if Settings.SelectedPortalsName1 == "Puppet Island" then
+                Settings.SelectedPortalsName1 = "dressrosa_infinite" end
+            if Settings.SelectedPortalsName1 == "Virtual Dungeon" then
+                Settings.SelectedPortalsName1 = "sao_infinite" end 
+            if Settings.SelectedPortalsName1 == "Windhym" then
+                Settings.SelectedPortalsName1 = "berserk_infinite" end
+            if Settings.SelectedPortalsName1 == "Undead Tomb" then
+                Settings.SelectedPortalsName1 = "overlord_infinite" end
+            --SettingPortalsName2
+            if Settings.SelectedPortalsName2 == "Planet Namak" then
+                Settings.SelectedPortalsName2 = "namek_infinite" end 
+            if Settings.SelectedPortalsName2 == "Shiganshinu District" then
+                Settings.SelectedPortalsName2 = "aot_infinite" end 
+            if Settings.SelectedPortalsName2 == "Snowy Town" then
+                Settings.SelectedPortalsName2 = "demonslayer_infinite" end
+            if Settings.SelectedPortalsName2 == "Hidden Sand Village" then
+                Settings.SelectedPortalsName2 = "naruto_infinite" end
+            if Settings.SelectedPortalsName2 == "Marine's Ford" then
+                Settings.SelectedPortalsName2 = "marineford_infinite" end
+            if Settings.SelectedPortalsName2 == "Ghoul City" then
+                Settings.SelectedPortalsName2 = "tokyoghoul_infinite" end
+            if Settings.SelectedPortalsName2 == "Hollow World" then
+                Settings.SelectedPortalsName2 = "hueco_infinite" end
+            if Settings.SelectedPortalsName2 == "Ant Kingdom" then
+                Settings.SelectedPortalsName2 = "hxhant_infinite" end 
+            if Settings.SelectedPortalsName2 == "Magic Town" then
+                Settings.SelectedPortalsName2 = "magnolia_infinite" end
+            if Settings.SelectedPortalsName2 == "Cursed Academy" then
+                Settings.SelectedPortalsName2 = "jjk_infinite" end 
+            if Settings.SelectedPortalsName2 == "Clover Kingdom" then
+                Settings.SelectedPortalsName2 = "clover_infinite" end
+            if Settings.SelectedPortalsName2 == "Cape Canaveral" then
+                Settings.SelectedPortalsName2 = "jojo_infinite" end
+            if Settings.SelectedPortalsName2 == "Alien Spaceship" then
+                Settings.SelectedPortalsName2 = "opm_infinite" end 
+            if Settings.SelectedPortalsName2 == "Fabled Kingdom" then
+                Settings.SelectedPortalsName2 = "7ds_infinite" end
+            if Settings.SelectedPortalsName2 == "Hero City" then
+                Settings.SelectedPortalsName2 = "mha_infinite" end
+            if Settings.SelectedPortalsName2 == "Puppet Island" then
+                Settings.SelectedPortalsName2 = "dressrosa_infinite" end
+            if Settings.SelectedPortalsName2 == "Virtual Dungeon" then
+                Settings.SelectedPortalsName2 = "sao_infinite" end 
+            if Settings.SelectedPortalsName2 == "Windhym" then
+                Settings.SelectedPortalsName2 = "berserk_infinite" end
+            if Settings.SelectedPortalsName2 == "Undead Tomb" then
+                Settings.SelectedPortalsName2 = "overlord_infinite" end 
+            --SettingPortalsName3
+            if Settings.SelectedPortalsName3 == "Planet Namak" then
+                Settings.SelectedPortalsName3 = "namek_infinite" end 
+            if Settings.SelectedPortalsName3 == "Shiganshinu District" then
+                Settings.SelectedPortalsName3 = "aot_infinite" end 
+            if Settings.SelectedPortalsName3 == "Snowy Town" then
+                Settings.SelectedPortalsName3 = "demonslayer_infinite" end
+            if Settings.SelectedPortalsName3 == "Hidden Sand Village" then
+                Settings.SelectedPortalsName3 = "naruto_infinite" end
+            if Settings.SelectedPortalsName3 == "Marine's Ford" then
+                Settings.SelectedPortalsName3 = "marineford_infinite" end
+            if Settings.SelectedPortalsName3 == "Ghoul City" then
+                Settings.SelectedPortalsName3 = "tokyoghoul_infinite" end
+            if Settings.SelectedPortalsName3 == "Hollow World" then
+                Settings.SelectedPortalsName3 = "hueco_infinite" end
+            if Settings.SelectedPortalsName3 == "Ant Kingdom" then
+                Settings.SelectedPortalsName3 = "hxhant_infinite" end 
+            if Settings.SelectedPortalsName3 == "Magic Town" then
+                Settings.SelectedPortalsName3 = "magnolia_infinite" end
+            if Settings.SelectedPortalsName3 == "Cursed Academy" then
+                Settings.SelectedPortalsName3 = "jjk_infinite" end 
+            if Settings.SelectedPortalsName3 == "Clover Kingdom" then
+                Settings.SelectedPortalsName3 = "clover_infinite" end
+            if Settings.SelectedPortalsName3 == "Cape Canaveral" then
+                Settings.SelectedPortalsName3 = "jojo_infinite" end
+            if Settings.SelectedPortalsName3 == "Alien Spaceship" then
+                Settings.SelectedPortalsName3 = "opm_infinite" end 
+            if Settings.SelectedPortalsName3 == "Fabled Kingdom" then
+                Settings.SelectedPortalsName3 = "7ds_infinite" end
+            if Settings.SelectedPortalsName3 == "Hero City" then
+                Settings.SelectedPortalsName3 = "mha_infinite" end
+            if Settings.SelectedPortalsName3 == "Puppet Island" then
+                Settings.SelectedPortalsName3 = "dressrosa_infinite" end
+            if Settings.SelectedPortalsName3 == "Virtual Dungeon" then
+                Settings.SelectedPortalsName3 = "sao_infinite" end 
+            if Settings.SelectedPortalsName3 == "Windhym" then
+                Settings.SelectedPortalsName3 = "berserk_infinite" end
+            if Settings.SelectedPortalsName3 == "Undead Tomb" then
+                Settings.SelectedPortalsName3 = "overlord_infinite" end
+
+            if v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName1
+            and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName2
+            and v["_unique_item_data"]["_unique_portal_data"]["level_id"] ~= Settings.SelectedPortalsName3 then
+            if v["_unique_item_data"]["_unique_portal_data"]["portal_depth"] == Settings.SelectedTier then
+            if v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge 
+            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge2
+            and v["_unique_item_data"]["_unique_portal_data"]["challenge"] ~= Settings.SelectedChallenge3 then
+
+                PortalEventUse = v
+                PortalName = "BSD farming"
+                PortalUUID = PortalEventUse["uuid"]
+                PortalPlayer = GetPlayerPortal()
+                break
+                end
+            end
+        end
+    end
+end
+--end_Event_BSD
 
 
+--
 end
     return {PortalName,PortalUUID,PortalPlayer}
 end
@@ -7107,7 +7287,7 @@ end
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

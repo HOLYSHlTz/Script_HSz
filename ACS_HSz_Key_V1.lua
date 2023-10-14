@@ -723,7 +723,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.24.1"
+        Version = "Version 1.0.3.1"
     })
 
     local Themes = {
@@ -1531,7 +1531,8 @@ if game.PlaceId == 14433762945 then
                         local args = {
                             [1] = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['GUID'],
                             [2] = tonumber(SaveSettings["Pet"]['Select Slot']),
-                            [3] = SaveSettings["Pet"]['Premium Medal'] and true or false
+                            [3] = SaveSettings["Pet"]['Premium Medal'] and true or false,
+                            [4]= 1
                         }
                         game:GetService("ReplicatedStorage").Remote.Machines.PassiveMachine:FireServer(unpack(args))
                         local PetDataPassives = MainData:GetData("Pets", true)[PetDataQuirk['ID']]['Passives']
@@ -1554,6 +1555,7 @@ if game.PlaceId == 14433762945 then
         end
     end)
     
+
     -- Auto Scrap Skin
     spawn(function()
         while wait() do

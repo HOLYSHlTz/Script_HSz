@@ -280,6 +280,10 @@ if game.PlaceId == 14433762945 then
             ['Ignore Godly (Not Del Godly)'] = false
         },
         ["SaveSetting"] = {
+            ['FPS Value'] = 15,
+            ['FPS Cap'] = false,
+            ['Low CPU Mode'] = false,
+
             ['Hide Key'] = "Enum.KeyCode.LeftControl"
         }
     }
@@ -781,7 +785,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.301.1"
+        Version = "Version 1.0.301.2"
     })
 
     local Themes = {

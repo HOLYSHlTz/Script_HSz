@@ -254,6 +254,12 @@ if game.PlaceId == 14433762945 then
             ['Auto Open Egg'] = false,
             ["Auto Teleport Egg Near"] = false,
         },
+        ['Skin'] = {
+            ['Select Rarity [Skin]'] = "Common",
+            ['Select Skin Reforging'] = "",
+            ['Select Skin Passive'] = {},
+            ['Auto Skin Reforging'] = false,
+        },
         ['Pet'] = {
             ['Select Pet'] = "",
             ['Select Rarity'] = {"Common"},
@@ -274,11 +280,7 @@ if game.PlaceId == 14433762945 then
             ['Ignore Godly (Not Del Godly)'] = false
         },
         ["SaveSetting"] = {
-            ['FPS Value'] = 15,
-            ['FPS Cap'] = false,
-            ['Low CPU Mode'] = false,
-
-            ['Hide Key'] = Enum.KeyCode.LeftControl
+            ['Hide Key'] = "Enum.KeyCode.LeftControl"
         }
     }
     function Load()
@@ -351,9 +353,11 @@ if game.PlaceId == 14433762945 then
     local PetStats = require(ModuleScripts.Config.PetStats)
     local PassiveStats = require(ModuleScripts.Config.PassiveStats)
     local PassivesHandler = require(ModuleScripts.Handlers.PassiveRenderHandler)
-    local ItemStatsSkins = require(ModuleScripts.Config.ItemStats.Skins)
+    local ItemStats = require(ModuleScripts.Config.ItemStats)
     local MultiplierHandler = require(ModuleScripts.Handlers.MultiplierHandler)
     local NumToString = require(ModuleScripts.SharedFunctions.NumToString)
+    local SkinPassiveStats = require(ModuleScripts.Config.SkinPassiveStats)
+    local ItemManipulator = require(ModuleScripts.Handlers.ItemManipulator)
     
     local Bindable = ReplicatedStorage:WaitForChild("Bindable")
     local GetSpiritData = RemoteFolder.Spirit.GetSpiritData:InvokeServer()
@@ -621,7 +625,7 @@ if game.PlaceId == 14433762945 then
     end
     function UnlockEggAllMap()
         for i,v in pairs(MainData:GetData("DiscoveredWorlds", true)) do
-            if not string.find(i,"Hub") then
+            if not string.find(i,"Hub") and SaveSettings["Misc"]['Auto Teleport TO Spirit World'] then
                 local args = { [1] = i }
                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
@@ -680,6 +684,60 @@ if game.PlaceId == 14433762945 then
         end
     end
     
+    -- Reforging Skin
+    local Table_ListItemSkin,Base_ListItemSkin = {},{}
+    local Base_SkinTable,List_SkinTable = {},{}
+    local RaritySkin = {}
+    RarityList = {}
+    RarityList[1] = "Common"
+    RarityList[2] = "Rare"
+    RarityList[3] = "Epic"
+    RarityList[4] = "Legendary"
+    RarityList[5] = "Mythical"
+    RarityList[6] = "Secret"
+    local ItemsInventory = MainData:GetData("Items", true)
+    for i,v_Rarity in pairs(RarityList) do
+        TextRarity = v_Rarity == "Secret" and "Cosmic" or v_Rarity
+        table.insert(RaritySkin,TextRarity)
+
+        if List_SkinTable[TextRarity] == nil then
+            List_SkinTable[TextRarity] = {}
+        end
+
+        table.foreach(SkinPassiveStats,function(index,value)
+            if v_Rarity == value.Rarity then
+                if Table_ListItemSkin[TextRarity] == nil then
+                    Table_ListItemSkin[TextRarity] = {}
+                end
+                Description = value.Description:split("\n")
+                DescriptionSkin = table.concat(Description, ", ")
+
+                table.insert(Table_ListItemSkin[TextRarity],value.DisplayName.. ": " ..DescriptionSkin)
+                Base_ListItemSkin[value.DisplayName.. ": " ..DescriptionSkin] = index
+            end
+        end)
+    end
+    table.foreach(ItemsInventory,function(index,value)
+        if ItemStats[index].Skin then
+            TextRarity = ItemStats[index].Rarity == "Secret" and "Cosmic" or ItemStats[index].Rarity
+            table.foreach(value,function(i,v)
+                if v.Pet then
+                    TextRarity = ItemStats[index].Rarity == "Secret" and "Cosmic" or ItemStats[index].Rarity
+                    local Pets = MainData:GetData({"Pets",v.Pet}, true)
+                    local TitleName = string.format("Skin %s [%s] | Equipped on %s [%s]",ItemStats[index].DisplayName, index , Pets.CustomName or Pets.PetId, i)
+
+                    table.insert(List_SkinTable[TextRarity],TitleName)
+                    Base_SkinTable[TitleName] = {
+                        Number = i,
+                        SkinName = index,
+                        ID = v.GUID
+                    }
+
+                end
+            end)
+        end
+    end)
+
     -- World
     table.sort(Table_World,function(a,b)
         return a['Num'] < b['Num']
@@ -723,7 +781,7 @@ if game.PlaceId == 14433762945 then
 
     local UI = Venyx.new({
         title = "Anime Champions Simulator",
-        Version = "Version 1.0.3.1"
+        Version = "Version 1.0.301.1"
     })
 
     local Themes = {
@@ -778,6 +836,17 @@ if game.PlaceId == 14433762945 then
     })
     local EggItems_Items = EggCreateTap:addSection({
         title = "Egg & Items - Items"
+    })
+    -- Skin
+    local SkinCreateTap = UI:addPage({
+        title = "Skin",
+        icon = 15067390895
+    })
+    local SkinSetting_Reforging = SkinCreateTap:addSection({
+        title = "Skin Setting - Reforging"
+    })
+    local SkinSetting_SkinPassiveStats = SkinCreateTap:addSection({
+        title = "Skin Setting - Skin Passive Stats"
     })
     -- Teleport
     local TeleportCreateTap = UI:addPage({
@@ -856,7 +925,7 @@ if game.PlaceId == 14433762945 then
         title = "Teleport in Range",
         default = SaveSettings["Auto Farm"]["Range [ Farm in Range ]"],
         min = 0,
-        max = 1500,
+        max = 10000,
         callback = function(value)
             SaveSettings["Auto Farm"]["Range [ Farm in Range ]"] = value
             Save()
@@ -865,9 +934,23 @@ if game.PlaceId == 14433762945 then
 
     ------------------------------------------------------ [[ Auto Farm Raids ]] ------------------------------------------------------
     local CountTimeRaids = AutoFarm_Raids:addLabel({title = "pls. Enable 'Auto Farm Raid' !!!"})
+    local TableRaids,Select_Raids = {},{}
+    local WorldDate = require(game:GetService("ReplicatedStorage").ModuleScripts.Config.WorldData)
+    for i,v in pairs(WorldDate) do
+        if not v.NoRaid then
+            if not v.Hidden then
+                table.insert(TableRaids,v.DisplayName)
+            end
+        end
+    end
+    table.foreach(Table_World,function(a,b)
+        if table.find(TableRaids,b.Name) then
+            table.insert(Select_Raids,b.Name)
+        end
+    end)
     AutoFarm_Raids:addDropdown({
         title = "Select Raids [World]",
-        list = World_Select, 
+        list = Select_Raids, 
         default = SaveSettings["Raids"]["Select Raids [World]"],
         callback = function(v)
             SaveSettings["Raids"]["Select Raids [World]"] = v
@@ -933,6 +1016,100 @@ if game.PlaceId == 14433762945 then
             Save()
         end ,
     })
+    ------------------------------------------------------ [[ Auto Skin Reforging ]] ------------------------------------------------------
+    SkinSelectLabel = SkinSetting_Reforging:addLabel({title = "Skin Select : N/s"})
+    SkinStatusSelectLabel = SkinSetting_Reforging:addLabel({title = "Skin Status : N/s"})
+    SkinScrapSelectLabel = SkinSetting_Reforging:addLabel({title = "Scrap : N/s"})
+    SkinSetting_Reforging:addLabel({title = "#Warning : If your Change ' Rarity ' Pls. \nChoose ' Passive ' again"})
+    SkinSetting_Reforging:addLabel({title = "Select Skin Show Only Equip On Champions [Pet]"})
+    FSSKIN = false
+    SkinSetting_Reforging:addDropdown({
+        title = "Select Rarity",
+        list = RaritySkin, 
+        default = SaveSettings['Skin']['Select Rarity [Skin]'],
+        callback = function(v)
+            SaveSettings['Skin']['Select Rarity [Skin]'] = v
+            Save()
+            if FSSKIN then RefreshSelectSkin() RefreshSelectSkinPassive() end
+        end;
+    })
+    SelectSkinReforging = SkinSetting_Reforging:addDropdown({
+        title = "Select Skin",
+        list = List_SkinTable[SaveSettings['Skin']['Select Rarity [Skin]']], 
+        default = SaveSettings['Skin']['Select Skin Reforging'],
+        callback = function(v)
+            SaveSettings['Skin']['Select Skin Reforging'] = v
+            Save()
+        end;
+    })
+    SelectSkinPassive = SkinSetting_Reforging:addMulitDropdown({
+        title = "Select Passive",
+        list = Table_ListItemSkin[SaveSettings['Skin']['Select Rarity [Skin]']], 
+        default = SaveSettings['Skin']['Select Skin Passive'],
+        callback = function(v)
+            SaveSettings['Skin']['Select Skin Passive'] = v
+            Save()
+        end;
+    })
+    SkinSetting_Reforging:addToggle({
+        title = "Auto Skin Reforging",
+        default  = SaveSettings['Skin']['Auto Skin Reforging'] ,
+        callback = function(v)
+            SaveSettings['Skin']['Auto Skin Reforging'] = v
+            Save()
+        end ,
+    })
+
+    SkinSetting_Reforging:addButton({
+        title = "Refresh Pet",
+        callback = function()
+            Base_SkinTable = {}
+
+            List_SkinTable = {}
+            local ItemsInventory = MainData:GetData("Items", true)
+            for i,v_Rarity in pairs(RarityList) do
+                TextRarity = v_Rarity == "Secret" and "Cosmic" or v_Rarity
+
+                if List_SkinTable[TextRarity] == nil then
+                    List_SkinTable[TextRarity] = {}
+                end
+            end
+            table.foreach(ItemsInventory,function(index,value)
+                if ItemStats[index].Skin then
+                    table.foreach(value,function(i,v)
+                        if v.Pet then
+                            TextRarity = ItemStats[index].Rarity == "Secret" and "Cosmic" or ItemStats[index].Rarity
+                            local Pets = MainData:GetData({"Pets",v.Pet}, true)
+                            local TitleName = string.format("Skin %s [%s] | Equipped on %s [%s]",ItemStats[index].DisplayName, index , Pets.CustomName or Pets.PetId, i)
+        
+                            table.insert(List_SkinTable[TextRarity],TitleName)
+                            Base_SkinTable[TitleName] = {
+                                Number = i,
+                                SkinName = index,
+                                ID = v.GUID
+                            }
+        
+                        end
+                    end)
+                end
+            end)
+            SelectSkinReforging.Options:Refresh(List_SkinTable[SaveSettings['Skin']['Select Rarity [Skin]']],SaveSettings['Skin']['Select Skin Reforging'])
+        end
+    })
+    function RefreshSelectSkin() 
+        SelectSkinReforging.Options:Refresh(List_SkinTable[SaveSettings['Skin']['Select Rarity [Skin]']],SaveSettings['Skin']['Select Skin Reforging']) 
+    end
+    function RefreshSelectSkinPassive() 
+        SelectSkinPassive.Options:Refresh(Table_ListItemSkin[SaveSettings['Skin']['Select Rarity [Skin]']],SaveSettings['Skin']['Select Skin Passive']) 
+    end
+    FSSKIN = true
+    for i,v in pairs(RarityList) do
+        SkinRarity = v == "Secret" and "Cosmic" or v
+        SkinSetting_SkinPassiveStats:addLabel({title = "-----[[ Skin Rarity ".. SkinRarity .." Status ]]-----" })
+        for i,v in pairs(Table_ListItemSkin[SkinRarity]) do
+            SkinSetting_SkinPassiveStats:addLabel({title = v })
+        end
+    end
     ------------------------------------------------------ [[ Auto Farm Tower ]] ------------------------------------------------------
     AutoFarm_Tower:addToggle({
         title = "Auto Farm Tower",
@@ -1370,12 +1547,12 @@ if game.PlaceId == 14433762945 then
     })
     Setting:addKeybind({
         title = "Keybind Hide Ui",
-        key = SaveSettings["SaveSetting"]['Hide Key'],
+        key = Enum.KeyCode[string.gsub(SaveSettings["SaveSetting"]['Hide Key'],'Enum.KeyCode.',"")],
         callback = function()
             UI:toggle()
         end,
         changedCallback = function(key)
-            SaveSettings["SaveSetting"]['Hide Key'] = key
+            SaveSettings["SaveSetting"]['Hide Key'] = tostring(key)
             Save()
         end
     })
@@ -1554,8 +1731,40 @@ if game.PlaceId == 14433762945 then
             end
         end
     end)
-    
 
+    -- Auto Skin Reroll
+    spawn(function()
+        while wait() do
+            SkinScrapCount = ItemManipulator.CountItems(MainData:GetData({"Items","SkinScrap"}, true))
+            SkinScrapSelectLabel.Options:ChangeText('Scrap : ' .. Comma_Value(SkinScrapCount))
+            if SaveSettings['Skin']['Auto Skin Reforging'] then
+                if Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']] then
+                    local ItemsSkinName = MainData:GetData({"Items",Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']].SkinName,Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']].Number}, true)
+                    Description = SkinPassiveStats[ItemsSkinName.Passive].Description:split("\n")
+                    DescriptionSkin = table.concat(Description, ", ")
+                    TextSkinPassive = SkinPassiveStats[ItemsSkinName.Passive].DisplayName.. ": " ..DescriptionSkin
+                    SkinSelectLabel.Options:ChangeText("Skin Select \n" .. SaveSettings['Skin']['Select Skin Reforging'])
+                    SkinStatusSelectLabel.Options:ChangeText("Skin Status\n" .. TextSkinPassive)
+
+                    if not table.find(SaveSettings['Skin']['Select Skin Passive'],TextSkinPassive) then
+                        local args = {
+                            [1] = Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']].ID
+                        }
+                        game:GetService("ReplicatedStorage").Remote.Items.SkinReroll:FireServer(unpack(args))
+                        wait(.2)
+
+                        local ItemsSkinName = MainData:GetData({"Items",Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']].SkinName,Base_SkinTable[SaveSettings['Skin']['Select Skin Reforging']].Number}, true)
+                        Description = SkinPassiveStats[ItemsSkinName.Passive].Description:split("\n")
+                        DescriptionSkin = table.concat(Description, ", ")
+                        TextSkinPassive = SkinPassiveStats[ItemsSkinName.Passive].DisplayName.. ": " ..DescriptionSkin
+                        SkinSelectLabel.Options:ChangeText("Skin Select \n" .. SaveSettings['Skin']['Select Skin Reforging'])
+                        SkinStatusSelectLabel.Options:ChangeText("Skin Status\n" .. TextSkinPassive)    
+                    end
+                end
+            end
+        end
+    end)
+    
     -- Auto Scrap Skin
     spawn(function()
         while wait() do
@@ -1563,7 +1772,7 @@ if game.PlaceId == 14433762945 then
                 local ItemsScrap = MainData:GetData("Items", true)
                 table.foreach(ItemsScrap,function(index,value)
                     if value[1].GUID and SaveSettings["Item"]['Auto Scrap Skin'] then
-                        if table.find(SaveSettings["Item"]['Select Rarity Skin'],ItemStatsSkins[index].Rarity) then
+                        if table.find(SaveSettings["Item"]['Select Rarity Skin'],ItemStats[index].Rarity) then
                             local args = { [1] = {} }
                             args[1][tostring(index)] = {[1] = 1}
                             game:GetService("ReplicatedStorage").Remote.Data.ScrapItems:FireServer(unpack(args))
@@ -1592,55 +1801,6 @@ if game.PlaceId == 14433762945 then
         end
     end)
     
-    --lowCPU
-    local IS_ROBLOX_ACTIVE = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE = false
-    end)
-    function isrbxactive()
-        return IS_ROBLOX_ACTIVE
-    end
-    task.spawn(function()
-        while task.wait() do
-        getgenv().isrbxactive = newcclosure(isrbxactive)
-                if IS_ROBLOX_ACTIVE ~= true and SaveSettings["SaveSetting"]['Low CPU Mode'] then
-                    setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
-                    game:GetService("RunService"):Set3dRenderingEnabled(false)
-                    isrbxactive(true)
-                else
-                    setfpscap(240)
-                    game:GetService("RunService"):Set3dRenderingEnabled(true)
-                    isrbxactive(false)
-                end
-            end
-        end)
-    
-    --FPS_Cap
-    local IS_ROBLOX_ACTIVE2 = false
-    local UIS = game:GetService("UserInputService")
-    UIS.WindowFocused:Connect(function()
-        IS_ROBLOX_ACTIVE2 = true
-    end)
-    UIS.WindowFocusReleased:Connect(function()
-        IS_ROBLOX_ACTIVE2 = false
-    end)
-    function isrbxactive2()
-        return IS_ROBLOX_ACTIVE2
-    end
-    task.spawn(function()
-        while task.wait() do
-        getgenv().isrbxactive2 = newcclosure(isrbxactive2)
-                    if SaveSettings["SaveSetting"]['FPS Cap'] then
-                        setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
-                        isrbxactive2(true)
-                    end
-                end
-            end)
-
     -- Town
     function CheckTowerOwner(Target)
         if game:GetService("Workspace").Worlds:FindFirstChild("Tower") then
@@ -1786,7 +1946,7 @@ if game.PlaceId == 14433762945 then
                 if game:GetService("Workspace").Worlds:FindFirstChild("Raids")[FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart)]:GetAttribute("RaidId") == 'JJKRaid' then
                     for i,v in pairs(game:GetService("Workspace").Worlds:FindFirstChild("Raids").Enemies:GetChildren()) do
                         if v:FindFirstChild("HumanoidRootPart") and v:GetAttribute("Health") > 0 and v:GetAttribute("Invulnerable") ~= true and FindRaids(v:GetModelCFrame()) == FindRaids(game.Players.LocalPlayer.Character.HumanoidRootPart) then
-                            if table.find({'FlyCurse','FlyCurse2','BridgeCurse','BridgeCurse2','Finger','WoodBall','FingerRaid','Hanami'},v.Name) then
+                            if table.find({'FlyCurse','FlyCurse2','BridgeCurse','BridgeCurse2','Finger','FingerRaid','Hanami'},v.Name) then
                                 return v
                             end
                         end
@@ -1820,7 +1980,7 @@ if game.PlaceId == 14433762945 then
     spawn(function()
         while wait() do
             WorkspaceWorlds = game:GetService("Workspace").Worlds:FindFirstChild(SaveSettings["Auto Farm"]["Auto Join World Select"] and DateWorld[SaveSettings["Auto Farm"]["Select World"]].WorldName or CheckWorld().Name)
-            wait(1)
+            wait(2)
             if SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown and game:GetService("Workspace").Worlds:FindFirstChild("Hub") then
                 if GetRaids("Owner") ~= "Not Found" then
                     local OwnerRaidRooms = GetRaids("Owner")
@@ -1897,7 +2057,7 @@ if game.PlaceId == 14433762945 then
                         end
                     end
                 end
-            elseif SaveSettings["Raids"]['Auto Farm Raid'] and not WaitRaidCooldown and (not game:GetService("Workspace").Worlds:FindFirstChild("Hub") or not game:GetService("Workspace").Worlds:FindFirstChild("Raids")) then
+            elseif not WaitRaidCooldown and SaveSettings["Raids"]['Auto Farm Raid'] and (not game:GetService("Workspace").Worlds:FindFirstChild("Hub") or not game:GetService("Workspace").Worlds:FindFirstChild("Raids")) then
                 local args = { [1] = "Hub" }
                 game:GetService("ReplicatedStorage").Remote.Player.Teleport:FireServer(unpack(args))
                 repeat wait() until not LocalPlayer.PlayerGui:FindFirstChild('TeleportGui')
@@ -2021,6 +2181,56 @@ if game.PlaceId == 14433762945 then
         page = UI.pages[1],
         toggle = true
     })
+    --lowCPU
+    local IS_ROBLOX_ACTIVE = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE = true
+    end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE = false
+    end)
+    function isrbxactive()
+        return IS_ROBLOX_ACTIVE
+    end
+    task.spawn(function()
+        while task.wait() do
+            getgenv().isrbxactive = newcclosure(isrbxactive)
+            if IS_ROBLOX_ACTIVE ~= true and SaveSettings["SaveSetting"]['Low CPU Mode'] then
+                setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                game:GetService("RunService"):Set3dRenderingEnabled(false)
+                isrbxactive(true)
+            else
+                setfpscap(240)
+                game:GetService("RunService"):Set3dRenderingEnabled(true)
+                isrbxactive(false)
+            end
+        end
+    end)
+    
+    --FPS_Cap
+    local IS_ROBLOX_ACTIVE2 = false
+    local UIS = game:GetService("UserInputService")
+    UIS.WindowFocused:Connect(function()
+        IS_ROBLOX_ACTIVE2 = true
+    end)
+    UIS.WindowFocusReleased:Connect(function()
+        IS_ROBLOX_ACTIVE2 = false
+    end)
+    function isrbxactive2()
+        return IS_ROBLOX_ACTIVE2
+    end
+    task.spawn(function()
+        while task.wait() do
+            getgenv().isrbxactive2 = newcclosure(isrbxactive2)
+            if SaveSettings["SaveSetting"]['FPS Cap'] then
+                setfpscap(tonumber(SaveSettings["SaveSetting"]['FPS Value']))
+                isrbxactive2(true)
+            end
+        end
+    end)
+    
+                
     -- Anti Afk
     DalyKick = 0
     local VirtualUser = game:GetService("VirtualUser")

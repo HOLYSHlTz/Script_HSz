@@ -3446,7 +3446,7 @@ end
 function AutoSummon()
     local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "🧙 เลือก Banner 🧙",function(value)
         getgenv().SelectedBanner = value
-    end, { options = {"Special", "Standard"}})
+    end, { options = {"Special", "Standard", "BSD"}})
 
     local aaselectbanner = AutoSummonSec:Cheat("Dropdown", "💸 เลือกของที่ใช้ 💸",function(value)
         getgenv().SelectedMethod = value
@@ -5922,6 +5922,8 @@ coroutine.resume(coroutine.create(function()
                 SummonUnits("EventClover", getgenv().SelectedMethod)
             elseif getgenv().SelectedBanner == "Standard" and getgenv().SelectedMethod ~= nil then
                 SummonUnits("Standard", getgenv().SelectedMethod)
+            elseif getgenv().SelectedBanner == "BSD" and getgenv().SelectedMethod ~= nil then
+                SummonUnits("BSD", getgenv().SelectedMethod)
             end
         end
         if Settings.AutoSnipeMerchant then

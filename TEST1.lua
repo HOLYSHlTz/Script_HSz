@@ -4892,9 +4892,9 @@ local function startfarming()
                 end
             --Halloweens
         elseif cata == "Dungeon" then
-            if level == "jjk_raid" then
-                getgenv().door = "_lobbytemplate_event23"
-                local string_1 = "_lobbytemplate_event23";
+            if level == "halloween2_event" then
+                getgenv().door = "_lobbytemplate_event321"
+                local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
@@ -4950,14 +4950,14 @@ local function startfarming()
                 end
             --Events Annivesary
         elseif cata == "Dungeon" then
-            if level == "halloween2_event" then
-                getgenv().door = "_lobbytemplate_event321"
-                --[[local string_1 = "_lobbytemplate_event321";
+            if level == "namek_anniversary" then
+                getgenv().door = "_lobbytemplate_event323"
+                local string_1 = "_lobbytemplate_event323";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
                 local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                Target:InvokeServer(string_1, table_1);]]
+                Target:InvokeServer(string_1, table_1);
             
                 if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
                     for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
@@ -5007,7 +5007,8 @@ local function startfarming()
                     task.wait(1)
                 end
             end
-           
+            
+
 
                 end
             end

@@ -4894,13 +4894,6 @@ local function startfarming()
         elseif cata == "Dungeon" then
             if level == "halloween2_event" then
                 getgenv().door = "_lobbytemplate_event321"
-                local string_1 = "_lobbytemplate_event321";
-                local table_1 = {
-                    ["selected_key"] = "key_jjk_map"
-                };
-                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                Target:InvokeServer(string_1, table_1);
-            
                 if tostring(game.Workspace._EVENT_CHALLENGES.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
                     for i, v in pairs(game:GetService("Workspace")["_EVENT_CHALLENGES"].Lobbies:GetDescendants()) do
                         if v.Name == "Owner" and v.Value == nil then

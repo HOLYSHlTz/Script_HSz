@@ -4890,11 +4890,11 @@ local function startfarming()
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
                 end
-            --Events Annivesary
+            --Halloweens
         elseif cata == "Dungeon" then
-            if level == "namek_anniversary" then
-                getgenv().door = "_lobbytemplate_event323"
-                local string_1 = "_lobbytemplate_event323";
+            if level == "jjk_raid" then
+                getgenv().door = "_lobbytemplate_event23"
+                local string_1 = "_lobbytemplate_event23";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
@@ -4945,7 +4945,7 @@ local function startfarming()
                  end)
                     print("send Webhook")
                     task.wait(0.5)
-                    warn("DUNGEONS Annivesary farming")
+                    warn("Halloween Event farming")
                     task.wait(1)
                 end
             --Events Annivesary
@@ -5003,11 +5003,11 @@ local function startfarming()
                  end)
                     print("send Webhook")
                     task.wait(0.5)
-                    warn("Halloween Event farming")
+                    warn("DUNGEONS Annivesary farming")
                     task.wait(1)
                 end
             end
-
+           
 
                 end
             end

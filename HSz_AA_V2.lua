@@ -3566,7 +3566,8 @@ function SnipeMerchant()
 
     -----------------------------------------------------------------------------
     --AutoBuySummer AutoBuyEvent
-
+    SummerItem:Cheat("Label","🕵️‍♂️ **__Item BSD Event__** 🕵️‍♂️") 
+    
     SummerItem:Cheat("Dropdown", "เลือก Item Event",function(pornname)
         getgenv().ItemEventNameC = pornname
         saveSettings()
@@ -3604,6 +3605,50 @@ function SnipeMerchant()
         end
     end)
 
+    --Halloween
+    SummerItem:Cheat("Label","") 
+    SummerItem:Cheat("Label","📜 **__Item Halloween Event__** ") 
+
+    SummerItem:Cheat("Dropdown", "เลือก Item Halloween",function(pornname2)
+        getgenv().ItemEventNameC2 = pornname2
+        saveSettings()
+    end, { options = {"capsule_halloween2"}, default = getgenv().ItemEventNameC2})
+
+    SummerItem:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
+        Settings.SummerNum2 = value
+        saveSettings()
+    end, { options = {"1","10","100"}, default = getgenv().SummerNum2})
+
+    SummerItem:Cheat("Button","ชื้อ Item Halloween [ครั้งเดียว]", function(bool)
+        local args = {
+            [1] = getgenv().ItemEventNameC2,
+            [2] = "event",
+            [3] = "event_shop",
+            [4] = Settings.SummerNum2
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+        warn("Buy Halloween Item !!!")
+    end)
+
+    SummerItem:Cheat("Checkbox","Auto Buy Item Halloween [มันจะชื้อรัวมาก]", function(bool)
+        print(bool)
+        Settings.AutoBuySummer2 = bool
+        saveSettings()
+    end,{enabled = Settings.AutoBuySummer2})
+
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoBuySummer2 then
+                local args = {
+                    [1] = getgenv().ItemEventNameC2,
+                    [2] = "event",
+                    [3] = "event_shop",
+                    [4] = Settings.SummerNum2
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+            end
+        end
+    end)
     ----------------------------------------------------------------
     --Auto Open Egg
 

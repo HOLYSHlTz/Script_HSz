@@ -4898,8 +4898,8 @@ local function startfarming()
                     local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
                     Target:InvokeServer(string_1, table_1);
                 
-                    if tostring(game.Workspace._EVENT_CHALLENGES.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                        for i, v in pairs(game:GetService("Workspace")["_EVENT_CHALLENGES"].Lobbies:GetDescendants()) do
+                    if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
+                        for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
                             if v.Name == "Owner" and v.Value == nil then
                                 local args = { [1] = tostring(v.Parent.Name) }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
@@ -4928,8 +4928,8 @@ local function startfarming()
             
                         plr.Character.HumanoidRootPart.CFrame = cpos
             
-                        if Workspace._EVENT_CHALLENGES.Lobbies[getgenv().door].Owner == plr.Name then
-                            if Workspace._EVENT_CHALLENGES.Lobbies[getgenv().door].Teleporting.Value == true then
+                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
+                            if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
                                 getgenv().teleporting = false
                             else
                                 getgenv().teleporting = true

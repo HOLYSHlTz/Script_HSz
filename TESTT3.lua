@@ -4943,7 +4943,7 @@ local function startfarming()
                     getgenv().door = "_lobbytemplate_event321"
                     local string_1 = "_lobbytemplate_event321";
                     local table_1 = {
-                        ["selected_key"] = ""
+                        ["selected_key"] = "key_jjk_map"
                     };
                     local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
                     Target:InvokeServer(string_1, table_1);

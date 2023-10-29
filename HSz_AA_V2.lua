@@ -824,7 +824,9 @@ local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec2 = ETC:Sector("")
 
 local Summer = Window:Category("🦸🏽 Event & Skin ")
-local SummerItem = Summer:Sector("💸 Auto Buy Event Item 💸")
+local SummerItem = Summer:Sector("💸 Item BSD Event 💸")
+local SummerItem2 = Summer:Sector("💸 Item Halloween Event 💸")
+local SummerItem0 = Summer:Sector("")
 local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
 local SummerSkin0 = Summer:Sector("")
@@ -3608,20 +3610,19 @@ function SnipeMerchant()
     end)
 
     --Halloween
-    SummerItem:Cheat("Label","") 
-    SummerItem:Cheat("Label","📜 **__Item Halloween Event__** ") 
+    SummerItem2:Cheat("Label","📜 **__Item Halloween Event__** ") 
 
-    SummerItem:Cheat("Dropdown", "เลือก Item Halloween",function(pornname2)
+    SummerItem2:Cheat("Dropdown", "เลือก Item Halloween",function(pornname2)
         getgenv().ItemEventNameC2 = pornname2
         saveSettings()
     end, { options = {"capsule_halloween2"}, default = getgenv().ItemEventNameC2})
 
-    SummerItem:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
+    SummerItem2:Cheat("Dropdown", "เลือก จำนวนไอเทม",function(value)
         Settings.SummerNum2 = value
         saveSettings()
     end, { options = {"1","10","100"}, default = getgenv().SummerNum2})
 
-    SummerItem:Cheat("Button","ชื้อ Item Halloween [ครั้งเดียว]", function(bool)
+    SummerItem2:Cheat("Button","ชื้อ Item Halloween [ครั้งเดียว]", function(bool)
         local args = {
             [1] = getgenv().ItemEventNameC2,
             [2] = "event",
@@ -3632,7 +3633,7 @@ function SnipeMerchant()
         warn("Buy Halloween Item !!!")
     end)
 
-    SummerItem:Cheat("Checkbox","Auto Buy Item Halloween [มันจะชื้อรัวมาก]", function(bool)
+    SummerItem2:Cheat("Checkbox","Auto Buy Item Halloween [มันจะชื้อรัวมาก]", function(bool)
         print(bool)
         Settings.AutoBuySummer2 = bool
         saveSettings()
@@ -3654,11 +3655,11 @@ function SnipeMerchant()
     ----------------------------------------------------------------
     --Auto Open Egg
 
-    Settings.SelecteStars = Settings.SelecteStars or "capsule_summer"
+    Settings.SelecteStars = Settings.SelecteStars or "capsule_halloween2"
     SummerEgg:Cheat("Dropdown", "เลือก ไข่ Star",function(value)
         Settings.SelecteStars = value
         saveSettings()
-    end, { options = {"capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
+    end, { options = {"capsule_halloween2","capsule_summer","capsule_anniversary"}, default = getgenv().SelecteStars})
 
     SummerEgg:Cheat("Checkbox","Auto Open Summer Egg [1 ea]", function(bool)
         print(bool)
@@ -3806,7 +3807,7 @@ function SnipeMerchant()
     ----------------------------------------------------------------sellskin
     --Auto Sell Summer Skin
 
-    Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Summer"
+    Settings.SelectedSellSeason = Settings.SelectedSellSeason or "Halloween"
     SummerSkin:Cheat("Dropdown","เลือก Season", function(bool)
         print(bool)
         Settings.SelectedSellSeason = bool

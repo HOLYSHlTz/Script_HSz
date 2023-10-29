@@ -2564,7 +2564,7 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
         if world2 == "hxhant_halloween" then world = "hxhant" end
         if world2 == "magnolia_halloween" then world = "magnolia" end
         if world2 == "jjk_halloween" then world = "jjk" end
-        if world2 == "clover_halloween" then world = "hage" end
+        if world2 == "hage_elf_halloween" then world = "hage" end
         if world2 == "jojo_halloween" then world = "space_center" end
         if world2 == "opm_halloween" then world = "boros_ship" end
         if world2 == "7ds_halloween" then world = "7ds_map" end
@@ -5973,7 +5973,7 @@ function PlacePos(map,name,_uuid,unit)
         if map2 == "hxhant_halloween" then map = "hxhant" end
         if map2 == "magnolia_halloween" then map = "magnolia" end
         if map2 == "jjk_halloween" then map = "jjk" end
-        if map2 == "clover_halloween" then map = "hage" end
+        if map2 == "hage_elf_halloween" then map = "hage" end
         if map2 == "jojo_halloween" then map = "space_center" end
         if map2 == "opm_halloween" then map = "boros_ship" end
         if map2 == "7ds_halloween" then map = "7ds_map" end
@@ -6436,7 +6436,7 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     if map2 == "hxhant_halloween" then map = "hxhant" end
     if map2 == "magnolia_halloween" then map = "magnolia" end
     if map2 == "jjk_halloween" then map = "jjk" end
-    if map2 == "clover_halloween" then map = "hage" end
+    if map2 == "hage_elf_halloween" then map = "hage" end
     if map2 == "jojo_halloween" then map = "space_center" end
     if map2 == "opm_halloween" then map = "boros_ship" end
     if map2 == "7ds_halloween" then map = "7ds_map" end
@@ -6650,7 +6650,7 @@ function PlaceUnits(map)
                     if map2 == "hxhant_halloween" then map = "hxhant" end
                     if map2 == "magnolia_halloween" then map = "magnolia" end
                     if map2 == "jjk_halloween" then map = "jjk" end
-                    if map2 == "clover_halloween" then map = "hage" end
+                    if map2 == "hage_elf_halloween" then map = "hage" end
                     if map2 == "jojo_halloween" then map = "space_center" end
                     if map2 == "opm_halloween" then map = "boros_ship" end
                     if map2 == "7ds_halloween" then map = "7ds_map" end
@@ -6801,7 +6801,7 @@ coroutine.resume(coroutine.create(function()
                 if map2 == "hxhant_halloween" then map = "hxhant" end
                 if map2 == "magnolia_halloween" then map = "magnolia" end
                 if map2 == "jjk_halloween" then map = "jjk" end
-                if map2 == "clover_halloween" then map = "hage" end
+                if map2 == "hage_elf_halloween" then map = "hage" end
                 if map2 == "jojo_halloween" then map = "space_center" end
                 if map2 == "opm_halloween" then map = "boros_ship" end
                 if map2 == "7ds_halloween" then map = "7ds_map" end
@@ -6870,7 +6870,7 @@ coroutine.resume(coroutine.create(function()
                 if map2 == "hxhant_halloween" then map = "hxhant" end
                 if map2 == "magnolia_halloween" then map = "magnolia" end
                 if map2 == "jjk_halloween" then map = "jjk" end
-                if map2 == "clover_halloween" then map = "hage" end
+                if map2 == "hage_elf_halloween" then map = "hage" end
                 if map2 == "jojo_halloween" then map = "space_center" end
                 if map2 == "opm_halloween" then map = "boros_ship" end
                 if map2 == "7ds_halloween" then map = "7ds_map" end

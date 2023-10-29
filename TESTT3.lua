@@ -4833,7 +4833,6 @@ local function startfarming()
                 task.wait(1)
             end
         --ดันเกะโท
-        --elseif cata == "Dungeon" then
         elseif level == "jjk_raid" then
                 getgenv().door = "_lobbytemplate_event23"
                 local string_1 = "_lobbytemplate_event23";
@@ -4889,20 +4888,18 @@ local function startfarming()
                     task.wait(0.5)
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
-                --end
                 --Halloweens
-            --elseif cata == "Dungeon" then
             elseif level == "halloween2_event" then
                     getgenv().door = "_lobbytemplate_event321"
-                    local string_1 = "_lobbytemplate_event321";
+                    --[[local string_1 = "_lobbytemplate_event321";
                     local table_1 = {
                         ["selected_key"] = "key_jjk_map"
                     };
                     local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                    Target:InvokeServer(string_1, table_1);
+                    Target:InvokeServer(string_1, table_1);]]
                 
                     if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                        for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
+                        for i, v in pairs(game:GetService("Workspace")["_EVENT_CHALLENGES"].Lobbies:GetDescendants()) do
                             if v.Name == "Owner" and v.Value == nil then
                                 local args = { [1] = tostring(v.Parent.Name) }
                                 game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
@@ -4945,11 +4942,9 @@ local function startfarming()
                      end)
                         print("send Webhook")
                         task.wait(0.5)
-                        warn("DUNGEONS jjk_raid farming")
+                        warn("Halloween Event farming")
                         task.wait(1)
-                    ---end
             --Events Annivesary
-        --elseif cata == "Dungeon" then
         elseif level == "namek_anniversary" then
                 getgenv().door = "_lobbytemplate_event323"
                 local string_1 = "_lobbytemplate_event323";

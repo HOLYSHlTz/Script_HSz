@@ -382,8 +382,8 @@ function webhook()
                             ["name"] ="Rewards :",
                             ["value"] = "```ini\n"  
                                             .. comma_value(gold) .." Gold 💰\n"
-                                            .. comma_value(gems) .." Gems 💎\n+"
-                                            .. comma_value(xp[1]) .." XP 🧪\n"
+                                            .. comma_value(gems) .." Gems 💎\n"
+                                            .. comma_value(xp[1]) .." XP 🧪\n+"
                                             .. comma_value(SummerPearls - SummerPearlsOld) .." Candies 🎃\n"
                                             .. trophy .." Trophy 🏆```",
                         },

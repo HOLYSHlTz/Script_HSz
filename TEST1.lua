@@ -4948,18 +4948,16 @@ local function startfarming()
                     warn("DUNGEONS Annivesary farming")
                     task.wait(1)
                 end
-            --end
             --Events Annivesary
         elseif cata == "Dungeon" then
             if level == "halloween2_event" then
                 getgenv().door = "_lobbytemplate_event321"
-                local string_1 = "_lobbytemplate_event321";
+                --[[local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
                 local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                --Target:InvokeServer(string_1, table_1);
-                Target:InvokeServer(string_1);
+                Target:InvokeServer(string_1, table_1);]]
             
                 if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
                     for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
@@ -7347,7 +7345,7 @@ end
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

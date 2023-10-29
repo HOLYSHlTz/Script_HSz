@@ -344,7 +344,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/c434a1f08239cd31612ebe0960dcf5bc/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -1109,7 +1109,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","FATE Portals","BSD Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"Cursed Womb","Crused Parade","Anniversary Island"}    
+            storylist = {"Cursed Womb","Crused Parade","Halloween Event"}    
         elseif Settings.WorldCategory == "Secret Portals" then
             storylist = {"Dressrosa Secret Portals","The Eclipse Secret","FATE Secret","BSD Secret"} 
         end
@@ -1177,8 +1177,8 @@ local function WorldSec()
             levellist = {"jjk_finger"}    
         elseif level == "Crused Parade" then
             levellist = {"jjk_raid"}     
-        elseif level == "Anniversary Island" then
-            levellist = {"namek_anniversary"}  
+        elseif level == "Halloween Event" then
+            levellist = {"namek_halloween"}  
             --///Secret Portals\\\---   
         elseif level == "Dressrosa Secret Portals" then
             levellist = {"portal_item__doflamingo"}
@@ -2546,6 +2546,37 @@ function saveposTEST(UnitPos, a,a2,a3,a4,a5,a6)
         if world == "hage_night" then world = "hage" end
         if Mapname == "Infinity Castle" then world = world2 end
 
+
+        --halloween_event
+        if world == "namek_halloween" and world2 == "csm_city" or world2 == "csm_halloween" then world = "csm_city" end
+        if world == "namek_halloween" and world2 == "karakura" or world2 == "karakura_halloween" then world = "karakura" end
+        if world2 == "namek_halloween" then world = "namek" end
+        if world2 == "aot_halloween" then world = "aot" end
+        if world2 == "demonslayer_halloween" then world = "demonslayer" end
+        if world2 == "naruto_halloween" then world = "naruto_desert" end
+        if world2 == "marineford_halloween" then world = "marineford" end
+        if world2 == "tokyoghoul_halloween" then world = "tokyo_ghoul" end
+        if world2 == "hueco_halloween" then world = "hueco" end
+        if world2 == "hxhant_halloween" then world = "hxhant" end
+        if world2 == "magnolia_halloween" then world = "magnolia" end
+        if world2 == "jjk_halloween" then world = "jjk" end
+        if world2 == "clover_halloween" then world = "hage" end
+        if world2 == "jojo_halloween" then world = "space_center" end
+        if world2 == "opm_halloween" then world = "boros_ship" end
+        if world2 == "7ds_halloween" then world = "7ds_map" end
+        if world2 == "mha_halloween" then world = "mha_city" end
+        if world2 == "dressrosa_halloween" then world = "dressrosa" end
+        if world2 == "sao_halloween" then world = "sao" end
+        if world2 == "berserk_halloween" then world = "berserk" end
+        if world2 == "overlord_halloween" then world = "overlord_tomb" end
+        if world2 == "morioh_halloween" then world = "morioh" end
+        if world2 == "west_city_halloween" then world = "west_city_frieza" end
+        if world2 == "uchiha_hideout_halloween" then world = "uchiha_hideout_final" end
+        if world2 == "uchiha_halloween" then world = "uchiha_hideout_final" end
+        if world2 == "entertainment_halloween" then world = "entertainment_district" end
+        if world2 == "entertainment_district_halloween" then world = "entertainment_district" end
+
+
         updatepos(world, UnitPos, a,a2,a3,a4,a5,a6)
 
     end
@@ -3593,7 +3624,7 @@ task.spawn(function()
                 local data = {
                     ["content"] = "",
                     ["username"] = "Anime Adventures V2",
-                    ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+                    ["avatar_url"] = "https://tr.rbxcdn.com/c434a1f08239cd31612ebe0960dcf5bc/150/150/Image/Png",
                     ["embeds"] = {
                         {
                             ["author"] = {
@@ -4790,9 +4821,9 @@ local function startfarming()
                 end
                     --Events Annivesary
         elseif cata == "Dungeon" then
-            if level == "namek_anniversary" then
-                getgenv().door = "_lobbytemplate_event323"
-                local string_1 = "_lobbytemplate_event323";
+            if level == "namek_halloween" then
+                getgenv().door = "_lobbytemplate_event321"
+                local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };
@@ -5881,6 +5912,36 @@ function PlacePos(map,name,_uuid,unit)
         if map == "west_city" then map = "west_city_frieza" end
         if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
         if map == "hage_night" then map = "hage" end
+
+        --halloween_event
+        if map == "namek_halloween" and map2 == "csm_city" or map2 == "csm_halloween" then map = "csm_city" end
+        if map == "namek_halloween" and map2 == "karakura" or map2 == "karakura_halloween" then map = "karakura" end
+        if map2 == "namek_halloween" then map = "namek" end
+        if map2 == "aot_halloween" then map = "aot" end
+        if map2 == "demonslayer_halloween" then map = "demonslayer" end
+        if map2 == "naruto_halloween" then map = "naruto_desert" end
+        if map2 == "marineford_halloween" then map = "marineford" end
+        if map2 == "tokyoghoul_halloween" then map = "tokyo_ghoul" end
+        if map2 == "hueco_halloween" then map = "hueco" end
+        if map2 == "hxhant_halloween" then map = "hxhant" end
+        if map2 == "magnolia_halloween" then map = "magnolia" end
+        if map2 == "jjk_halloween" then map = "jjk" end
+        if map2 == "clover_halloween" then map = "hage" end
+        if map2 == "jojo_halloween" then map = "space_center" end
+        if map2 == "opm_halloween" then map = "boros_ship" end
+        if map2 == "7ds_halloween" then map = "7ds_map" end
+        if map2 == "mha_halloween" then map = "mha_city" end
+        if map2 == "dressrosa_halloween" then map = "dressrosa" end
+        if map2 == "sao_halloween" then map = "sao" end
+        if map2 == "berserk_halloween" then map = "berserk" end
+        if map2 == "overlord_halloween" then map = "overlord_tomb" end
+        if map2 == "morioh_halloween" then map = "morioh" end
+        if map2 == "west_city_halloween" then map = "west_city_frieza" end
+        if map2 == "uchiha_hideout_halloween" then map = "uchiha_hideout_final" end
+        if map2 == "uchiha_halloween" then map = "uchiha_hideout_final" end
+        if map2 == "entertainment_halloween" then map = "entertainment_district" end
+        if map2 == "entertainment_district_halloween" then map = "entertainment_district" end
+
         if Mapname == "Infinity Castle" then map = map2 end
         local pos = Settings[map][unit]
 
@@ -6314,6 +6375,36 @@ function PlaceUnitsTEST(map,name,_uuid,unit)
     if map == "west_city" then map = "west_city_frieza" end
     if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
     if map == "hage_night" then map = "hage" end
+
+    --halloween_event
+    if map == "namek_halloween" and map2 == "csm_city" or map2 == "csm_halloween" then map = "csm_city" end
+    if map == "namek_halloween" and map2 == "karakura" or map2 == "karakura_halloween" then map = "karakura" end
+    if map2 == "namek_halloween" then map = "namek" end
+    if map2 == "aot_halloween" then map = "aot" end
+    if map2 == "demonslayer_halloween" then map = "demonslayer" end
+    if map2 == "naruto_halloween" then map = "naruto_desert" end
+    if map2 == "marineford_halloween" then map = "marineford" end
+    if map2 == "tokyoghoul_halloween" then map = "tokyo_ghoul" end
+    if map2 == "hueco_halloween" then map = "hueco" end
+    if map2 == "hxhant_halloween" then map = "hxhant" end
+    if map2 == "magnolia_halloween" then map = "magnolia" end
+    if map2 == "jjk_halloween" then map = "jjk" end
+    if map2 == "clover_halloween" then map = "hage" end
+    if map2 == "jojo_halloween" then map = "space_center" end
+    if map2 == "opm_halloween" then map = "boros_ship" end
+    if map2 == "7ds_halloween" then map = "7ds_map" end
+    if map2 == "mha_halloween" then map = "mha_city" end
+    if map2 == "dressrosa_halloween" then map = "dressrosa" end
+    if map2 == "sao_halloween" then map = "sao" end
+    if map2 == "berserk_halloween" then map = "berserk" end
+    if map2 == "overlord_halloween" then map = "overlord_tomb" end
+    if map2 == "morioh_halloween" then map = "morioh" end
+    if map2 == "west_city_halloween" then map = "west_city_frieza" end
+    if map2 == "uchiha_hideout_halloween" then map = "uchiha_hideout_final" end
+    if map2 == "uchiha_halloween" then map = "uchiha_hideout_final" end
+    if map2 == "entertainment_halloween" then map = "entertainment_district" end
+    if map2 == "entertainment_district_halloween" then map = "entertainment_district" end
+
     if Mapname == "Infinity Castle" then map = map2 end
 
 current_wave = game:GetService("Workspace")["_wave_num"].Value
@@ -6498,6 +6589,36 @@ function PlaceUnits(map)
                     if map == "west_city" then map = "west_city_frieza" end
                     if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                     if map == "hage_night" then map = "hage" end
+
+                    --halloween_event
+                    if map == "namek_halloween" and map2 == "csm_city" or map2 == "csm_halloween" then map = "csm_city" end
+                    if map == "namek_halloween" and map2 == "karakura" or map2 == "karakura_halloween" then map = "karakura" end
+                    if map2 == "namek_halloween" then map = "namek" end
+                    if map2 == "aot_halloween" then map = "aot" end
+                    if map2 == "demonslayer_halloween" then map = "demonslayer" end
+                    if map2 == "naruto_halloween" then map = "naruto_desert" end
+                    if map2 == "marineford_halloween" then map = "marineford" end
+                    if map2 == "tokyoghoul_halloween" then map = "tokyo_ghoul" end
+                    if map2 == "hueco_halloween" then map = "hueco" end
+                    if map2 == "hxhant_halloween" then map = "hxhant" end
+                    if map2 == "magnolia_halloween" then map = "magnolia" end
+                    if map2 == "jjk_halloween" then map = "jjk" end
+                    if map2 == "clover_halloween" then map = "hage" end
+                    if map2 == "jojo_halloween" then map = "space_center" end
+                    if map2 == "opm_halloween" then map = "boros_ship" end
+                    if map2 == "7ds_halloween" then map = "7ds_map" end
+                    if map2 == "mha_halloween" then map = "mha_city" end
+                    if map2 == "dressrosa_halloween" then map = "dressrosa" end
+                    if map2 == "sao_halloween" then map = "sao" end
+                    if map2 == "berserk_halloween" then map = "berserk" end
+                    if map2 == "overlord_halloween" then map = "overlord_tomb" end
+                    if map2 == "morioh_halloween" then map = "morioh" end
+                    if map2 == "west_city_halloween" then map = "west_city_frieza" end
+                    if map2 == "uchiha_hideout_halloween" then map = "uchiha_hideout_final" end
+                    if map2 == "uchiha_halloween" then map = "uchiha_hideout_final" end
+                    if map2 == "entertainment_halloween" then map = "entertainment_district" end
+                    if map2 == "entertainment_district_halloween" then map = "entertainment_district" end
+
                     if Mapname == "Infinity Castle" then map = map2 end
                     local unitinfo_ = unitinfo:split(" #")
                     local pos = Settings[map]["UP" .. i]
@@ -6619,6 +6740,36 @@ coroutine.resume(coroutine.create(function()
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
+
+                --halloween_event
+                if map == "namek_halloween" and map2 == "csm_city" or map2 == "csm_halloween" then map = "csm_city" end
+                if map == "namek_halloween" and map2 == "karakura" or map2 == "karakura_halloween" then map = "karakura" end
+                if map2 == "namek_halloween" then map = "namek" end
+                if map2 == "aot_halloween" then map = "aot" end
+                if map2 == "demonslayer_halloween" then map = "demonslayer" end
+                if map2 == "naruto_halloween" then map = "naruto_desert" end
+                if map2 == "marineford_halloween" then map = "marineford" end
+                if map2 == "tokyoghoul_halloween" then map = "tokyo_ghoul" end
+                if map2 == "hueco_halloween" then map = "hueco" end
+                if map2 == "hxhant_halloween" then map = "hxhant" end
+                if map2 == "magnolia_halloween" then map = "magnolia" end
+                if map2 == "jjk_halloween" then map = "jjk" end
+                if map2 == "clover_halloween" then map = "hage" end
+                if map2 == "jojo_halloween" then map = "space_center" end
+                if map2 == "opm_halloween" then map = "boros_ship" end
+                if map2 == "7ds_halloween" then map = "7ds_map" end
+                if map2 == "mha_halloween" then map = "mha_city" end
+                if map2 == "dressrosa_halloween" then map = "dressrosa" end
+                if map2 == "sao_halloween" then map = "sao" end
+                if map2 == "berserk_halloween" then map = "berserk" end
+                if map2 == "overlord_halloween" then map = "overlord_tomb" end
+                if map2 == "morioh_halloween" then map = "morioh" end
+                if map2 == "west_city_halloween" then map = "west_city_frieza" end
+                if map2 == "uchiha_hideout_halloween" then map = "uchiha_hideout_final" end
+                if map2 == "uchiha_halloween" then map = "uchiha_hideout_final" end
+                if map2 == "entertainment_halloween" then map = "entertainment_district" end
+                if map2 == "entertainment_district_halloween" then map = "entertainment_district" end
+
                 if Mapname == "Infinity Castle" then map = map2 end
 
                 PlaceUnitsTEST(map)
@@ -6658,6 +6809,36 @@ coroutine.resume(coroutine.create(function()
                 if map == "west_city" then map = "west_city_frieza" end
                 if map == "uchiha_hideout" then map = "uchiha_hideout_final" end
                 if map == "hage_night" then map = "hage" end
+
+                --halloween_event
+                if map == "namek_halloween" and map2 == "csm_city" or map2 == "csm_halloween" then map = "csm_city" end
+                if map == "namek_halloween" and map2 == "karakura" or map2 == "karakura_halloween" then map = "karakura" end
+                if map2 == "namek_halloween" then map = "namek" end
+                if map2 == "aot_halloween" then map = "aot" end
+                if map2 == "demonslayer_halloween" then map = "demonslayer" end
+                if map2 == "naruto_halloween" then map = "naruto_desert" end
+                if map2 == "marineford_halloween" then map = "marineford" end
+                if map2 == "tokyoghoul_halloween" then map = "tokyo_ghoul" end
+                if map2 == "hueco_halloween" then map = "hueco" end
+                if map2 == "hxhant_halloween" then map = "hxhant" end
+                if map2 == "magnolia_halloween" then map = "magnolia" end
+                if map2 == "jjk_halloween" then map = "jjk" end
+                if map2 == "clover_halloween" then map = "hage" end
+                if map2 == "jojo_halloween" then map = "space_center" end
+                if map2 == "opm_halloween" then map = "boros_ship" end
+                if map2 == "7ds_halloween" then map = "7ds_map" end
+                if map2 == "mha_halloween" then map = "mha_city" end
+                if map2 == "dressrosa_halloween" then map = "dressrosa" end
+                if map2 == "sao_halloween" then map = "sao" end
+                if map2 == "berserk_halloween" then map = "berserk" end
+                if map2 == "overlord_halloween" then map = "overlord_tomb" end
+                if map2 == "morioh_halloween" then map = "morioh" end
+                if map2 == "west_city_halloween" then map = "west_city_frieza" end
+                if map2 == "uchiha_hideout_halloween" then map = "uchiha_hideout_final" end
+                if map2 == "uchiha_halloween" then map = "uchiha_hideout_final" end
+                if map2 == "entertainment_halloween" then map = "entertainment_district" end
+                if map2 == "entertainment_district_halloween" then map = "entertainment_district" end
+
                 if Mapname == "Infinity Castle" then map = map2 end
 
                 PlaceUnits(map)
@@ -7173,7 +7354,7 @@ function placeunittwin()
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

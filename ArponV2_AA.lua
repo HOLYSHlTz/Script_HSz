@@ -370,7 +370,7 @@ function webhook()
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                        ..tostring(CountPortal_list) .." / 200 🌀\nCurrent Candies : "
+                                        ..tostring(Count_Portal_list) .." / 200 🌀\nCurrent Candies : "
                                         ..tostring(comma_value(game.Players.LocalPlayer._stats._resourceCandies.Value)).. " 🎃```",
                         },
                         {
@@ -3660,10 +3660,10 @@ task.spawn(function()
                     end 
                 end
 
-                CountPortal_list = 0
+                Count_Portal_list = 0
                 for i,v in pairs(get_inventory_items_unique_items()) do
                     if string.find(v['item_id'],"portal") or string.find(v['item_id'],"disc") then
-                        CountPortal_list = CountPortal_list + 1
+                        Count_Portal_list = Count_Portal_list + 1
                     end
                 end
         
@@ -3699,7 +3699,7 @@ task.spawn(function()
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gold_amount.Value)).. " 💰\nCurrent Gems : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.gem_amount.Value)).. " 💎\nCurrent Trophies : "
                                                 ..tostring(comma_value(game.Players.LocalPlayer._stats.trophies.Value)).. " 🏆\nCurrent Portal : "
-                                                ..tostring(CountPortal_list) .." / 200 🌀 ```",
+                                                ..tostring(Count_Portal_list) .." / 200 🌀 ```",
                                 },
                                 {
                                     ["name"] ="Skins Drop :",

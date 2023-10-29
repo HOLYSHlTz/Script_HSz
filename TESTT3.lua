@@ -4888,6 +4888,62 @@ local function startfarming()
                     task.wait(0.5)
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
+            --Events Annivesary
+        elseif level == "namek_anniversary" then
+            getgenv().door = "_lobbytemplate_event321"
+            local string_1 = "_lobbytemplate_event321";
+            local table_1 = {
+                ["selected_key"] = "key_jjk_map"
+            };
+            local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
+            Target:InvokeServer(string_1, table_1);
+        
+            if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
+                for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
+                    if v.Name == "Owner" and v.Value == nil then
+                        local args = { [1] = tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+    
+                        task.wait()
+                    
+                        local args = {
+                            [1] = tostring(v.Parent.Name), -- Lobby 
+                            [2] = Settings.SelectedLevel, -- World/Level
+                            [3] = Settings.isFriendOnly or true, -- Friends Only or not
+                            [4] = Settings.Difficulty 
+                        }
+    
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+    
+                        local args = { [1] =tostring(v.Parent.Name) }
+                        game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                        
+                        getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+                        plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+                        break
+                    end
+                end
+    
+                task.wait()
+    
+                plr.Character.HumanoidRootPart.CFrame = cpos
+    
+                if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
+                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
+                        getgenv().teleporting = false
+                    else
+                        getgenv().teleporting = true
+                    end
+                end
+    
+            pcall(function() 
+                BabyWebhook()
+                SnipeShopNew()
+             end)
+                print("send Webhook")
+                task.wait(0.5)
+                warn("DUNGEONS Annivesary farming")
+                task.wait(1)
                 --Halloweens
             elseif level == "halloween2_event" then
                     getgenv().door = "_lobbytemplate_event321"
@@ -4944,63 +5000,6 @@ local function startfarming()
                         task.wait(0.5)
                         warn("Halloween Event farming")
                         task.wait(1)
-            --Events Annivesary
-        elseif level == "namek_anniversary" then
-                getgenv().door = "_lobbytemplate_event321"
-                local string_1 = "_lobbytemplate_event321";
-                local table_1 = {
-                    ["selected_key"] = "key_jjk_map"
-                };
-                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_join_lobby"];
-                Target:InvokeServer(string_1, table_1);
-            
-                if tostring(game.Workspace._DUNGEONS.Lobbies[getgenv().door].Owner.Value) ~= plr.Name then
-                    for i, v in pairs(game:GetService("Workspace")["_DUNGEONS"].Lobbies:GetDescendants()) do
-                        if v.Name == "Owner" and v.Value == nil then
-                            local args = { [1] = tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
-        
-                            task.wait()
-                        
-                            local args = {
-                                [1] = tostring(v.Parent.Name), -- Lobby 
-                                [2] = Settings.SelectedLevel, -- World/Level
-                                [3] = Settings.isFriendOnly or true, -- Friends Only or not
-                                [4] = Settings.Difficulty 
-                            }
-        
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
-        
-                            local args = { [1] =tostring(v.Parent.Name) }
-                            game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
-                            
-                            getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
-                            plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
-                            break
-                        end
-                    end
-        
-                    task.wait()
-        
-                    plr.Character.HumanoidRootPart.CFrame = cpos
-        
-                    if Workspace._DUNGEONS.Lobbies[getgenv().door].Owner == plr.Name then
-                        if Workspace._DUNGEONS.Lobbies[getgenv().door].Teleporting.Value == true then
-                            getgenv().teleporting = false
-                        else
-                            getgenv().teleporting = true
-                        end
-                    end
-        
-                pcall(function() 
-                    BabyWebhook()
-                    SnipeShopNew()
-                 end)
-                    print("send Webhook")
-                    task.wait(0.5)
-                    warn("DUNGEONS Annivesary farming")
-                    task.wait(1)
-                
                     end
                 end
             

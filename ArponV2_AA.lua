@@ -3484,9 +3484,12 @@ function SnipeMerchant()
     end,{enabled = Settings.AutoSnipeMerchant })
 
     -----------------------------------------------------------------------------
-     --AutoBuySummer AutoBuyEvent
+    --AutoBuySummer AutoBuyEvent
 
-    SummerItem:Cheat("Dropdown", "Select Item Event",function(pornname)
+    --BSD
+    SummerItem:Cheat("Label","🕵️‍♂️ **__Item BSD Event__** 🕵️‍♂️") 
+
+    SummerItem:Cheat("Dropdown", "Select Item BSD Event",function(pornname)
         getgenv().portalnameC = pornname
         saveSettings()
     end, { options = {"bsd_portal_item_contract","bsd_book"}, default = getgenv().portalnameC})
@@ -3496,7 +3499,7 @@ function SnipeMerchant()
         saveSettings()
     end, { options = {"1","10","100"}, default = getgenv().SummerNum})
 
-    SummerItem:Cheat("Button","Buy Item [One Time]", function(bool)
+    SummerItem:Cheat("Button","Buy Item BSD [One Time]", function(bool)
         local args = {
             [1] = getgenv().ItemEventNameC,
             [2] = Settings.SummerNum
@@ -3505,7 +3508,7 @@ function SnipeMerchant()
         warn("Buy Event Items !!!")
     end)
     
-    SummerItem:Cheat("Checkbox","Auto Buy Item [Many time]", function(bool)
+    SummerItem:Cheat("Checkbox","Auto Buy Item BSD [Many time]", function(bool)
         print(bool)
         Settings.AutoBuySummer = bool
         saveSettings()
@@ -3519,6 +3522,51 @@ function SnipeMerchant()
                     [2] = Settings.SummerNum
                 }
                 game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_bsd_shop_item:InvokeServer(unpack(args))
+            end
+        end
+    end)
+
+    --Halloween
+    SummerItem:Cheat("Label","") 
+    SummerItem:Cheat("Label","🎃 **__Item Halloween Event__** 🎃") 
+
+    SummerItem:Cheat("Dropdown", "Select Item Halloween",function(pornname2)
+        getgenv().ItemEventNameC2 = pornname2
+        saveSettings()
+    end, { options = {"capsule_halloween2"}, default = getgenv().ItemEventNameC2})
+
+    SummerItem:Cheat("Dropdown", "Select Total Item",function(value)
+        Settings.SummerNum2 = value
+        saveSettings()
+    end, { options = {"1","10","100"}, default = getgenv().SummerNum2})
+
+    SummerItem:Cheat("Button","Buy Item Halloween [One Time]", function(bool)
+        local args = {
+            [1] = getgenv().ItemEventNameC2,
+            [2] = "event",
+            [3] = "event_shop",
+            [4] = Settings.SummerNum2
+        }
+        game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
+        warn("Buy Halloween Item !!!")
+    end)
+
+    SummerItem:Cheat("Checkbox","Auto Buy Item Halloween [Many time]", function(bool)
+        print(bool)
+        Settings.AutoBuySummer2 = bool
+        saveSettings()
+    end,{enabled = Settings.AutoBuySummer2})
+
+    task.spawn(function()
+        while task.wait() do
+            if Settings.AutoBuySummer2 then
+                local args = {
+                    [1] = getgenv().ItemEventNameC2,
+                    [2] = "event",
+                    [3] = "event_shop",
+                    [4] = Settings.SummerNum2
+                }
+                game:GetService("ReplicatedStorage").endpoints.client_to_server.buy_item_generic:InvokeServer(unpack(args))
             end
         end
     end)

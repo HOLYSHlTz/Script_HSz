@@ -827,8 +827,8 @@ local WebhookSec = ETC:Sector("🌐 Discord Webhook 🌐")
 local OtherSec2 = ETC:Sector("")
 
 local Summer = Window:Category("🦸🏽 Event & Skin ")
-local SummerItem = Summer:Sector("💸 Item BSD Event 💸")
-local SummerItem2 = Summer:Sector("💸 Item Halloween Event 💸")
+local SummerItem = Summer:Sector("🕵️‍♂️ Item BSD Event 🕵️‍♂️")
+local SummerItem2 = Summer:Sector("🎃 Item Halloween Event 🎃")
 local SummerItem0 = Summer:Sector("")
 local SellPortals = Summer:Sector("🌀 Sell Challenge Portals 🌀")
 local SummerSkin = Summer:Sector("💸 Auto Sell Events Skin 💸")
@@ -3492,8 +3492,6 @@ function SnipeMerchant()
     --AutoBuySummer AutoBuyEvent
 
     --BSD
-    SummerItem:Cheat("Label","🕵️‍♂️ **__Item BSD Event__** 🕵️‍♂️") 
-
     SummerItem:Cheat("Dropdown", "Select Item BSD Event",function(pornname)
         getgenv().portalnameC = pornname
         saveSettings()
@@ -3532,7 +3530,6 @@ function SnipeMerchant()
     end)
 
     --Halloween
-    SummerItem2:Cheat("Label","🎃 **__Item Halloween Event__** 🎃") 
 
     SummerItem2:Cheat("Dropdown", "Select Item Halloween",function(pornname2)
         getgenv().ItemEventNameC2 = pornname2

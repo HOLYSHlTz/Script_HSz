@@ -4938,7 +4938,6 @@ local function startfarming()
                         task.wait(0.5)
                         warn("Raid farming")
                         task.wait(1)
-                    end 
                 --Halloweens
             elseif level == "halloween2_event" then
                     getgenv().door = "_lobbytemplate_event321"

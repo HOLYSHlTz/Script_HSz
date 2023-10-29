@@ -4946,8 +4946,8 @@ local function startfarming()
                         task.wait(1)
             --Events Annivesary
         elseif level == "namek_anniversary" then
-                getgenv().door = "_lobbytemplate_event323"
-                local string_1 = "_lobbytemplate_event323";
+                getgenv().door = "_lobbytemplate_event321"
+                local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
                     ["selected_key"] = "key_jjk_map"
                 };

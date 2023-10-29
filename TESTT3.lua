@@ -1115,7 +1115,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Portals" then
             storylist = {"Alien Portals","Zeldris Portals","Demon Portals","Dressrosa Portals","The Eclipse","FATE Portals","BSD Portals"}
         elseif Settings.WorldCategory == "Dungeon" then
-            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Halloween2 Event","Anniversary Island"}
+            storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Halloween2 Event","TEST Halloween2 Event","Anniversary Island"}
         elseif Settings.WorldCategory == "ประตูลับ" then
             storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ FATE","ประตูลับ BSD"}
         end
@@ -1185,6 +1185,8 @@ local function WorldSec()
             levellist = {"jjk_raid"}   
         elseif level == "Halloween2 Event" then
             levellist = {"halloween2_event"}
+        elseif level == "TEST Halloween2 Event" then
+            levellist = {"halloween2_event_TEST"}
         elseif level == "Anniversary Island" then
             levellist = {"namek_anniversary"}
             --///ประตูลับ\\\---   
@@ -4888,6 +4890,55 @@ local function startfarming()
                     task.wait(0.5)
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
+                --Halloween Test
+            elseif level == "halloween2_event_TEST" then
+                    getgenv().door =  "_lobbytemplate_event321"
+                    if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
+                        for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
+                            if v.Name == "Owner" and v.Value == nil then
+                                local args = { [1] = tostring(v.Parent.Name) }
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_join_lobby:InvokeServer(unpack(args))
+            
+                                task.wait()
+                            
+                                local args = {
+                                    [1] = tostring(v.Parent.Name), -- Lobby 
+                                    [2] = Settings.SelectedLevel, -- World/Level
+                                    [3] = Settings.isFriendOnly or true, -- Friends Only or not
+                                    [4] = Settings.Difficulty }
+            
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_lock_level:InvokeServer(unpack(args))
+            
+                                local args = { [1] =tostring(v.Parent.Name) }
+                                game:GetService("ReplicatedStorage").endpoints.client_to_server.request_start_game:InvokeServer(unpack(args))
+                                
+                                getgenv().door = v.Parent.Name print(v.Parent.Name) --v.Parent:GetFullName()
+                                plr.Character.HumanoidRootPart.CFrame = v.Parent.Door.CFrame
+                                break
+                            end
+                        end
+            
+                        task.wait()
+            
+                        plr.Character.HumanoidRootPart.CFrame = cpos
+            
+                        if Workspace._LOBBIES.Story[getgenv().door].Owner == plr.Name then
+                            if Workspace._LOBBIES.Story[getgenv().door].Teleporting.Value == true then
+                                getgenv().teleporting = false
+                            else
+                                getgenv().teleporting = true
+                            end
+                        end
+            
+                    pcall(function() 
+                        BabyWebhook()
+                        SnipeShopNew() 
+                    end)
+                        print("send Webhook")
+                        task.wait(0.5)
+                        warn("Raid farming")
+                        task.wait(1)
+                    end 
                 --Halloweens
             elseif level == "halloween2_event" then
                     getgenv().door = "_lobbytemplate_event321"

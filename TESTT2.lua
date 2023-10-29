@@ -4833,8 +4833,8 @@ local function startfarming()
                 task.wait(1)
             end
         --ดันเกะโท
-        elseif cata == "Dungeon" then
-            if level == "jjk_raid" then
+        --elseif cata == "Dungeon" then
+        elseif level == "jjk_raid" then
                 getgenv().door = "_lobbytemplate_event23"
                 local string_1 = "_lobbytemplate_event23";
                 local table_1 = {
@@ -4889,10 +4889,10 @@ local function startfarming()
                     task.wait(0.5)
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
-                end
+                --end
                 --Halloweens
-            elseif cata == "Dungeon" then
-                if level == "halloween2_event" then
+            --elseif cata == "Dungeon" then
+            elseif level == "halloween2_event" then
                     getgenv().door = "_lobbytemplate_event321"
                     local string_1 = "_lobbytemplate_event321";
                     local table_1 = {
@@ -4945,12 +4945,12 @@ local function startfarming()
                      end)
                         print("send Webhook")
                         task.wait(0.5)
-                        warn("Event Halloween farming")
+                        warn("DUNGEONS jjk_raid farming")
                         task.wait(1)
-                    end
+                    ---end
             --Events Annivesary
-        elseif cata == "Dungeon" then
-            if level == "namek_anniversary" then
+        --elseif cata == "Dungeon" then
+        elseif level == "namek_anniversary" then
                 getgenv().door = "_lobbytemplate_event323"
                 local string_1 = "_lobbytemplate_event323";
                 local table_1 = {
@@ -5005,8 +5005,9 @@ local function startfarming()
                     task.wait(0.5)
                     warn("DUNGEONS Annivesary farming")
                     task.wait(1)
+                
+                    --end
                 end
-            end
             
 
 

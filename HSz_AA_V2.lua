@@ -184,7 +184,7 @@ function webhook()
         end 
         
         local Time = os.date('!*t', OSTime);
-        local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+        --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
         local exec = tostring(identifyexecutor())
         userlevel = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Main"):FindFirstChild("Desc"):FindFirstChild("Level").Text
         totalgems = plr.PlayerGui:FindFirstChild("spawn_units"):FindFirstChild("Lives"):FindFirstChild("Frame"):FindFirstChild("Resource"):FindFirstChild("Gem"):FindFirstChild("Level").Text
@@ -352,9 +352,9 @@ function webhook()
                         ["name"] = "Anime Adventures |  แจ้งเตือน V2 ✔️",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
-                    ["thumbnail"] = {
+                    --[[["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
+                    },]]
                     ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
@@ -417,7 +417,7 @@ function BabyWebhook()
         end 
 		
         local Time = os.date('!*t', OSTime);
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+	    --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
         local exec = tostring(identifyexecutor())
         --BTP lv.
         btplv = game:GetService("Players").LocalPlayer.PlayerGui.BattlePass.Main.Level.V.Text
@@ -461,9 +461,9 @@ function BabyWebhook()
                         ["name"] = " Current BTP & Inf Castle & Tournament Results ✔️",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
-                    ["thumbnail"] = {
+                    --[[["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
+                    },]]
                     ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
@@ -517,7 +517,7 @@ function SpecialSummonSniperWebhook()
 		
         local Time = os.date('!*t', OSTime);
 
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+	    --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
 
         local exec = tostring(identifyexecutor())
 
@@ -544,9 +544,9 @@ function SpecialSummonSniperWebhook()
                         ["name"] = " Special Banner ",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
-                    ["thumbnail"] = {
+                    --[[["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
+                    },]]
                     ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
@@ -592,7 +592,7 @@ function StandardSummonSniperWebhook()
             
         local Time = os.date('!*t', OSTime);
 
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+	    --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
 
         local exec = tostring(identifyexecutor())
 
@@ -623,9 +623,9 @@ function StandardSummonSniperWebhook()
                         ["name"] = " Standard Banner ",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
-                    ["thumbnail"] = {
+                    --[[["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
+                    },]]
                     ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
@@ -669,7 +669,7 @@ function ShopSniperWebhook()
 
         local Time = os.date('!*t', OSTime);
 
-	    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+	    --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
 
         local exec = tostring(identifyexecutor())
 
@@ -688,9 +688,9 @@ function ShopSniperWebhook()
                         ["name"] = " Bulma's Shop ",
                         ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                     },
-                    ["thumbnail"] = {
+                    --[[["thumbnail"] = {
                         ['url'] = thumbnails_avatar.data[1].imageUrl,
-                    },
+                    },]]
                     ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱",
                     ["color"] = 110335,
                     ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),
@@ -3746,7 +3746,7 @@ function SnipeMerchant()
                         end
                     end
             
-                    local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
+                    --local thumbnails_avatar = HttpService:JSONDecode(game:HttpGet("https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" .. game:GetService("Players").LocalPlayer.UserId .. "&size=150x150&format=Png&isCircular=true", true))
                     local Time = os.date('!*t', OSTime);
                     local exec = tostring(identifyexecutor())
 
@@ -3760,9 +3760,9 @@ function SnipeMerchant()
                                     ["name"] = "Anime Adventures | แจ้งเตือน V2 ✔️",
                                     ["icon_url"] = "https://cdn.discordapp.com/emojis/997123585476927558.webp?size=96&quality=lossless"
                                 },
-                                ["thumbnail"] = {
+                                --[[["thumbnail"] = {
                                     ['url'] = thumbnails_avatar.data[1].imageUrl,
-                                },
+                                },]]
                                 ["description"] = " Player Name : 🐱 ||**"..game:GetService("Players").LocalPlayer.Name.."**|| 🐱\nตัวรันที่ใช้ : 🎮 "..exec.." 🎮 ",
                                 ["color"] = 110335,
                                 ["timestamp"] = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec),

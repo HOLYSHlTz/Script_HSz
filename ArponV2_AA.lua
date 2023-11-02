@@ -3192,10 +3192,8 @@ local function LowCPUModeT()
                 game:GetService("RunService"):Set3dRenderingEnabled(true)
                 isrbxactive(false)
             if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuModeM then
-                    setfpscap(30)
                     game:GetService("RunService"):Set3dRenderingEnabled(false)
             else
-                    setfpscap(1000)
                     game:GetService("RunService"):Set3dRenderingEnabled(true)
                 end
             end

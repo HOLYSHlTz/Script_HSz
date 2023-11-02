@@ -5681,7 +5681,7 @@ coroutine.resume(coroutine.create(function()
         end
 
         
-        if Settings.AutoUpgrade and not Settings.unitconfig then
+        if Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()
                     autoupgradefunc()
@@ -5694,6 +5694,18 @@ coroutine.resume(coroutine.create(function()
             end
         end
 
+        if not Settings.unitconfig and Settings.AutoUpgrade then
+            if game.PlaceId ~= 8304191830 then
+                pcall(function()
+                    autoupgradefunc()
+                end)
+            end
+            if  getgenv().autoupgradeerr == true then
+                task.wait()
+                autoupgradefunc()
+                getgenv().autoupgradeerr = false
+            end
+        end
         if Settings.unitconfig and not Settings.AutoUpgrade then
             if game.PlaceId ~= 8304191830 then
                 pcall(function()

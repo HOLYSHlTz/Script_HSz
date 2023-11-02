@@ -5262,7 +5262,7 @@ function autoabilityfunc()
                                 for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceU = tostring((EnemyPosDis - UnitPosDis).Magnitude)
+                                            distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                         if v._stats.id.Value ~= "erwin" and v._stats.id.Value ~= "wendy" and v._stats.id.Value ~= "leafa" and v._stats.id.Value ~= "aot_generic" then
                                             if v._stats.active_attack.Value ~= "nil" then
@@ -5292,7 +5292,7 @@ function autoabilityfunc()
                                 for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceU = tostring((EnemyPosDis - UnitPosDis).Magnitude)
+                                            distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                         if v._stats.id.Value ~= "erwin" and v._stats.id.Value ~= "wendy" and v._stats.id.Value ~= "leafa" and v._stats.id.Value ~= "aot_generic" then
                                             if v._stats.active_attack.Value ~= "nil" then
@@ -5323,7 +5323,7 @@ function autoabilityfunc()
                                 for i, v in ipairs(game:GetService("Workspace")["_UNITS"]:GetChildren()) do
                                     if tostring(v["_stats"].player.Value) == RYY3 then
                                             UnitPosDis = v.HumanoidRootPart.CFrame.Position
-                                            distanceU = tostring((EnemyPosDis - UnitPosDis).Magnitude)
+                                            distanceU = tostring((UnitPosDis - EnemyPosDis).Magnitude)
 
                                         if v._stats.id.Value ~= "erwin" and v._stats.id.Value ~= "wendy" and v._stats.id.Value ~= "leafa" and v._stats.id.Value ~= "aot_generic" then
                                             if v._stats.active_attack.Value ~= "nil" then

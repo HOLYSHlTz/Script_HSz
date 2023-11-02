@@ -3250,6 +3250,12 @@ LowCPU2:Cheat("Checkbox","Enable Low CPU Mode ", function(bool)
 	saveSettings()
 end,{enabled = Settings.lowCpuMode})
 
+LowCPU2:Cheat("Checkbox","Mobile Low CPU [TEST] ", function(bool)
+	print(bool)
+	Settings.lowCpuModeM = bool
+	saveSettings()
+end,{enabled = Settings.lowCpuModeM})
+
 task.spawn(function()
 	while task.wait() do
         if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuMode then
@@ -3260,6 +3266,13 @@ task.spawn(function()
             setfpscap(240)
             game:GetService("RunService"):Set3dRenderingEnabled(true)
             isrbxactive(false)
+        if IS_ROBLOX_ACTIVE ~= true and Settings.lowCpuModeM then
+				setfpscap(30)
+				game:GetService("RunService"):Set3dRenderingEnabled(false)
+		else
+				setfpscap(1000)
+				game:GetService("RunService"):Set3dRenderingEnabled(true)
+			end
         end
     end
 end)

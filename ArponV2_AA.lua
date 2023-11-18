@@ -344,7 +344,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/c434a1f08239cd31612ebe0960dcf5bc/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -1115,7 +1115,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"Cursed Womb","Crused Parade","Halloween Event"}    
         elseif Settings.WorldCategory == "Secret Portals" then
-            storylist = {"Dressrosa Secret Portals","The Eclipse Secret","FATE Secret","BSD Secret"} 
+            storylist = {"Dressrosa Secret Portals","The Eclipse Secret","FATE Secret","BSD Secret","Pain Secret"} 
         end
     --updatefix
         for i = 1, #storylist do
@@ -1194,6 +1194,8 @@ local function WorldSec()
             levellist = {"portal_item__gilgamesh"}
         elseif level == "BSD Secret" then
             levellist = {"portal_item__dazai"}
+        elseif level == "Pain Secret" then
+            levellist = {"portal_item__pain"}
 
         --///Story Mode\\\---
         elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
@@ -3682,7 +3684,7 @@ task.spawn(function()
                 local data = {
                     ["content"] = "",
                     ["username"] = "Anime Adventures V2",
-                    ["avatar_url"] = "https://tr.rbxcdn.com/c434a1f08239cd31612ebe0960dcf5bc/150/150/Image/Png",
+                    ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
                     ["embeds"] = {
                         {
                             ["author"] = {
@@ -4171,6 +4173,15 @@ local function startChallenge()
 end
 ----------------------------------
 --test fixportal
+function getPainPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__pain" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
 function getBSDPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -4405,6 +4416,11 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_item__gilgamesh" then
         PortalName = "FATE Secret Portal farming"
         PortalUUID = GetPortals("portal_item__gilgamesh")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_item__pain" then
+        PortalName = "Pain Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__pain")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
     ------------------------------
     -- [[ Portal Event Portal ]] --
@@ -7424,7 +7440,7 @@ function placeunittwin()
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD","AMEGAKURE"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

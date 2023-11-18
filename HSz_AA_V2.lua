@@ -345,7 +345,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -454,7 +454,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -537,7 +537,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -616,7 +616,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -681,7 +681,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -1121,7 +1121,7 @@ local function WorldSec()
         elseif Settings.WorldCategory == "Dungeon" then
             storylist = {"ดันนิ้ว Cursed Womb","ดันเกะโท Crused Parade","Halloween Event"}
         elseif Settings.WorldCategory == "ประตูลับ" then
-            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ FATE","ประตูลับ BSD"}
+            storylist = {"ประตูลับ Dofamingo","ประตูลับ The Eclipse","ประตูลับ FATE","ประตูลับ BSD","ประตูลับ Pain"}
         end
 --updatefix
         for i = 1, #storylist do
@@ -1200,6 +1200,8 @@ local function WorldSec()
             levellist = {"portal_item__gilgamesh"}
         elseif level == "ประตูลับ BSD" then
             levellist = {"portal_item__dazai"}
+        elseif level == "ประตูลับ Pain" then
+            levellist = {"portal_item__pain"}
             --///Story Mode\\\---
         elseif Settings.WorldCategory == "Story Worlds" and level == Settings.SelectedWorld then
             levellist = {GeneralMap2[Settings.SelectedWorld] .. "_infinite",GeneralMap2[Settings.SelectedWorld] .. "_level_1",GeneralMap2[Settings.SelectedWorld] .. "_level_2",GeneralMap2[Settings.SelectedWorld] .. "_level_3",
@@ -3764,7 +3766,7 @@ function SnipeMerchant()
                     local data = {
                         ["content"] = "",
                         ["username"] = "Anime Adventures V2",
-                        ["avatar_url"] = "https://tr.rbxcdn.com/34a66c0e0bd7d1ac0ef672fff92f143b/150/150/Image/Png",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
                         ["embeds"] = {
                             {
                                 ["author"] = {
@@ -4249,6 +4251,15 @@ end
 ---------------------------------------------
 --test fixportal
 
+function getPainPortals()
+    local portals = {}
+    for _, item in pairs(get_inventory_items_unique_items()) do
+        if item["item_id"] == "portal_item__pain" then
+            table.insert(portals, item)
+        end
+    end
+    return portals
+end
 function getBSDPortals()
     local portals = {}
     for _, item in pairs(get_inventory_items_unique_items()) do
@@ -4500,6 +4511,11 @@ function GetPlayerPortalUse(level)
     elseif level == "portal_item__gilgamesh" then
         PortalName = "FATE Secret Portal farming"
         PortalUUID = GetPortals("portal_item__gilgamesh")[1]["uuid"]
+        PortalPlayer = GetPlayerPortal()
+
+    elseif level == "portal_item__pain" then
+        PortalName = "Pain Secret Portal farming"
+        PortalUUID = GetPortals("portal_item__pain")[1]["uuid"]
         PortalPlayer = GetPlayerPortal()
 
         
@@ -7534,7 +7550,7 @@ end
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD","AMEGAKURE"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

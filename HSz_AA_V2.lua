@@ -302,7 +302,7 @@ function webhook()
                 if v['Count Shiny'] and v['Count'] then
                     if v['Count'] > 0 or v['Count Shiny'] > 0 then
                         if v['Count'] > 0 and (v['Count'] - Table_All_Items_Old_data[i]['Count']) > 0 then
-                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count']) .. "]"
+                            TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count'] + 1) .. "]"
                             if v['Count Shiny'] > 0 and (v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) > 0 then
                                 TextDropLabel = TextDropLabel .. " | " .. tostring(v['Name']) .. " (Shiny) : x" .. tostring(v['Count Shiny'] - Table_All_Items_Old_data[i]['Count Shiny']) .. "\n"
                                 CountAmount = CountAmount + 1
@@ -325,13 +325,13 @@ function webhook()
                 elseif string.find(i,"portal") or string.find(i,"disc") then
                     Count_Portal_list = Count_Portal_list + 1
                     if string.gsub(i, "%D", "") == "" then
-                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count']) .. "]\n"
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count'] + 1) .. "]\n"
                     else
                         TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " Tier " .. tostring(string.gsub(i, "%D", "")) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. "\n"
                     end
                     CountAmount = CountAmount + 1
                     else
-                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count']) .. "]\n"
+                        TextDropLabel = TextDropLabel .. tostring(CountAmount) .. ". " .. tostring(v['Name']) .. " : x" .. tostring(v['Count'] - Table_All_Items_Old_data[i]['Count']) .. " [Total : " .. tostring(v['Count'] + 1) .. "]\n"
                         CountAmount = CountAmount + 1
                 end
             end
@@ -760,7 +760,7 @@ Window.ChangeToggleKey(Enum.KeyCode.P)
 local Home = Window:Category("🏠 หน้าแรก")
 local Developers = Home:Sector("HSz Anime Adventures")
 local asdasd = Home:Sector(" ")
-local UIUPDT = Home:Sector("⚙️ Fix UPDATE "..version.." ⚙️")
+local UIUPDT = Home:Sector("⚙️ Fix "..version.." ⚙️")
 
 
 local Farm = Window:Category("🤖 Auto Farm")

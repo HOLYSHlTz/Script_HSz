@@ -5364,7 +5364,7 @@ function autoabilityfunc()
 end)
 
         if err then
-            --warn("Can't use Ability")
+            warn("Can't use Ability")
             getgenv().autoabilityerr = true
             error(err)
         end

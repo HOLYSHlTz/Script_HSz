@@ -7560,6 +7560,22 @@ if Settings.redeemc then
     Reedemcode()
 end
 
+    -- Anti Afk
+    DalyKick = 0
+    local VirtualUser = game:GetService("VirtualUser")
+    spawn(function()
+        while wait() do
+            pcall(function() 
+                VirtualUser:CaptureController()
+                VirtualUser:SetKeyDown("w",key)
+                wait()
+                VirtualUser:CaptureController()
+                VirtualUser:SetKeyUp("w",key)
+                wait(1000)
+            end)
+        end
+    end)
+
 --AntiAFK
 pcall(function()
     local vu = game:GetService("VirtualUser")

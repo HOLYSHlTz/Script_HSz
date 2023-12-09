@@ -1339,6 +1339,12 @@ local function WorldSec()
         Settings.isFriendOnly = bool
         saveSettings()
     end,{enabled = Settings.isFriendOnly})
+
+    SelectWorld:Cheat("Checkbox","🔎 Find Match [Matchmaking]", function(bool)
+        print(bool)
+        Settings.Matchmaking = bool
+        saveSettings()
+    end,{enabled = Settings.Matchmaking})
 end
 
 ----------------------------------------------
@@ -4681,7 +4687,14 @@ local function startfarming()
         local cpos = plr.Character.HumanoidRootPart.CFrame; cata = Settings.WorldCategory; level = Settings.SelectedLevel;
         
         if cata == "Story Worlds" or cata == "Legend Stages" then
-            if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
+            if Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = Settings.SelectedLevel;
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
                 for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
                     if v.Name == "Owner" and v.Value == nil then
                         local args = { [1] = tostring(v.Parent.Name) }
@@ -4729,8 +4742,15 @@ local function startfarming()
                 task.wait(1)
             end
         elseif cata == "Raid Worlds" then
-            getgenv().door =  "_lobbytemplate212" or "_lobbytemplate213" or "_lobbytemplate214" or "_lobbytemplate215" or "_lobbytemplate216"
-            if tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
+            getgenv().door =  "_lobbytemplate212" or "_lobbytemplate213" or "_lobbytemplate214" or "_lobbytemplate215" or "_lobbytemplate216" 
+            if Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = Settings.SelectedLevel;
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
                 for i, v in pairs(game:GetService("Workspace")["_RAID"].Raid:GetDescendants()) do
                     if v.Name == "Owner" and v.Value == nil then
                         local args = { [1] = tostring(v.Parent.Name) }
@@ -4775,11 +4795,12 @@ local function startfarming()
                 task.wait(0.5)
                 warn("Raid farming")
                 task.wait(1)
-            end       
+            end     
         elseif cata == "Portals" then
             StartPortal(level)
+
         elseif cata == "Dungeon" then
-            if level == "jjk_finger" then --_lobbytemplate_event222
+            if level == "jjk_finger" then
             getgenv().door = "_lobbytemplate_event222"
             local string_1 = "_lobbytemplate_event222";
             local table_1 = {
@@ -4835,7 +4856,7 @@ local function startfarming()
                 warn("DUNGEONS jjk_finger farming")
                 task.wait(1)
             end
-                --ดันเกะโท
+        --ดันเกะโท
         elseif cata == "Dungeon" then
             if level == "jjk_raid" then
                 getgenv().door = "_lobbytemplate_event23"
@@ -4893,9 +4914,16 @@ local function startfarming()
                     warn("DUNGEONS jjk_raid farming")
                     task.wait(1)
                 end
-                    --Events Annivesary
+            --Events Halloween
         elseif cata == "Dungeon" then
-            if level == "namek_halloween" then
+            if level == "namek_halloween" and Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = "halloween2_event";
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif level == "namek_halloween"and not Settings.Matchmaking then
                 getgenv().door = "_lobbytemplate_event321"
                 local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
@@ -4952,6 +4980,7 @@ local function startfarming()
                     task.wait(1)
                 end
             end
+
 
                 end
             end

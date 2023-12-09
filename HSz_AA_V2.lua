@@ -345,7 +345,7 @@ function webhook()
         local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -454,7 +454,7 @@ function BabyWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -537,7 +537,7 @@ function SpecialSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -616,7 +616,7 @@ function StandardSummonSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -681,7 +681,7 @@ function ShopSniperWebhook()
 		local data = {
             ["content"] = "",
             ["username"] = "Anime Adventures V2",
-            ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+            ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
             ["embeds"] = {
                 {
                     ["author"] = {
@@ -3766,7 +3766,7 @@ function SnipeMerchant()
                     local data = {
                         ["content"] = "",
                         ["username"] = "Anime Adventures V2",
-                        ["avatar_url"] = "https://tr.rbxcdn.com/b9d6508b4bd3628bdeb6ba9825afef91/150/150/Image/Png",
+                        ["avatar_url"] = "https://tr.rbxcdn.com/004babc7b7ab98294150c70d7ea7bf0d/150/150/Image/Png",
                         ["embeds"] = {
                             {
                                 ["author"] = {
@@ -7550,7 +7550,7 @@ end
 function Reedemcode()
     codes = {"TWOMILLION","subtomaokuma","CHALLENGEFIX","GINYUFIX","RELEASE","SubToKelvingts","SubToBlamspot","KingLuffy","TOADBOIGAMING","noclypso","FictioNTheFirst","GOLDENSHUTDOWN","GOLDEN"
     ,"SINS2","subtosnowrbx","Cxrsed","subtomaokuma","VIGILANTE","HAPPYEASTER","ENTERTAINMENT","DRESSROSA","BILLION","MADOKA","AINCRAD","ANNIVERSARY","SUMMER2023","OVERLORD","SupperTierMagicSoon",
-    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD","AMEGAKURE","UNLEASHFUSESOON"}
+    "NEWCODE0819","MORIOH","REASON2FIGHT","HOLYGRAIL","STRAYDOGS","HALLOWEENUPDSOON","HAPPYHALLOWEEN","SIXPATHSUPD","AMEGAKURE","UNLEASHFUSESOON","SACREDPLANET"}
         for _, v in pairs(codes) do
         pcall(function() game:GetService("ReplicatedStorage").endpoints["client_to_server"]["redeem_code"]:InvokeServer(v)()    end) 
     end

@@ -1345,6 +1345,12 @@ local function WorldSec()
         Settings.isFriendOnly = bool
         saveSettings()
     end,{enabled = Settings.isFriendOnly})
+
+    SelectWorld:Cheat("Checkbox","🔎 Find Match [Matchmaking]", function(bool)
+        print(bool)
+        Settings.Matchmaking = bool
+        saveSettings()
+    end,{enabled = Settings.Matchmaking})
 end
 
 ----------------------------------------------
@@ -4770,8 +4776,6 @@ function StartPortal(input)
     end
 end
 
-
-
 Settings.teleporting = true
 getgenv().door = "_lobbytemplategreen1" or "_lobbytemplategreen2" or "_lobbytemplategreen3" or "_lobbytemplategreen4" or "_lobbytemplategreen5" or "_lobbytemplategreen6" or 
 "_lobbytemplategreen7" or "_lobbytemplategreen8" or "_lobbytemplategreen9" or "_lobbytemplategreen10" or "_lobbytemplategreen11" or "_lobbytemplategreen12"
@@ -4780,7 +4784,14 @@ local function startfarming()
         local cpos = plr.Character.HumanoidRootPart.CFrame; cata = Settings.WorldCategory; level = Settings.SelectedLevel;
         
         if cata == "Story Worlds" or cata == "Legend Stages" then
-            if tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
+            if Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = Settings.SelectedLevel;
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif tostring(game.Workspace._LOBBIES.Story[getgenv().door].Owner.Value) ~= plr.Name then
                 for i, v in pairs(game:GetService("Workspace")["_LOBBIES"].Story:GetDescendants()) do
                     if v.Name == "Owner" and v.Value == nil then
                         local args = { [1] = tostring(v.Parent.Name) }
@@ -4829,7 +4840,14 @@ local function startfarming()
             end
         elseif cata == "Raid Worlds" then
             getgenv().door =  "_lobbytemplate212" or "_lobbytemplate213" or "_lobbytemplate214" or "_lobbytemplate215" or "_lobbytemplate216" 
-            if tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
+            if Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = Settings.SelectedLevel;
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif tostring(game.Workspace._RAID.Raid[getgenv().door].Owner.Value) ~= plr.Name then
                 for i, v in pairs(game:GetService("Workspace")["_RAID"].Raid:GetDescendants()) do
                     if v.Name == "Owner" and v.Value == nil then
                         local args = { [1] = tostring(v.Parent.Name) }
@@ -4874,7 +4892,7 @@ local function startfarming()
                 task.wait(0.5)
                 warn("Raid farming")
                 task.wait(1)
-            end       
+            end     
         elseif cata == "Portals" then
             StartPortal(level)
 
@@ -4995,7 +5013,14 @@ local function startfarming()
                 end
             --Events Halloween
         elseif cata == "Dungeon" then
-            if level == "namek_halloween" then
+            if level == "namek_halloween" and Settings.Matchmaking then
+                getgenv().door = "_lobbytemplate_event321"
+
+                local string_1 = "halloween2_event";
+                local Target = game:GetService("ReplicatedStorage").endpoints["client_to_server"]["request_matchmaking"];
+                Target:InvokeServer(string_1);
+
+            elseif level == "namek_halloween"and not Settings.Matchmaking then
                 getgenv().door = "_lobbytemplate_event321"
                 local string_1 = "_lobbytemplate_event321";
                 local table_1 = {
@@ -5060,7 +5085,6 @@ local function startfarming()
     end
 end
 --end]]
-
 ------------------------------------
 ---- Start Auto Ability Function----
 ------------------------------------
@@ -5707,7 +5731,7 @@ coroutine.resume(coroutine.create(function()
     while task.wait() do
         if not Settings.AutoInfinityCastle then
             if not checkChallenge() then --Challenge_Not_Complete
-                if  Settings.AutoChallenge and checkReward() == true then
+                if Settings.AutoChallenge and checkReward() == true then
                     startChallenge() --S_Challenge
                 else
                     startfarming()--S_Farming
@@ -5719,7 +5743,7 @@ coroutine.resume(coroutine.create(function()
             end
         elseif not Settings.AutoInfinityCastle == true then--Infiniy Castle
             if not checkChallenge() then --Challenge_Not_Complete
-                if  Settings.AutoChallengeAll then
+                if Settings.AutoChallengeAll then
                     startChallenge() --S_Challenge
                 else
                     startfarming()--S_Farming

@@ -1214,7 +1214,7 @@ local function WorldSec()
             GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
         --LD_3
         elseif Settings.WorldCategory == "Legend Stages" and level == "Clover Kingdom (Elf Invasion)" or level == "Cape Canaveral" or level == "Fabled Kingdom (Ten Commandments)"or 
-        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" then
+        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" or level == "Rain Village" then
             levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",}
         --LD_NEW
         elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then
@@ -2449,7 +2449,11 @@ local function credits()
     Developers:Cheat("Label","⚒️ กด \"P\" เพื่อ เปิด - ปิด เมนู")   
     Developers:Cheat("Button","🔥 Copy Discord Link   ", function()
         setclipboard("https://discord.gg/6V8nzm5ZYB")
-    end)    
+    end)   
+    Developers:Cheat("Button","🔥 Toggle HIDE UI   ", function()
+        game:GetService("VirtualInputManager"):SendKeyEvent(true,Enum.KeyCode.P,false,game)
+        game:GetService("VirtualInputManager"):SendKeyEvent(false,Enum.KeyCode.P,false,game)
+    end)  
     UIUPDT:Cheat("Label"," \n  \n \n \n \n \n \n \n \n \n \n \n [=+]ตั้งค่าตามนี้นะอยากปิดอันไหน[+=] \n \n double_cost = 'High Cost'   \n short_range = 'Short Range'   \n fast_enemies = 'Fast Enemies'  \n regen_enemies = 'Regen Enemies'  \n tank_enemies = 'Tank Enemies'  \n shield_enemies = 'Shield Enemies'  \n triple_cost = 'Triple Cost'   \n hyper_regen_enemies = 'Hyper-Regen Enemies'   \n hyper_shield_enemies = 'Steel-Plated Enemies'   \n godspeed_enemies = 'Godspeed Enemies'   \n flying_enemies = 'Flying Enemies'   \n mini_range = 'Mini-Range'  ")   
 end
 getgenv().posX = 1.5

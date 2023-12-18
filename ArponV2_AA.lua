@@ -4678,7 +4678,6 @@ function StartPortal(input)
     end
 end
 
-
 Settings.teleporting = true
 getgenv().door = "_lobbytemplategreen1" or "_lobbytemplategreen2" or "_lobbytemplategreen3" or "_lobbytemplategreen4" or "_lobbytemplategreen5" or "_lobbytemplategreen6" or 
 "_lobbytemplategreen7" or "_lobbytemplategreen8" or "_lobbytemplategreen9" or "_lobbytemplategreen10" or "_lobbytemplategreen11" or "_lobbytemplategreen12"

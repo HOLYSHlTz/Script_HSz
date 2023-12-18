@@ -1209,7 +1209,7 @@ local function WorldSec()
             GeneralMapLS2[Settings.SelectedWorld] .. "_4",GeneralMapLS2[Settings.SelectedWorld] .. "_5",GeneralMapLS2[Settings.SelectedWorld] .. "_6"}
         --LD_3
         elseif Settings.WorldCategory == "Legend Stages" and level == "Clover Kingdom (Elf Invasion)" or level == "Cape Canaveral" or level == "Fabled Kingdom (Ten Commandments)"or 
-        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" then
+        level == "Virtual Dungeon (Bosses)" or level == "Undead Tomb" or level == "Rain Village" then
             levellist = {GeneralMapLS2[Settings.SelectedWorld] .. "_1",GeneralMapLS2[Settings.SelectedWorld] .. "_2",GeneralMapLS2[Settings.SelectedWorld] .. "_3",}
         --LD_NEW
         elseif Settings.WorldCategory == "Legend Stages" and level == Settings.SelectedWorld then

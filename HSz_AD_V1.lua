@@ -1,1 +1,1 @@
-print(" [RELEASE] Anime Defenders HolyShz Hub")
+print(" Waiting for MOONSEC comeback for [RELEASE] Anime Defenders HolyShz Hub")
